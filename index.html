@@ -4,14 +4,44 @@
     <meta charset="UTF-8">
     <title>SpaceGame</title>
 
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="res/css/style.css" />
 
+    <!-- Javascript -->
+    <script type="text/javascript" src="res/js/lib/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="res/js/index.js"></script>
+
 </head>
+
 <body>
 
-    <div>
-        <a href="app/game.html">Start</a>
+    <div id="container">
+
+        <div id="form-container">
+            <form id="form" action="app/game.html" method="GET">
+                <label>Player name:</label>
+                <input type="text" id="player" required/>
+                <button id="formSubmit" type="submit">Start Game</button>
+            </form>
+        </div>
+
+        <div id="highscore-container">
+            <h1>Highscore</h1>
+            <table id="highscore">
+                <thead>
+                    <th>#</th>
+                    <th>Player</th>
+                    <th>Points</th>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
 </body>
+
 </html>
