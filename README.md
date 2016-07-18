@@ -6,6 +6,20 @@ Verschiedene Waffen und Waffenstärken sowie unterschiedliche Gegnertypen (z. 
 
 Dieses Spiel wird in JavaScript mit three.js entwickelt. Teilweise wird auch mit Blender gearbeitet werden; diese Arbeit wird aber nicht im Vordergrund stehen. 
 
+<<<<<<< HEAD
+=======
+
+# How To
+
+Um das Spiel zu starten muss ein HTTP-Server laufen:
+
+1. im Basisordner des Projektes folgende Zeile in der Konsole ausführen: `python -m SimpleHTTPServer 8080`
+2. Webbrowser öffnen und folgende Adresse aufrufen: `http://localhost:8080`
+3. Läuft!
+4. Server beenden mit `Strg+C` in der Konsole
+
+
+>>>>>>> refs/remotes/origin/dev
 # Ordnerstruktur
 
 `app/` ist der **Hauptordner**, in dem sich das Spiel befindet
