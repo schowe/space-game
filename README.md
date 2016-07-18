@@ -1,3 +1,19 @@
+# Ordnerstruktur
+
+`app/` ist der Hauptordner, in dem sich das Spiel befindet
+
+`res/` ist der Resourcenordner für statische Files (CSS-Stylesheets, Texturen, Sounds, ...) und 3rd Party Plugins für Javascript
+ 
+`index.html` ist die Website mit dem Hauptmenü
+
+`app/game.html` und `app/core.js` sind die Hauptdateien des Spiels (bislang mit Beispielcode)
+
+
+
+also: Sachen mit Three.js werden in `app/core.js` programmiert  
+
+
+
 # Space Game
 
 In dieser Gruppe soll ein 3D-Space-Shooter entwickelt werden, in dem der Spieler ein Raumschiff steuern und sich – ähnlich wie bei Asteroids – gegen Wellen verschiedener Feinde wehren muss, um dabei möglichst lange zu überleben.
