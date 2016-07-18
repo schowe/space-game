@@ -1,12 +1,12 @@
 # Ordnerstruktur
 
-`app/` ist der Hauptordner, in dem sich das Spiel befindet
+`app/` ist der **Hauptordner**, in dem sich das Spiel befindet
 
-`res/` ist der Resourcenordner für statische Files (CSS-Stylesheets, Texturen, Sounds, ...) und 3rd Party Plugins für Javascript
+`app/game.html` und `app/core.js` sind die **Hauptdateien des Spiels** (bislang mit Beispielcode)
+
+`res/` ist der **Resourcenordner** für statische Files (CSS-Stylesheets, Texturen, Sounds, ...) und 3rd Party Plugins für Javascript
  
-`index.html` ist die Website mit dem Hauptmenü
-
-`app/game.html` und `app/core.js` sind die Hauptdateien des Spiels (bislang mit Beispielcode)
+`index.html` ist die Website mit dem **Hauptmenü**
 
 
 
