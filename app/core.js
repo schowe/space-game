@@ -10,14 +10,11 @@ init();
 animate();
 
 function init() {
-    
+
     // HTML-Container erzeugen
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    
-    
-    
     // Beispiel-Code ...
     
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
@@ -121,6 +118,9 @@ function init() {
     //
 
     window.addEventListener( 'resize', onWindowResize, false );
+
+    var score = document.getElementById('high');    
+    score.innerHTML =100000;
 
 }
 

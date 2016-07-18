@@ -1,0 +1,38 @@
+
+body {
+    padding: 50;
+    margin: 0;
+    background: white;
+    font-family: 'Varela', sans-serif;
+}
+
+#box{
+	position: absolute;
+	margin-top: 20px; 
+	margin-left: 20px; 
+	border-color: yellow;
+	border-width: 5px;
+}
+#high{
+	text-align: right;
+	color: yellow;
+	font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+	font-size: 30px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.4px;
+}
+
+#geld{
+	color: yellow;
+	text-align: right;
+	margin-left: 15px;
+	font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.4px;
+}
+
