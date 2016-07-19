@@ -1,6 +1,6 @@
 // Botklasse
 var minObstacleDistance = 100;
-var enemy, asteroid, playerPosition, shootAble, worldRadius, radius;
+var enemy, asteroid, playerPosition, shootAble, worldRadius, radius, weapon;
 
 // Sortierfunktion für Bots (Enemies und Asteroids)
 // je naeher am Schiff, desto niedriger der Indize
@@ -19,7 +19,7 @@ function compare(a,b) {
 }
 
 // Asteroidenklasse
-function Asteroid(location,direction,speed) {
+function Asteroid(location, direction, speed) {
     this.direction = speed * direction.normalize();
     this.location = location;
 };
@@ -29,7 +29,7 @@ Asteroid.prototype.move = function(delta, asteroids, enemies) {
 };
 
 // Enemyklasse
-function Enemy(speed,location, weapon) {
+function Enemy(location, speed ,weapon) {
     this.speed = speed;
     this.location = location;
     this.weapon = weapon;
@@ -180,8 +180,8 @@ function createAsteroid(level) {
             Math.sin(beta)*Math.sin(alpha),
             Math.sin(beta)*Math.cos(alpha),
             Math.cos(beta));
-    direction *= Math.pow(-1,Math.round(1000*Math.random())) *
-                     Math.random() * 0.36397023;
+    direction += Math.pow(-1,Math.round(1000*Math.random())) *
+                     Math.random() * 0.36397023; // tan(20°)
 
     asteroid = new Asteroid(asteroidPosition, direction, speed);
 
@@ -189,8 +189,37 @@ function createAsteroid(level) {
 }
 
 // Erschaffe Enemy
-function createEnemy() {
+function createEnemy(level) {
+    // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
+    radius = worldRadius/6 * (5+Math.random());
 
+    // zufaellig an den Rand positionieren
+    do {
+        alpha = 2*Math.PI*Math.random();
+        beta = Math.PI*Math.random();
+        enemyPosition = new THREE.Vector3(
+            Math.sin(beta)*Math.sin(alpha),
+            Math.sin(beta)*Math.cos(alpha),
+            Math.cos(beta));
+        enemyPosition.multiplyScalar(radius);
+    } while(//far away
+        );
+
+    // speed abhaengig von Level
+    speed = 2;
+
+    // weapon
+    switch(Math.round(level * (Math.random()+0.5)) {
+        case 0 : weapon = ??; break;
+        case 1 : weapon = ??; break;
+        case 2 : weapon = ??; break;
+        case 3 : weapon = ??; break;
+        default: weapon = // hardest weapon;
+    }
+
+    enemy = new Enemy(enemyPosition, speed, weapon);
+
+    return enemy;
 }
 
 
@@ -200,7 +229,7 @@ function initAI(level) {
     asteroids = [];
 
     for(var i = 0; i < 5 * level; i++) {
-        asteroid = createAsteroid();
+        asteroid = createAsteroid(level);
         asteroids.push(asteroid);
     }
 
@@ -208,7 +237,7 @@ function initAI(level) {
     enemies = [];
 
     for(i =0 ; i < 3 * level; i++) {
-        enemy = createEnemy();
+        enemy = createEnemy(level);
         enemies.push(enemy);
     }
 }
