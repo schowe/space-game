@@ -24,13 +24,20 @@ function init() {
 
 
     // Szene in DOM einsetzen
-    container.appendChild( renderer.domElement );
+    //container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+    window.onkeydown = onKeyDown;
+
 
 }
 
-
+function onKeyDown(e) {
+    if (e.keyCode == 80) { // = 'P'
+        console.log("pause");
+        showMenuOverlay();
+    }
+}
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -53,6 +60,6 @@ function render() {
 
     // TODO: animation code goes here
 
-    renderer.render( scene, camera );
+    //renderer.render( scene, camera );
 
 }
