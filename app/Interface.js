@@ -96,16 +96,16 @@ function addHP (value) {
         var currentHP = parseInt(style.getPropertyValue("width"));
 	
 	var x = 0;
-	var temp = setInterval(frame, 10);
+	var temp = setInterval(frame, 1);
 
 	function frame() {
 		if (x < value) {
 			currentHP++;
 			hpBox.style.width = currentHP + "px";
-			if (currentHP == 60) {
+			if (currentHP == 222) {
 				setColor(1);			
 			}
-			if (currentHP == 120) {
+			if (currentHP == 444) {
 				setColor(2);
 			}
 			x++;
@@ -137,16 +137,16 @@ function subHP (value) {
         var currentHP = parseInt(style.getPropertyValue("width"));
 	
 	var x = 0;
-	var temp = setInterval(frame, 10);
+	var temp = setInterval(frame, 1);
 
 	function frame() {
 		if (x < value) {
 			currentHP--;
 			hpBox.style.width = currentHP + "px";
-			if (currentHP == 120) {
+			if (currentHP == 444) {
 				setColor(1);			
 			}
-			if (currentHP == 60) {
+			if (currentHP == 222) {
 				setColor(0);
 			}
 			x++;

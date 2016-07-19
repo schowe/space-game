@@ -101,19 +101,20 @@ body {
 
 #hpBox {
 	position: fixed;
-	left: 25px;
-	bottom: 40px;
-	width:180px;
+	left: 15px;
+	bottom: 15px;
+	width:666px;
 	height:20px;
-	background-color:transparent;
+	background-color:black;
+	opacity:0.50;
 	border: 1px solid black;
 	border-radius: 10px;
 }
 #hpBoxValue {
 	position: fixed;
-	left: 25px;
-	bottom: 40px;
-	width:180px;
+	left: 15px;
+	bottom: 15px;
+	width:666px;
 	height:20px;
 	border: 1px solid black;
 	//border-right-color:transparent;
@@ -128,7 +129,7 @@ body {
 	background-color:red;
 }
 .hpGreen {
-	background-color:green;
+	background-color:#ADFF2F;
 }
 .hpOrange {
 	background-color:orange;
