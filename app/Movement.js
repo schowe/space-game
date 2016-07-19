@@ -1,5 +1,12 @@
 
 var controls;
+var movementVector = new THREE.Vector4(0,0,0,1);
+var speedVector = new THREE.Vector4(0,0,0,1);
+var moveForward;
+var moveBackward;
+var zAxis = 0;
+var matr = new THREE.Matrix4();
+var relativeCamPos = new THREE.Vector3(0,400,0);
 
 function Movement() {
     
@@ -24,6 +31,7 @@ function Movement() {
                         controls.enabled = true;
 
                         blocker.style.display = 'none';
+                        document.addEventListener("mousemove", this.mouseMove, false);
 
                     } else {
 
@@ -32,7 +40,7 @@ function Movement() {
                         blocker.style.display = '-webkit-box';
                         blocker.style.display = '-moz-box';
                         blocker.style.display = 'box';
-
+                        document.removeEventListener("mousemove", this.mouseMove, false);
                         instructions.style.display = '';
 
                     }
@@ -70,6 +78,7 @@ function Movement() {
 
                                 document.removeEventListener('fullscreenchange', fullscreenchange);
                                 document.removeEventListener('mozfullscreenchange', fullscreenchange);
+                                document.removeEventListener("mousemove", this.mouseMove, false);
 
                                 element.requestPointerLock();
                             }
@@ -78,6 +87,7 @@ function Movement() {
 
                         document.addEventListener('fullscreenchange', fullscreenchange, false);
                         document.addEventListener('mozfullscreenchange', fullscreenchange, false);
+                        document.addEventListener("mousemove", this.mouseMove, false);
 
                         element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
 
@@ -98,11 +108,91 @@ function Movement() {
             }
 
             window.addEventListener('keydown', function (event) {
-                if (event.keyCode == 38) {
-                    ship.translateZ(1);
+                switch(event.keyCode){
+                    case 38 || 87:
+                        moveForward = true;
+                        break;
+                    case 40 || 83:
+                        moveBackward = true;
                 }
+
+
+
             });
+            window.addEventListener('keyup', function (event) {
+                switch(event.keyCode){
+                    case 38 || 87:
+                        moveForward = false;
+                        break;
+                    case 40 || 83:
+                        moveBackward = false;
+                }
+
+
+
+            });
+
+
+        },
+
+
+        move:function(){
+
+            if(moveForward == true && zAxis < 100){
+                zAxis++;
+            }
+            if(moveBackward == true && zAxis > -100){
+                zAxis--;
+            }
+
+            /*matr.set(1,0,0,0,
+                    0,1,0,0,
+                    0,0,1,zAxis/100 * 5,
+                    0,0,0,1);*/
+
+            //ship.position.applyMatrix4(matr);
+
+            ship.position.z += zAxis/100*5;
+
+            var relativeCamPos = new THREE.Vector3(0,400,0);
+            var cameraOffset = relativeCamPos.applyMatrix4( ship.matrixWorld );
+            camera.lookAt(new THREE.Vector3(0,0,0));
+            camera.position.x = cameraOffset.x;
+            camera.position.y = cameraOffset.y;
+            camera.position.z = cameraOffset.z;
+            camera.lookAt(ship.position);
+            console.log("x "+cameraOffset.x+" y "+ cameraOffset.y + " z "+ cameraOffset.z);
+
+
+
+
+        },
+
+        unlockPointer:function(){
+
+            var element = document.body;
+            if(document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
+                element.exitPointerLock = element.exitPointerLock || element.mozExitPointerLock || element.webkitExitPointerLock;
+            }
+        },
+
+        lockPointer:function(){
+            var element = document.body;
+            if(document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element){
+                element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+            }
         }
     }
+}
+
+function mouseMove(e){
+    var movementX = e.movementX ||
+            e.mozMovementX          ||
+            e.webkitMovementX       ||
+            0,
+        movementY = e.movementY ||
+            e.mozMovementY      ||
+            e.webkitMovementY   ||
+            0;
 }
 

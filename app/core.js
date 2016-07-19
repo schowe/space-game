@@ -28,7 +28,7 @@ function init() {
     camera.position.y = 400;
 
     scene = new THREE.Scene();
-
+  //  scene.add(camera);
     var light, object;
 
     scene.add( new THREE.AmbientLight( 0x404040 ) );
@@ -42,8 +42,6 @@ function init() {
     map.anisotropy = 16;
 
     var material = new THREE.MeshLambertMaterial( { map: map, side: THREE.DoubleSide } );*/
-    var material = new THREE.MeshBasicMaterial();
-
     //
 
 
@@ -130,7 +128,7 @@ function render() {
 
     // TODO: animation code goes here
 
-
+    Movement().move();
     renderer.render( scene, camera );
 
 }

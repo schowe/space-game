@@ -6,7 +6,7 @@ function World(){
             var textureLoader = new THREE.TextureLoader();
             textureLoader.setCrossOrigin('anonymous');
             textureLoader.load('../res/textures/tex.jpg', function (texture) {
-                var geometry = new THREE.SphereGeometry(500, 20, 20);
+                var geometry = new THREE.SphereGeometry(1000, 200, 200);
 
                 var material = new THREE.MeshBasicMaterial({
                     map: texture,
