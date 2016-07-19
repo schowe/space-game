@@ -1,38 +1,22 @@
 body {
-    padding: 0;
     margin: 0;
+    padding: 0;
+    background-color: black;
 }
-
-#container {
-    /*padding: 0;*/
-    /*margin: 0;*/
-    /*height: 100vh;*/
-    /*width: 100%;*/
-    /*color: white;*/
-    /*background-image: url("../img/placeholder_background.jpg");*/
-    /*background-repeat: space;*/
-    /*background-size: auto 100%;*/
-    /*border: 1px dashed black;*/
-}
-
-#form-container {
-    margin: 50px;
-}
-
-#highscore-container {
-    margin: 50px;
-}
-
-#highscore-container h1 {
-    font-size: 24px;
-}
-
-#highscore-container table {
+#overlay-menu {
+    position: absolute;
+    opacity: 1;
 
 }
-
-#highscore-container table, th, td {
-    /*border: 1px solid black;*/
-    width: 20em;
-    text-align: left;
+#overlay-highscore {
+    opacity: 1;
+    position: absolute;
+    right:0;
+}
+.main-menu-overlay {
+    border: 4px solid orange;
+    margin: 200px 50px 50px 50px;
+    width: 20%;
+    height: 50%;
+    background-color: rgba(255, 153, 0, 0.5);
 }
