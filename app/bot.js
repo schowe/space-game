@@ -20,14 +20,12 @@ function compare(a,b) {
 
 // Asteroidenklasse
 function Asteroid(direction,speed,location) {
-    this.direction = direction.normalize();
-    this.speed = speed;
+    this.direction = speed * direction.normalize();
     this.location = location;
 };
 
 Asteroid.prototype.move = function(delta, asteroids, enemies) {
-    location = location
-
+    this.location += direction;
 };
 
 // Enemyklasse
@@ -94,7 +92,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 };
 
 Enemy.prototype.shoot = function() {
-
+    // Schießt von location mit weapon in direction
 };
 
 Enemy.prototype.shot = function() {
@@ -136,9 +134,10 @@ function updateLocation(delta) {
     // ab d_min auf jeden Fall ausweichen
 
 
-    location = location + direction;
+    location += direction;
 }
 
+// update-Methode, aufzurufen in jedem Durchlauf des Renderers
 function update(delta) {
     // Spielerposition updaten
     playerPosition = new THREE.Vector3(0,0,0);
@@ -154,8 +153,32 @@ function update(delta) {
     }
 }
 
+// Erschaffe Asteroiden
+function createAsteroid() {
+
+}
+
+// Erschaffe Enemy
+function createEnemy() {
+
+}
+
+
+// Initialisierer der Bots
 function initAI(level) {
     // erstelle Asteroiden
+    asteroids = [];
+
+    for(var i = 0; i < 5 * level; i++) {
+        asteroid = createAsteroid();
+        asteroids.push(asteroid);
+    }
 
     // erstelle Gegner
+    enemies = [];
+
+    for(i =0 ; i < 3 * level; i++) {
+        enemy = createEnemy();
+        enemies.push(enemy);
+    }
 }
