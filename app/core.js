@@ -119,10 +119,43 @@ function init() {
 
     window.addEventListener( 'resize', onWindowResize, false );
 
-    var score = document.getElementById('high');    
-    score.innerHTML =100000;
+    addPoints(50);
+    addPoints(50);
 
+    addPoints(50);
+    subPoints(50);
+
+    addGeld(50);
+
+    setInterval(addPoint,1000);
 }
+
+function addPoint(){
+    var tempscore = document.getElementById('score');    
+    tempscore.innerHTML = parseInt(tempscore.innerHTML)+1;
+}
+
+function addPoints(temp){
+    var tempscore = document.getElementById('score');    
+    tempscore.innerHTML = parseInt(tempscore.innerHTML)+parseInt(temp);
+}
+
+function subPoints(temp){
+    var tempscore = document.getElementById('score');    
+    tempscore.innerHTML = parseInt(tempscore.innerHTML)-parseInt(temp);
+}
+
+function addGeld(temp){
+    var tempscore = document.getElementById('geld');    
+    tempscore.innerHTML = parseInt(tempscore.innerHTML)+parseInt(temp);
+}
+
+function subGeld(temp){
+    var tempscore = document.getElementById('geld');    
+    tempscore.innerHTML = parseInt(tempscore.innerHTML)-parseInt(temp);
+}
+
+
 
 function onWindowResize() {
 

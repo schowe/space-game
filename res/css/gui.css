@@ -13,7 +13,7 @@ body {
 	border-color: yellow;
 	border-width: 5px;
 }
-#high{
+#score{
 	text-align: right;
 	color: yellow;
 	font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
@@ -24,15 +24,18 @@ body {
 	line-height: 26.4px;
 }
 
-#geld{
+#geldbox{
 	color: yellow;
 	text-align: right;
-	margin-left: 15px;
 	font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
 	font-size: 20px;
 	font-style: normal;
 	font-variant: normal;
 	font-weight: 500;
 	line-height: 26.4px;
+}
+
+#geld{
+	display: inline;
 }
 
