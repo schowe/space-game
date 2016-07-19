@@ -1,12 +1,12 @@
-/**
- * Created by jp on 18.07.16.
- */
-
 var container;
 
 var camera, scene, renderer;
 
 
+
+
+
+// start
 
 init();
 
@@ -17,6 +17,7 @@ function init() {
     // HTML-Container erzeugen
     container = document.createElement( 'div' );
     document.body.appendChild( container );
+
 
     
     
@@ -79,42 +80,55 @@ function init() {
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
 
+
+
+    // TODO: scene code goes here
+    // Welt erzeugen
+    // Spieler erzeugen
+    // Gegner erzeugen
+    // ...
+    // => Funktionen aus anderen Dateien laden!!
+
+
+
+
+    // Szene in DOM einsetzen
     container.appendChild( renderer.domElement );
-
-    //
-
+    // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
 
 }
 
-function onWindowResize() {
 
+
+function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
 
-//
+
 
 function animate() {
-
+    // dont touch!
     requestAnimationFrame( animate );
-
     render();
-
 }
 
-function render() {
 
-    var timer = Date.now() * 0.0001;
+
 
    // camera.position.x = Math.cos( timer ) * 800;
    // camera.position.z = Math.sin( timer ) * 800;
 
     camera.lookAt( scene.position );
 
+
+
+function render() {
+
+    // TODO: animation code goes here
 
 
     renderer.render( scene, camera );

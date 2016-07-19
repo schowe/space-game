@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function Player() {
     
     return {
@@ -21,3 +22,6 @@ function Player() {
     controls = new THREE.PointerLockControls( ship );
     scene.add( controls.getObject() );
 }*/
+=======
+
+>>>>>>> a487887932e59bdb4470eb49302823c5022111be
