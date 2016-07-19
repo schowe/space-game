@@ -9,7 +9,7 @@ $(function() {
         tx.executeSql("CREATE TABLE IF NOT EXISTS highscore (id INTEGER PRIMARY KEY ASC, player TEXT, points INTEGER)");
 
         // ... testdaten
-        tx.executeSql("INSERT OR REPLACE INTO highscore VALUES (1, 'JP', 1000000)");
+        tx.executeSql("INSERT OR REPLACE INTO highscore VALUES (1, 'JP', 100)");
         tx.executeSql("INSERT OR REPLACE INTO highscore VALUES (2, 'alle anderen', 1)");
 
         // load highscores
@@ -30,66 +30,4 @@ $(function() {
         // => Spielername kann nun mit localStorage.getItem("player")
         // aufgerufen werden auf der nächsten HTML Seite
     });
-
-
-
-
-    var SCREEN_WIDTH = window.innerWidth;
-    var SCREEN_HEIGHT = window.innerHeight;
-
-    var container;
-
-    var camera, scene, scene2, renderer;
-
-    var mouseX = 0, mouseY = 0;
-
-    var windowHalfX = window.innerWidth / 2;
-    var windowHalfY = window.innerHeight / 2;
-
-    init();
-    animate();
-
-    function init() {
-
-
-
-        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-
-    }
-
-
-    function onDocumentMouseMove(event) {
-
-        mouseX = ( event.clientX - windowHalfX );
-        mouseY = ( event.clientY - windowHalfY );
-
-    }
-
-
-    function animate() {
-
-        requestAnimationFrame( animate );
-
-        render();
-        stats.update();
-
-    }
-
-    function render() {
-
-        camera.position.x += ( mouseX - camera.position.x ) * .05;
-        camera.position.y += ( - ( mouseY - 200) - camera.position.y ) * .05;
-
-        camera.lookAt( scene.position );
-
-        // renderer.clear();
-
-        renderer.render( scene, camera );
-
-    }
-
-
-
-
-
 });
