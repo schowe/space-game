@@ -3,7 +3,7 @@ body {
     margin: 0px;
     background: black;
 }
-<<<<<<< HEAD
+
 canvas{
     display: block;
 }
@@ -46,8 +46,5 @@ canvas{
     cursor: pointer;
 
 }
-=======
-canavs{
-    display: block;
-}
->>>>>>> a487887932e59bdb4470eb49302823c5022111be
+
+
