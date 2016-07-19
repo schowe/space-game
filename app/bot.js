@@ -1,6 +1,8 @@
 // Botklasse
+
 var minObstacleDistance = 100;
-var enemy, asteroid, playerPosition, shootAble, worldRadius, radius, weapon;
+var asteroids, enemies, enemy, asteroid, playerPosition,
+    worldRadius, radius;
 
 // Sortierfunktion für Bots (Enemies und Asteroids)
 // je naeher am Schiff, desto niedriger der Indize
@@ -25,7 +27,7 @@ function Asteroid(location, direction, speed) {
 };
 
 Asteroid.prototype.move = function(delta, asteroids, enemies) {
-    this.location += direction;
+    this.location += delta * direction;
 };
 
 // Enemyklasse
@@ -38,22 +40,25 @@ function Enemy(location, speed ,weapon) {
 };
 
 Enemy.prototype.move = function(delta, asteroids, enemies) {
-    var wrongDir, avoidDir, alpha;
-    // prinzipielle Richtung
+    var wrongDir, avoidDir, alpham, shootAble;
+
+    // 1. Schritt: Gehe in Richtung Spieler
     var directionToPlayer = new THREE.Vector3();
     directionToPlayer.copy(playerPosition);
     directionToPlayer.sub(this.location);
     directionToPlayer.normalize();
 
-    // ueberpruefe auf Hindernisse
-    // fuer Rand von Box um Enemy
-    var raycaster = new THREE.Raycaster(this.location,directionToPlayer,0,
+    // 2. Schritt: Ueberpruefe auf Hindernisse
+    // fuer Ecken von Box um Enemy
+
+    var raycaster = new THREE.Raycaster(box.location,directionToPlayer,0,
         minObstacleDistance);
 
     var AsteroidCollisions = raycaster.intersectObjects(asteroids,true);
     var ShipCollisions = raycaster.intersectObjects(enemies,true);
 
-    // falls es zu einer Moeglichkeit einer Kollision kommt, aendere Richtung
+    // 3. Schritt: Falls es zu einer Moeglichkeit einer Kollision kommt,
+    //              aendere Richtung
     asteroid = AsteroidCollisions.length > 0 ? AsteroidCollisions[0] : Infinity;
     enemy   =  ShipCollisions.length > 0 ? ShipCollisions[0] : Infinity;
 
@@ -86,10 +91,12 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     direction = directionToPlayer.normalize() + avoidImpact * avoidDir();
 
-    // normalisiere, um Geschwindigkeit nur von speed abhaengig zu machen
+    // 4. Schritt: normalisiere, um Geschwindigkeit nur von speed
+    //                              abhaengig zu machen
     direction.normalize();
 
-    this.location = this.location + this.speed * direction;
+    // 5. Schritt:
+    this.location += delta * this.speed * direction;
 };
 
 Enemy.prototype.shoot = function() {
@@ -111,13 +118,12 @@ function checkCollisionAndDestroy() {
 // aktualisiere Position der Asteroiden und Gegner
 // Setze direction neu
 function updateLocation(delta) {
-    // 1. Schritt: ideale Richtungen ausrechnen
 
-    // 2. Schritt: Asteroiden und Gegner sortieren
+    // 1. Schritt: Asteroiden und Gegner sortieren
     asteroids.sort(compare);
     enemies.sort(compare);
 
-    // 3. Schritt: Ausweichen
+    // 2. Schritt: Ausweichen
     // Asteroiden haben keine Intelligenz -> Bewegung behalten
     // Gegner sind intelligent -> allen vor sie liegenden Asteroiden ausweichen
     //                         -> allen vor sie liegenden Gegnern ausweichen
@@ -130,10 +136,11 @@ function updateLocation(delta) {
     }
 
     // Enemies bewegen
-
     // erst ab bestimmter Distanz d_max ausweichen priorisieren
     // ab d_min auf jeden Fall ausweichen
-
+    for(enemy of enemies) {
+        enemy.move(delta, asteroid, enemies);
+    }
 
     location += direction;
 }
@@ -148,8 +155,9 @@ function update(delta) {
     enemies = checkCollisionAndDestroy(asteroids, enemies);
     // Schiessen
     for(enemy of enemies) {
-        if(enemy.shootAble==true) {
+        if(enemy.shootAble == true) {
             enemy.shoot();
+            enemy.shootAble = false;
         }
     }
 }
@@ -161,11 +169,11 @@ function createAsteroid(level) {
 
     // zufaellig an den Rand positionieren
     do {
-        alpha = 2*Math.PI*Math.random();
-        beta = Math.PI*Math.random();
+        alpha = 2 * Math.PI * Math.random();
+        beta = Math.PI * Math.random();
         asteroidPosition = new THREE.Vector3(
-            Math.sin(beta)*Math.sin(alpha),
-            Math.sin(beta)*Math.cos(alpha),
+            Math.sin(beta) * Math.sin(alpha),
+            Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
         asteroidPosition.multiplyScalar(radius);
     } while(//far away
@@ -177,10 +185,10 @@ function createAsteroid(level) {
     // Richtung:
     // Gegengesetzt zur Normalen mit kleinem Fehlerwinkel (bis zu 20°)
     direction = new THREE.Vector3(
-            Math.sin(beta)*Math.sin(alpha),
-            Math.sin(beta)*Math.cos(alpha),
+            Math.sin(beta) * Math.sin(alpha),
+            Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
-    direction += Math.pow(-1,Math.round(1000*Math.random())) *
+    direction += Math.pow(-1,Math.round(1000 * Math.random())) *
                      Math.random() * 0.36397023; // tan(20°)
 
     asteroid = new Asteroid(asteroidPosition, direction, speed);
@@ -190,16 +198,18 @@ function createAsteroid(level) {
 
 // Erschaffe Enemy
 function createEnemy(level) {
+    var weapon;
+
     // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
     radius = worldRadius/6 * (5+Math.random());
 
     // zufaellig an den Rand positionieren
     do {
-        alpha = 2*Math.PI*Math.random();
-        beta = Math.PI*Math.random();
+        alpha = 2 * Math.PI * Math.random();
+        beta = Math.PI * Math.random();
         enemyPosition = new THREE.Vector3(
-            Math.sin(beta)*Math.sin(alpha),
-            Math.sin(beta)*Math.cos(alpha),
+            Math.sin(beta) * Math.sin(alpha),
+            Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
         enemyPosition.multiplyScalar(radius);
     } while(//far away
@@ -209,12 +219,12 @@ function createEnemy(level) {
     speed = 2;
 
     // weapon
-    switch(Math.round(level * (Math.random()+0.5)) {
-        case 0 : weapon = ??; break;
-        case 1 : weapon = ??; break;
-        case 2 : weapon = ??; break;
-        case 3 : weapon = ??; break;
-        default: weapon = // hardest weapon;
+    switch(Math.round(level * Math.random()) {
+        case 0 : weapon = 0; break;
+        case 1 : weapon = 1; break;
+        case 2 : weapon = 2; break;
+        case 3 : weapon = 3; break;
+        default: weapon = 4; // hardest weapon
     }
 
     enemy = new Enemy(enemyPosition, speed, weapon);
