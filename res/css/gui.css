@@ -1,0 +1,98 @@
+
+body {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+}
+
+#pointbox{
+	width: 100px;
+	position: fixed;
+	top: 20px; 
+	left: 20px; 
+	border-color: black;
+	border-width: 5px;
+}
+#score{
+	text-align: right;
+	color: yellow;
+	font-size: 30px;
+	line-height: 26.4px;
+}
+
+#geldbox{
+	color: yellow;
+	text-align: right;
+	font-size: 20px;
+	line-height: 26.4px;
+}
+
+#geld{
+	display: inline;
+}
+
+
+
+#ammobox{
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	width: 80px;
+}
+
+#actualAmmo{
+	font-size: 30px;
+	color: yellow;
+	line-height: 26.4px;
+}
+
+#coolesTrennzeichen{
+	position: fixed;
+	font-size: 10px;
+	margin-top: -11px;
+	margin-left: 32px;
+	color: yellow;
+
+}
+
+#maxAmmo{
+	color: yellow;
+	position: fixed;
+	margin-top: -12px;
+	margin-left: 36px;
+	font-size: 14px;
+	line-height: 26.4px;
+}
+
+
+
+#bg1{
+	transform: skewX(45deg);
+	background-image:url(../textures/metall.jpg);
+
+	position: fixed;
+	left : -40px;
+	bottom: -4px;
+	height: 50px;
+    outline: 1px solid;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    width: 40%;
+}
+
+#bg2{
+	transform: skewX(-45deg);
+	background-image:url(../textures/metall.jpg);
+
+	position: fixed;
+	right : -40px;
+	bottom: -4px;
+	height: 50px;
+    outline: 1px solid;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    width: 40%;
+}
