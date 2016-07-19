@@ -8,14 +8,19 @@
     <link rel="stylesheet" href="res/css/style.css" />
 
     <!-- Javascript -->
-    <script type="text/javascript" src="res/js/lib/jquery-3.0.0.min.js"></script>
+    <script src="res/js/lib/jquery-3.0.0.min.js"></script>
+    <script src="res/js/lib/three.js"></script>
+    <script src="res/js/lib/OrbitControls.js"></script>
+    <script src="res/js/lib/SkyShader.js"></script>
+
+    <!-- custom -->
     <script type="text/javascript" src="res/js/index.js"></script>
 
 </head>
 
 <body>
 
-    <div id="container">
+    <div id="container" hidden>
 
         <div id="form-container">
             <form id="form" action="app/game.html" method="GET">
@@ -39,6 +44,11 @@
                 </tbody>
             </table>
         </div>
+
+    </div>
+
+
+    <div id="render-container">
 
     </div>
 

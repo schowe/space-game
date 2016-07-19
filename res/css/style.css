@@ -4,14 +4,15 @@ body {
 }
 
 #container {
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-    width: 100%;
+    /*padding: 0;*/
+    /*margin: 0;*/
+    /*height: 100vh;*/
+    /*width: 100%;*/
     /*color: white;*/
     /*background-image: url("../img/placeholder_background.jpg");*/
-    background-repeat: space;
-    background-size: auto 100%;
+    /*background-repeat: space;*/
+    /*background-size: auto 100%;*/
+    border: 1px dashed black;
 }
 
 #form-container {
