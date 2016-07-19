@@ -1,6 +1,6 @@
 // Botklasse
 var minObstacleDistance = 100;
-var enemy, asteroid, playerPosition, shootAble;
+var enemy, asteroid, playerPosition, shootAble, worldRadius, radius;
 
 // Sortierfunktion für Bots (Enemies und Asteroids)
 // je naeher am Schiff, desto niedriger der Indize
@@ -19,7 +19,7 @@ function compare(a,b) {
 }
 
 // Asteroidenklasse
-function Asteroid(direction,speed,location) {
+function Asteroid(location,direction,speed) {
     this.direction = speed * direction.normalize();
     this.location = location;
 };
@@ -43,10 +43,11 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     var directionToPlayer = new THREE.Vector3();
     directionToPlayer.copy(playerPosition);
     directionToPlayer.sub(this.location);
+    directionToPlayer.normalize();
 
     // ueberpruefe auf Hindernisse
     // fuer Rand von Box um Enemy
-    var raycaster = new THREE.Raycaster(this.location,playerPosition,0,
+    var raycaster = new THREE.Raycaster(this.location,directionToPlayer,0,
         minObstacleDistance);
 
     var AsteroidCollisions = raycaster.intersectObjects(asteroids,true);
@@ -154,8 +155,37 @@ function update(delta) {
 }
 
 // Erschaffe Asteroiden
-function createAsteroid() {
+function createAsteroid(level) {
+    // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
+    radius = worldRadius/6 * (5+Math.random());
 
+    // zufaellig an den Rand positionieren
+    do {
+        alpha = 2*Math.PI*Math.random();
+        beta = Math.PI*Math.random();
+        asteroidPosition = new THREE.Vector3(
+            Math.sin(beta)*Math.sin(alpha),
+            Math.sin(beta)*Math.cos(alpha),
+            Math.cos(beta));
+        asteroidPosition.multiplyScalar(radius);
+    } while(//far away
+        );
+
+    // speed abhaengig von Level
+    speed = 1;
+
+    // Richtung:
+    // Gegengesetzt zur Normalen mit kleinem Fehlerwinkel (bis zu 20°)
+    direction = new THREE.Vector3(
+            Math.sin(beta)*Math.sin(alpha),
+            Math.sin(beta)*Math.cos(alpha),
+            Math.cos(beta));
+    direction *= Math.pow(-1,Math.round(1000*Math.random())) *
+                     Math.random() * 0.36397023;
+
+    asteroid = new Asteroid(asteroidPosition, direction, speed);
+
+    return asteroid;
 }
 
 // Erschaffe Enemy
