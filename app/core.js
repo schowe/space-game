@@ -51,6 +51,7 @@ function init() {
 
     var player = Player();
     player.init();
+    
     var world = World();
     world.init();
     var movement = Movement();
