@@ -1,52 +1,47 @@
-//
-//FUNCTIONS FÜR HIGHSCORE & GELD
-//
+/**
+ * FUNCTIONS FOR HIGHSCORE AND MONEY
+ */
 
 var counterID;
 
-function startCounter(){
-	counterID = setInterval(addPoint,1000);
+function startCounter() {
+	counterID = setInterval(function() { addPoints(1); }, 1000);
 }
 
 function stopCounter() {
 	clearInterval(counterID);
 }
 
-function addPoint(){
+function addPoints(value) {
     var tempscore = document.getElementById('score');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML)+1;
+    tempscore.innerHTML = parseInt(tempscore.innerHTML) + parseInt(value);
 }
 
-function addPoints(temp){
+function subPoints(value) {
     var tempscore = document.getElementById('score');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML)+parseInt(temp);
+    tempscore.innerHTML = parseInt(tempscore.innerHTML) - parseInt(value);
 }
 
-function subPoints(temp){
-    var tempscore = document.getElementById('score');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML)-parseInt(temp);
+function addMoney(value) {
+    var tempscore = document.getElementById('money');    
+    tempscore.innerHTML = parseInt(tempscore.innerHTML) + parseInt(value);
 }
 
-function addGeld(temp){
-    var tempscore = document.getElementById('geld');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML)+parseInt(temp);
+function subMoney(value) {
+    var tempscore = document.getElementById('money');    
+    tempscore.innerHTML = parseInt(tempscore.innerHTML) - parseInt(value);
 }
 
-function subGeld(temp){
-    var tempscore = document.getElementById('geld');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML)-parseInt(temp);
-}
-
-//
-// FUNCTIONS FÜR AMMO
-//
+/**
+ * FUNCTIONS FOR AMMO
+ */
 
 var ammoWeapon = 60;
 var ammoPerShot = 1;
 
 //Reload der waffe
 function reload(){
-	var actual = document.getElementById('actualAmmo'); 
+	var actual = document.getElementById('currentAmmo'); 
 	var max = document.getElementById('maxAmmo');
 	var diff = ammoWeapon - parseInt(actual.innerHTML);
 
@@ -54,13 +49,13 @@ function reload(){
 		//FEHLERBEHANDLUNG PLS!
 	}else{
 		maxAmmo.innerHTML = parseInt(max.innerHTML)-diff;
-		actualAmmo.innerHTML = ammoWeapon;
+		currentAmmo.innerHTML = ammoWeapon;
 	}
 }
 
 //Zum minuszählen der ammo beim shot der waffe
 function shot(){
-	var actual = document.getElementById('actualAmmo');
+	var actual = document.getElementById('currentAmmo');
 	if(parseInt(actual.innerHTML)<=0){
 		//FEHLERBEHANDLUNG 
 		//evtl automatisches reloaden nach upgradekauf
@@ -68,7 +63,6 @@ function shot(){
 		actual.innerHTML = parseInt(actual.innerHTML)-ammoPerShot;
 	}
 }
-
 
 //zum parameter laden der waffen
 //temp1 = ammo pro magazin
@@ -88,94 +82,74 @@ function plusAmmo(temp){
 	max.innerHTML = parseInt(max.innerHTML) + temp;
 }
 
-//HP
-//Ist noch viel doppelt, räumen wir nachher auf
-function addHP (value) {
-	var hpBox = document.getElementById("hpBoxValue");	
-	var style = window.getComputedStyle(hpBox);
-        var currentHP = parseInt(style.getPropertyValue("width"));
-	
-	var x = 0;
-	var temp = setInterval(frame, 1);
+/**
+ * FUNCTIONS FOR HP
+ */
+ 
+var hpBox = document.getElementById('hpBoxValue');
+var style = window.getComputedStyle(hpBox);
+var currentHP = parseInt(style.getPropertyValue('width'));
+ 
+function addHP(value) {	
+	var i = 0;
+	var tempID = setInterval(frame, 1);
 
 	function frame() {
-		if (x < value) {
+		if (i < value) {
 			currentHP++;
 			hpBox.style.width = currentHP + "px";
 			if (currentHP == 222) {
-				setColor(1);			
+				hpSetColor(1);			
 			}
 			if (currentHP == 444) {
-				setColor(2);
+				hpSetColor(2);
 			}
-			x++;
+			i++;
 		} else {
-			clearInterval(temp);
+			clearInterval(tempID);
 		}
 	}	
-
-	function setColor(color) {
-		if (color == 0) {
-			hpBox.classList.remove("hpOrange");	
-			hpBox.classList.add("hpRed");			
-		}
-		else if (color == 1) {
-			hpBox.classList.remove("hpRed");	
-			hpBox.classList.remove("hpGreen");	
-			hpBox.classList.add("hpOrange");	
-		}
-		else if (color == 2) {
-			hpBox.classList.remove("hpOrange");	
-			hpBox.classList.add("hpGreen");
-		}
-	}
 }
 
-function subHP (value) {
-	var hpBox = document.getElementById("hpBoxValue");	
-	var style = window.getComputedStyle(hpBox);
-        var currentHP = parseInt(style.getPropertyValue("width"));
-	
-	var x = 0;
-	var temp = setInterval(frame, 1);
+function subHP(value) {
+	var i = 0;
+	var tempID = setInterval(frame, 1);
 
 	function frame() {
-		if (x < value) {
+		if (i < value) {
 			currentHP--;
 			hpBox.style.width = currentHP + "px";
 			if (currentHP == 444) {
-				setColor(1);			
+				hpSetColor(1);			
 			}
 			if (currentHP == 222) {
-				setColor(0);
+				hpSetColor(0);
 			}
-			x++;
+			i++;
 		} else {
-			clearInterval(temp);
-		}
-	}
-
-	
-
-	function setColor(color) {
-		if (color == 0) {
-			hpBox.classList.remove("hpOrange");	
-			hpBox.classList.add("hpRed");			
-		}
-		else if (color == 1) {
-			hpBox.classList.remove("hpRed");	
-			hpBox.classList.remove("hpGreen");	
-			hpBox.classList.add("hpOrange");	
-		}
-		else if (color == 2) {
-			hpBox.classList.remove("hpOrange");	
-			hpBox.classList.add("hpGreen");
+			clearInterval(tempID);
 		}
 	}	
 }
-//HP Ende
 
-//Level - bis jetzt nur Proof of concept
+function hpSetColor(color) {
+	if (color == 0) {
+		hpBox.classList.remove("hpOrange");	
+		hpBox.classList.add("hpRed");			
+	} else if (color == 1) {
+		hpBox.classList.remove("hpRed");	
+		hpBox.classList.remove("hpGreen");	
+		hpBox.classList.add("hpOrange");	
+	} else if (color == 2) {
+		hpBox.classList.remove("hpOrange");	
+		hpBox.classList.add("hpGreen");
+	}
+}
+
+/**
+ * FUNCTIONS FOR LEVEL (Proof of concept)
+ */
+ 
 var currentLevel = 0;
 
 function updateLevel () {
@@ -188,10 +162,13 @@ function updateLevel () {
 	setTimeout(function(){ levelText.style.color = "transparent"; }, 2500);
 }
 
-//Speed
+/**
+ * FUNCTIONS FOR SPEED
+ */
+ 
 var maxSpeed = 230;
 
-function updateSpeed (speed) {
+function updateSpeed (newSpeed) {
 	var speedBox = document.getElementById("speedBarValue");	
-	speedBox.style.height = 100 - (parseInt(speed)/maxSpeed) * 100 + "%";
+	speedBox.style.height = 100 - (parseInt(newSpeed) / maxSpeed) * 100 + "%";
 }
