@@ -56,17 +56,17 @@ function Enemy(location, speed ,weapon) {
 Enemy.prototype.move = function(delta, asteroids, enemies) {
     var wrongDir, avoidDir, alpha, shootAble;
 
-    // 1. Schritt: Gehe in Richtung Spieler
+    // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
     var directionToPlayer = new THREE.Vector3();
     directionToPlayer.copy(playerPosition);
     directionToPlayer.sub(this.location);
     directionToPlayer.normalize();
 
     // 2. Schritt: Ueberpruefe auf Hindernisse
-    // fuer Ecken von Box um Enemy
 
-    var raycaster = new THREE.Raycaster(box.location,directionToPlayer,0,
-        minObstacleDistance);
+    var raycaster = new THREE.Raycaster(
+        box.location - (this.speed * delta * directionToPlayer), // von hinten
+        directionToPlayer,0, minObstacleDistance);
 
     var AsteroidCollisions = raycaster.intersectObjects(asteroids,true);
     var ShipCollisions = raycaster.intersectObjects(enemies,true);
@@ -100,8 +100,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
         avoidDir.normalize();
 
-        // TODO: je naeher an Gegenstand desto mehr ausweichen
-        avoidImpact = 1;
+        // je naeher an Gegenstand desto mehr ausweichen
+        avoidImpact = this.speed * (1-distanceToCollisonObject/guardingRadius);
     } else {
         avoidDir = new Vector3(0,0,0);
         avoidImpact = 0;
@@ -138,18 +138,20 @@ function reflectAsteroids(a,b) {
     var factor;
 
     // "Normale" der Reflektion (zeigt von a nach b -> "Normale fuer a")
-    var axis = b.position.sub(a);
+    var axis = new THREE.Vector3(0,0,0);
+    axis.add(b.position);
+    axis.sub(a);
     axis.normalize();
 
     // Reflektion fuer Asteroid a
     factor = 2 * Math.dot(axis,a.direction)
-    a.direction =  a.direction.multiplyScalar(-1);
+    a.direction.multiplyScalar(-1);
     a.direction += axis.multiplyScalar(factor);
 
     // Reflektion fuer Asteroid b
-    axis = axis.multiplyScalar(-1);
+    axis.multiplyScalar(-1);
     factor = 2 * Math.dot(axis,b.direction);
-    b.direction =  b.direction.multiplyScalar(-1);
+    b.direction.multiplyScalar(-1);
     b.direction += axis.multiplyScalar(factor);
 }
 
@@ -158,7 +160,8 @@ function reflectAsteroids(a,b) {
 function checkCollisionAndDestroy() {
     // TODO:
     // falls Asteroid getroffen:
-    // Asteroid ? -> abstossen
+    // Asteroid ? -> abstossen und verkleinern
+    // (notfalls loeschen, falls kleiner maxShipSize -> sowie bei Schuss)
     // Schiff   ? -> weiterbewegen
     // Schuss   ? -> explodieren und neu setzen
 
@@ -219,7 +222,7 @@ function createAsteroid(level) {
     } while(farAway(asteroidPosition, radius));
 
     // speed abhaengig von Level
-    speed = 1;
+    speed = level;
 
     // Richtung:
     // Gegengesetzt zur Normalen mit kleinem Fehlerwinkel (bis zu 20°)
