@@ -15,7 +15,8 @@ var FileLoader = function() {
         "../res/meshes/EnemyMiniShipV1.json",
         "../res/meshes/AsteroidPart1.json",
         "../res/meshes/AsteroidPart2.json",
-        "../res/meshes/AsteroidPart3.json"
+        "../res/meshes/AsteroidPart3.json",
+        "../res/meshes/AsteroidComplete.json"
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
