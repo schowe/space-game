@@ -5,12 +5,14 @@ var minShipSize = 10;
 var maxShipSize = 20;
 var maxAsteroidSize = 30;
 var guardingRadius = 50;
+var minDistanceToPlayer = 10;
+
 var asteroids, enemies, enemy, asteroid, playerPosition,
     worldRadius, radius, i;
 
 
 
-// Sortierfunktion für Bots (Enemies und Asteroids)
+// Sortierfunktion fuer Bots (Enemies und Asteroids)
 // je naeher am Schiff, desto niedriger der Indize
 function compare(a,b) {
     var distanceA = a.location.distanceToSquared(playerPosition);
@@ -51,41 +53,96 @@ function Enemy(location, speed ,weapon) {
     this.weapon = weapon;
     this.isAlive = true;
     this.shootAble = false;
+    this.onBezier = false;
 };
 
 Enemy.prototype.move = function(delta, asteroids, enemies) {
     var wrongDir, avoidDir, alpha, shootAble;
 
+    // 0. Schritt: TODO: Checke ob auf Bezierkurve oder nicht
+
     // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
     var directionToPlayer = new THREE.Vector3();
     directionToPlayer.copy(playerPosition);
     directionToPlayer.sub(this.location);
+
+    var distanceToPlayer = new THREE.Vector3();
+    distanceToPlayer.copy(directionToPlayer);
+    distanceToPlayer.length();
+
     directionToPlayer.normalize();
 
-    // 2. Schritt: Ueberpruefe auf Hindernisse
+    // 2. Schritt: Ueberpruefe, ob dem Spieler zu nahe geraten
+    if(distanceToPlayer < minDistanceToPlayer) {
 
-    var raycaster = new THREE.Raycaster(
-        box.location - (this.speed * delta * directionToPlayer), // von hinten
-        directionToPlayer,0, minObstacleDistance);
+    } else {
+        // Gelange hinter dem Spieler:
+        // berechne Bezierkurve und setze flag onBezier = true
 
-    var AsteroidCollisions = raycaster.intersectObjects(asteroids,true);
-    var ShipCollisions = raycaster.intersectObjects(enemies,true);
+    }
 
-    // 3. Schritt: Falls es zu einer Moeglichkeit einer Kollision kommt,
-    //              aendere Richtung
-    asteroid = AsteroidCollisions.length > 0 ? AsteroidCollisions[0] : Infinity;
-    enemy   =  ShipCollisions.length > 0 ? ShipCollisions[0] : Infinity;
+    // 3. Schritt: Ueberpruefe auf Hindernisse
+    var obstacles = [];
+    var possibleObstacle = false;
 
-    if(asteroid!=Infinity || enemy!=Infinity) {
-        // nur dem ersten Gegenstand ausweichen
-        if(enemy.distanceToSquared(this.position) <
-            asteroid.distanceToSquared(this.position)) {
-                wrongDir = enemy.direction;
-        } else {
-                wrongDir = asteroid.direction;
+    for(asteroid of asteroids) {
+        if() { // nahe (in Bezug auf Distanz zum Player)
+            // setze einen switchen
+            if() { // nahe an this
+                obstacles.push(asteroid);
+            }
+        } else if() { // switch gesetzt und von der Distanz WIEDER ausserhalb
+            possibleObstacle = false;
+            break;
         }
 
+    }
+
+    for(enemy of enemies) {
+        if() { // nahe (in Bezug auf Distanz zum Player)
+            // setze einen switchen
+            if() { // nahe an this
+                obstacles.push(enemy);
+            }
+        } else if() { // switch gesetzt und von der Distanz hinter this
+            possibleObstacle = false;
+            break;
+        }
+
+    }
+
+    // 3.5. Schritt: Sortiere nach Distanz zu this
+    obstacles.sort(function compare(a,b) {
+        var distanceA = a.location.distanceToSquared(this.position);
+        var distanceB = b.location.distanceToSquared(this.position);
+
+        if(distanceA < distanceB) {
+            return -1;
+        } else if(distanceA > distanceB) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
+
+    // Setze, da Abstand nach vorne wichtiger, Schiff voruebergehend auf die
+    // Position mit idealer Flugrichtung im naechsten Frame
+
+    // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
+    // und sortiere diese nach Entfernung zu this
+
+
+    // 4. Schritt: ausweichen
+
+
+
+
+    if(obstacles.length > 0) {
+
         // Ausweichrichtung:
+        // gehe in die Richtung der Normalen (vom Gegenstand weg)
+        // mit einem impactFactor sowie ...
         // negative Hindernisflugrichtung, bis zu 90° Winkel um ideale Richtung
         // gedreht
         avoidDir = new Vector3(0,0,0);
@@ -110,11 +167,11 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     direction = directionToPlayer.normalize() + avoidImpact * avoidDir();
 
-    // 4. Schritt: normalisiere, um Geschwindigkeit nur von speed
+    // 5. Schritt: normalisiere, um Geschwindigkeit nur von speed
     //                              abhaengig zu machen
     direction.normalize();
 
-    // 5. Schritt:
+    // 6. Schritt:
     this.location += delta * this.speed * direction;
 };
 
@@ -124,8 +181,8 @@ Enemy.prototype.shoot = function() {
 };
 
 Enemy.prototype.shot = function() {
-    // TODO: Für jeden Schuss im Spiel und jeden Gegenstand in der Naehe
-    // überprüfe Kollision
+    // TODO: Fuer jeden Schuss im Spiel und jeden Gegenstand in der Naehe
+    // ueberpruefe Kollision
     return false;
 }
 
@@ -143,16 +200,22 @@ function reflectAsteroids(a,b) {
     axis.sub(a);
     axis.normalize();
 
+    var negAxis = new THREE.Vector3(0,0,0);
+    negAxis.sub(axis);
+
     // Reflektion fuer Asteroid a
-    factor = 2 * Math.dot(axis,a.direction)
+    var axisA = new THREE.Vector3;
+    axisA.copy(axis);
+    factor = 2 * Math.dot(axisA,a.direction)
     a.direction.multiplyScalar(-1);
     a.direction += axis.multiplyScalar(factor);
 
     // Reflektion fuer Asteroid b
-    axis.multiplyScalar(-1);
-    factor = 2 * Math.dot(axis,b.direction);
+    var axisB = new THREE.Vector3;
+    axisB.copy(negAxis);
+    factor = 2 * Math.dot(axisB,b.direction);
     b.direction.multiplyScalar(-1);
-    b.direction += axis.multiplyScalar(factor);
+    b.direction += negAxis.multiplyScalar(factor);
 }
 
 
@@ -186,7 +249,7 @@ function farAway(position,size) {
         var distanceAsteroid = asteroid.position.distanceTo(playerPosition);
 
         if(distance - size - distanceAsteroid - asteroid.radius < 0) {
-            break;
+            return false;
         }
     }
 
@@ -197,9 +260,12 @@ function farAway(position,size) {
         var distanceEnemy = enemy.position.distanceTo(playerPosition);
 
         if(distance - size - distanceEnemy - maxShipSize < 0) {
-            break;
+            return false;
         }
     }
+
+    // nichts gefunden
+    return true;
 }
 
 
@@ -219,7 +285,7 @@ function createAsteroid(level) {
         asteroidPosition.multiplyScalar(positionRadius);
         // Radius zufaellig, aber mindestens so gross wie Schiff
         radius = minShipSize + Math.random * (maxAsteroidSize - minShipSize);
-    } while(farAway(asteroidPosition, radius));
+    } while(!farAway(asteroidPosition, radius));
 
     // speed abhaengig von Level
     speed = level;
@@ -254,7 +320,7 @@ function createEnemy(level) {
             Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
         enemyPosition.multiplyScalar(radius);
-    } while(farAway(enemyPosition, maxShipSize));
+    } while(!farAway(enemyPosition, maxShipSize));
 
     // speed abhaengig von Level
     speed = 2;
@@ -285,7 +351,7 @@ function updateLocation(delta) {
     // Asteroiden haben keine Intelligenz -> Bewegung behalten
     // Gegner sind intelligent -> allen vor sie liegenden Asteroiden ausweichen
     //                         -> allen vor sie liegenden Gegnern ausweichen
-    // -> vordere updaten und Richtung des nächsten anhand der neuen Position
+    // -> vordere updaten und Richtung des naechsten anhand der neuen Position
     //    ausrechnen
 
     // Asteroiden: Bewegung updaten
