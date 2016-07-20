@@ -61,7 +61,6 @@ function Collision(_collidableMeshList) {
             }
         return Math.max.apply(Math, globalYs);
     }
-
     // Calculates the min Z value of the vertices of a box
     function minZ(box) {
         var globalZs = [];
