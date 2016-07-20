@@ -4,9 +4,12 @@ var FileLoader = function() {
     // Pfad zu allen Dateien
     var files = [
         "../res/textures/sky_sphere_map.jpg",
-        "../res/models/HeroShipV1.json",
-        "../res/models/HeroShipV2.json"
-        
+        "../res/meshes/HeroShipV1.json",
+        "../res/meshes/HeroShipV2.json",
+        "../res/meshes/EnemyMiniShipV1.json",
+        "../res/meshes/AsteroidPart1.json",
+        "../res/meshes/AsteroidPart2.json",
+        "../res/meshes/AsteroidPart3.json"
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
@@ -62,13 +65,8 @@ var FileLoader = function() {
             // gibt alle geladenen Dateien zurück
             return isReady() ? loadedFiles : undefined;
         },
-        getSkySphereMap: function() {
-            // Sky Sphere Map
-            return isReady() ? loadedFiles["sky_sphere_map"] : undefined;
-        },
-        getHeroShip: function() {
-            // Hero Space Ship
-            return isReady ? loadedFiles["HeroShipV2"] : undefined;
+        get: function(name) {
+            return isReady() ? loadedFiles[name] : undefined;
         }
     }
 };
