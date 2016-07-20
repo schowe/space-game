@@ -64,13 +64,12 @@ $(function() {
             scene.add(spaceship);
         });
 
-        
-        composer = new THREE.EffectComposer( renderer );
-        composer.addPass( new THREE.RenderPass( scene, camera ) );
-
-        glitchPass = new THREE.GlitchPass();
-        glitchPass.renderToScreen = true;
-        composer.addPass( glitchPass );
+        // composer = new THREE.EffectComposer( renderer );
+        // composer.addPass( new THREE.RenderPass( scene, camera ) );
+        //
+        // glitchPass = new THREE.GlitchPass();
+        // glitchPass.renderToScreen = true;
+        // composer.addPass( glitchPass );
 
     }
 

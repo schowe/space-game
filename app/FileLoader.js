@@ -61,6 +61,8 @@ var FileLoader = function() {
             case "jpeg":
                 loadJpeg(file, name);
                 break;
+            default:
+                console.log("Error: unknown file format: "+file);
         }
     }
 
