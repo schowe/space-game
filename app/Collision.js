@@ -1,6 +1,6 @@
 // The collision has to be initialized with an array containing all objects/meshes
-// that should be able to collide/intersect with another object/mesh. If there is
-// a collision the mesh turns red.
+// that should be able to collide/intersect with another object/mesh.
+
 
 function Collision(_collidableMeshList) {
 
@@ -88,14 +88,6 @@ function Collision(_collidableMeshList) {
 
     // Checks if there is an intersection between two boxes
     function intersectBoxBox(a,b) {
-        if (minX(a) <= maxX(b) && maxX(a) >= minX(b) &&
-            (minY(a) <= maxY(b) && maxY(a) >= minY(b)) &&
-            (minZ(a) <= maxZ(b) && maxZ(a) >= minZ(b)))
-        {
-            console.log("Collision");
-            collisionSuccess(a);
-            collisionSuccess(b);
-        }
         // if there is an intersection in every dimension the two boxes intersect
         return (minX(a) <= maxX(b) && maxX(a) >= minX(b) &&
             (minY(a) <= maxY(b) && maxY(a) >= minY(b)) &&
@@ -109,12 +101,6 @@ function Collision(_collidableMeshList) {
                 (sphere.position.x - other.position.x) +
                 (sphere.position.y - other.position.y) * (sphere.position.y - other.position.y) +
                 (sphere.position.z - other.position.z) * (sphere.position.z - other.position.z));
-
-        if (distance < (sphere.geometry.parameters.radius + other.geometry.parameters.radius)) {
-            console.log("Collision");
-            collisionSuccess(sphere);
-            collisionSuccess(other);
-        }
         // if the distance between the centers is smaller the the sum of the
         // radii the spheres intersect
         return distance < (sphere.geometry.parameters.radius + other.geometry.parameters.radius);
@@ -132,59 +118,19 @@ function Collision(_collidableMeshList) {
                            (y - sphere.position.y) * (y - sphere.position.y) +
                            (z - sphere.position.z) * (z - sphere.position.z));
 
-        // console.log(distance);
-
-        if(distance < sphere.geometry.parameters.radius) {
-            console.log("Collision");
-            collisionSuccess(sphere);
-            collisionSuccess(box);
-        }
         // if the distance is smaller than the radius of the sphere there is an intersection
         return distance < sphere.geometry.parameters.radius;
     }
 
 
-    function collisionSuccess(mesh){
-        var MaterialHit = new THREE.MeshBasicMaterial({ color:0xFF0000 });
-        mesh.material = MaterialHit;
-    }
-
-
-
     return {
+
         // returns whether there is an intersection between two boxes
         intersectBoxBox: intersectBoxBox,
         // returns whether there is an intersection between two spheres
         intersectSphereOther: intersectSphereOther,
         // returns whether there is an intersection between a sphere and a box
         intersectSphereBox: intersectSphereBox,
-
-        // checks all possible collisions
-        collisionWithHitbox: function() {
-
-            for (var i = 0; i <= collidableMeshList.length-2; i++) {
-                for (var j = i+1; j <= collidableMeshList.length-1 ; j++) {
-
-                    if (collidableMeshList[i].geometry.type === "BoxGeometry"
-                            && collidableMeshList[j].geometry.type === "BoxGeometry") {
-                        intersectBoxBox(collidableMeshList[i], collidableMeshList[j]);
-                    }
-                    else if (collidableMeshList[i].geometry.type === "SphereGeometry"
-                            && collidableMeshList[j].geometry.type === "SphereGeometry") {
-                        intersectSphereOther(collidableMeshList[i], collidableMeshList[j]);
-                    }
-                    else if (collidableMeshList[i].geometry.type === "BoxGeometry"
-                            && collidableMeshList[j].geometry.type === "SphereGeometry") {
-                        intersectSphereBox(collidableMeshList[j], collidableMeshList[i]);
-                    }
-                    else if (collidableMeshList[i].geometry.type === "SphereGeometry"
-                            && collidableMeshList[j].geometry.type === "BoxGeometry") {
-                        intersectSphereBox(collidableMeshList[i], collidableMeshList[j]);
-                    }
-
-                }
-            }
-        },
 
         // returns wheter there is a collision between a spehere and any other mesh
         // that is collidable
