@@ -1,3 +1,12 @@
+/* responsive für kleine Geräte: verstecke highscore tabelle */
+@media only screen and (max-width: 1024px) {
+    #overlay-highscore {
+        display: none;
+    }
+}
+
+
+
 body {
     margin: 0;
     padding: 0;
@@ -44,9 +53,6 @@ body {
     text-align: center;
 }
 
-/* responsive für kleine Geräte: verstecke highscore tabelle */
-@media only screen and (max-width: 1024px) {
-    #overlay-highscore {
-        display: none;
-    }
+input#player {
+    text-align: center;
 }
