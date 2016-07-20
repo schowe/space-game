@@ -19,15 +19,29 @@ function init() {
     document.body.appendChild( container );
 
 
-    
-    
-    
-    // Beispiel-Code ...
-    
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    camera.position.y = 400;
+
 
     scene = new THREE.Scene();
+    // Beispiel-Code ...
+    var player = Player();
+    player.init();
+    
+    camera = new THREE.TargetCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+    //camera.position.y = 400;
+    var euler = new THREE.Euler(-0.5,0,0,'XYZ');
+    camera.addTarget({
+        name:'Target',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0,400,0),
+        //cameraRotation: euler,
+        fixed: false,
+        stiffness: 0.1,
+        matchRotation: false
+    });
+
+    camera.setTarget('Target');
+
+
   //  scene.add(camera);
     var light, object;
 
@@ -50,8 +64,7 @@ function init() {
     //scene.add(sph);
 
 
-    var player = Player();
-    player.init();
+    
     var world = World();
     world.init();
     var movement = Movement();
@@ -129,6 +142,7 @@ function render() {
     // TODO: animation code goes here
 
     Movement().move();
+    camera.update();
     renderer.render( scene, camera );
 
 }

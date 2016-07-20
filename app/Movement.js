@@ -4,7 +4,13 @@ var movementVector = new THREE.Vector4(0,0,0,1);
 var speedVector = new THREE.Vector4(0,0,0,1);
 var moveForward;
 var moveBackward;
+var moveLeft;
+var moveRight;
+var moveUp;
+var moveDown;
 var zAxis = 0;
+var xAxis = 0;
+var yAxis = 0;
 var matr = new THREE.Matrix4();
 var relativeCamPos = new THREE.Vector3(0,400,0);
 
@@ -109,11 +115,28 @@ function Movement() {
 
             window.addEventListener('keydown', function (event) {
                 switch(event.keyCode){
-                    case 38 || 87:
+                    case 38:
+                    case 87:
                         moveForward = true;
                         break;
-                    case 40 || 83:
+                    case 40:
+                    case 83:
                         moveBackward = true;
+                        break;
+                    case 65:
+                    case 37:
+                        moveLeft = true;
+                        break;
+                    case 68:
+                    case 39:
+                        moveRight = true;
+                        break;
+                    case 82:
+                        moveUp = true;
+                        break;
+                    case 70:
+                        moveDown = true;
+
                 }
 
 
@@ -121,11 +144,27 @@ function Movement() {
             });
             window.addEventListener('keyup', function (event) {
                 switch(event.keyCode){
-                    case 38 || 87:
+                    case 38:
+                    case 87:
                         moveForward = false;
                         break;
-                    case 40 || 83:
+                    case 40:
+                    case 83:
                         moveBackward = false;
+                        break;
+                    case 65:
+                    case 37:
+                        moveLeft = false;
+                        break;
+                    case 68:
+                    case 39:
+                        moveRight = false;
+                        break;
+                    case 82:
+                        moveUp = false;
+                        break;
+                    case 70:
+                        moveDown = false;
                 }
 
 
@@ -138,11 +177,23 @@ function Movement() {
 
         move:function(){
 
-            if(moveForward == true && zAxis < 100){
+            if(moveForward == true && yAxis < 100){
+                yAxis--;
+            }
+            if(moveBackward == true && yAxis > -100){
+                yAxis++;
+            }
+            if(moveLeft == true && zAxis < 100){
                 zAxis++;
             }
-            if(moveBackward == true && zAxis > -100){
+            if(moveRight == true && zAxis > -100){
                 zAxis--;
+            }
+            if(moveUp == true && xAxis < 100){
+                xAxis--;
+            }
+            if(moveDown == true && xAxis > -100){
+                xAxis++;
             }
 
             /*matr.set(1,0,0,0,
@@ -151,17 +202,26 @@ function Movement() {
                     0,0,0,1);*/
 
             //ship.position.applyMatrix4(matr);
+            ship.position.x += xAxis/20;
+            ship.position.y += yAxis/20;
+            ship.position.z += zAxis/20;
 
-            ship.position.z += zAxis/100*5;
 
-            var relativeCamPos = new THREE.Vector3(0,400,0);
-            var cameraOffset = relativeCamPos.applyMatrix4( ship.matrixWorld );
-            camera.lookAt(new THREE.Vector3(0,0,0));
-            camera.position.x = cameraOffset.x;
-            camera.position.y = cameraOffset.y;
-            camera.position.z = cameraOffset.z;
-            camera.lookAt(ship.position);
-            console.log("x "+cameraOffset.x+" y "+ cameraOffset.y + " z "+ cameraOffset.z);
+
+            //var desired = new THREE.Vector3()
+
+           // var relativeCamPos = new THREE.Vector3(0,400,0);
+           // var cameraOffset = relativeCamPos.applyMatrix4( ship.matrixWorld );
+          //  camera.lookAt(new THREE.Vector3(0,0,0));
+           // camera.position.x = cameraOffset.x;
+           // camera.position.y = cameraOffset.y;
+          //  camera.position.z = cameraOffset.z;
+
+           // camera.rotation.x = ship.rotation.x;
+           // camera.rotation.y = ship.rotation.y;
+           // camera.rotation.z = ship.rotation.z;
+           // camera.lookAt(ship.position);
+            //console.log("x "+cameraOffset.x+" y "+ cameraOffset.y + " z "+ cameraOffset.z);
 
 
 
@@ -194,5 +254,6 @@ function mouseMove(e){
             e.mozMovementY      ||
             e.webkitMovementY   ||
             0;
+
 }
 
