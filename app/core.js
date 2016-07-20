@@ -45,7 +45,6 @@ function init() {
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
-
     var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
