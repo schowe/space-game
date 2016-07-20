@@ -3,10 +3,13 @@ var FileLoader = function() {
 
     // Pfad zu allen Dateien
     var files = [
+        // Texturen
         "../res/textures/metall.jpg",
         "../res/textures/test.jpg",
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
+
+        // Models
         "../res/meshes/HeroShipV1.json",
         "../res/meshes/HeroShipV2.json",
         "../res/meshes/EnemyMiniShipV1.json",
