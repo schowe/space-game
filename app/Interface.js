@@ -124,7 +124,7 @@ function plusAmmo(temp){
 
 function addHP(value) {	
 
-	var i = 1;
+	var i = 0;
 	value = parseInt(value);
 
 	var p = value/maxhp;
@@ -154,11 +154,18 @@ function addHP(value) {
 }
 
 function updateHpDisplay(value){
+	if(value<=0){
+		gameOver();
+	}
 	var trueHP = value/100*maxhp;
 
 	var temp = document.getElementById('currentHP'); 
-  
     temp.innerHTML = parseInt(trueHP);
+}
+
+function gameOver(){
+	document.Write('NOOB');
+	
 }
 
 function subHP(value) {
@@ -227,9 +234,16 @@ function updateLevel () {
  * FUNCTIONS FOR SPEED
  */
  
-var maxSpeed = 230;
+var maxSpeed = 100;
 
-function updateSpeed (newSpeed) {
-	var speedBox = document.getElementById("speedBarValue");	
-	speedBox.style.height = 100 - (parseInt(newSpeed) / maxSpeed) * 100 + "%";
+function setSpeed (newSpeed) {
+	if(newSpeed<maxSpeed){
+		//für die BAR
+		var speedBox = document.getElementById("speedBarValue");	
+		speedBox.style.height = (parseInt(newSpeed) / maxSpeed) * 100 + "%";
+
+		//für die TextAnzeige
+		var speedValue = document.getElementById('speedValue');
+		speedValue.innerHTML = parseInt(newSpeed);
+	}
 }
