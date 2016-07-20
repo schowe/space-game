@@ -58,13 +58,7 @@ function init() {
     world.init();
     var movement = Movement();
     movement.init();
-
-    
-
-
-    //
-
-
+    subHP (500); //HP Bar Beispiel
 
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
