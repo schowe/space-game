@@ -247,3 +247,32 @@ function setSpeed (newSpeed) {
 		speedValue.innerHTML = parseInt(newSpeed);
 	}
 }
+
+function setPowerUp (powerUp, removeOrAdd) {
+/* mit Platzhalterelementen */
+	var icon;
+	switch(powerUp) {
+		case 1:
+			icon = document.getElementById('one');
+			break;	
+		case 2:
+			icon = document.getElementById('two');
+			break;
+		case 3:
+			icon = document.getElementById('three');
+			break;
+
+		case 4: 
+			icon = document.getElementById('four');
+			break;
+		default:
+	}
+
+	if (removeOrAdd == 1) {
+		icon.classList.remove("unactive");
+	}
+	if (removeOrAdd == 0) {
+		icon.classList.add("unactive");
+	}
+
+}
