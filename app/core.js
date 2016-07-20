@@ -2,13 +2,13 @@ var container;
 
 var camera, scene, renderer;
 
-var fileLoader = FileLoader();
+// var fileLoader = FileLoader();
 var interface = Interface();
 
 // start
-while (!fileLoader.isReady()) {
-    // abwarten, bis der FileLoader alle Files geladen hat
-}
+// while (!fileLoader.isReady()) {
+//     // abwarten, bis der FileLoader alle Files geladen hat
+// }
 init();
 animate();
 
@@ -40,7 +40,8 @@ function init() {
     var movement = Movement();
     movement.init();
 
-    //
+    subHP (500); //HP Bar Beispiel
+
 
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
