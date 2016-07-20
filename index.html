@@ -36,70 +36,67 @@
 <body>
 
     <div id="overlay-menu" class="main-menu-overlay">
-        <!--<div class="main-menu-overlay-inner">-->
-
-        <!--</div>-->
-
-        <div class="overlay-header">
-
+        <div class="row overlay-text-heading">
+            <div class="col-md-12">
+                <h1>Space Game</h1>
+            </div>
         </div>
 
-        <div class="overlay-body">
-            <h1>Space Game</h1>
-            <form id="form" action="app/game.html" method="GET">
-                <h2>Player name:</h2>
-                <input type="text" id="player" required/>
-                <br />
-                <button id="formSubmit" type="submit">Start Game</button>
-            </form>
-        </div>
 
-        <div class="overlay-footer">
-
-        </div>
+        <form role="form" id="form" action="app/game.html" method="GET">
+            <div class="form-group">
+                <label>Enter player name: </label>
+                <input class="form-control" type="text" id="player" required/>
+            </div>
+            <button id="formSubmit" class="btn btn-primary btn-lg btn-block" type="submit">Start Game</button>
+        </form>
     </div>
 
 
     <div id="overlay-highscore" class="main-menu-overlay">
-        <div class="overlay-header">
-
+        <div class="row overlay-text-heading">
+            <div class="col-md-12">
+                <h1>Highscore</h1>
+            </div>
         </div>
 
-        <div class="overlay-body">
-            <h1>Highscore</h1>
-
-            <table id="highscore">
-                <thead>
-                <th>#</th>
-                <th>Player</th>
-                <th>Level</th>
-                <th>Points</th>
-                </thead>
-                <tbody>
-                <!-- Testdaten -->
-                <tr>
-                    <td>1</td><td>spieler 1</td><td>99</td><td>12127635</td>
-                </tr>
-                <tr>
-                    <td>2</td><td>spieler 2</td><td>83</td><td>12127635</td>
-                </tr>
-                <tr>
-                    <td>3</td><td>spieler 3</td><td>61</td><td>12127635</td>
-                </tr>
-                <tr>
-                    <td>4</td><td>spieler 4</td><td>12</td><td>12127635</td>
-                </tr>
-                <tr>
-                    <td>5</td><td>spieler 5</td><td>2</td><td>12127635</td>
-                </tr>
-                </tbody>
-            </table>
+        <!-- Highscore Tabelle -->
+        <div class="row highscore-header">
+            <div class="col-md-1">#</div>
+            <div class="col-md-4">Player</div>
+            <div class="col-md-2">Lvl</div>
+            <div class="col-md-4">Points</div>
         </div>
-
-        <div class="overlay-footer">
-
+        <div class="row highscore-body">
+            <div class="col-md-1">1</div>
+            <div class="col-md-4">Spieler 1</div>
+            <div class="col-md-2">99</div>
+            <div class="col-md-4">999999</div>
         </div>
-        <!--<div id="test"></div>-->
+        <div class="row highscore-body">
+            <div class="col-md-1">2</div>
+            <div class="col-md-4">Spieler 2</div>
+            <div class="col-md-2">91</div>
+            <div class="col-md-4">871635</div>
+        </div>
+        <div class="row highscore-body">
+            <div class="col-md-1">3</div>
+            <div class="col-md-4">Spieler 3</div>
+            <div class="col-md-2">78</div>
+            <div class="col-md-4">611273</div>
+        </div>
+        <div class="row highscore-body">
+            <div class="col-md-1">4</div>
+            <div class="col-md-4">Spieler 4</div>
+            <div class="col-md-2">67</div>
+            <div class="col-md-4">591231</div>
+        </div>
+        <div class="row highscore-body">
+            <div class="col-md-1">5</div>
+            <div class="col-md-4">Spieler 5</div>
+            <div class="col-md-2">52</div>
+            <div class="col-md-4">387612</div>
+        </div>
     </div>
 
 </body>
