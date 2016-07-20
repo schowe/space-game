@@ -9,14 +9,10 @@ canvas{
 }
 
 #block {
-
     position: absolute;
-
     width: 100%;
     height: 100%;
-
     background-color: rgba(0,0,0,0.5);
-
 }
 
 #splash {
@@ -47,4 +43,46 @@ canvas{
 
 }
 
+#menu-overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    /*background-color: white;*/
+    /*z-index: 100;*/
+}
 
+#menu-box {
+    margin-left: 25%;
+    margin-top: 10%;
+    width: 50%;
+    height: 50%;
+    /*background-color: rgba(0, 255, 153, 0.1);*/
+}
+
+#menu-highscore-table {
+    font-size: 24px;
+    font-family: "Courier New", Courier, monospace;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    /*background-color: rgba(0, 255, 153, 0.2);*/
+}
+
+#menu-highscore-table td, th {
+    padding: 5px;
+    background-color: rgba(0, 255, 153, 0.5);
+    border: 2px solid rgba(0, 255, 153, 0.3);
+}
+
+#menu-highscore-table th {
+    font-weight: bolder;
+}
+
+.menu-highscore-table-nr {
+    width: 120px;
+}
+
+.menu-highscore-table-points {
+    width: 120px;
+}

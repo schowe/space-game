@@ -1,48 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title>SpaceGame</title>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="res/css/style.css" />
+    <link rel="stylesheet" href="res/css/lib/bootstrap.css">
 
     <!-- Javascript -->
-    <script src="res/js/lib/jquery-3.0.0.min.js"></script>
+    <script src="res/js/lib/jquery-2.2.4.min.js"></script>
+    <script src="res/js/lib/bootstrap.min.js"></script>
     <script src="res/js/lib/three.js"></script>
 
     <!-- custom -->
+    <script type="text/javascript" src="app/FileLoader.js"></script>
     <script type="text/javascript" src="res/js/index.js"></script>
 
 </head>
 
 <body>
 
-    <div id="container">
+    <div id="overlay-menu" class="main-menu-overlay">
+        <div class="overlay-header">
 
-        <div id="form-container">
+        </div>
+
+        <div class="overlay-body">
+            <h1>Space Game</h1>
             <form id="form" action="app/game.html" method="GET">
-                <label>Player name:</label>
+                <h2>Player name:</h2>
                 <input type="text" id="player" required/>
+                <br />
                 <button id="formSubmit" type="submit">Start Game</button>
             </form>
         </div>
 
-        <div id="highscore-container">
+        <div class="overlay-footer">
+
+        </div>
+    </div>
+
+
+    <div id="overlay-highscore" class="main-menu-overlay">
+        <div class="overlay-header">
+
+        </div>
+
+        <div class="overlay-body">
             <h1>Highscore</h1>
+
             <table id="highscore">
                 <thead>
-                    <th>#</th>
-                    <th>Player</th>
-                    <th>Points</th>
+                <th>#</th>
+                <th>Player</th>
+                <th>Level</th>
+                <th>Points</th>
                 </thead>
-
                 <tbody>
-
+                <!-- Testdaten -->
+                <tr>
+                    <td>1</td><td>spieler 1</td><td>99</td><td>12127635</td>
+                </tr>
+                <tr>
+                    <td>2</td><td>spieler 2</td><td>83</td><td>12127635</td>
+                </tr>
+                <tr>
+                    <td>3</td><td>spieler 3</td><td>61</td><td>12127635</td>
+                </tr>
+                <tr>
+                    <td>4</td><td>spieler 4</td><td>12</td><td>12127635</td>
+                </tr>
+                <tr>
+                    <td>5</td><td>spieler 5</td><td>2</td><td>12127635</td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="overlay-footer">
+
+        </div>
+        <!--<div id="test"></div>-->
     </div>
 
 </body>

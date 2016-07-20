@@ -11,16 +11,39 @@
 </head>
 <body>
 
-    <!-- Libraries -->
-    <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
-    <script src="../res/js/lib/three.js"></script>
-    <script src="../res/js/lib/PointerLockControls.js"></script>
-    <!-- OrbitControls: 3D-Steuerung -->
-    <!--<script src="../res/js/lib/OrbitControls.js"></script>-->
-    <!-- StereoEffects: Virtual Reality Plugin -->
-    <!--<script src="../res/js/lib/StereoEffect.js"></script>-->
+    <div id="menu-overlay" hidden>
+        <div id="menu-box">
+            <table id="menu-highscore-table">
+                <thead>
+                    <tr>
+                        <th class="menu-highscore-table-nr">#</th>
+                        <th>Player</th>
+                        <th class="menu-highscore-table-points">Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Testdaten -->
+                    <tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">3</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">4</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">5</th><th class="menu-highscore-table-player">ein Mensch</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">6</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">7</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">8</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">9</th><th class="menu-highscore-table-player">niemand</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">10</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+                </tbody>
+            </table>
 
-     <div id="scoreBox">
+
+
+        </div>
+    </div>
+
+
+    <!-- Game Interface -->
+    <div id="scoreBox">
         <div id="score">0</div>
         <div id ="moneyBox">
             €<div id="money">0</div>
@@ -48,17 +71,29 @@
         <div id="currentLevel">0</div>
     </div>
 
+
+
     <div id="block">
         <div id="splash">
             <span style="font-size:40px">Click</span>
         </div>
     </div>
 
+
+
+    <!-- Libraries -->
+    <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
+    <script src="../res/js/lib/three.js"></script>
+    <script src="../res/js/lib/PointerLockControls.js"></script>
+
+    <!-- custom -->
+    <script src="FileLoader.js"></script>
+    <script src="Interface.js"></script>
     <script src="Player.js"></script>
     <script src="World.js"></script>
     <script src="Movement.js"></script>
-    <script src="Interface.js"></script>
-    <script src="core.js"></script>
+    <script src="Core.js"></script>
+
 
 </body>
 </html>
