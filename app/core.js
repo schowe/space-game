@@ -1,6 +1,6 @@
 var container;
 
-var camera, scene, renderer;
+var camera, scene, renderer, clock;
 
 
 
@@ -26,14 +26,11 @@ function init() {
     var player = Player();
     player.init();
     
-    camera = new THREE.TargetCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    //camera.position.y = 400;
-    var euler = new THREE.Euler(-0.5,0,0,'XYZ');
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
     camera.addTarget({
         name:'Target',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,400,0),
-        //cameraRotation: euler,
+        cameraPosition: new THREE.Vector3(0,0,400),        
         fixed: false,
         stiffness: 0.1,
         matchRotation: false
@@ -42,7 +39,7 @@ function init() {
     camera.setTarget('Target');
 
 
-  //  scene.add(camera);
+  
     var light, object;
 
     scene.add( new THREE.AmbientLight( 0x404040 ) );
@@ -51,17 +48,7 @@ function init() {
     light.position.set( 0, 1, 0 );
     scene.add( light );
 
-    /*var map = new THREE.TextureLoader().load( 'textures/UV_Grid_Sm.jpg' );
-    map.wrapS = map.wrapT = THREE.RepeatWrapping;
-    map.anisotropy = 16;
-
-    var material = new THREE.MeshLambertMaterial( { map: map, side: THREE.DoubleSide } );*/
-    //
-
-
-    //sph = new THREE.Mesh( new THREE.SphereGeometry(50,20,20),material);
-    //sph.position.set(0,0,0);
-    //scene.add(sph);
+    
 
 
     
@@ -77,7 +64,7 @@ function init() {
 
 
 
-    object = new THREE.AxisHelper( 100 );
+    object = new THREE.AxisHelper( 1000 );
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
@@ -107,7 +94,7 @@ function init() {
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
-
+    clock = new THREE.Clock();
 }
 
 
@@ -127,12 +114,6 @@ function animate() {
     render();
 }
 
-
-
-
-   // camera.position.x = Math.cos( timer ) * 800;
-   // camera.position.z = Math.sin( timer ) * 800;
-
     camera.lookAt( scene.position );
 
 
@@ -140,8 +121,9 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
-
-    Movement().move();
+    delta = clock.getDelta();
+    Movement().move(delta);
+    //sphere.position.x = ship.position.x;
     camera.update();
     renderer.render( scene, camera );
 

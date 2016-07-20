@@ -11,8 +11,20 @@ var moveDown;
 var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
-var matr = new THREE.Matrix4();
-var relativeCamPos = new THREE.Vector3(0,400,0);
+
+
+
+var mouseX = 0;
+var mouseY = 0;
+var target = new THREE.Vector3(0,0,0);
+
+
+var lat = 0;
+var lon = 0;
+var phi = 0;
+var theta = 0;
+
+
 
 function Movement() {
     
@@ -34,19 +46,17 @@ function Movement() {
                     if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
 
                         controlsEnabled = true;
-                        controls.enabled = true;
-
                         blocker.style.display = 'none';
-                        document.addEventListener("mousemove", this.mouseMove, false);
+                        document.addEventListener('mousemove', moveCallback, false);
+                        console.log("Added Event Listener");
 
-                    } else {
-
-                        controls.enabled = false;
+                    } else {               
 
                         blocker.style.display = '-webkit-box';
                         blocker.style.display = '-moz-box';
                         blocker.style.display = 'box';
-                        document.removeEventListener("mousemove", this.mouseMove, false);
+                        document.removeEventListener('mousemove', moveCallback, false);
+                        console.log("Removed Event Listener");
                         instructions.style.display = '';
 
                     }
@@ -84,7 +94,9 @@ function Movement() {
 
                                 document.removeEventListener('fullscreenchange', fullscreenchange);
                                 document.removeEventListener('mozfullscreenchange', fullscreenchange);
-                                document.removeEventListener("mousemove", this.mouseMove, false);
+                                document.removeEventListener('mousemove', moveCallback, false);
+
+
 
                                 element.requestPointerLock();
                             }
@@ -93,7 +105,8 @@ function Movement() {
 
                         document.addEventListener('fullscreenchange', fullscreenchange, false);
                         document.addEventListener('mozfullscreenchange', fullscreenchange, false);
-                        document.addEventListener("mousemove", this.mouseMove, false);
+                        document.addEventListener('mousemove', moveCallback, false);
+                        console.log("Added Event Listener");
 
                         element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
 
@@ -173,59 +186,60 @@ function Movement() {
 
 
         },
+     
 
 
-        move:function(){
+        move:function(delta) {
 
-            if(moveForward == true && yAxis < 100){
+            if (moveForward == true && yAxis > -100) {
                 yAxis--;
             }
-            if(moveBackward == true && yAxis > -100){
+            if (moveBackward == true && yAxis < 100) {
                 yAxis++;
             }
-            if(moveLeft == true && zAxis < 100){
+            if (moveLeft == true && zAxis < 10) {
                 zAxis++;
             }
-            if(moveRight == true && zAxis > -100){
+            if (moveRight == true && zAxis > -10) {
                 zAxis--;
             }
-            if(moveUp == true && xAxis < 100){
+            if (moveUp == true && xAxis < 10) {
                 xAxis--;
             }
-            if(moveDown == true && xAxis > -100){
+            if (moveDown == true && xAxis > -10) {
                 xAxis++;
             }
-
-            /*matr.set(1,0,0,0,
-                    0,1,0,0,
-                    0,0,1,zAxis/100 * 5,
-                    0,0,0,1);*/
-
-            //ship.position.applyMatrix4(matr);
-            ship.position.x += xAxis/20;
-            ship.position.y += yAxis/20;
-            ship.position.z += zAxis/20;
-
-
-
-            //var desired = new THREE.Vector3()
-
-           // var relativeCamPos = new THREE.Vector3(0,400,0);
-           // var cameraOffset = relativeCamPos.applyMatrix4( ship.matrixWorld );
-          //  camera.lookAt(new THREE.Vector3(0,0,0));
-           // camera.position.x = cameraOffset.x;
-           // camera.position.y = cameraOffset.y;
-          //  camera.position.z = cameraOffset.z;
-
-           // camera.rotation.x = ship.rotation.x;
-           // camera.rotation.y = ship.rotation.y;
-           // camera.rotation.z = ship.rotation.z;
-           // camera.lookAt(ship.position);
-            //console.log("x "+cameraOffset.x+" y "+ cameraOffset.y + " z "+ cameraOffset.z);
+            if (xAxis > 0) {
+                xAxis -= 0.5;
+            } else if (xAxis < 0) {
+                xAxis += 0.5;
+            }
+            if (zAxis > 0) {
+                zAxis -= 0.5;
+            } else if (zAxis < 0) {
+                zAxis += 0.5;
+            }
+            ship.translateZ(yAxis);
+            ship.translateY(-xAxis);
+            ship.translateX(-zAxis);
+            
 
 
+            lon += mouseX;
+            lat -= mouseY;
+            mouseX = 0;
+            mouseY = 0;
+            lat = Math.max(-85, Math.min(85, lat));
+            phi = THREE.Math.degToRad(90 - lat);
+            theta = THREE.Math.degToRad(lon);
 
+            var targetPosition = target;
+            var position = ship.position;
 
+            targetPosition.x = position.x + 100 * Math.sin(phi) * Math.cos(theta);
+            targetPosition.y = position.y + 100 * Math.cos(phi);
+            targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
+            ship.lookAt(targetPosition);
         },
 
         unlockPointer:function(){
@@ -245,15 +259,9 @@ function Movement() {
     }
 }
 
-function mouseMove(e){
-    var movementX = e.movementX ||
-            e.mozMovementX          ||
-            e.webkitMovementX       ||
-            0,
-        movementY = e.movementY ||
-            e.mozMovementY      ||
-            e.webkitMovementY   ||
-            0;
+function moveCallback(event){
+    mouseX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+    mouseY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
 }
 
