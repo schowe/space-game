@@ -13,7 +13,7 @@ body {
 	border-color: black;
 	border-width: 5px;
 	color: yellow;
-	text-align: right;
+	text-align: left;
 	line-height: 26.4px;
 }
 
@@ -95,8 +95,7 @@ body {
 	bottom: 15px;
 	height:20px;
 
-	background-color:black;
-	opacity:0.50;
+	background-color: rgba(0, 0, 0, 0.5);
 
 	border: 1px solid black;
 	border-radius: 10px;
@@ -109,9 +108,10 @@ body {
 }
 
 #hpTextBox{
+	text-shadow: 2px 2px #000000;
 	transform: skewX(-45deg);
 	top:0px;
-	color: white;
+	color: #ffffff;
 	top: 10px;
 	left: 50%;
 	position: fixed;
@@ -210,10 +210,10 @@ body {
 
 #powerUps {
 	position:fixed;
-	width:30%;
 	height:30px;
-	bottom: 11px;
-	right:130px;
+	bottom: 15px;
+	left: 30px;
+	transform: skewX(45deg);
 }
 #icons img{
 	height: 35px;

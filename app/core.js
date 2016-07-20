@@ -58,6 +58,8 @@ function init() {
     world.init();
     var movement = Movement();
     movement.init();
+    setScore(939129391);
+    setMoney(5000);
 
 
     object = new THREE.AxisHelper( 100 );
