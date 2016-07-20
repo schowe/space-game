@@ -207,3 +207,20 @@ body {
 	//display:none;
 	//color:transparent;
 }
+
+#powerUps {
+	position:fixed;
+	width:30%;
+	height:30px;
+	bottom: 11px;
+	right:130px;
+}
+#icons img{
+	height: 35px;
+	width:auto;
+	display:inline;
+	margin-right:20px;
+}
+.unactive {
+	opacity:0.4;
+}
