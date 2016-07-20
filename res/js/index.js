@@ -1,11 +1,10 @@
-$(function() {
+$(function () {
 
     var container;
 
     var camera, scene, renderer, composer;
 
     var spaceship;
-
 
     // start
     init();
@@ -14,30 +13,31 @@ $(function() {
     function init() {
 
         // HTML-Container erzeugen
-        container = document.createElement( 'div' );
-        document.body.appendChild( container );
+        container = document.createElement('div');
+        document.body.appendChild(container);
 
         // Kamera und Szene erzeugen
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2( 0x000000, 0.0005 );
-        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+        scene.fog = new THREE.FogExp2(0x000000, 0.0005);
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
         camera.position.set(12, 15, -20);
         camera.lookAt(scene.position);
 
         // Renderer
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        container.appendChild( renderer.domElement );
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
 
         // Event-Listener für Resize
-        window.addEventListener( 'resize', onWindowResize, false );
+        window.addEventListener("resize", onWindowResize, false);
+        window.addEventListener("mousemove", onMouseMove, false);
 
         // Licht
-        scene.add( new THREE.AmbientLight( 0x404040 ) );
-        var light = new THREE.DirectionalLight( 0xffffff );
-        light.position.set( 3, 6, 0 );
-        scene.add( light );
+        scene.add(new THREE.AmbientLight(0x404040));
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(3, 6, 0);
+        scene.add(light);
 
         // Skybox
         var textureLoader = new THREE.TextureLoader();
@@ -58,7 +58,7 @@ $(function() {
 
         // Spaceship
         var loader = new THREE.JSONLoader();
-        loader.load("res/models/HeroShipV2.json", function(geometry) {
+        loader.load("res/models/HeroShipV2.json", function (geometry) {
             spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "orange"}));
             spaceship.position.set(0, 0, 0);
             scene.add(spaceship);
@@ -76,13 +76,23 @@ $(function() {
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 
+    function onMouseMove(e) {
+        if (e.isTrusted) {
+            var x = Math.abs(e.clientX/window.innerWidth);
+            var y = Math.abs(e.clientY/window.innerHeight);
+            console.log(x+"/"+y);
+
+            // TODO: koordinatensystem anpassen
+            // => abbildung mit 0/0 in der mitte, dann divs abhängig von cursor position verschieben
+        }
     }
 
 
     function animate() {
-        requestAnimationFrame( animate );
+        requestAnimationFrame(animate);
         render();
 
         // animation goes here
@@ -92,20 +102,20 @@ $(function() {
 
     function render() {
         // dont touch!
-        renderer.render( scene, camera );
+        renderer.render(scene, camera);
 
     }
 
     function moveSpaceship() {
         if (spaceship !== undefined) {
-            var time = new Date().getTime()*0.0005;
-            spaceship.position.x = -Math.sin(time)+Math.pow(Math.cos(time), 2);
-            spaceship.position.y = -Math.pow(Math.abs(Math.cos(time))*0.5, 2);
+            var time = new Date().getTime() * 0.0005;
+            spaceship.position.x = -Math.sin(time) + Math.pow(Math.cos(time), 2);
+            spaceship.position.y = -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2);
             spaceship.position.z = Math.sin(time);
 
-            var angle = -Math.sin(time)*0.0015;
+            var angle = -Math.sin(time) * 0.0015;
             spaceship.rotateX(angle);
-            spaceship.rotateZ(angle*0.1);
+            spaceship.rotateZ(angle * 0.1);
         }
     }
 

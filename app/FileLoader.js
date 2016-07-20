@@ -76,15 +76,13 @@ var FileLoader = function() {
     
     // "public" Methoden:
     return {
-        isReady: function() {
-            // gibt true zurück, wenn alle Files geladen wurden
-            return isReady();
-        },
+        isReady: isReady,
         getAll: function() {
             // gibt alle geladenen Dateien zurück
             return isReady() ? loadedFiles : undefined;
         },
         get: function(name) {
+
             return isReady() ? loadedFiles[name] : undefined;
         }
     }
