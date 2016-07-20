@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title>SpaceGame</title>
 
     <link rel="stylesheet" href="../res/css/game.css" />
     <link rel="stylesheet" href="../res/css/gui.css" />
-
+	
 </head>
 <body>
 
@@ -19,25 +20,23 @@
     <!-- StereoEffects: Virtual Reality Plugin -->
     <!--<script src="../res/js/lib/StereoEffect.js"></script>-->
 
-     <div id="pointbox">
+     <div id="scoreBox">
         <div id="score">0</div>
-
-        <div id ="geldbox">
-
-            €<div id="geld">0</div>
+        <div id ="moneyBox">
+            €<div id="money">0</div>
         </div>
     </div>
 
-    <div id ="ammobox">
-        <div id="actualAmmo">60</div>
-        <div id="coolesTrennzeichen">/</div>
+    <div id ="ammoBox">
+        <div id="currentAmmo">60</div>
+        <div id="ammoDivider">/</div>
         <div id="maxAmmo">999</div>
     </div>
 
     <section id="bg1"></section>
     <section id="bg2"></section>
     
-    <div id="hpBox"> </div>
+    <div id="hpBox"></div>
     <div id="hpBoxValue" class="hpGreen"></div>
 
     <div id="speedBar">
@@ -45,8 +44,8 @@
     </div>
 
     <div id="levelDisplay"> 
-        <div id="levelText"> Level </div>
-        <div id="currentLevel"> 0 </div>
+        <div id="levelText">Level</div>
+        <div id="currentLevel">0</div>
     </div>
 
     <div id="block">
@@ -60,8 +59,6 @@
     <script src="Movement.js"></script>
     <script src="Interface.js"></script>
     <script src="core.js"></script>
-
-
 
 </body>
 </html>
