@@ -7,6 +7,8 @@ var maxAsteroidSize = 30;
 var asteroids, enemies, enemy, asteroid, playerPosition,
     worldRadius, radius, i;
 
+
+
 // Sortierfunktion für Bots (Enemies und Asteroids)
 // je naeher am Schiff, desto niedriger der Indize
 function compare(a,b) {
@@ -22,6 +24,11 @@ function compare(a,b) {
     }
 }
 
+
+
+
+
+
 // Asteroidenklasse
 function Asteroid(location,radius, direction, speed) {
     this.direction = speed * direction.normalize();
@@ -32,6 +39,10 @@ function Asteroid(location,radius, direction, speed) {
 Asteroid.prototype.move = function(delta, asteroids, enemies) {
     this.location += delta * direction;
 };
+
+
+
+
 
 // Enemyklasse
 function Enemy(location, speed ,weapon) {
@@ -90,7 +101,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         avoidDir.normalize();
 
         // TODO: je naeher an Gegenstand desto mehr ausweichen
-        avoidImpact = ??
+        avoidImpact = 1;
     } else {
         avoidDir = new Vector3(0,0,0);
         avoidImpact = 0;
@@ -115,6 +126,16 @@ Enemy.prototype.shot = function() {
     // TODO: Für jeden Schuss im Spiel und jeden Gegenstand in der Naehe
     // überprüfe Kollision
     return false;
+}
+
+
+
+
+
+// Reflektiert Asteroiden a und b
+function reflectAsteroids(a,b) {
+    // "Normale" der Reflektion
+    var axis = a.position.sub(b);
 }
 
 
@@ -161,36 +182,6 @@ function farAway(position,size) {
             break;
         }
     }
-}
-
-// aktualisiere Position der Asteroiden und Gegner
-// Setze direction neu
-function updateLocation(delta) {
-
-    // 1. Schritt: Asteroiden und Gegner sortieren
-    asteroids.sort(compare);
-    enemies.sort(compare);
-
-    // 2. Schritt: Ausweichen
-    // Asteroiden haben keine Intelligenz -> Bewegung behalten
-    // Gegner sind intelligent -> allen vor sie liegenden Asteroiden ausweichen
-    //                         -> allen vor sie liegenden Gegnern ausweichen
-    // -> vordere updaten und Richtung des nächsten anhand der neuen Position
-    //    ausrechnen
-
-    // Asteroiden: Bewegung updaten
-    for(asteroid of asteroids) {
-        asteroid.move(delta, asteroids, enemies)
-    }
-
-    // Enemies bewegen
-    // erst ab bestimmter Distanz d_max ausweichen priorisieren
-    // ab d_min auf jeden Fall ausweichen
-    for(enemy of enemies) {
-        enemy.move(delta, asteroid, enemies);
-    }
-
-    location += direction;
 }
 
 
@@ -265,27 +256,34 @@ function createEnemy(level) {
 }
 
 
-// Initialisierer der Bots
-function initAI(level) {
-    // setzen unserer externen Faktoren
-    playerPosition = ?;
-    worldRadius = ?;
+// aktualisiere Position der Asteroiden und Gegner
+// Setze direction neu
+function updateLocation(delta) {
 
-    // erstelle Asteroiden
-    asteroids = [];
+    // 1. Schritt: Asteroiden und Gegner sortieren
+    enemies.sort(compare);
 
-    for(i = 0; i < 5 * level; i++) {
-        asteroid = createAsteroid(level);
-        asteroids.push(asteroid);
+    // 2. Schritt: Ausweichen
+    // Asteroiden haben keine Intelligenz -> Bewegung behalten
+    // Gegner sind intelligent -> allen vor sie liegenden Asteroiden ausweichen
+    //                         -> allen vor sie liegenden Gegnern ausweichen
+    // -> vordere updaten und Richtung des nächsten anhand der neuen Position
+    //    ausrechnen
+
+    // Asteroiden: Bewegung updaten
+    for(asteroid of asteroids) {
+        asteroid.move(delta, asteroids, enemies)
     }
 
-    // erstelle Gegner
-    enemies = [];
+    asteroids.sort(compare);
 
-    for(i =0 ; i < 3 * level; i++) {
-        enemy = createEnemy(level);
-        enemies.push(enemy);
+    // Enemies bewegen
+    // erst ab bestimmter Distanz d_max ausweichen priorisieren
+    // ab d_min auf jeden Fall ausweichen
+    for(enemy of enemies) {
+        enemy.move(delta, asteroid, enemies);
     }
+
 }
 
 // update-Methode, aufzurufen in jedem Durchlauf des Renderers
@@ -302,5 +300,29 @@ function update(delta) {
             enemy.shoot();
             enemy.shootAble = false;
         }
+    }
+}
+
+
+// Initialisierer der Bots je Level
+function initAI(level) {
+    // setzen unserer externen Faktoren
+    playerPosition = Player.getPosition();
+    worldRadius = World.getRadius();
+
+    // erstelle Asteroiden
+    asteroids = [];
+
+    for(i = 0; i < 5 * level; i++) {
+        asteroid = createAsteroid(level);
+        asteroids.push(asteroid);
+    }
+
+    // erstelle Gegner
+    enemies = [];
+
+    for(i =0 ; i < 3 * level; i++) {
+        enemy = createEnemy(level);
+        enemies.push(enemy);
     }
 }
