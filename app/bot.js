@@ -1,13 +1,15 @@
 // Botklasse
 
 var minObstacleDistance = 100;
+var minShipSize = 10;
+var maxShipSize = 20;
+var maxAsteroidSize = 30;
 var asteroids, enemies, enemy, asteroid, playerPosition,
-    worldRadius, radius;
+    worldRadius, radius, i;
 
 // Sortierfunktion für Bots (Enemies und Asteroids)
 // je naeher am Schiff, desto niedriger der Indize
 function compare(a,b) {
-    // bei freier Bewegung: distanceToSquared(playerPosition)
     var distanceA = a.location.distanceToSquared(playerPosition);
     var distanceB = b.location.distanceToSquared(playerPosition)
 
@@ -21,8 +23,9 @@ function compare(a,b) {
 }
 
 // Asteroidenklasse
-function Asteroid(location, direction, speed) {
+function Asteroid(location,radius, direction, speed) {
     this.direction = speed * direction.normalize();
+    this.radius = radius;
     this.location = location;
 };
 
@@ -40,7 +43,7 @@ function Enemy(location, speed ,weapon) {
 };
 
 Enemy.prototype.move = function(delta, asteroids, enemies) {
-    var wrongDir, avoidDir, alpham, shootAble;
+    var wrongDir, avoidDir, alpha, shootAble;
 
     // 1. Schritt: Gehe in Richtung Spieler
     var directionToPlayer = new THREE.Vector3();
@@ -76,12 +79,17 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         // gedreht
         avoidDir = new Vector3(0,0,0);
         avoidDir.sub(wrongDir);
+
+        // TODO: Falls <Asteroid,Schiff> nahe -1 -> alpha auf +- 90°
+        //          ansonsten variabel drehen
         alpha = Math.PI * Math.random() - Math.PI/2;
+
+
         avoidDir.applyAxisAngle(directionToPlayer,alpha);
 
         avoidDir.normalize();
 
-        // je naeher an Gegenstand desto mehr ausweichen
+        // TODO: je naeher an Gegenstand desto mehr ausweichen
         avoidImpact = ??
     } else {
         avoidDir = new Vector3(0,0,0);
@@ -104,7 +112,7 @@ Enemy.prototype.shoot = function() {
 };
 
 Enemy.prototype.shot = function() {
-    // Für jeden Schuss im Spiel und jeden Gegenstand in der Naehe
+    // TODO: Für jeden Schuss im Spiel und jeden Gegenstand in der Naehe
     // überprüfe Kollision
     return false;
 }
@@ -112,7 +120,47 @@ Enemy.prototype.shot = function() {
 
 // Kollisionsueberpruefung und getroffene Ausschalten
 function checkCollisionAndDestroy() {
+    // TODO:
+    // falls Asteroid getroffen:
+    // Asteroid ? -> abstossen
+    // Schiff   ? -> weiterbewegen
+    // Schuss   ? -> explodieren und neu setzen
+
+    // falls Schiff getroffen:
+    // Asteroid, Schiff, Schuss von Gegner ? -> neu setzen
+    // Schuss vom Spieler ? -> explodieren
+
+
+    // gebe "Ueberlebende" zurueck
     return enemies;
+}
+
+// Testet so, dass sich Gegenstaende beim Erzeugen nicht behindern
+function farAway(position,size) {
+    // ueberpruefe Kollision mit Asteroiden
+    // (ausnutzen, dass asteroids sortiert)
+    distance = position.distanceTo(playerPosition);
+
+    var asteroidsLength;
+    for(i = 1; i <= asteroidsLength; i++) {
+        asteroid = asteroids[asteroidsLength - i];
+        var distanceAsteroid = asteroid.position.distanceTo(playerPosition);
+
+        if(distance - size - distanceAsteroid - asteroid.radius < 0) {
+            break;
+        }
+    }
+
+    // ueberpruefe Kollision mit Enemies
+    var enemiesLength;
+    for(i = 1; i <= enemiesLength; i++) {
+        enemy = enemies[enemiesLength - i];
+        var distanceEnemy = enemy.position.distanceTo(playerPosition);
+
+        if(distance - size - distanceEnemy - maxShipSize < 0) {
+            break;
+        }
+    }
 }
 
 // aktualisiere Position der Asteroiden und Gegner
@@ -145,27 +193,11 @@ function updateLocation(delta) {
     location += direction;
 }
 
-// update-Methode, aufzurufen in jedem Durchlauf des Renderers
-function update(delta) {
-    // Spielerposition updaten
-    playerPosition = new THREE.Vector3(0,0,0);
-    // Gegner und Asteroiden updaten
-    updateLocation(delta);
-    // Kollisionsueberpruefung -> zerstoerte Loeschen
-    enemies = checkCollisionAndDestroy(asteroids, enemies);
-    // Schiessen
-    for(enemy of enemies) {
-        if(enemy.shootAble == true) {
-            enemy.shoot();
-            enemy.shootAble = false;
-        }
-    }
-}
 
 // Erschaffe Asteroiden
 function createAsteroid(level) {
     // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
-    radius = worldRadius/6 * (5+Math.random());
+    positionRadius = worldRadius/6 * (5+Math.random());
 
     // zufaellig an den Rand positionieren
     do {
@@ -175,9 +207,10 @@ function createAsteroid(level) {
             Math.sin(beta) * Math.sin(alpha),
             Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
-        asteroidPosition.multiplyScalar(radius);
-    } while(//far away
-        );
+        asteroidPosition.multiplyScalar(positionRadius);
+        // Radius zufaellig, aber mindestens so gross wie Schiff
+        radius = minShipSize + Math.random * (maxAsteroidSize - minShipSize);
+    } while(farAway(asteroidPosition, radius));
 
     // speed abhaengig von Level
     speed = 1;
@@ -212,8 +245,7 @@ function createEnemy(level) {
             Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
         enemyPosition.multiplyScalar(radius);
-    } while(//far away
-        );
+    } while(farAway(enemyPosition, maxShipSize));
 
     // speed abhaengig von Level
     speed = 2;
@@ -235,10 +267,14 @@ function createEnemy(level) {
 
 // Initialisierer der Bots
 function initAI(level) {
+    // setzen unserer externen Faktoren
+    playerPosition = ?;
+    worldRadius = ?;
+
     // erstelle Asteroiden
     asteroids = [];
 
-    for(var i = 0; i < 5 * level; i++) {
+    for(i = 0; i < 5 * level; i++) {
         asteroid = createAsteroid(level);
         asteroids.push(asteroid);
     }
@@ -249,5 +285,22 @@ function initAI(level) {
     for(i =0 ; i < 3 * level; i++) {
         enemy = createEnemy(level);
         enemies.push(enemy);
+    }
+}
+
+// update-Methode, aufzurufen in jedem Durchlauf des Renderers
+function update(delta) {
+    // Spielerposition updaten
+    playerPosition = new THREE.Vector3(0,0,0);
+    // Gegner und Asteroiden updaten
+    updateLocation(delta);
+    // Kollisionsueberpruefung -> zerstoerte Loeschen
+    enemies = checkCollisionAndDestroy(asteroids, enemies);
+    // Schiessen
+    for(enemy of enemies) {
+        if(enemy.shootAble == true) {
+            enemy.shoot();
+            enemy.shootAble = false;
+        }
     }
 }
