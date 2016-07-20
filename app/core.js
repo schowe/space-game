@@ -2,12 +2,14 @@ var container;
 
 var camera, scene, renderer;
 
+var fileLoader = FileLoader();
 var interface = Interface();
 
 // start
-
+while (!fileLoader.isReady()) {
+    // abwarten, bis der FileLoader alle Files geladen hat
+}
 init();
-
 animate();
 
 function init() {
