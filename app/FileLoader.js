@@ -3,6 +3,9 @@ var FileLoader = function() {
 
     // Pfad zu allen Dateien
     var files = [
+        "../res/textures/metall.jpg",
+        "../res/textures/test.jpg",
+        "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/meshes/HeroShipV1.json",
         "../res/meshes/HeroShipV2.json",
@@ -17,10 +20,27 @@ var FileLoader = function() {
     // Status des FileLoaders
     var filesSuccessfullyLoaded = 0;
 
-    // Loader für Texturen und JSON initialisieren
-    var textureLoader = new THREE.TextureLoader();
-    // textureLoader.setCrossOrigin('anonymous');
-    var jsonLoader = new THREE.JSONLoader();
+    function loadJson(file, name) {
+        var jsonLoader = new THREE.JSONLoader();
+        jsonLoader.load(file,
+            function (geometry) {
+                // on success:
+                console.log("got:"+name);
+                loadedFiles[name] = geometry;
+                filesSuccessfullyLoaded += 1;
+            }
+        );
+    }
+
+    function loadJpeg(file, name) {
+        var textureLoader = new THREE.TextureLoader();
+        textureLoader.setCrossOrigin('anonymous');
+        // load texture
+        textureLoader.load(file, function (texture) {
+            loadedFiles[name] = texture;
+            filesSuccessfullyLoaded += 1;
+        });
+    }
     
     // alle gewünschten Files laden
     for (var i = 0; i < files.length; i++) {
@@ -32,18 +52,11 @@ var FileLoader = function() {
         // abhängig vom Dateityp: korrekten Loader auswählen
         switch (type) {
             case "json":
-                jsonLoader.load(file, function (geometry) {
-                    loadedFiles[name] = geometry;
-                    filesSuccessfullyLoaded += 1;
-                });
+                loadJson(file, name);
                 break;
             case "jpg": // no break!
             case "jpeg":
-                // load texture
-                textureLoader.load(file, function (texture) {
-                    loadedFiles[name] = texture;
-                    filesSuccessfullyLoaded += 1;
-                });
+                loadJpeg(file, name);
                 break;
         }
     }
