@@ -2,7 +2,7 @@ $(function() {
 
     var container;
 
-    var camera, scene, renderer;
+    var camera, scene, renderer, composer;
 
     var spaceship;
 
@@ -63,6 +63,13 @@ $(function() {
             spaceship.position.set(0, 0, 0);
             scene.add(spaceship);
         });
+
+        // composer = new THREE.EffectComposer( renderer );
+        // composer.addPass( new THREE.RenderPass( scene, camera ) );
+        //
+        // glitchPass = new THREE.GlitchPass();
+        // glitchPass.renderToScreen = true;
+        // composer.addPass( glitchPass );
 
     }
 

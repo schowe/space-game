@@ -46,12 +46,14 @@ function init() {
     scene.add( object );
 
 
+    var spaceShipModel = fileLoader.get("HeroShipV2");
+
+
 
     /********** Module laden **********/
 
     var player = Player();
     player.init();
-    
     var world = World();
     world.init();
     var movement = Movement();

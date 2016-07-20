@@ -7,12 +7,13 @@ body {
     width: 20%;
     height: 50%;
     margin: 15% 25px 0 25px;
+    text-align: center;
+    border: 2px solid white;
     /*padding: 25px;*/
     /*border: 4px solid orange;*/
     /*border-radius: 25px;*/
     /*background-color: rgba(255, 153, 0, 0.5);*/
-    text-align: center;
-    /*color:white;*/
+    color:white;
 }
 #overlay-menu {
     position: absolute;
@@ -22,6 +23,9 @@ body {
     opacity: 1;
     position: absolute;
     right:0;
+}
+.main-menu-overlay input, button {
+    color: black;
 }
 /*#overlay-highscore table {
     width: 100%;
