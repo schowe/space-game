@@ -4,6 +4,7 @@ var minObstacleDistance = 100;
 var minShipSize = 10;
 var maxShipSize = 20;
 var maxAsteroidSize = 30;
+var guardingRadius = 50;
 var asteroids, enemies, enemy, asteroid, playerPosition,
     worldRadius, radius, i;
 
@@ -23,7 +24,6 @@ function compare(a,b) {
         return 0;
     }
 }
-
 
 
 
@@ -135,8 +135,22 @@ Enemy.prototype.shot = function() {
 
 // Reflektiert Asteroiden a und b
 function reflectAsteroids(a,b) {
-    // "Normale" der Reflektion
-    var axis = a.position.sub(b);
+    var factor;
+
+    // "Normale" der Reflektion (zeigt von a nach b -> "Normale fuer a")
+    var axis = b.position.sub(a);
+    axis.normalize();
+
+    // Reflektion fuer Asteroid a
+    factor = 2 * Math.dot(axis,a.direction)
+    a.direction =  a.direction.multiplyScalar(-1);
+    a.direction += axis.multiplyScalar(factor);
+
+    // Reflektion fuer Asteroid b
+    axis = axis.multiplyScalar(-1);
+    factor = 2 * Math.dot(axis,b.direction);
+    b.direction =  b.direction.multiplyScalar(-1);
+    b.direction += axis.multiplyScalar(factor);
 }
 
 
