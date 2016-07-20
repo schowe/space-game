@@ -120,6 +120,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
 Enemy.prototype.shoot = function() {
     // Schießt von location mit weapon in direction
+    // TODO: Je naeher desto haeufiger
 };
 
 Enemy.prototype.shot = function() {
