@@ -1,36 +1,62 @@
 /**
- * FUNCTIONS FOR HIGHSCORE AND MONEY
+ * FUNCTIONS FOR COUNTER
  */
 
 var counterID;
 
 function startCounter() {
-	counterID = setInterval(function() { addPoints(1); }, 1000);
+	counterID = setInterval(function() { addScore(1); }, 1000);
 }
 
 function stopCounter() {
 	clearInterval(counterID);
 }
 
-function addPoints(value) {
-    var tempscore = document.getElementById('score');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) + parseInt(value);
+/**
+ * FUNCTIONS FOR HIGHSCORE
+ */
+
+var tempScore = document.getElementById('score'); 
+
+function addScore(value) {   
+    tempScore.innerHTML = parseInt(tempScore.innerHTML) + parseInt(value);
 }
 
-function subPoints(value) {
-    var tempscore = document.getElementById('score');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) - parseInt(value);
+function subScore(value) {   
+    tempScore.innerHTML = parseInt(tempScore.innerHTML) - parseInt(value);
 }
 
-function addMoney(value) {
-    var tempscore = document.getElementById('money');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) + parseInt(value);
+function getScore() {
+	return parseInt(tempScore.innerHTML);
 }
 
-function subMoney(value) {
-    var tempscore = document.getElementById('money');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) - parseInt(value);
+function setScore(value) {
+    tempScore.innerHTML = parseInt(value);
 }
+
+/**
+ * FUNCTIONS FOR MONEY	
+ */
+
+var tempMoney = document.getElementById('money'); 
+
+function addMoney(value) {   
+    tempMoney.innerHTML = parseInt(tempMoney.innerHTML) + parseInt(value);
+}
+
+function subMoney(value) {  
+    tempMoney.innerHTML = parseInt(tempMoney.innerHTML) - parseInt(value);
+}
+
+function setMoney(value) {   
+    tempMoney.innerHTML = parseInt(value);
+}
+
+function getMoney() {
+	return parseInt(tempMoney.innerHTML);
+}
+
+
 
 /**
  * FUNCTIONS FOR AMMO
@@ -49,7 +75,7 @@ function reload(){
 		//FEHLERBEHANDLUNG PLS!
 	}else{
 		maxAmmo.innerHTML = parseInt(max.innerHTML)-diff;
-		currentAmmo.innerHTML = ammoWeapon;
+		actual.innerHTML = ammoWeapon;
 	}
 }
 
@@ -57,7 +83,7 @@ function reload(){
 function shot(){
 	var actual = document.getElementById('currentAmmo');
 	if(parseInt(actual.innerHTML)<=0){
-		//FEHLERBEHANDLUNG 
+		//FEHLERBEHANDLUNG PLS!
 		//evtl automatisches reloaden nach upgradekauf
 	}else{
 		actual.innerHTML = parseInt(actual.innerHTML)-ammoPerShot;
@@ -67,7 +93,7 @@ function shot(){
 //zum parameter laden der waffen
 //temp1 = ammo pro magazin
 //temp2 = 
-function switchWeapon(temp1, temp2){
+function switchWeapon(temp1, temp2, name){
 
 	//Speicherung von alten Waffen
 	//Bearbeitungsbedarf!
@@ -86,50 +112,85 @@ function plusAmmo(temp){
  * FUNCTIONS FOR HP
  */
  
-var hpBox = document.getElementById('hpBoxValue');
-var style = window.getComputedStyle(hpBox);
-var currentHP = parseInt(style.getPropertyValue('width'));
- 
+	var maxhp = 200;
+
+	var hpBox = document.getElementById('hpBoxValue');
+	var style = window.getComputedStyle(hpBox);
+	var currentHP = parseInt(style.getPropertyValue('width'));
+
+	var hpBox1 = document.getElementById('hpBox');
+	var style1 = window.getComputedStyle(hpBox1);
+	var maxHpBox = parseInt(style1.getPropertyValue('width'));
+
 function addHP(value) {	
-	var i = 0;
+
+	var i = 1;
+	value = parseInt(value);
+
+	var p = value/maxhp;
+	var anzahlPixel = p * maxHpBox;
+
 	var tempID = setInterval(frame, 1);
 
 	function frame() {
-		if (i < value) {
-			currentHP++;
-			hpBox.style.width = currentHP + "px";
-			if (currentHP == 222) {
-				hpSetColor(1);			
+		if (i <= anzahlPixel) {
+			if(currentHP<maxHpBox){
+				currentHP++;
+				var percent = currentHP/maxHpBox*100;
+				hpBox.style.width = percent + "%";
+				updateHpDisplay(percent);
+				i++;
+				if(percent >= 66.6) {
+					hpSetColor(2);	
+				} else if(percent >= 33.3) {
+					hpSetColor(1);
+				}
 			}
-			if (currentHP == 444) {
-				hpSetColor(2);
-			}
-			i++;
 		} else {
 			clearInterval(tempID);
-		}
+		}				
+			
 	}	
 }
 
+function updateHpDisplay(value){
+	var trueHP = value/100*maxhp;
+
+	var temp = document.getElementById('currentHP'); 
+  
+    temp.innerHTML = parseInt(trueHP);
+}
+
 function subHP(value) {
-	var i = 0;
+	
+	var i = 1;
+	value = parseInt(value);
+
+	var p = value/maxhp;
+	var anzahlPixel = p * maxHpBox;
+
 	var tempID = setInterval(frame, 1);
 
 	function frame() {
-		if (i < value) {
-			currentHP--;
-			hpBox.style.width = currentHP + "px";
-			if (currentHP == 444) {
-				hpSetColor(1);			
+		if (i < anzahlPixel) {
+			if(currentHP>0){
+				currentHP--;
+				var percent = currentHP/maxHpBox*100;
+				hpBox.style.width = percent + "%";
+				updateHpDisplay(percent);
+				i++;
+				if(percent <= 33.3) {
+					hpSetColor(0);	
+				} else if(percent <= 66.6) {
+					hpSetColor(1);
+				}
 			}
-			if (currentHP == 222) {
-				hpSetColor(0);
-			}
-			i++;
 		} else {
+			//GAME OVER MESSAGE
 			clearInterval(tempID);
-		}
-	}	
+		}				
+			
+	}		
 }
 
 function hpSetColor(color) {
