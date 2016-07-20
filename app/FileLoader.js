@@ -1,4 +1,6 @@
 var FileLoader = function() {
+    console.log("FileLoader running ...");
+
     // Pfad zu allen Dateien
     var files = [
         "../res/textures/sky_sphere_map.jpg",
@@ -10,7 +12,6 @@ var FileLoader = function() {
     var loadedFiles = {};
 
     // Status des FileLoaders
-    var totalFiles = files.length;
     var filesSuccessfullyLoaded = 0;
 
     // Loader für Texturen und JSON initialisieren
@@ -43,10 +44,12 @@ var FileLoader = function() {
                 break;
         }
     }
+
+    console.log("FileLoader done.");
     
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden
-        return (filesSuccessfullyLoaded == totalFiles);
+        return (filesSuccessfullyLoaded == files.length);
     }
     
     // "public" Methoden:

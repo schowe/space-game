@@ -2,15 +2,17 @@ var container;
 
 var camera, scene, renderer;
 
-// var fileLoader = FileLoader();
-var interface = Interface();
+var fileLoader;
+var interface;
 
-// start
-// while (!fileLoader.isReady()) {
-//     // abwarten, bis der FileLoader alle Files geladen hat
-// }
-init();
-animate();
+$(function() {
+    fileLoader = FileLoader();
+    interface = Interface();
+
+    init();
+    animate();
+});
+
 
 function init() {
     
@@ -81,7 +83,6 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
-
 
 
 function animate() {
