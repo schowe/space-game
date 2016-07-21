@@ -58,8 +58,9 @@ function init() {
     world.init();
     var movement = Movement();
     movement.init();
-	subHP(199);
-
+	subHP(150);
+	addHP(100);
+	
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
     scene.add( object );

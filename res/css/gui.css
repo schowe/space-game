@@ -110,9 +110,8 @@ body {
 #hpTextBox{
 	text-shadow: 2px 2px #000000;
 	transform: skewX(-45deg);
-	top:0px;
 	color: #ffffff;
-	top: 10px;
+	bottom: 33%;
 	left: 50%;
 	position: fixed;
 	text-align: center;
@@ -158,6 +157,7 @@ body {
 	transform: skewX(45deg);
 	color: yellow;
 	font-size: 30px;
+	bottom: 18%;
 	right: 60px;
 	text-align: right;
 }

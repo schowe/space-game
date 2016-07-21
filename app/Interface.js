@@ -117,30 +117,26 @@ function plusAmmo(temp){
  
 	var maxHP = 200;
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
+	var hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
+	var currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
 	var hpBoxMax = document.getElementById('hpBox');
-
+	var hpBoxMStyle = window.getComputedStyle(hpBoxMax);
+	var maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
+	
 /* Increases HP by @value */
 function addHP(value) {
 	var i = 0;
 	var ticks = 100;
 	value = parseInt(value + 0.5);
-	
-	var temp = window.getComputedStyle(hpBoxCurrent);
-	// Current HP in pixel
-	var currentHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	temp = window.getComputedStyle(hpBoxMax);
-	// Max HP in pixel
-	var maxHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	// Amount of pixels per tick
-	var pxTick = value / maxHP * maxHPpx / ticks;
 	var tempID = setInterval(frame, 10);
 	
 	function frame() {
 		
 		if(i < ticks) {
-			// TODO: < MaxHP	
+			// TODO: < MaxHP
+	
+			// Amount of pixels per tick
+			var pxTick = value / maxHP * maxHPpx / ticks;
 		
 			currentHPpx += pxTick;
 			// Change the HP bar width
@@ -163,23 +159,15 @@ function subHP(value) {
 	var i = 0;
 	var ticks = 100;
 	value = parseInt(value + 0.5);
-	
-	var temp = window.getComputedStyle(hpBoxCurrent);
-	// Current HP in pixel
-	var currentHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	temp = window.getComputedStyle(hpBoxMax);
-	// Max HP in pixel
-	var maxHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	// Amount of pixels per tick
-	var pxTick = value / maxHP * maxHPpx / ticks;
 	var tempID = setInterval(frame, 10);
 	
 	function frame() {
 		
 		if(i < ticks) {
 			// TODO: > 0 HP
+			
+			// Amount of pixels per tick
+			var pxTick = value / maxHP * maxHPpx / ticks;
 			
 			currentHPpx -= pxTick;
 			// Change the HP bar width
@@ -203,9 +191,9 @@ function setHP(value) {
 }
 
 /* Returns HP */
-function getHP() {
-	//var 
-}
+//function getHP() {
+	
+//}
 
 /* Sets maxHP to @value */
 function setMaxHP(value) {
@@ -261,12 +249,7 @@ function updateLevel () {
 var maxSpeed = 100;
 
 /* Sets the displayed speed value and bar to @newSpeed */
-function setSpeed(newSpeed) {
-	
-	if(newSpeed >= maxSpeed) {
-		// TODO: Error - Illegal Value
-	}
-	
+function setSpeed(newSpeed) {	
 	// Set height of the speed bar
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
@@ -314,7 +297,6 @@ function setPowerUp(powerUp, removeOrAdd) {
 	if (removeOrAdd == 0) {
 		icon.classList.add('unactive');
 	}
-
 }
 
 /**
