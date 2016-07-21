@@ -31,8 +31,13 @@ var Interface = function() {
 function interfaceInit(){
 	setMaxHP(100);
 	setHP(100);
+	hpRemake(getMaxHP()+30,getHP());
 }
 
+function hpRemake(value1,value2){
+	setMaxHP(value1);
+	setHP(value2);
+}
 
 /**
  * FUNCTIONS FOR HIGHSCORE
@@ -182,24 +187,36 @@ function changeHP(value){
 
 	var i = 0;
 
-	var ticks = 100;
+	var ticks = 200;
 	value = parseInt(value + 0.5);
 
 	// Amount of pixels per tick
-	var pxTick = value / maxHP * maxHPpx / ticks;
+	var pxTick = Math.abs(value) / maxHP * maxHPpx / ticks;
 
-	var tempID = setInterval(frame, 10);
+	var tempID = setInterval(frame, 1);
 	
 	function frame() {
 		
 		if(i < ticks) {
 
-			if(currentHPpx>maxHPpx||currentHPpx<0){
-				checkStuff();
+			if(currentHPpx>maxHPpx){
+				currentHPpx=maxHPpx;
+				currentHP=maxHP;
+				updateHpBar(currentHPpx);
+				updateHPDisplay(currentHP);
 				clearInterval(tempID);
-				return;
+			}else if(currentHP<=0){
+				gameOver();
+				//funktioniert so :)
+			}else{
+
+			if(value<0){
+				currentHPpx -= pxTick;
+			}else
+			{
+				currentHPpx += pxTick;
 			}
-			currentHPpx += pxTick;
+
 			// Change the HP bar width
 			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';	
 
@@ -209,8 +226,8 @@ function changeHP(value){
 			hpSetColor(currentHP);
 			
 			i++;
-			//document.write('D');
-			
+
+			}
 		} else {
 			checkStuff();
 			clearInterval(tempID);
@@ -218,16 +235,17 @@ function changeHP(value){
 	}
 
 	function checkStuff(){
-		if(value<0){
-			setHP(getHP()-1);
-		}
-		if(getHP()<=0){
+		
+		if(currentHP<=0){
 			
 		}
 	}
 
 }
 
+function gameOver(){
+
+}
 
 /* Sets HP to @value */
 function setHP(value) {
@@ -298,10 +316,12 @@ function updateLevel () {
  */
  
 var maxSpeed = 100;
+var faktor = 4.04;
 
 /* Sets the displayed speed value and bar to @newSpeed */
 function setSpeed(newSpeed) {	
 	// Set height of the speed bar
+
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
 	
@@ -310,12 +330,23 @@ function setSpeed(newSpeed) {
 	speedBox.style.background = '#FF' + padHex(temp.toString(16)) + '00';
 
 	// Set the displayed speed value
-	document.getElementById('speedValue').innerHTML = parseInt(newSpeed + 0.5);
+
+	var temp = document.getElementById('speedValue');
+	temp.innerHTML = parseInt(newSpeed*faktor + 0.5) + "" + parseInt(Math.random() * 10);
+
+	if(parseInt(temp.innerHTML) >= maxSpeed * faktor * 10 -10) {
+		//temp.innerHTML = maxSpeed * faktor * 10;
+		temp.innerHTML = 42;
+	}
+
+	if(parseInt(temp.innerHTML) < 10){
+		temp.innerHTML = 0;
+	}
 }
 
 /* Sets maxSpeed to @newMaxSpeed */
 function setMaxSpeed(newMaxSpeed) {
-	maxSpeed = parseInt(newMaxSpeed);
+	maxSpeed = parseInt(newMaxSpeed*1.2);
 }
 
 /**
