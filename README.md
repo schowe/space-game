@@ -11,7 +11,7 @@ Dieses Spiel wird in JavaScript mit three.js entwickelt. Teilweise wird auch mit
 
 Um das Spiel zu starten muss ein HTTP-Server laufen:
 
-1. im Basisordner des Projektes folgende Zeile in der Konsole ausführen: `python -m SimpleHTTPServer 8080`
+1. im Basisordner des Projektes folgende Zeile in der Konsole ausführen (Python 2.7, sonst siehe unten!): `python -m SimpleHTTPServer 8080`
 2. Webbrowser öffnen und folgende Adresse aufrufen: `http://localhost:8080`
 3. Läuft!
 4. Server beenden mit `Strg+C` in der Konsole
@@ -21,6 +21,10 @@ Alternativ: Skript benutzen
 1. (einmalig) Ausführberechtigungen für das Skript: `chmod +x start_server`
 2. im Basisordner Skript ausführen mit `./start_server`
 3. ... wie oben
+
+Befehl für Python 3.x:
+
+`python3 -m http.server`
 
 
 # Ordnerstruktur
