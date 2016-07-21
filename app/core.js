@@ -22,9 +22,6 @@ function init() {
     document.body.appendChild( container );
 
 
-
-
-
     scene = new THREE.Scene();
     // Beispiel-Code ...
     var player = Player();
@@ -41,10 +38,6 @@ function init() {
     });
 
     camera.setTarget('Target');
-
-
-  
-
 
 
 
