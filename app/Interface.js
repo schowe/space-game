@@ -29,37 +29,66 @@ var Interface = function() {
 };
 
 /**
- * FUNCTIONS FOR HIGHSCORE AND MONEY
+ * FUNCTIONS FOR HIGHSCORE
  */
 
-var counterID;
+var scoreCounterID;
+var scoreReference = document.getElementById('score'); 
 
-function startCounter() {
-	counterID = setInterval(function() { addPoints(1); }, 1000);
+/* Starts the passive score counter */
+function startScoreCounter() {
+	scoreCounterID = setInterval(function() { addScore(1); }, 1000);
 }
 
-function stopCounter() {
-	clearInterval(counterID);
+/* Stops the passive score counter */
+function stopScoreCounter() {
+	clearInterval(scoreCounterID);
 }
 
-function addPoints(value) {
-    var tempscore = document.getElementById('score');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) + parseInt(value);
+/* Increases the score by @value */
+function addScore(value) {   
+    scoreReference.innerHTML = parseInt(scoreReference.innerHTML) + parseInt(value);
 }
 
-function subPoints(value) {
-    var tempscore = document.getElementById('score');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) - parseInt(value);
+/* Decreases the score by @value */
+function subScore(value) {   
+    scoreReference.innerHTML = parseInt(scoreReference.innerHTML) - parseInt(value);
 }
 
-function addMoney(value) {
-    var tempscore = document.getElementById('money');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) + parseInt(value);
+/* Sets the current score to @value */
+function setScore(value) {
+    scoreReference.innerHTML = parseInt(value);
 }
 
-function subMoney(value) {
-    var tempscore = document.getElementById('money');    
-    tempscore.innerHTML = parseInt(tempscore.innerHTML) - parseInt(value);
+/* Returns the current score */
+function getScore() {
+	return parseInt(scoreReference.innerHTML);
+}
+
+/**
+ * FUNCTIONS FOR MONEY	
+ */
+
+var moneyReference = document.getElementById('money'); 
+
+/* Increases the amount of money by @value */
+function addMoney(value) {   
+    moneyReference.innerHTML = parseInt(moneyReference.innerHTML) + parseInt(value);
+}
+
+/* Increases the amount of money by @value */
+function subMoney(value) {  
+    moneyReference.innerHTML = parseInt(moneyReference.innerHTML) - parseInt(value);
+}
+
+/* Sets the current amount of money to @value */
+function setMoney(value) {   
+    moneyReference.innerHTML = parseInt(value);
+}
+
+/* Returns the current amount of money */
+function getMoney() {
+	return parseInt(moneyReference.innerHTML);
 }
 
 /**
@@ -79,7 +108,7 @@ function reload(){
 		//FEHLERBEHANDLUNG PLS!
 	}else{
 		maxAmmo.innerHTML = parseInt(max.innerHTML)-diff;
-		currentAmmo.innerHTML = ammoWeapon;
+		actual.innerHTML = ammoWeapon;
 	}
 }
 
@@ -87,7 +116,7 @@ function reload(){
 function shot(){
 	var actual = document.getElementById('currentAmmo');
 	if(parseInt(actual.innerHTML)<=0){
-		//FEHLERBEHANDLUNG 
+		//FEHLERBEHANDLUNG PLS!
 		//evtl automatisches reloaden nach upgradekauf
 	}else{
 		actual.innerHTML = parseInt(actual.innerHTML)-ammoPerShot;
@@ -97,7 +126,7 @@ function shot(){
 //zum parameter laden der waffen
 //temp1 = ammo pro magazin
 //temp2 = 
-function switchWeapon(temp1, temp2){
+function switchWeapon(temp1, temp2, name){
 
 	//Speicherung von alten Waffen
 	//Bearbeitungsbedarf!
@@ -116,64 +145,127 @@ function plusAmmo(temp){
  * FUNCTIONS FOR HP
  */
  
-var hpBox = document.getElementById('hpBoxValue');
-var style = window.getComputedStyle(hpBox);
-var currentHP = parseInt(style.getPropertyValue('width'));
- 
-function addHP(value) {	
-	var i = 0;
-	var tempID = setInterval(frame, 1);
+	var maxHP = 200;
+	var hpBoxCurrent = document.getElementById('hpBoxValue');
+	var hpBoxMax = document.getElementById('hpBox');
 
+/* Increases HP by @value */
+function addHP(value) {
+	var i = 0;
+	var ticks = 100;
+	value = parseInt(value + 0.5);
+	
+	var temp = window.getComputedStyle(hpBoxCurrent);
+	// Current HP in pixel
+	var currentHPpx = parseInt(temp.getPropertyValue('width'));
+	
+	temp = window.getComputedStyle(hpBoxMax);
+	// Max HP in pixel
+	var maxHPpx = parseInt(temp.getPropertyValue('width'));
+	
+	// Amount of pixels per tick
+	var pxTick = value / maxHP * maxHPpx / ticks;
+	var tempID = setInterval(frame, 10);
+	
 	function frame() {
-		if (i < value) {
-			currentHP++;
-			hpBox.style.width = currentHP + "px";
-			if (currentHP == 222) {
-				hpSetColor(1);			
-			}
-			if (currentHP == 444) {
-				hpSetColor(2);
-			}
+		
+		if(i < ticks) {
+			// TODO: < MaxHP	
+		
+			currentHPpx += pxTick;
+			// Change the HP bar width
+			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';
+
+			// Update displayed HP and color
+			var currentHP = currentHPpx / maxHPpx * maxHP;			
+			updateHPDisplay(currentHP);
+			hpSetColor(currentHP);
+			
 			i++;
 		} else {
 			clearInterval(tempID);
 		}
-	}	
-}
+	}
+}	
 
+/* Decreases HP by @value */
 function subHP(value) {
 	var i = 0;
-	var tempID = setInterval(frame, 1);
-
+	var ticks = 100;
+	value = parseInt(value + 0.5);
+	
+	var temp = window.getComputedStyle(hpBoxCurrent);
+	// Current HP in pixel
+	var currentHPpx = parseInt(temp.getPropertyValue('width'));
+	
+	temp = window.getComputedStyle(hpBoxMax);
+	// Max HP in pixel
+	var maxHPpx = parseInt(temp.getPropertyValue('width'));
+	
+	// Amount of pixels per tick
+	var pxTick = value / maxHP * maxHPpx / ticks;
+	var tempID = setInterval(frame, 10);
+	
 	function frame() {
-		if (i < value) {
-			currentHP--;
-			hpBox.style.width = currentHP + "px";
-			if (currentHP == 444) {
-				hpSetColor(1);			
-			}
-			if (currentHP == 222) {
-				hpSetColor(0);
-			}
+		
+		if(i < ticks) {
+			// TODO: > 0 HP
+			
+			currentHPpx -= pxTick;
+			// Change the HP bar width
+			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';
+			
+			// Update displayed HP and color
+			var currentHP = currentHPpx / maxHPpx * maxHP;
+			updateHPDisplay(currentHP);
+			hpSetColor(currentHP);
+
 			i++;
 		} else {
 			clearInterval(tempID);
 		}
-	}	
+	}
 }
 
-function hpSetColor(color) {
-	if (color == 0) {
-		hpBox.classList.remove("hpOrange");	
-		hpBox.classList.add("hpRed");			
-	} else if (color == 1) {
-		hpBox.classList.remove("hpRed");	
-		hpBox.classList.remove("hpGreen");	
-		hpBox.classList.add("hpOrange");	
-	} else if (color == 2) {
-		hpBox.classList.remove("hpOrange");	
-		hpBox.classList.add("hpGreen");
+/* Sets HP to @value */
+function setHP(value) {
+	// TODO
+}
+
+/* Returns HP */
+function getHP() {
+	//var 
+}
+
+/* Sets maxHP to @value */
+function setMaxHP(value) {
+	maxHP = parseInt(value + 0.5);
+	// TODO
+}
+
+/* Returns maxHP */
+function getMaxHP() {
+	return maxHP;
+}
+
+/* Sets the HP bar to a calculated color-gradient. */
+function hpSetColor(currentHP) {
+	
+	if(currentHP <= (maxHP / 2)) {
+		// Color gradient in hex from 0% to 50%
+		var temp = parseInt((510 * currentHP / maxHP) + 0.5);
+		hpBoxCurrent.style.background = '#FF' + padHex(temp.toString(16)) + '00';
+	} else {
+		// Color gradient in hex from 50% to 100%
+		var temp = parseInt(255.5 - 255 * (2 * currentHP / maxHP - 1));
+		hpBoxCurrent.style.background = '#' + padHex(temp.toString(16)) + 'FF00';
 	}
+}
+
+/* Updates the displayed HP */
+function updateHPDisplay(currentHP) {
+	var temp = document.getElementById('currentHP');
+	temp.innerHTML = parseInt(currentHP + 0.5);
 }
 
 /**
@@ -184,21 +276,87 @@ var currentLevel = 0;
 
 function updateLevel () {
 	currentLevel = parseInt(currentLevel) + 1;
-	var levelText = document.getElementById("levelDisplay");
-	document.getElementById("currentLevel").innerHTML = currentLevel;
-	//levelText.style.display = "visible";
-	levelText.style.color = "purple";
-	//setTimeout(function(){ levelText.style.display = "none"; }, 3500);
-	setTimeout(function(){ levelText.style.color = "transparent"; }, 2500);
+	var levelText = document.getElementById('levelDisplay');
+	document.getElementById('currentLevel').innerHTML = currentLevel;
+	//levelText.style.display = 'visible';
+	levelText.style.color = 'purple';
+	//setTimeout(function(){ levelText.style.display = 'none'; }, 3500);
+	setTimeout(function(){ levelText.style.color = 'transparent'; }, 2500);
 }
 
 /**
  * FUNCTIONS FOR SPEED
  */
  
-var maxSpeed = 230;
+var maxSpeed = 100;
 
-function updateSpeed (newSpeed) {
-	var speedBox = document.getElementById("speedBarValue");	
-	speedBox.style.height = 100 - (parseInt(newSpeed) / maxSpeed) * 100 + "%";
+/* Sets the displayed speed value and bar to @newSpeed */
+function setSpeed(newSpeed) {
+	
+	if(newSpeed >= maxSpeed) {
+		// TODO: Error - Illegal Value
+	}
+	
+	// Set height of the speed bar
+	var speedBox = document.getElementById('speedBarValue');	
+	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
+	
+	// Set the color of the speed bar
+	var temp = parseInt(255.5 - Number(newSpeed) / maxSpeed * 255);
+	speedBox.style.background = '#FF' + padHex(temp.toString(16)) + '00';
+
+	// Set the displayed speed value
+	document.getElementById('speedValue').innerHTML = parseInt(newSpeed + 0.5);
+}
+
+/* Sets maxSpeed to @newMaxSpeed */
+function setMaxSpeed(newMaxSpeed) {
+	maxSpeed = parseInt(newMaxSpeed);
+}
+
+/**
+ * FUNCTIONS FOR POWERUPS
+ */
+ 
+function setPowerUp(powerUp, removeOrAdd) {
+/* mit Platzhalterelementen */
+	var icon;
+	switch(powerUp) {
+		case 1:
+			icon = document.getElementById('one');
+			break;	
+		case 2:
+			icon = document.getElementById('two');
+			break;
+		case 3:
+			icon = document.getElementById('three');
+			break;
+
+		case 4: 
+			icon = document.getElementById('four');
+			break;
+		default:
+	}
+
+	if (removeOrAdd == 1) {
+		icon.classList.remove('unactive');
+	}
+	if (removeOrAdd == 0) {
+		icon.classList.add('unactive');
+	}
+
+}
+
+/**
+ * MISC FUNCTIONS
+ */
+ 
+/* Pads @hex if it is shorter than 2 digits */
+function padHex(hex) {
+	
+	while(hex.length < 2) {
+		hex = '0' + hex;
+	}
+	
+	return hex;
 }
