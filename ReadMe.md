@@ -2,7 +2,7 @@
 
 ##Score Funktionen:
 
-	_Score Counter erhöht Score passiv um 1_
+	*Score Counter erhöht Score passiv um 1*
 	startScoreCounter();
 	
 	stopScoreCounter();
