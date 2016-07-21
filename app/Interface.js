@@ -125,7 +125,7 @@ function shot(){
 
 //zum parameter laden der waffen
 //temp1 = ammo pro magazin
-//temp2 = 
+//temp2 = ammo per shot
 function switchWeapon(temp1, temp2, name){
 
 	//Speicherung von alten Waffen
@@ -147,7 +147,12 @@ function plusAmmo(temp){
  
 	var maxHP = 200;
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
+	var hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
+	var currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
+	
 	var hpBoxMax = document.getElementById('hpBox');
+	var hpBoxMStyle = window.getComputedStyle(hpBoxMax);
+	var maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
 
 /* Increases HP by @value */
 function addHP(value) {
@@ -155,26 +160,23 @@ function addHP(value) {
 	var ticks = 100;
 	value = parseInt(value + 0.5);
 	
-	var temp = window.getComputedStyle(hpBoxCurrent);
-	// Current HP in pixel
-	var currentHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	temp = window.getComputedStyle(hpBoxMax);
-	// Max HP in pixel
-	var maxHPpx = parseInt(temp.getPropertyValue('width'));
-	
 	// Amount of pixels per tick
 	var pxTick = value / maxHP * maxHPpx / ticks;
+
 	var tempID = setInterval(frame, 10);
+
+	//document.write('F');
 	
 	function frame() {
 		
 		if(i < ticks) {
-			// TODO: < MaxHP	
-		
+			if(currentHPpx>maxHPpx){
+				clearInterval(tempID);
+				return;
+			}
 			currentHPpx += pxTick;
 			// Change the HP bar width
-			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';
+			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';	
 
 			// Update displayed HP and color
 			var currentHP = currentHPpx / maxHPpx * maxHP;			
@@ -182,7 +184,11 @@ function addHP(value) {
 			hpSetColor(currentHP);
 			
 			i++;
+
+			//document.write('D');
+			
 		} else {
+			//document.write('E');
 			clearInterval(tempID);
 		}
 	}
@@ -194,13 +200,6 @@ function subHP(value) {
 	var ticks = 100;
 	value = parseInt(value + 0.5);
 	
-	var temp = window.getComputedStyle(hpBoxCurrent);
-	// Current HP in pixel
-	var currentHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	temp = window.getComputedStyle(hpBoxMax);
-	// Max HP in pixel
-	var maxHPpx = parseInt(temp.getPropertyValue('width'));
 	
 	// Amount of pixels per tick
 	var pxTick = value / maxHP * maxHPpx / ticks;
@@ -209,18 +208,23 @@ function subHP(value) {
 	function frame() {
 		
 		if(i < ticks) {
-			// TODO: > 0 HP
-			
+			if(currentHPpx<=0){
+				//TODO: GameOver
+				clearInterval(tempID);
+				return;
+			}
+
 			currentHPpx -= pxTick;
 			// Change the HP bar width
 			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';
-			
+		
 			// Update displayed HP and color
 			var currentHP = currentHPpx / maxHPpx * maxHP;
 			updateHPDisplay(currentHP);
 			hpSetColor(currentHP);
 
 			i++;
+			
 		} else {
 			clearInterval(tempID);
 		}
@@ -240,7 +244,6 @@ function getHP() {
 /* Sets maxHP to @value */
 function setMaxHP(value) {
 	maxHP = parseInt(value + 0.5);
-	// TODO
 }
 
 /* Returns maxHP */
@@ -291,12 +294,7 @@ function updateLevel () {
 var maxSpeed = 100;
 
 /* Sets the displayed speed value and bar to @newSpeed */
-function setSpeed(newSpeed) {
-	
-	if(newSpeed >= maxSpeed) {
-		// TODO: Error - Illegal Value
-	}
-	
+function setSpeed(newSpeed) {	
 	// Set height of the speed bar
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';

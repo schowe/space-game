@@ -79,7 +79,7 @@ function init() {
     world.init();
     var movement = Movement();
     movement.init();
-	subHP(190);
+	subHP(50);
 
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
@@ -110,7 +110,6 @@ function init() {
 
 
 
-    subHP (500); //HP Bar Beispiel
 
 
 
@@ -126,8 +125,6 @@ function init() {
 
 
     window.onkeydown = onKeyDown;
-
-
 
 }
 
