@@ -1,4 +1,4 @@
-// The collision has to be initialized with an array containing all objects/meshes
+// The Collision has to be initialized with an array containing all objects/meshes
 // that should be able to collide/intersect with another object/mesh.
 
 
@@ -120,6 +120,65 @@ function Collision(_collidableMeshList) {
 
         // if the distance is smaller than the radius of the sphere there is an intersection
         return distance < sphere.geometry.parameters.radius;
+    }
+
+    // CHecks if there is an intersection between a sphere and a cylinder.
+    // Appoximates the cylinder as a box
+    function intersectSphereCylinder(sphere, cylinder) {
+
+        // approximate the cylinder as a box
+        var hitBox = cylinderAsBox(cylinder);
+
+        // check intersection
+        var isIntersect = intersectSphereBox(sphere, hitBox);
+        hitBox = undefined;
+
+        if(isIntersect) {
+            console.log("Collision");
+            collisionSuccess(sphere);
+        }
+
+        return isIntersect;
+
+    }
+
+    // CHecks if there is an intersection between a box and a cylinder.
+    // Appoximates the cylinder as a box
+    function intersectBoxCylinder(box, cylinder) {
+
+        // approximate the cylinder as a box
+        var hitBox = cylinderAsBox(cylinder);
+
+        // check intersection
+        var isIntersect = intersectBoxBox(box, hitBox);
+        hitBox = undefined;
+
+        if(isIntersect) {
+            console.log("Collision");
+            collisionSuccess(box);
+        }
+
+        return isIntersect;
+
+    }
+
+    // Approximates a cylinder with a box
+    function cylinderAsBox(cylinder) {
+
+        // parameters for the box
+        var x = cylinder.geometry.parameters.radiusTop * 2;
+        var y = cylinder.geometry.parameters.height;
+        var z = cylinder.geometry.parameters.radiusTop * 2;
+
+        // initialize box
+        var boxGeometry = new THREE.BoxGeometry(x,y,z);
+        var boxMaterial = new THREE.MeshBasicMaterial({ color:0x00FF00 });
+        var hitBox = new THREE.Mesh(boxGeometry, boxMaterial);
+
+        // transform box to the position of the cylinder
+        hitBox.applyMatrix(cylinder.matrix);
+
+        return hitBox;
     }
 
 
