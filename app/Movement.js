@@ -197,12 +197,15 @@ function Movement() {
 
 
         move:function(delta) {
-
+            setMaxSpeed(20);
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
+                setSpeed(-yAxis);
             }
             if (moveBackward == true && yAxis < maxVel) {
                 yAxis++;
+                setSpeed(-yAxis);
+
             }
             if (moveLeft == true && zAxis < maxDrift) {
                 zAxis++;
