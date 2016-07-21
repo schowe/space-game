@@ -10,7 +10,8 @@ function Player() {
         init: function() {
             var material = new THREE.MeshBasicMaterial();
             ship = new THREE.Mesh( new THREE.BoxGeometry( 100, 100, 100), material );
-            ship.position.set( 0, 0, 0 );            
+            ship.position.set( 0, 0, 0 );   
+            calculateDirection(ship);          
             scene.add( ship );
 
         }    
@@ -30,7 +31,7 @@ function calculateDirection (box){
     backVector.z = maxZ(ship);
 
     directionVector = frontVector.sub(backVector); 
-    direction.normalize(); 
+    directionVector.normalize(); 
     console.log(directionVector); 
 
 }
