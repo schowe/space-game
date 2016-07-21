@@ -77,6 +77,7 @@ function init() {
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
+    
     var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
@@ -89,8 +90,22 @@ function init() {
     world.init();
     var movement = Movement();
     movement.init();
+    interfaceInit();
     
-	subHP(190);
+
+    object = new THREE.AxisHelper( 100 );
+    object.position.set( 0, 0, 0 );
+    scene.add( object );
+
+   /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
+    object.position.set( 400, 0, -200 );
+    scene.add( object ); */
+
+    //
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
 
    /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
@@ -104,7 +119,6 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 
-
     /********** Input **********/
     
     // Szene in DOM einsetzen
@@ -116,8 +130,6 @@ function init() {
 
 
     window.onkeydown = onKeyDown;
-
-
 
 }
 
