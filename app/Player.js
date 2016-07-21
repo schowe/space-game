@@ -6,7 +6,7 @@ function Player() {
     return {
         init: function() {
             
-             var geometry = fileLoader.get("HeroShipV2");
+             var geometry = fileLoader.get("HeroShipV4");
             
             
 
