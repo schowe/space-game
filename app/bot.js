@@ -1,4 +1,7 @@
 // Botklasse
+// TODO: In Bot mit Spieler als Ursprung rechnen
+// TODO: Operator Overloading entfernen
+// TODO: Eigene MATH-Klasse konstruieren, die 3JS erleichtert
 
 var minObstacleDistance = 100;
 var minShipSize = 10;
@@ -42,6 +45,10 @@ Asteroid.prototype.move = function(delta, asteroids, enemies) {
     this.location += delta * direction;
 };
 
+Asteroid.prototype.onCollisionDetect(other) {
+    // TODO: aufspalten in Dreiecke mit reflektiertem Winkel
+}
+
 
 
 
@@ -57,9 +64,12 @@ function Enemy(location, speed ,weapon) {
 };
 
 Enemy.prototype.move = function(delta, asteroids, enemies) {
-    var wrongDir, avoidDir, alpha, shootAble;
+    var wrongDir, avoidDir, alpha, shootAble, d, distanceToShip;
 
     // 0. Schritt: TODO: Checke ob auf Bezierkurve oder nicht
+
+    // Achte darauf, dass sich der Spieler nicht um mehr als 90° zur
+    // urspruenglichen Richtung gedreht hat
 
     // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
     var directionToPlayer = new THREE.Vector3();
@@ -74,7 +84,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     // 2. Schritt: Ueberpruefe, ob dem Spieler zu nahe geraten
     if(distanceToPlayer < minDistanceToPlayer) {
-
+            // fliege in Bezierkurve hinter den Flieger
+            // setze Idealrichtung als Richtung zu naechstem Punkt auf der Kurve
     } else {
         // Gelange hinter dem Spieler:
         // berechne Bezierkurve und setze flag onBezier = true
@@ -85,93 +96,112 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     var obstacles = [];
     var possibleObstacle = false;
 
-    for(asteroid of asteroids) {
-        if() { // nahe (in Bezug auf Distanz zum Player)
-            // setze einen switchen
-            if() { // nahe an this
+    // Setze, da Abstand nach vorne wichtiger, Schiff voruebergehend auf die
+    // Position mit idealer Flugrichtung im naechsten Frame
+    var shipPosition = new THREE.Vector3();
+    shipPosition.copy(this.position);
+    directionToPlayer.multiplyScalar(delta*this.speed);
+    shipPosition.add(directionToPlayer);
+    directionToPlayer.normalize();
+
+    var shipDistance = distanceToPlayer + delta * this.speed;
+
+    // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
+    for(asteroid of asteroids) { // Asteroiden schon geupdatet
+        d = abs(shipDistance - asteroid.location.distance(playerPosition));
+        // Teste, ob im richtigen Ring um den Spieler
+        if(d <= minObstacleDistance) { // nahe (in Bezug auf Distanz zum Player)
+            possibleObstacle = true;
+            distanceToShip = asteroid.position.distanceTo(shipPosition);
+            if(distanceToShip <= guardingRadius) { // nahe an this
                 obstacles.push(asteroid);
             }
-        } else if() { // switch gesetzt und von der Distanz WIEDER ausserhalb
+        } else if(possibleObstacle && d > minObstacleDistance) {
             possibleObstacle = false;
-            break;
+            break; // da sortiert nun nur noch weiterliegende Objekte
         }
 
     }
 
     for(enemy of enemies) {
-        if() { // nahe (in Bezug auf Distanz zum Player)
-            // setze einen switchen
-            if() { // nahe an this
+        d = abs(shipDistance - enemy.location.distance(playerPosition));
+        if(d <= minObstacleDistance) { // nahe (in Bezug auf Distanz zum Player)
+            distanceToShip = enemy.position.distanceTo(shipPosition);
+            if(distanceToShip <= guardingRadius) { // nahe an this
                 obstacles.push(enemy);
             }
-        } else if() { // switch gesetzt und von der Distanz hinter this
+        } else if(possibleObstacle && d > minObstacleDistance) {
             possibleObstacle = false;
             break;
         }
 
     }
 
-    // 3.5. Schritt: Sortiere nach Distanz zu this
-    obstacles.sort(function compare(a,b) {
-        var distanceA = a.location.distanceToSquared(this.position);
-        var distanceB = b.location.distanceToSquared(this.position);
-
-        if(distanceA < distanceB) {
-            return -1;
-        } else if(distanceA > distanceB) {
-            return 1;
-        } else {
-            return 0;
-        }
-    });
-
-
-    // Setze, da Abstand nach vorne wichtiger, Schiff voruebergehend auf die
-    // Position mit idealer Flugrichtung im naechsten Frame
-
-    // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
-    // und sortiere diese nach Entfernung zu this
-
-
     // 4. Schritt: ausweichen
-
-
-
+    // naechstgelegenem Hindernis ausweichen, bis auf Weg kein Gegenstand
 
     if(obstacles.length > 0) {
 
-        // Ausweichrichtung:
+        // 3.5. Schritt: Sortiere nach Distanz zu this
+        // Naechste Objekte vorne
+        obstacles.sort(function(a,b) {
+            var distanceA = a.location.distanceToSquared(shipPosition);
+            var distanceB = b.location.distanceToSquared(shipPosition);
+
+            if(distanceA < distanceB) {
+                return -1;
+            } else if(distanceA > distanceB) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        // Ausweichalgorithmus:
+        // Projeziere Szene auf Plane, deren Abstand zum Schiff durch den
+        // maximalen Flugwinkel bestimmt ist
+        // da alles Kugel genuegt Mittelpunkt und Radius
+
+        // Ueberpruefe auf Kollision und merke den "Fehler"
+
+        // Falls bevorzugte Richtung geht, gehe in diese Richtung mit einem
+        // kleinen vom "Fehler" abhaengigen Unterschied
+
+        // Sonst gehe in andere Richtung -> Projektion der Asteroiden in
+        // Dictionary speichern (z.B. fuer entgegengesetzte Flugrichtung)
+
+        // Falls dies auch nicht geht, ueberpruefe, ob Ecken der Plane frei
+
+        // Falls vor einem alles versperrt, bleibe stehen
+
+
+
+
+/*      // Ausweichrichtung:
         // gehe in die Richtung der Normalen (vom Gegenstand weg)
         // mit einem impactFactor sowie ...
         // negative Hindernisflugrichtung, bis zu 90° Winkel um ideale Richtung
         // gedreht
-        avoidDir = new Vector3(0,0,0);
+       avoidDir = new THREE.Vector3(0,0,0);
         avoidDir.sub(wrongDir);
-
         // TODO: Falls <Asteroid,Schiff> nahe -1 -> alpha auf +- 90°
         //          ansonsten variabel drehen
         alpha = Math.PI * Math.random() - Math.PI/2;
-
-
         avoidDir.applyAxisAngle(directionToPlayer,alpha);
-
         avoidDir.normalize();
-
         // je naeher an Gegenstand desto mehr ausweichen
-        avoidImpact = this.speed * (1-distanceToCollisonObject/guardingRadius);
+        avoidImpact = this.speed * (1-distanceToCollisonObject/guardingRadius);*/
     } else {
-        avoidDir = new Vector3(0,0,0);
-        avoidImpact = 0;
+        direction = directionToPlayer;
         shootAble = true;
     }
-
-    direction = directionToPlayer.normalize() + avoidImpact * avoidDir();
 
     // 5. Schritt: normalisiere, um Geschwindigkeit nur von speed
     //                              abhaengig zu machen
     direction.normalize();
 
     // 6. Schritt:
+    // TODO: an 3JS-Syntax anpassen
     this.location += delta * this.speed * direction;
 };
 
@@ -207,14 +237,14 @@ function reflectAsteroids(a,b) {
     var axisA = new THREE.Vector3;
     axisA.copy(axis);
     factor = 2 * Math.dot(axisA,a.direction)
-    a.direction.multiplyScalar(-1);
+    a.direction.negate();
     a.direction += axis.multiplyScalar(factor);
 
     // Reflektion fuer Asteroid b
-    var axisB = new THREE.Vector3;
+    var axisB = new THREE.Vector3();
     axisB.copy(negAxis);
     factor = 2 * Math.dot(axisB,b.direction);
-    b.direction.multiplyScalar(-1);
+    b.direction.negate();
     b.direction += negAxis.multiplyScalar(factor);
 }
 
