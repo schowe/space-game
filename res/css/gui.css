@@ -163,29 +163,34 @@ body {
 }
 
 #levelDisplay {
-	//display:visible;
-	color: transparent;
 	position: fixed;
-	top:50px;
-	left:50%;
+	top:10%;
+	left:55%;
 	margin-left: -5%;
 	width:10%;
 	height:100px;
-	background-color:transparent;
-	border: 1px transparent;
-	border-radius: 20px;
+	//background: -moz-linear-gradient(bottom, pink, purple);
+	background-color: rgba(255,255,255,0.4);
+	border-style:solid;
+	border-color:white;
+	border-width:3px;
+	border-radius: 15px/50px;
 	text-align:center;
+	opacity:0;
 }
 
 #levelText {
-	
+	margin-top:5%;
+	color:yellow;
+	width:auto;
 }
 
 #currentLevel {
 	font-size:35px;
-	//color:purple;
+	color:pink;
 	//display:none;
 	//color:transparent;
+	//width:5px;
 }
 
 #powerUps {
