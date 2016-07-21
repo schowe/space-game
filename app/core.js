@@ -88,6 +88,7 @@ function init() {
     
     var world = World();
     world.init();
+    createStars();
     var movement = Movement();
     movement.init();
     interfaceInit();
@@ -153,18 +154,13 @@ function animate() {
     render();
 }
 
-
-  
-
-
-
-
 function render() {
 
     // TODO: animation code goes here
 
     delta = clock.getDelta();
     Movement().move(delta);
+    updateStars();
     camera.update();
     renderer.render( scene, camera );
 
