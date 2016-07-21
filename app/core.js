@@ -44,7 +44,7 @@ function init() {
     var material = new THREE.MeshLambertMaterial( { map: map, side: THREE.DoubleSide } );*/
     var material = new THREE.MeshBasicMaterial();
 
-    //
+    
 
 
     //sph = new THREE.Mesh( new THREE.SphereGeometry(50,20,20),material);
@@ -58,9 +58,7 @@ function init() {
     world.init();
     var movement = Movement();
     movement.init();
-    setScore(939129391);
-    setMoney(5000);
-
+	subHP(199);
 
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
