@@ -59,9 +59,6 @@ function init() {
     light.position.set( 0, 1, 0 );
     scene.add( light );
 
-
-    
-
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
     scene.add( object );
@@ -78,6 +75,8 @@ function init() {
     world.init();
     var movement = Movement();
     movement.init();
+    
+	subHP(190);
 
 
    /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
@@ -89,11 +88,6 @@ function init() {
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
-
-
-
-
-    subHP (500); //HP Bar Beispiel
 
 
 
