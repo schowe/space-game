@@ -58,7 +58,7 @@ $(function() {
 
         // Spaceship
         var loader = new THREE.JSONLoader();
-        loader.load("res/models/HeroShipV2.json", function(geometry) {
+        loader.load("../res/models/HeroShipV2.json", function(geometry) {
             spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "orange"}));
             spaceship.position.set(0, 0, 0);
             scene.add(spaceship);
