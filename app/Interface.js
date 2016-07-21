@@ -29,9 +29,8 @@ var Interface = function() {
 };
 
 function interfaceInit(){
-	setMaxHP(200);
+	setMaxHP(100);
 	setHP(100);
-	setMaxHP(400);
 }
 
 
@@ -152,8 +151,8 @@ function plusAmmo(temp){
  * FUNCTIONS FOR HP
  */
  
- 	var currentHP = 200;
-	var maxHP = 200;
+ 	var currentHP = 0;
+	var maxHP = 0 ;
 
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
 	var hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
@@ -163,18 +162,38 @@ function plusAmmo(temp){
 	var hpBoxMStyle = window.getComputedStyle(hpBoxMax);
 	var maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
 
+function updateHpBar(value){
+	hpBoxCurrent.style.width = value / maxHPpx * 100 + '%';
+}
+
+function calcWidthFromHP(){	
+	return currentHP / maxHP * maxHPpx * 100;
+}
+
 function changeHP(value){
+	
+	hpBoxMax = document.getElementById('hpBox');
+	hpBoxMStyle = window.getComputedStyle(hpBoxMax);
+	maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
+
+	hpBoxCurrent = document.getElementById('hpBoxValue');
+	hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
+	currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
 
 	var i = 0;
+
 	var ticks = 100;
 	value = parseInt(value + 0.5);
 
 	// Amount of pixels per tick
 	var pxTick = value / maxHP * maxHPpx / ticks;
+
 	var tempID = setInterval(frame, 10);
+	
 	function frame() {
 		
 		if(i < ticks) {
+
 			if(currentHPpx>maxHPpx||currentHPpx<0){
 				checkStuff();
 				clearInterval(tempID);
@@ -185,12 +204,11 @@ function changeHP(value){
 			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';	
 
 			// Update displayed HP and color
-			var currentHP = currentHPpx / maxHPpx * maxHP;			
+			currentHP = currentHPpx / maxHPpx * maxHP;			
 			updateHPDisplay(currentHP);
 			hpSetColor(currentHP);
 			
 			i++;
-
 			//document.write('D');
 			
 		} else {
@@ -210,13 +228,10 @@ function changeHP(value){
 
 }
 
-function gameOver(){
-
-}
-
 
 /* Sets HP to @value */
 function setHP(value) {
+	this.currentHP = value;
 	hpBoxCurrent.style.width = value / maxHP * 100 + '%';
 	updateHPDisplay(value);
 	hpSetColor(value);
@@ -224,15 +239,17 @@ function setHP(value) {
 
 /* Returns HP */
 function getHP() {
-	currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
-	return currentHPpx / maxHPpx * maxHP;
+	//currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
+	//return currentHPpx / maxHPpx * maxHP;
+	return currentHP;
 }
 
 /* Sets maxHP to @value */
 function setMaxHP(value) {
-	maxHP = parseInt(value + 0.5);
-	document.getElementById('maxHP').innerHTML = maxHP;
-	setHP(getHP());
+	this.maxHP = value;
+	document.getElementById('maxHP').innerHTML = parseInt(value + 0.5);
+
+	updateHpBar(getHP());
 }
 
 /* Returns maxHP */
