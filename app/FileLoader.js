@@ -12,6 +12,7 @@ var FileLoader = function() {
         // Models
         "../res/meshes/HeroShipV1.json",
         "../res/meshes/HeroShipV2.json",
+        "../res/meshes/HeroShipV4.json",
         "../res/meshes/EnemyMiniShipV1.json",
         "../res/meshes/AsteroidPart1.json",
         "../res/meshes/AsteroidPart2.json",

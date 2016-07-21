@@ -4,13 +4,16 @@ var camera, scene, renderer, clock;
 
 var fileLoader;
 var interface;
+var ship;
 
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
+    setTimeout(function(){
+        init();
+        animate();
+    },1000)
 
-    init();
-    animate();
 });
 
 
@@ -24,20 +27,31 @@ function init() {
 
 
 
-
-    scene = new THREE.Scene();
+    //while(!fileLoader.isReady()){};
+        scene = new THREE.Scene();
     // Beispiel-Code ...
     var player = Player();
     player.init();
+
+
     
     camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
     camera.addTarget({
         name:'Target',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,0,400),        
+        cameraPosition: new THREE.Vector3(0,5,30),
         fixed: false,
-        stiffness: 0.1,
+        stiffness: 0.3,
         matchRotation: false
+    });
+
+    camera.addTarget({
+        name:'Cockpit',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0,5,-10),
+        fixed: false,
+        stiffness: 1,
+        matchRotation: true
     });
 
     camera.setTarget('Target');
