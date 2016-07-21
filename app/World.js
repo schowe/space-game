@@ -1,4 +1,4 @@
-var sphere;
+var sphere = new THREE.Object3D();
 function World(){
 
     return {
@@ -14,7 +14,6 @@ function World(){
                 });
 
                 sphere = new THREE.Mesh(geometry, material);
-
                 sphere.position.set(0, 0, 0);
                 scene.add(sphere);
             });

@@ -191,10 +191,10 @@ function Movement() {
 
         move:function(delta) {
 
-            if (moveForward == true && yAxis > -100) {
+            if (moveForward == true && yAxis > -20) {
                 yAxis--;
             }
-            if (moveBackward == true && yAxis < 100) {
+            if (moveBackward == true && yAxis < 20) {
                 yAxis++;
             }
             if (moveLeft == true && zAxis < 10) {
@@ -221,10 +221,12 @@ function Movement() {
             }
             ship.translateZ(yAxis);
             ship.translateY(-xAxis);
-            ship.translateX(-zAxis);
+            ship.translateX(-zAxis);           
+            sphere.position.set(ship.position.x,ship.position.y,ship.position.z);
             
 
-
+            mouseX *= 0.4;
+            mouseY *= 0.4;
             lon += mouseX;
             lat -= mouseY;
             mouseX = 0;

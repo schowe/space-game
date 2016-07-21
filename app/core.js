@@ -135,7 +135,7 @@ function animate() {
 }
 
 
-    camera.lookAt( scene.position );
+  
 
 
 
