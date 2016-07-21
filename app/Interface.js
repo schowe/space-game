@@ -231,6 +231,8 @@ function getHP() {
 /* Sets maxHP to @value */
 function setMaxHP(value) {
 	maxHP = parseInt(value + 0.5);
+	document.getElementById('maxHP').innerHTML = maxHP;
+	setHP(getHP());
 }
 
 /* Returns maxHP */
