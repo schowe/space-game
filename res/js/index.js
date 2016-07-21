@@ -19,26 +19,61 @@ $(function () {
 
         // Kamera und Szene erzeugen
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x000000, 0.0005);
+        scene.fog = new THREE.FogExp2(0x000000, 0.0009);
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
         camera.position.set(12, 15, -20);
         camera.lookAt(scene.position);
 
         // Renderer
-        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
 
-        // Event-Listener für Resize
-        window.addEventListener("resize", onWindowResize, false);
-        window.addEventListener("mousemove", onMouseMove, false);
-
         // Licht
-        scene.add(new THREE.AmbientLight(0x404040));
+        //scene.add(new THREE.AmbientLight(0x404040));
+
         var light = new THREE.DirectionalLight(0xffffff);
         light.position.set(3, 6, 0);
         scene.add(light);
+
+        // lens flares
+        var dirLight = new THREE.DirectionalLight( 0xffffff, 0.05 );
+        dirLight.position.set( 5, 5, 5 );
+        dirLight.color.setHSL( 0.1, 0.7, 0.5 );
+        scene.add( dirLight );
+
+        var textureLoaderLensFlare = new THREE.TextureLoader();
+        textureLoaderLensFlare.load("res/textures/lensflare0.png", function (texture1) {
+            textureLoaderLensFlare.load("res/textures/lensflare2.png", function (texture2) {
+                textureLoaderLensFlare.load("res/textures/lensflare3.png", function (texture3) {
+                    var light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
+                    light.color.setHSL( 0.55, 0.9, 0.5 );
+                    light.position.set( 5, 5, 5 );
+                    scene.add( light );
+
+                    var flareColor = new THREE.Color( 0xffffff );
+                    flareColor.setHSL( 0.55, 0.9, 1);
+
+                    var lensFlare = new THREE.LensFlare(texture1, 700, 0.0, THREE.AdditiveBlending, flareColor );
+
+                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
+                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
+                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
+
+                    lensFlare.add( texture3, 60, 0.6, THREE.AdditiveBlending );
+                    lensFlare.add( texture3, 70, 0.7, THREE.AdditiveBlending );
+                    lensFlare.add( texture3, 120, 0.9, THREE.AdditiveBlending );
+                    lensFlare.add( texture3, 70, 1.0, THREE.AdditiveBlending );
+
+                    //lensFlare.customUpdateCallback = lensFlareUpdateCallback;
+                    lensFlare.position.copy( light.position );
+
+                    scene.add( lensFlare );
+                });
+            });
+        } );
+
 
         // Skybox
         var textureLoader = new THREE.TextureLoader();
@@ -66,7 +101,7 @@ $(function () {
                 side: THREE.DoubleSide
             });
             planet = new THREE.Mesh(geometry, material);
-            planet.position.set(-500, -400, 300);
+            planet.position.set(-500, -500, 300);
             planet.rotateZ(0.5);
             scene.add(planet);
         });
@@ -78,6 +113,10 @@ $(function () {
             spaceship.position.set(0, 0, 0);
             scene.add(spaceship);
         });
+
+        // Event-Listener für Resize
+        window.addEventListener("resize", onWindowResize, false);
+        window.addEventListener("mousemove", onMouseMove, false);
     }
 
     function onWindowResize() {
@@ -92,7 +131,7 @@ $(function () {
             var y = Math.abs(e.clientY/window.innerHeight)-0.5;
             //console.log(x+"/"+y);
 
-            var scaling = 50;
+            var scaling = 20;
             $("#overlay-highscore").css("margin-right", 50+x*scaling+"px");
             $("#overlay-highscore").css("padding-top", 50-y*scaling+"px");
             $("#overlay-menu").css("margin-left", 50-x*scaling+"px");
@@ -141,6 +180,30 @@ $(function () {
             planet.rotateX(0.0002);
             planet.rotateY(0.0002);
         }
+
+    }
+
+    function lensFlareUpdateCallback( object ) {
+
+        var f, fl = object.lensFlares.length;
+        var flare;
+        var vecX = -object.positionScreen.x * 2;
+        var vecY = -object.positionScreen.y * 2;
+
+
+        for( f = 0; f < fl; f++ ) {
+
+            flare = object.lensFlares[ f ];
+
+            flare.x = object.positionScreen.x + vecX * flare.distance;
+            flare.y = object.positionScreen.y + vecY * flare.distance;
+
+            flare.rotation = 0;
+
+        }
+
+        object.lensFlares[ 2 ].y += 0.025;
+        object.lensFlares[ 3 ].rotation = object.positionScreen.x * 0.5 + THREE.Math.degToRad( 45 );
 
     }
 
