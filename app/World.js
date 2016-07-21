@@ -1,5 +1,5 @@
 var sphere = new THREE.Object3D();
-
+var biggerSphere = new THREE.Object3D(); 
 var stars = [];
 var asteroids = []; 
 
@@ -72,7 +72,7 @@ function createAsteroids(){
   astTexture = fileLoader.get("AsteroidComplete");
  
 
-  for( countAst =0; countAst < 20; countAst++){
+  for( countAst =0; countAst < 10; countAst++){
 
      astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial());
      astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (1000 - (-1000)) -1000); 
@@ -150,20 +150,55 @@ function createAsteroids(){
    
 }
 
+function updateAsteroids(){
+
+  var tmpAsteroid, rotSpeed; 
+  rotSpeed = 0.01; 
+  var rndSpeedX, rndSpeedY, rndSpeedZ; 
+
+  for(countAst = 0; countAst < asteroids.length; countAst++){
+
+    tmpAsteroid = asteroids[countAst]; 
+
+    tmpAsteroid.position
+
+    tmpAsteroid.rotation.x -= rotSpeed * 2;
+    tmpAsteroid.rotation.y -= rotSpeed;
+    tmpAsteroid.rotation.z -= rotSpeed * 3;
+
+    tmpAsteroid.position.x += 2; 
+    tmpAsteroid.position.y += 1; 
+    tmpAsteroid.position.z += 0; 
+
+    if((tmpAsteroid.position.x < biggerSphere.position.x - 2000 || tmpAsteroid.position.x > biggerSphere.position.x + 2000 ||tmpAsteroid.position.y < biggerSphere.position.y - 2000 || tmpAsteroid.position.y > biggerSphere.position.y + 2000 || tmpAsteroid.position.z < biggerSphere.position.z - 2000|| tmpAsteroid.position.z > biggerSphere.position.z + 2000) ){
+
+             tmpAsteroid.position.x = ship.position.x + Math.floor(Math.random() * (2000 - (-2000)) -2000); 
+             tmpAsteroid.position.y = ship.position.y + Math.floor(Math.random() * (2000 - (-2000)) -2000 ); 
+             tmpAsteroid.position.z = ship.position.x + Math.floor(Math.random() * (2000 - (-2000)) -2000); 
+
+       }
+
+  }
+
+
+}
 
 function World(){
 
     return {
         init: function() {
                 var geometry = new THREE.SphereGeometry(1000, 200, 200);
-
+                var biggerGeometry = new THREE.SphereGeometry (2000, 200,200); 
                 var material = new THREE.MeshBasicMaterial({
                     transparent: true
                 });
 
                 sphere = new THREE.Mesh(geometry, material);
+                biggerSphere = new THREE.Mesh(biggerGeometry, material);
+                biggerSphere.position.set(0,0,0); 
                 sphere.position.set(0, 0, 0);
                 scene.add(sphere);
+                scene.add(biggerSphere); 
         }
     }
 }
