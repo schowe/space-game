@@ -91,11 +91,6 @@ function init() {
 
 
 
-
-    subHP (500); //HP Bar Beispiel
-
-
-
     /********** Input **********/
     
     // Szene in DOM einsetzen
