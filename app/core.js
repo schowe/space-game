@@ -89,6 +89,7 @@ function init() {
     var world = World();
     world.init();
     createStars();
+    createAsteroids(); 
     var movement = Movement();
     movement.init();
     interfaceInit();

@@ -1,6 +1,7 @@
 var sphere = new THREE.Object3D();
 
 var stars = [];
+var asteroids = []; 
 
 //starStuff 
 function createStars(){
@@ -55,6 +56,101 @@ function createStars(){
     }
 }
 
+
+
+//AsteroidStuff
+
+function createAsteroids(){
+
+
+
+
+
+  var  materialAst; 
+  var astTexture, astOriginal; 
+  
+  astTexture = fileLoader.get("AsteroidComplete");
+ 
+
+  for( countAst =0; countAst < 20; countAst++){
+
+     astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial());
+     astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (1000 - (-1000)) -1000); 
+     astOriginal.position.y = ship.position.y + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
+     astOriginal.position.z = ship.position.z + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
+     astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = Math.random() * 80 - 40;
+
+     scene.add(astOriginal);
+     asteroids.push(astOriginal); 
+
+  }
+
+ //    var ast1, ast2, ast3;
+ //    var astGroup; 
+ //    var randPositionX, randPositionY, randScale; 
+ //    astGroup = new THREE.Object3D();
+
+ //    for ( var zposA= -2000; zposA < 500; zposA+=100 ) {
+ //         console.log("rendering asteroid");
+ //        randScale =  50 ; 
+ //        randPositionX = Math.floor((Math.random() * window.innerWidth)) -window.innerWidth /2 ;
+ //        randPositionY = Math.floor((Math.random() * window.innerHeight)) - window.innerHeight/2;
+ //        //part1
+ //        loader.load("../res/models/AsteroidPart1.json", function(geometry) {
+
+ //        ast1 = new THREE.Mesh (geometry, new THREE.MeshPhongMaterial());
+ //        ast1.position.x = randPositionX;
+ //        ast1.position.y = randPositionY;
+
+ //        ast1.position.z = zposA; 
+ //        ast1.scale.x = ast1.scale.y = ast1.scale.z = randScale;
+
+ //       astGroup.add(ast1); 
+
+ //        asteroids.push(ast1);
+ //    });
+        
+ //        //part2
+ //        loader.load("../res/models/AsteroidPart2.json", function(geometry) {
+
+ //        ast2 = new THREE.Mesh (geometry, new THREE.MeshPhongMaterial());
+ //        ast2.position.x = randPositionX;
+ //        ast2.position.y = randPositionY;
+ //        ast2.position.z = zposA;
+ //        ast2.scale.x = ast2.scale.y = ast2.scale.z = randScale;
+ //        astGroup.add(ast2); 
+
+ //        asteroids.push(ast2);
+ //    });
+
+      
+ //        //part3
+ //        loader.load("../res/models/AsteroidPart3.json", function(geometry) {
+
+ //        ast3 = new THREE.Mesh (geometry, new THREE.MeshPhongMaterial());
+ //        ast3.position.x = randPositionX;
+ //        ast3.position.y = randPositionY;
+ //        ast3.position.z = zposA;
+ //        ast3.scale.x = ast3.scale.y = ast3.scale.z = randScale;
+
+ //        astGroup.add(ast3); 
+
+ //        asteroids.push(ast3); 
+
+ //    });
+
+       
+
+ //    scene.add(astGroup); 
+
+        
+
+ //    }
+
+   
+}
+
+
 function World(){
 
     return {
@@ -84,7 +180,7 @@ function updateStars(){
 
         // star.position.z +=  0.3;hip.positi
  
-       if((star.position.x < -sphere.position.x - 1000 || star.position.x > sphere.position.x + 1000 ||star.position.y < sphere.position.y - 1000 || star.position.y > sphere.position.y + 1000 || star.position.z < sphere.position.z - 1000|| star.position.z > sphere.position.z + 1000) ){
+       if((star.position.x < sphere.position.x - 1000 || star.position.x > sphere.position.x + 1000 ||star.position.y < sphere.position.y - 1000 || star.position.y > sphere.position.y + 1000 || star.position.z < sphere.position.z - 1000|| star.position.z > sphere.position.z + 1000) ){
 
              star.position.x = ship.position.x + Math.floor(Math.random() * (1000 - (-1000)) -1000); 
              star.position.y = ship.position.y + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
