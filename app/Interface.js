@@ -28,6 +28,13 @@ var Interface = function() {
     
 };
 
+function interfaceInit(){
+	setMaxHP(200);
+	setHP(100);
+	setMaxHP(400);
+}
+
+
 /**
  * FUNCTIONS FOR HIGHSCORE
  */
@@ -154,23 +161,25 @@ function plusAmmo(temp){
 	var hpBoxMStyle = window.getComputedStyle(hpBoxMax);
 	var maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
 
-/* Increases HP by @value */
-function addHP(value) {
+
+
+function changeHP(value){
+
 	var i = 0;
+
 	var ticks = 100;
 	value = parseInt(value + 0.5);
-	
+
 	// Amount of pixels per tick
 	var pxTick = value / maxHP * maxHPpx / ticks;
 
 	var tempID = setInterval(frame, 10);
-
-	//document.write('F');
 	
 	function frame() {
 		
 		if(i < ticks) {
-			if(currentHPpx>maxHPpx){
+			if(currentHPpx>maxHPpx||currentHPpx<0){
+				checkStuff();
 				clearInterval(tempID);
 				return;
 			}
@@ -188,48 +197,26 @@ function addHP(value) {
 			//document.write('D');
 			
 		} else {
-			//document.write('E');
+			checkStuff();
 			clearInterval(tempID);
 		}
 	}
-}	
 
-/* Decreases HP by @value */
-function subHP(value) {
-	var i = 0;
-	var ticks = 100;
-	value = parseInt(value + 0.5);
-	
-	
-	// Amount of pixels per tick
-	var pxTick = value / maxHP * maxHPpx / ticks;
-	var tempID = setInterval(frame, 10);
-	
-	function frame() {
-		
-		if(i < ticks) {
-			if(currentHPpx<=0){
-				//TODO: GameOver
-				clearInterval(tempID);
-				return;
-			}
-
-			currentHPpx -= pxTick;
-			// Change the HP bar width
-			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';
-		
-			// Update displayed HP and color
-			var currentHP = currentHPpx / maxHPpx * maxHP;
-			updateHPDisplay(currentHP);
-			hpSetColor(currentHP);
-
-			i++;
+	function checkStuff(){
+		if(value<0){
+			setHP(getHP()-1);
+		}
+		if(getHP()<=0){
 			
-		} else {
-			clearInterval(tempID);
 		}
 	}
+
 }
+
+function gameOver(){
+
+}
+
 
 /* Sets HP to @value */
 function setHP(value) {
@@ -240,7 +227,8 @@ function setHP(value) {
 
 /* Returns HP */
 function getHP() {
-	//var 
+	currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
+	return currentHPpx / maxHPpx * maxHP;
 }
 
 /* Sets maxHP to @value */
