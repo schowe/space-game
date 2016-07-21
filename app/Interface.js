@@ -233,7 +233,9 @@ function subHP(value) {
 
 /* Sets HP to @value */
 function setHP(value) {
-	// TODO
+	hpBoxCurrent.style.width = value / maxHP * 100 + '%';
+	updateHPDisplay(value);
+	hpSetColor(value);
 }
 
 /* Returns HP */
