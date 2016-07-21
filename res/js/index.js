@@ -1,49 +1,50 @@
-$(function() {
+$(function () {
 
     var container;
 
     var camera, scene, renderer, composer;
 
-    var spaceship;
-
+    var spaceship, sphere, planet;
 
     // start
     init();
+    fadeOutLoadingOverlay();
     animate();
 
     function init() {
 
         // HTML-Container erzeugen
-        container = document.createElement( 'div' );
-        document.body.appendChild( container );
+        container = document.createElement('div');
+        document.body.appendChild(container);
 
         // Kamera und Szene erzeugen
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2( 0x000000, 0.0005 );
-        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+        scene.fog = new THREE.FogExp2(0x000000, 0.0005);
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
         camera.position.set(12, 15, -20);
         camera.lookAt(scene.position);
 
         // Renderer
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        container.appendChild( renderer.domElement );
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
 
         // Event-Listener für Resize
-        window.addEventListener( 'resize', onWindowResize, false );
+        window.addEventListener("resize", onWindowResize, false);
+        window.addEventListener("mousemove", onMouseMove, false);
 
         // Licht
-        scene.add( new THREE.AmbientLight( 0x404040 ) );
-        var light = new THREE.DirectionalLight( 0xffffff );
-        light.position.set( 3, 6, 0 );
-        scene.add( light );
+        scene.add(new THREE.AmbientLight(0x404040));
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(3, 6, 0);
+        scene.add(light);
 
         // Skybox
         var textureLoader = new THREE.TextureLoader();
         textureLoader.setCrossOrigin('anonymous');
         textureLoader.load('../res/textures/sky_sphere_map.jpg', function (texture) {
-            var geometry = new THREE.SphereGeometry(1000, 20, 20);
+            var geometry = new THREE.SphereGeometry(1000, 256, 256);
 
             var material = new THREE.MeshBasicMaterial({
                 map: texture,
@@ -52,37 +53,59 @@ $(function() {
 
             sphere = new THREE.Mesh(geometry, material);
 
-            sphere.position.set(0, 0, 0);
             scene.add(sphere);
+        });
+
+        // Planet
+        var textureLoader2 = new THREE.TextureLoader();
+        textureLoader2.setCrossOrigin("anonymous");
+        textureLoader2.load("../res/textures/Planet.png", function (texture) {
+            var geometry = new THREE.SphereGeometry(100, 128, 128);
+            var material = new THREE.MeshPhongMaterial({
+                map: texture,
+                side: THREE.DoubleSide
+            });
+            planet = new THREE.Mesh(geometry, material);
+            planet.position.set(-500, -400, 300);
+            planet.rotateZ(0.5);
+            scene.add(planet);
         });
 
         // Spaceship
         var loader = new THREE.JSONLoader();
-        loader.load("../res/models/HeroShipV2.json", function(geometry) {
+
+
+        loader.load("res/models/HeroShipV2.json", function (geometry) {
+
             spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "orange"}));
             spaceship.position.set(0, 0, 0);
             scene.add(spaceship);
         });
-
-        // composer = new THREE.EffectComposer( renderer );
-        // composer.addPass( new THREE.RenderPass( scene, camera ) );
-        //
-        // glitchPass = new THREE.GlitchPass();
-        // glitchPass.renderToScreen = true;
-        // composer.addPass( glitchPass );
-
     }
 
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 
+    function onMouseMove(e) {
+        if (e.isTrusted) {
+            var x = Math.abs(e.clientX/window.innerWidth)-0.5;
+            var y = Math.abs(e.clientY/window.innerHeight)-0.5;
+            //console.log(x+"/"+y);
+
+            var scaling = 50;
+            $("#overlay-highscore").css("margin-right", 50+x*scaling+"px");
+            $("#overlay-highscore").css("padding-top", 50-y*scaling+"px");
+            $("#overlay-menu").css("margin-left", 50-x*scaling+"px");
+            $("#overlay-menu").css("padding-top", 50-y*scaling+"px");
+        }
     }
 
 
     function animate() {
-        requestAnimationFrame( animate );
+        requestAnimationFrame(animate);
         render();
 
         // animation goes here
@@ -92,21 +115,36 @@ $(function() {
 
     function render() {
         // dont touch!
-        renderer.render( scene, camera );
+        renderer.render(scene, camera);
 
+    }
+
+    function fadeOutLoadingOverlay() {
+        setTimeout(function() {
+            $("#loading-overlay").fadeOut();
+        }, 2000);
     }
 
     function moveSpaceship() {
         if (spaceship !== undefined) {
-            var time = new Date().getTime()*0.0005;
-            spaceship.position.x = -Math.sin(time)+Math.pow(Math.cos(time), 2);
-            spaceship.position.y = -Math.pow(Math.abs(Math.cos(time))*0.5, 2);
+            // TODO: dreht sich zu weit
+
+            var time = new Date().getTime() * 0.0005;
+            spaceship.position.x = -Math.sin(time) + Math.pow(Math.cos(time), 2);
+            spaceship.position.y = -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2);
             spaceship.position.z = Math.sin(time);
 
-            var angle = -Math.sin(time)*0.0015;
+            var angle = -Math.sin(time) * 0.0015;
             spaceship.rotateX(angle);
-            spaceship.rotateZ(angle*0.1);
+            spaceship.rotateZ(angle * 0.1);
         }
+
+        if (planet !== undefined) {
+            console.log("spin");
+            planet.rotateX(0.0002);
+            planet.rotateY(0.0002);
+        }
+
     }
 
 
