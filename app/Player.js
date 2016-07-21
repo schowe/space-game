@@ -1,5 +1,5 @@
 
-function Player() {
+var Player = function() {
     
     return {
         init: function() {
@@ -8,10 +8,12 @@ function Player() {
             ship.position.set( 0, 0, 0 );
             controls = new THREE.PointerLockControls( ship );
             scene.add( controls.getObject() );
+
+            camera.lookAt(ship.position);
         }    
     }
     
-}
+};
 
 
 
