@@ -301,14 +301,48 @@ function updateHPDisplay(currentHP) {
  
 var currentLevel = 0;
 
-function updateLevel () {
-	currentLevel = parseInt(currentLevel) + 1;
-	var levelText = document.getElementById('levelDisplay');
-	document.getElementById('currentLevel').innerHTML = currentLevel;
-	//levelText.style.display = 'visible';
-	levelText.style.color = 'purple';
-	//setTimeout(function(){ levelText.style.display = 'none'; }, 3500);
-	setTimeout(function(){ levelText.style.color = 'transparent'; }, 2500);
+function nextLevel () {
+	/*
+	var toChange = document.getElementById("levelDisplay");
+	
+	var id = setInterval(frame, 10);
+	
+	function frame() {
+	} else {
+
+	}
+	
+	*/
+	$('#levelDisplay').animate({opacity: "1", left:"50%"}, 1000);
+
+	//$('#levelDisplay').animate({'borderWidth':'10px'}, 500);
+
+	//$('#levelDisplay').children('#currentLevel').animate({'fontSize': 60}, 1000);
+
+	setTimeout(nay, 1000)
+	function nay () {
+    	$('#currentLevel').animate({'fontSize': 40}, 100);
+	$('#currentLevel').animate({'fontSize': 35}, 100);
+	$('#currentLevel').animate({'fontSize': 40}, 100);
+	$('#currentLevel').animate({'fontSize': 35}, 100);
+	}
+/*
+$('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
+$('#levelDisplay').children('#currentLevel').animate({opacity: "1"}, 100);
+$('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
+$('#levelDisplay').children('#currentLevel').animate({opacity: "1"}, 100);
+$('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
+*/	
+	setTimeout(yay, 1500)
+	function yay () {
+    	$('#levelDisplay').animate({opacity: "0", left:"45%"}, 1000);
+	}
+
+	//$('#levelDisplay').children('#levelText').animate({width: "5px"}, 2000);
+	//$('#levelDisplay').children('#currentLevel').animate({width: "5px"}, 1000);
+	
+	//$('#currentLevel').animate({display: "none"});
+	
 }
 
 /**
