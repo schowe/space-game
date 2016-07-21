@@ -11,6 +11,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: black;
+    overflow: hidden;
 }
 .main-menu-overlay {
     height: 50%;
@@ -55,11 +56,9 @@ body {
 .highscore-body {
     text-align: center;
 }
-
 input#player {
     text-align: center;
 }
-
 #loading-overlay {
     position: absolute;
     margin: 0;
