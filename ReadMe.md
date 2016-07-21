@@ -2,7 +2,7 @@
 
 ##Score Funktionen:
 
-*	Score Counter erhöht Score passiv um 1*
+Score Counter erhöht Score passiv um 1
 	startScoreCounter();
 	
 	stopScoreCounter();
@@ -51,6 +51,6 @@
 	
 ##PowerUp Funktionen:
 
-	_@powerUp ist eine Zahl korrespondierend mit der Leiste von links nach rechts._
-	_@removeOrAdd 0 für remove und 1 für add_
+@powerUp ist eine Zahl korrespondierend mit der Leiste von links nach rechts.
+@removeOrAdd 0 für remove und 1 für add.
 	setPowerUp(powerUp, removeOrAdd);
