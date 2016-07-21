@@ -39,7 +39,7 @@ function init() {
     camera.addTarget({
         name:'Target',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,5,30),
+        cameraPosition: new THREE.Vector3(0,15,30),
         fixed: false,
         stiffness: 0.3,
         matchRotation: false
