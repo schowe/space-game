@@ -4,7 +4,7 @@ var guardingRadius = 50;
 var minDistanceToPlayer = 10;
 
 var asteroids, enemies, enemy, asteroid, playerPosition,
-    worldRadius, radius, i;
+    radius, i;
 
 
 // Enemyklasse
@@ -26,15 +26,16 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     // urspruenglichen Richtung gedreht hat
 
     // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
-    var directionToPlayer = new THREE.Vector3();
-    directionToPlayer.copy(playerPosition);
+    var directionToPlayer = MATH.clone(playerPosition);
     directionToPlayer.sub(this.location);
 
-    var distanceToPlayer = new THREE.Vector3();
-    distanceToPlayer.copy(directionToPlayer);
+    var distanceToPlayer = MATH.clone(directionToPlayer);
     distanceToPlayer.length();
 
     directionToPlayer.normalize();
+
+    // TODO: Fuer Bezier Wechsel auf optimalDir
+    var optimalDir = directionToPlayer;
 
     // 2. Schritt: Ueberpruefe, ob dem Spieler zu nahe geraten
     if(distanceToPlayer < minDistanceToPlayer) {
@@ -52,8 +53,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     // Setze, da Abstand nach vorne wichtiger, Schiff voruebergehend auf die
     // Position mit idealer Flugrichtung im naechsten Frame
-    var shipPosition = new THREE.Vector3();
-    shipPosition.copy(this.position);
+    var shipPosition = MATH.clone(this.position);
     directionToPlayer.multiplyScalar(delta*this.speed);
     shipPosition.add(directionToPlayer);
     directionToPlayer.normalize();
@@ -62,7 +62,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
     for(asteroid of asteroids) { // Asteroiden schon geupdatet
-        d = abs(shipDistance - asteroid.location.distance(playerPosition));
+        d = Math.abs(shipDistance - asteroid.location.distance(playerPosition));
         // Teste, ob im richtigen Ring um den Spieler
         if(d <= minObstacleDistance) { // nahe (in Bezug auf Distanz zum Player)
             possibleObstacle = true;
@@ -100,59 +100,100 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
         // einfacher Fall: nur ein Hindernis
         if(obstacles.length == 1) {
-            // gehe in die optimale Richtung, abgelenkt um
-            // negative Flugrichtung des Hindernisses
+            // Weiche aus: Gehe in die optimale Richtung, abgelenkt um
+            //  Normale zum Schnittpunkt mit Hindernis
             var avoidDir = new THREE.Vector3(0,0,0);
-            avoidDir.sub(obstacles[0].direction);
+            // TODO: weiche aus in Richtung der Normalen des Schnittpunkts
+            // TODO: rotiere avoidDir um bis zu +-10° bzgl. jeder Richtung
 
             // Gewichte die Laengen, um Kollision zu vermeiden
-            var bestImpact = enemy.position.distanceTo(obstacles[0].position);
+            var bestImpact = this.position.distanceTo(obstacles[0].position);
             var avoidImpact = 1.5 * maxAsteroidSize;
 
             avoidDir.multiplyScalar(avoidImpact);
 
-            direction = directionToPlayer.copy();
+            direction = MATH.clone(directionToPlayer);
             direction.multiplyScalar(bestImpact);
 
             direction.add(avoidDir);
 
         } else { // schwieriger Fall: mindestens zwei Hindernisse
 
-        // 3.5. Schritt: Sortiere nach Distanz zu this
-        // Naechste Objekte vorne
-        obstacles.sort(function(a,b) {
-            var distanceA = a.location.distanceToSquared(shipPosition);
-            var distanceB = b.location.distanceToSquared(shipPosition);
+            // 3.5. Schritt: Sortiere nach Distanz zu this
+            // Naechste Objekte vorne
+            obstacles.sort(function(a,b) {
+                var distanceA = a.location.distanceToSquared(shipPosition);
+                var distanceB = b.location.distanceToSquared(shipPosition);
 
-            if(distanceA < distanceB) {
-                return -1;
-            } else if(distanceA > distanceB) {
-                return 1;
-            } else {
-                return 0;
+                if(distanceA < distanceB) {
+                    return -1;
+                } else if(distanceA > distanceB) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+
+            // Ausweichalgorithmus:
+            // Projeziere Szene auf Plane, deren Abstand zum Schiff durch den
+            // maximalen Flugwinkel bestimmt ist
+            // -> render mit Kamera bei this in Richtung this.direction
+            // da alles Kugel genuegt Mittelpunkt und Radius
+            // ! weiter entfernte Objekte sind auf der Plane kleiner
+            //      -> Gewichtung entfaellt (bzw. haengt am Radius)
+
+            // Koordinatensystemwechsel:
+            // N = optimalDir,U = N x(Up x N),V = N x U, Up = shipPosition + e_y
+            var upVector = new THREE.Vector3(0,0,1);
+            upVector.add(shipPosition);
+            // TODO: Ueberpruefe, ob Up richtig
+            var N = MATH.clone(optimalDir);
+
+            var U = MATH.clone(N);
+            U.cross(N);
+            U.cross(N);
+
+            var V = MATH.clone(N);
+            V.cross(U);
+
+            // Stelle Koordinatensystemwechselmatrix auf
+            // Ursprung = this.position + a * optimalDir
+            var coordMatrix = new Matrix4();
+
+            var ursprung = MATH.clone(optimalDir);
+            ursprung.multiplyScalar(distanceToPlane);
+            ursprung.add(this.position);
+
+            coordMatrix.set(U.x,V.x,N.x,ursprung.x,
+                            U.y,V.y,N.y,ursprung.y,
+                            U.z,V.z,N.z,ursprung.z,
+                            0,  0,  0,  1);
+            coordMatrix.getInverse(coordMatrix);
+
+            // ! coordMatrix.applyToVector3Array
+
+            // Transformation der Mittelpunkte sowie der Radien
+            var projMatrix = new Matrix4();
+            projMatrix.set(1,0,0,0, 0,1,0,0, 0,0,0,0, 0,0,1/distanceToPlane,1);
+
+
+            // Ueberpruefe auf Kollision und merke den "Fehler"
+            for(obstacle of obstacles) {
+
             }
-        });
 
-        // Ausweichalgorithmus:
-        // Projeziere Szene auf Plane, deren Abstand zum Schiff durch den
-        // maximalen Flugwinkel bestimmt ist
-        // -> render mit Kamera bei this in Richtung this.direction
-        // da alles Kugel genuegt Mittelpunkt und Radius
-        // ! weiter entfernte Objekte sind auf der Plane kleiner
-        //      -> Gewichtung entfaellt (bzw. haengt am Radius)
+            // Falls bevorzugte Richtung geht, gehe in diese Richtung mit einem
+            // kleinen vom "Fehler" abhaengigen Unterschied
 
-        // Ueberpruefe auf Kollision und merke den "Fehler"
+            // Sonst gehe in andere Richtung -> Projektion der Asteroiden in
+            // Dictionary (gibt es nicht) speichern (z.B. fuer entgegengesetzte Flugrichtung)
 
-        // Falls bevorzugte Richtung geht, gehe in diese Richtung mit einem
-        // kleinen vom "Fehler" abhaengigen Unterschied
+            // Falls dies auch nicht geht, ueberpruefe, ob Ecken der Plane frei
 
-        // Sonst gehe in andere Richtung -> Projektion der Asteroiden in
-        // Dictionary speichern (z.B. fuer entgegengesetzte Flugrichtung)
-
-        // Falls dies auch nicht geht, ueberpruefe, ob Ecken der Plane frei
-
-        // Falls vor einem alles versperrt, bleibe stehen
-
+            // Falls vor einem alles versperrt, bleibe stehen
+            if(!wayFound) {
+                direction = new THREE.Vector3(0,0,0);
+            }
         }
 
     } else {
@@ -168,6 +209,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     // TODO: an 3JS-Syntax anpassen
     this.location += delta * this.speed * direction;
 };
+
 
 Enemy.prototype.shoot = function() {
     // Schießt von location mit weapon in direction
@@ -194,6 +236,7 @@ function Asteroid(location,radius, direction, speed) {
 };
 
 Asteroid.prototype.move = function(delta, asteroids, enemies) {
+    // TODO: An Vector3-Syntax anpassen
     this.location += delta * direction;
 };
 

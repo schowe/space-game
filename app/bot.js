@@ -1,7 +1,6 @@
 // Botklasse
 // TODO: In Bot mit Spieler als Ursprung rechnen
 // TODO: Operator Overloading entfernen
-// TODO: Eigene MATH-Klasse konstruieren, die 3JS erleichtert
 
 var minShipSize = 10;
 var maxShipSize = 20;
@@ -34,24 +33,20 @@ function reflectAsteroids(a,b) {
     var factor;
 
     // "Normale" der Reflektion (zeigt von a nach b -> "Normale fuer a")
-    var axis = new THREE.Vector3(0,0,0);
-    axis.add(b.position);
+    var axis = MATH.negated(b.position);
     axis.sub(a);
     axis.normalize();
 
-    var negAxis = new THREE.Vector3(0,0,0);
-    negAxis.sub(axis);
+    var negAxis = MATH.negated(axis);
 
     // Reflektion fuer Asteroid a
-    var axisA = new THREE.Vector3;
-    axisA.copy(axis);
+    var axisA = MATH.clone(axis);
     factor = 2 * Math.dot(axisA,a.direction)
     a.direction.negate();
     a.direction += axis.multiplyScalar(factor);
 
     // Reflektion fuer Asteroid b
-    var axisB = new THREE.Vector3();
-    axisB.copy(negAxis);
+    var axisB = MATH.clone(negAxis);
     factor = 2 * Math.dot(axisB,b.direction);
     b.direction.negate();
     b.direction += negAxis.multiplyScalar(factor);
@@ -136,9 +131,9 @@ function createAsteroid(level) {
             Math.sin(beta) * Math.sin(alpha),
             Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
-    // TODO: In Vector3-Syntax bringen
-    direction += Math.pow(-1,Math.round(1000 * Math.random())) *
-                     Math.random() * 0.36397023; // tan(20°)
+    // TODO: korrekten Vektor berechnen
+    direction.add(Math.pow(-1,Math.round(1000 * Math.random())) *
+                     Math.random() * 0.36397023); // tan(20°)
 
     asteroid = new Bots.Asteroid(asteroidPosition, direction, speed);
 
