@@ -1,27 +1,28 @@
+var ship;
 
-var Player = function() {
-    
+
+function Player() {
+
     return {
         init: function() {
-            var material = new THREE.MeshBasicMaterial();
-            ship = new THREE.Mesh( new THREE.BoxGeometry( 100, 100, 100, 4, 4, 4 ), material );
-            ship.position.set( 0, 0, 0 );
-            controls = new THREE.PointerLockControls( ship );
-            scene.add( controls.getObject() );
+            
+             var geometry = fileLoader.get("HeroShipV4");
+            
+            
 
-            camera.lookAt(ship.position);
+             ship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "orange"}));
+             ship.position.set(0, 0, 0);
+            
+             scene.add(ship);
+             
+
+
         }    
     }
     
-};
+}
 
 
 
-/*function init(){
 
-    ship = new THREE.Mesh( new THREE.BoxGeometry( 100, 100, 100, 4, 4, 4 ), material );
-    ship.position.set( 0, 0, 0 );
-    controls = new THREE.PointerLockControls( ship );
-    scene.add( controls.getObject() );
-}*/
 

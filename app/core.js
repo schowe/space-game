@@ -1,16 +1,19 @@
 var container;
 
-var camera, scene, renderer;
+var camera, scene, renderer, clock;
 
 var fileLoader;
 var interface;
+var ship;
 
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
+    setTimeout(function(){
+        init();
+        animate();
+    },1000)
 
-    init();
-    animate();
 });
 
 
@@ -21,18 +24,47 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    camera.position.y = 400;
 
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
 
-    scene = new THREE.Scene();
+
+    //while(!fileLoader.isReady()){};
+        scene = new THREE.Scene();
+    // Beispiel-Code ...
+    var player = Player();
+    player.init();
+
+
+    
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
+    camera.addTarget({
+        name:'Target',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0,15,30),
+        fixed: false,
+        stiffness: 0.3,
+        matchRotation: false
+    });
+
+    camera.addTarget({
+        name:'Cockpit',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0,5,-10),
+        fixed: false,
+        stiffness: 1,
+        matchRotation: true
+    });
+
+    camera.setTarget('Target');
+
+
+  
+
+
 
 
 
     /********** Szene füllen **********/
+
 
     var light, object;
 
@@ -49,17 +81,27 @@ function init() {
 
 
 
+
     /********** Module laden **********/
 
-    var player = Player();
-    player.init();
+    
     var world = World();
     world.init();
     var movement = Movement();
     movement.init();
+    
+	subHP(190);
 
 
-    subHP (500); //HP Bar Beispiel
+   /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
+    object.position.set( 400, 0, -200 );
+    scene.add( object ); */
+
+
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
 
 
@@ -69,7 +111,12 @@ function init() {
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+
+    clock = new THREE.Clock();
+
+
     window.onkeydown = onKeyDown;
+
 
 
 }
@@ -95,10 +142,18 @@ function animate() {
 }
 
 
+  
+
+
+
+
 function render() {
 
     // TODO: animation code goes here
 
+    delta = clock.getDelta();
+    Movement().move(delta);
+    camera.update();
     renderer.render( scene, camera );
 
 }
