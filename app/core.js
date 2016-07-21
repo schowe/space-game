@@ -2,55 +2,55 @@ var container;
 
 var camera, scene, renderer;
 
+var fileLoader;
+var interface;
 
+$(function() {
+    fileLoader = FileLoader();
+    interface = Interface();
 
+    init();
+    animate();
+});
 
-
-// start
-
-init();
-
-animate();
 
 function init() {
-    
-    // HTML-Container erzeugen
+
+    /********** THREE.js initialisieren **********/
+
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-
-    
-    
-    
-    // Beispiel-Code ...
-    
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
     camera.position.y = 400;
 
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
     scene = new THREE.Scene();
+
+
+
+    /********** Szene füllen **********/
 
     var light, object;
 
     scene.add( new THREE.AmbientLight( 0x404040 ) );
-
     light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 0, 1, 0 );
     scene.add( light );
 
-    /*var map = new THREE.TextureLoader().load( 'textures/UV_Grid_Sm.jpg' );
-    map.wrapS = map.wrapT = THREE.RepeatWrapping;
-    map.anisotropy = 16;
-
-    var material = new THREE.MeshLambertMaterial( { map: map, side: THREE.DoubleSide } );*/
-    var material = new THREE.MeshBasicMaterial();
+    object = new THREE.AxisHelper( 100 );
+    object.position.set( 0, 0, 0 );
+    scene.add( object );
 
     
+    var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
-    //sph = new THREE.Mesh( new THREE.SphereGeometry(50,20,20),material);
-    //sph.position.set(0,0,0);
-    //scene.add(sph);
 
+    /********** Module laden **********/
 
     var player = Player();
     player.init();
@@ -76,24 +76,25 @@ function init() {
 
 
 
-    // TODO: scene code goes here
-    // Welt erzeugen
-    // Spieler erzeugen
-    // Gegner erzeugen
-    // ...
-    // => Funktionen aus anderen Dateien laden!!
 
 
 
-
+    /********** Input **********/
+    
     // Szene in DOM einsetzen
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+    window.onkeydown = onKeyDown;
+
 
 }
 
-
+function onKeyDown(e) {
+    if (e.keyCode == 80) { // = 'P'
+        interface.toggleMenuOverlay();
+    }
+}
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -103,7 +104,6 @@ function onWindowResize() {
 }
 
 
-
 function animate() {
     // dont touch!
     requestAnimationFrame( animate );
@@ -111,19 +111,9 @@ function animate() {
 }
 
 
-
-
-   // camera.position.x = Math.cos( timer ) * 800;
-   // camera.position.z = Math.sin( timer ) * 800;
-
-    camera.lookAt( scene.position );
-
-
-
 function render() {
 
     // TODO: animation code goes here
-
 
     renderer.render( scene, camera );
 

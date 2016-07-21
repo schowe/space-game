@@ -16,6 +16,12 @@ Um das Spiel zu starten muss ein HTTP-Server laufen:
 3. Läuft!
 4. Server beenden mit `Strg+C` in der Konsole
 
+Alternativ: Skript benutzen
+
+1. (einmalig) Ausführberechtigungen für das Skript: `chmod +x start_server`
+2. im Basisordner Skript ausführen mit `./start_server`
+3. ... wie oben
+
 
 # Ordnerstruktur
 
