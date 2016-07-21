@@ -152,7 +152,9 @@ function plusAmmo(temp){
  * FUNCTIONS FOR HP
  */
  
+ 	var currentHP = 200;
 	var maxHP = 200;
+
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
 	var hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
 	var currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
@@ -161,20 +163,15 @@ function plusAmmo(temp){
 	var hpBoxMStyle = window.getComputedStyle(hpBoxMax);
 	var maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
 
-
-
 function changeHP(value){
 
 	var i = 0;
-
 	var ticks = 100;
 	value = parseInt(value + 0.5);
 
 	// Amount of pixels per tick
 	var pxTick = value / maxHP * maxHPpx / ticks;
-
 	var tempID = setInterval(frame, 10);
-	
 	function frame() {
 		
 		if(i < ticks) {
