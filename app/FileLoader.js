@@ -37,7 +37,7 @@ var FileLoader = function() {
         );
     }
 
-    function loadJpeg(file, name) {
+    function loadImage(file, name) {
         var textureLoader = new THREE.TextureLoader();
         textureLoader.setCrossOrigin('anonymous');
         // load texture
@@ -59,9 +59,10 @@ var FileLoader = function() {
             case "json":
                 loadJson(file, name);
                 break;
+            case "png": // no break!
             case "jpg": // no break!
             case "jpeg":
-                loadJpeg(file, name);
+                loadImage(file, name);
                 break;
             default:
                 console.log("Error: unknown file format: "+file);

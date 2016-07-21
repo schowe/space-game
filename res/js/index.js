@@ -4,10 +4,11 @@ $(function () {
 
     var camera, scene, renderer, composer;
 
-    var spaceship;
+    var spaceship, sphere, planet;
 
     // start
     init();
+    fadeOutLoadingOverlay();
     animate();
 
     function init() {
@@ -43,7 +44,7 @@ $(function () {
         var textureLoader = new THREE.TextureLoader();
         textureLoader.setCrossOrigin('anonymous');
         textureLoader.load('../res/textures/sky_sphere_map.jpg', function (texture) {
-            var geometry = new THREE.SphereGeometry(1000, 20, 20);
+            var geometry = new THREE.SphereGeometry(1000, 256, 256);
 
             var material = new THREE.MeshBasicMaterial({
                 map: texture,
@@ -52,8 +53,22 @@ $(function () {
 
             sphere = new THREE.Mesh(geometry, material);
 
-            sphere.position.set(0, 0, 0);
             scene.add(sphere);
+        });
+
+        // Planet
+        var textureLoader2 = new THREE.TextureLoader();
+        textureLoader2.setCrossOrigin("anonymous");
+        textureLoader2.load("../res/textures/Planet.png", function (texture) {
+            var geometry = new THREE.SphereGeometry(100, 128, 128);
+            var material = new THREE.MeshPhongMaterial({
+                map: texture,
+                side: THREE.DoubleSide
+            });
+            planet = new THREE.Mesh(geometry, material);
+            planet.position.set(-500, -400, 300);
+            planet.rotateZ(0.5);
+            scene.add(planet);
         });
 
         // Spaceship
@@ -63,14 +78,6 @@ $(function () {
             spaceship.position.set(0, 0, 0);
             scene.add(spaceship);
         });
-
-        // composer = new THREE.EffectComposer( renderer );
-        // composer.addPass( new THREE.RenderPass( scene, camera ) );
-        //
-        // glitchPass = new THREE.GlitchPass();
-        // glitchPass.renderToScreen = true;
-        // composer.addPass( glitchPass );
-
     }
 
     function onWindowResize() {
@@ -85,15 +92,7 @@ $(function () {
             var y = Math.abs(e.clientY/window.innerHeight)-0.5;
             //console.log(x+"/"+y);
 
-            var scaling = 20;
-
-            var menuMarginLeft = $("#overlay-menu").css("margin-left").split("px")[0];
-            var menuMarginTop = $("#overlay-menu").css("margin-top").split("px")[0];
-            var highscoreMarginRight = $("#overlay-highscore").css("margin-right").split("px")[0];
-            var highscoreMarginTop = $("#overlay-highscore").css("margin-top").split("px")[0];
-
-
-
+            var scaling = 50;
             $("#overlay-highscore").css("margin-right", 50+x*scaling+"px");
             $("#overlay-highscore").css("padding-top", 50-y*scaling+"px");
             $("#overlay-menu").css("margin-left", 50-x*scaling+"px");
@@ -117,8 +116,16 @@ $(function () {
 
     }
 
+    function fadeOutLoadingOverlay() {
+        setTimeout(function() {
+            $("#loading-overlay").fadeOut();
+        }, 2000);
+    }
+
     function moveSpaceship() {
         if (spaceship !== undefined) {
+            // TODO: dreht sich zu weit
+
             var time = new Date().getTime() * 0.0005;
             spaceship.position.x = -Math.sin(time) + Math.pow(Math.cos(time), 2);
             spaceship.position.y = -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2);
@@ -128,6 +135,13 @@ $(function () {
             spaceship.rotateX(angle);
             spaceship.rotateZ(angle * 0.1);
         }
+
+        if (planet !== undefined) {
+            console.log("spin");
+            planet.rotateX(0.0002);
+            planet.rotateY(0.0002);
+        }
+
     }
 
 
