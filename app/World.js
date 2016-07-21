@@ -84,7 +84,7 @@ function updateStars(){
 
         // star.position.z +=  0.3;hip.positi
  
-       if((star.position.x < -sphere.position.x - 1000 || star.position.x > sphere.position.x + 1000 ||star.position.y < sphere.position.y - 1000 || star.position.y > sphere.position.y + 1000 || star.position.z < sphere.position.z - 1000|| star.position.z > sphere.position.z + 1000) ){
+       if((star.position.x < sphere.position.x - 1000 || star.position.x > sphere.position.x + 1000 ||star.position.y < sphere.position.y - 1000 || star.position.y > sphere.position.y + 1000 || star.position.z < sphere.position.z - 1000|| star.position.z > sphere.position.z + 1000) ){
 
              star.position.x = ship.position.x + Math.floor(Math.random() * (1000 - (-1000)) -1000); 
              star.position.y = ship.position.y + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
