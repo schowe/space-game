@@ -2,7 +2,7 @@
 
 ##Score Funktionen:
 
-*\tScore Counter erhöht Score passiv um 1*
+*	Score Counter erhöht Score passiv um 1*
 	startScoreCounter();
 	
 	stopScoreCounter();
