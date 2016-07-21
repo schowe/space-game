@@ -81,12 +81,23 @@ $(function () {
 
     function onMouseMove(e) {
         if (e.isTrusted) {
-            var x = Math.abs(e.clientX/window.innerWidth);
-            var y = Math.abs(e.clientY/window.innerHeight);
-            console.log(x+"/"+y);
+            var x = Math.abs(e.clientX/window.innerWidth)-0.5;
+            var y = Math.abs(e.clientY/window.innerHeight)-0.5;
+            //console.log(x+"/"+y);
 
-            // TODO: koordinatensystem anpassen
-            // => abbildung mit 0/0 in der mitte, dann divs abhängig von cursor position verschieben
+            var scaling = 20;
+
+            var menuMarginLeft = $("#overlay-menu").css("margin-left").split("px")[0];
+            var menuMarginTop = $("#overlay-menu").css("margin-top").split("px")[0];
+            var highscoreMarginRight = $("#overlay-highscore").css("margin-right").split("px")[0];
+            var highscoreMarginTop = $("#overlay-highscore").css("margin-top").split("px")[0];
+
+
+
+            $("#overlay-highscore").css("margin-right", 50+x*scaling+"px");
+            $("#overlay-highscore").css("padding-top", 50-y*scaling+"px");
+            $("#overlay-menu").css("margin-left", 50-x*scaling+"px");
+            $("#overlay-menu").css("padding-top", 50-y*scaling+"px");
         }
     }
 
