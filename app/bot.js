@@ -3,12 +3,10 @@
 // TODO: Operator Overloading entfernen
 // TODO: Eigene MATH-Klasse konstruieren, die 3JS erleichtert
 
-var minObstacleDistance = 100;
 var minShipSize = 10;
 var maxShipSize = 20;
 var maxAsteroidSize = 30;
 var guardingRadius = 50;
-var minDistanceToPlayer = 10;
 
 var asteroids, enemies, enemy, asteroid, playerPosition,
     worldRadius, radius, i;

@@ -1,9 +1,10 @@
 var minObstacleDistance = 100;
-var minShipSize = 10;
-var maxShipSize = 20;
 var maxAsteroidSize = 30;
 var guardingRadius = 50;
 var minDistanceToPlayer = 10;
+
+var asteroids, enemies, enemy, asteroid, playerPosition,
+    worldRadius, radius, i;
 
 
 // Enemyklasse
@@ -95,10 +96,25 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     if(obstacles.length > 0) {
         // Unterscheide nach Faellen, da der Algorithmus fuer mehrere
-        // Hindernisse rechenintensiv ist
+        // Hindernisse rechenintensiv ist (rendert die Szene neu)
 
         // einfacher Fall: nur ein Hindernis
         if(obstacles.length == 1) {
+            // gehe in die optimale Richtung, abgelenkt um
+            // negative Flugrichtung des Hindernisses
+            var avoidDir = new THREE.Vector3(0,0,0);
+            avoidDir.sub(obstacles[0].direction);
+
+            // Gewichte die Laengen, um Kollision zu vermeiden
+            var bestImpact = enemy.position.distanceTo(obstacles[0].position);
+            var avoidImpact = 1.5 * maxAsteroidSize;
+
+            avoidDir.multiplyScalar(avoidImpact);
+
+            direction = directionToPlayer.copy();
+            direction.multiplyScalar(bestImpact);
+
+            direction.add(avoidDir);
 
         } else { // schwieriger Fall: mindestens zwei Hindernisse
 
