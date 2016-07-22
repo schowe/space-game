@@ -100,7 +100,7 @@ var maxAmmo = 0;
 
 // Function for secondary weapon display missing
  
- /* Updates the weapon interface of the secondary weapon*/
+/* Updates the weapon interface of the secondary weapon*/
 function updateWeaponInterface() {
 	//currentWeapon = get current weapon
 	//correntAmmo = get current ammo
