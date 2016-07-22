@@ -1,6 +1,4 @@
 // Botklasse
-// TODO: In Bot mit Spieler als Ursprung rechnen
-// TODO: Operator Overloading entfernen
 
 var minShipSize = 10;
 var maxShipSize = 20;
@@ -41,15 +39,15 @@ function reflectAsteroids(a,b) {
 
     // Reflektion fuer Asteroid a
     var axisA = MATH.clone(axis);
-    factor = 2 * Math.dot(axisA,a.direction)
+    factor = 2 * Math.dot(axisA,a.direction);
     a.direction.negate();
-    a.direction += axis.multiplyScalar(factor);
+    a.direction.add(axis.multiplyScalar(factor));
 
     // Reflektion fuer Asteroid b
     var axisB = MATH.clone(negAxis);
     factor = 2 * Math.dot(axisB,b.direction);
     b.direction.negate();
-    b.direction += negAxis.multiplyScalar(factor);
+    b.direction.add(negAxis.multiplyScalar(factor));
 }
 
 
@@ -122,18 +120,20 @@ function createAsteroid(level) {
         radius = minShipSize + Math.random * (maxAsteroidSize - minShipSize);
     } while(!farAway(asteroidPosition, radius));
 
-    // TODO: speed abhaengig von Level
+    // TODO: speed abhaengig von Level, ! asteroid.speed < min(enemy.speed)
     speed = level;
 
     // Richtung:
-    // Gegengesetzt zur Normalen mit kleinem Fehlerwinkel (bis zu 20°)
+    // Gegengesetzt zur Normalen mit Fehlerwinkel (bis zu 40°)
     direction = new THREE.Vector3(
             Math.sin(beta) * Math.sin(alpha),
             Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
-    // TODO: korrekten Vektor berechnen
-    direction.add(Math.pow(-1,Math.round(1000 * Math.random())) *
-                     Math.random() * 0.36397023); // tan(20°)
+    var randomDir = new THREE.Vector3(Math.random(), Math.random(), Math.random());
+    randomDir.normalize();
+    randomDir.multiplyScalar(Math.pow(-1,Math.round(1000 * Math.random())) *
+                     Math.random() * 0.839); // tan(40°)
+    direction.add(randomDir);
 
     asteroid = new Bots.Asteroid(asteroidPosition, direction, speed);
 
@@ -216,7 +216,7 @@ function update(delta) {
     enemies = checkCollisionAndAct(asteroids, enemies);
     // Schiessen
     for(enemy of enemies) {
-        if(enemy.shootAble == true) {
+        if(enemy.shootAble) {
             enemy.shoot();
             enemy.shootAble = false;
         }
