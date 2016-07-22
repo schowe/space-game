@@ -12,6 +12,7 @@ var FileLoader = function() {
         // Models
         "../res/meshes/HeroShipV1.json",
         "../res/meshes/HeroShipV2.json",
+        "../res/meshes/HeroShipV4.json",
         "../res/meshes/EnemyMiniShipV1.json",
         "../res/meshes/AsteroidPart1.json",
         "../res/meshes/AsteroidPart2.json",
@@ -37,7 +38,7 @@ var FileLoader = function() {
         );
     }
 
-    function loadJpeg(file, name) {
+    function loadImage(file, name) {
         var textureLoader = new THREE.TextureLoader();
         textureLoader.setCrossOrigin('anonymous');
         // load texture
@@ -59,9 +60,10 @@ var FileLoader = function() {
             case "json":
                 loadJson(file, name);
                 break;
+            case "png": // no break!
             case "jpg": // no break!
             case "jpeg":
-                loadJpeg(file, name);
+                loadImage(file, name);
                 break;
             default:
                 console.log("Error: unknown file format: "+file);
@@ -77,15 +79,13 @@ var FileLoader = function() {
     
     // "public" Methoden:
     return {
-        isReady: function() {
-            // gibt true zurück, wenn alle Files geladen wurden
-            return isReady();
-        },
+        isReady: isReady,
         getAll: function() {
             // gibt alle geladenen Dateien zurück
             return isReady() ? loadedFiles : undefined;
         },
         get: function(name) {
+
             return isReady() ? loadedFiles[name] : undefined;
         }
     }
