@@ -211,11 +211,17 @@ function updateAsteroids(){
 
     if((tmpAsteroid.position.x < biggerSphere.position.x - 2000 || tmpAsteroid.position.x > biggerSphere.position.x + 2000 ||tmpAsteroid.position.y < biggerSphere.position.y - 2000 || tmpAsteroid.position.y > biggerSphere.position.y + 2000 || tmpAsteroid.position.z < biggerSphere.position.z - 2000|| tmpAsteroid.position.z > biggerSphere.position.z + 2000) ){
 
-            asteroidSpeedVecs[countAst].x = asteroidSpeedVecs[countAst].x * -1; 
-            asteroidSpeedVecs[countAst].y = asteroidSpeedVecs[countAst].y * -1; 
-            asteroidSpeedVecs[countAst].z = asteroidSpeedVecs[countAst].z * -1; 
-        
+            // console.log("Old Position Asteroid  :" + tmpAsteroid.position.x +tmpAsteroid.position.y +tmpAsteroid.position.z  + "Old HitBox Position " + tmpHitBox.position.x + tmpHitBox.position.y + tmpHitBox.position.z); 
+            tmpAsteroid.position.x = ship.position.x + 2000 * Math.cos(tmpAsteroid.rotation.x) * Math.sin(tmpAsteroid.rotation.y);
+            tmpAsteroid.position.y = ship.position.y + 2000 * Math.sin(tmpAsteroid.rotation.x) * Math.sin(tmpAsteroid.rotation.y);
+            tmpAsteroid.position.z = ship.position.z + 2000 * Math.cos(tmpAsteroid.rotation.y);
 
+            tmpHitBox.position.x = ship.position.x + 2000 * Math.cos(tmpAsteroid.rotation.x) * Math.sin(tmpAsteroid.rotation.y);
+            tmpHitBox.position.y = ship.position.y + 2000 * Math.sin(tmpAsteroid.rotation.x) * Math.sin(tmpAsteroid.rotation.y);
+            tmpHitBox.position.z = ship.position.z + 2000 * Math.cos(tmpAsteroid.rotation.y);
+
+           
+            // console.log("New Position Asteroid  :" + tmpAsteroid.position.x +tmpAsteroid.position.y +tmpAsteroid.position.z  + "New HitBox Position " + tmpHitBox.position.x + tmpHitBox.position.y + tmpHitBox.position.z); 
                          //tmpAsteroid.position.x = ship.position.x + Math.floor(Math.random() * (2000 - (-2000)) -2000); 
              //tmpAsteroid.position.y = ship.position.y + Math.floor(Math.random() * (2000 - (-2000)) -2000); 
              //StmpAsteroid.position.z = ship.position.x + Math.floor(Math.random() * (2000 - (-2000)) -2000); 
