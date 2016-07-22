@@ -11,6 +11,7 @@ var moveDown;
 var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
+var directionVector = new THREE.Vector4(0,0,0,1);
 
 var Sensitivity = 0.4;
 var maxVel = 20;
@@ -252,6 +253,7 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
+            directionVector = position - targetPosition;
         },
 
         unlockPointer:function(){
