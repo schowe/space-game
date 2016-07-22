@@ -99,16 +99,6 @@ function init() {
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
-   /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
-    object.position.set( 400, 0, -200 );
-    scene.add( object ); */
-
-    //
-
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-
 
    /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
     object.position.set( 400, 0, -200 );
@@ -130,14 +120,14 @@ function init() {
 
     clock = new THREE.Clock();
 
-
     window.onkeydown = onKeyDown;
-
 }
 
 function onKeyDown(e) {
     if (e.keyCode == 80) { // = 'P'
+        Movement().unlockPointer();
         interface.toggleMenuOverlay();
+
     }
 }
 

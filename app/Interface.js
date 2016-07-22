@@ -280,7 +280,6 @@ function displayLevel (value) {
 		$('#currentLevel').animate({opacity: "1"}, 100);
 		$('#currentLevel').animate({opacity: "0.3"}, 100);
 		$('#currentLevel').animate({opacity: "1"}, 100);
-		$('#currentLevel').animate({'transform: rotate(90deg);': 35}, 100);
 	}
 	
 	setTimeout(yay, 1500)
