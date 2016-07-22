@@ -54,7 +54,7 @@ $(function () {
             textureLoaderLensFlare.load("res/textures/lensflare2.png", function (texture2) {
                 textureLoaderLensFlare.load("res/textures/lensflare3.png", function (texture3) {
                     var light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
-                    light.color.setHSL( 0.55, 0.9, 0.5 );
+                    light.color.setHSL( 32/255, 1, 0.5 );
                     light.position.set( 5, 5, 5 );
                     scene.add( light );
 

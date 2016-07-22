@@ -58,35 +58,37 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
     
 
 
-    this.update = function(newStartVector) {
-
-        if (newStartVector !== undefined) {
-            this.startVector = newStartVector;
-            this.directionVector = new THREE.Vector3(
-                this.endVector.x - this.startVector.x,
-                this.endVector.y - this.startVector.y,
-                this.endVector.z - this.startVector.z
-            );
-        }
-
+    this.updateStartAndEndpoint = function(startVector, endVector) {
+        this.startVector = startVector;
+        this.endVector = endVector;
+    };
+    
+    this.update = function() {
         var pCount = this.particleCount;
         while (pCount--) {
             var particle = this.particles.vertices[pCount];
-            
-            
+
             // überprüfen: hat der Particle den Endpunkt erreicht und muss zurückgesetzt werden?
             var distanceFromEndVector = new THREE.Vector3(
-                Math.abs(this.endVector.x - particle.x),
-                Math.abs(this.endVector.y - particle.y),
-                Math.abs(this.endVector.z - particle.z)
+                this.endVector.x - particle.x,
+                this.endVector.y - particle.y,
+                this.endVector.z - particle.z
             );
 
             var distance = Math.sqrt(
                 distanceFromEndVector.x*distanceFromEndVector.x
                 +distanceFromEndVector.y*distanceFromEndVector.y
-                +distanceFromEndVector.z*distanceFromEndVector.z);
+                +distanceFromEndVector.z*distanceFromEndVector.z
+            );
+
+            distanceFromEndVector = distanceFromEndVector.normalize();
+            var scaling = 50;
+            distanceFromEndVector.x *= scaling;
+            distanceFromEndVector.y *= scaling;
+            distanceFromEndVector.z *= scaling;
 
             if (distance < this.rayRadius) {
+
                 // Particle hat den Endpunkt erreicht => zurücksetzen!
                 particle = new THREE.Vector3(
                     this.startVector.x,
@@ -94,9 +96,9 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
                     this.startVector.z
                 );
 
-                particle.x += this.directionVector.x * rand() * 0.001;
-                particle.y += this.directionVector.y * rand() * 0.001;
-                particle.z += this.directionVector.z * rand() * 0.001;
+                particle.x += distanceFromEndVector.x * rand() * 0.001;
+                particle.y += distanceFromEndVector.y * rand() * 0.001;
+                particle.z += distanceFromEndVector.z * rand() * 0.001;
 
                 particle.velocity = new THREE.Vector3(0, 0, 0);
 
@@ -105,9 +107,9 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
 
                 // Particles auf Flugbahn weiterbewegen
                 var r = rand();
-                particle.velocity.x = this.directionVector.x * r * 0.1 + (rand()-0.5) * 0.1;
-                particle.velocity.y = this.directionVector.y * r * 0.1 + (rand()-0.5) * 0.1;
-                particle.velocity.z = this.directionVector.z * r * 0.1 + (rand()-0.5) * 0.1;
+                particle.velocity.x = distanceFromEndVector.x * r * 0.1 + (rand()-0.5) * 0.1;
+                particle.velocity.y = distanceFromEndVector.y * r * 0.1 + (rand()-0.5) * 0.1;
+                particle.velocity.z = distanceFromEndVector.z * r * 0.1 + (rand()-0.5) * 0.1;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;
