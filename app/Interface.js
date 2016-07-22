@@ -59,7 +59,7 @@ function changeScore(value) {
 
 /* Sets the current score to @value */
 function setScore(value) {
-    scoreReference.innerHTML = value;
+    scoreReference.innerHTML = parseInt(value + 0.5);
 }
 
 /* Returns the current score */
@@ -80,7 +80,7 @@ function changeMoney(value) {
 
 /* Sets the current amount of money to @value */
 function setMoney(value) {   
-    moneyReference.innerHTML = value;
+    moneyReference.innerHTML = parseInt(value + 0.5);
 }
 
 /* Returns the current amount of money */
@@ -135,15 +135,14 @@ function changeHP(value) {
 	var i = 0;
 	var ticks = 100;
 	value = parseInt(value);
+	// Saved to correct float accuracy errors later
 	var originalHP = currentHP;
 	// Amount of HP per tick
 	var hpTick = value / ticks;
 	var tempID = setInterval(frame, 1);
 	
 	function frame() {
-		
 		if(i < ticks) {
-			
 			if (!pause) {
 				currentHP += hpTick;
 			
@@ -157,9 +156,9 @@ function changeHP(value) {
 				if (parseInt(currentHP + 0.5) <= 0) {
 					clearInterval(tempID);
 					var temp = document.getElementById('currentHP');
-					temp.innerHTML = parseInt(0);
+					temp.innerHTML = 0;
 					hpBoxCurrent.style.width = 0;
-					//gameOver();
+					gameOver();
 					return;
 				}
 			
@@ -237,11 +236,11 @@ function displayLevel (value) {
 	
 	var tempLevel = document.getElementById('currentLevel');
 	tempLevel.innerHTML = parseInt(value);
-	$('#levelDisplay').animate({opacity: "1", top: "50px"}, 1000);
+	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
 
 	setTimeout(animateLevel, 1000)
 	function animateLevel () {
-    		$('#currentLevel').animate({opacity: '1'}, 100);
+    	$('#currentLevel').animate({opacity: '1'}, 100);
 		$('#currentLevel').animate({opacity: '0.3'}, 100);
 		$('#currentLevel').animate({opacity: '1'}, 100);
 		$('#currentLevel').animate({opacity: '0.3'}, 100);
@@ -250,7 +249,7 @@ function displayLevel (value) {
 	
 	setTimeout(hideLevel, 1500)
 	function hideLevel () {
-    		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
+    	$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
 	}
 }
 
