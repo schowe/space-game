@@ -17,11 +17,16 @@
     <script src="res/js/lib/threejs/tween.min.js"></script>
 
     <!-- custom -->
+
+    <script src="app/RayParticleRenderer.js"></script>
+
     <script>
         $(function() {
-
+            var particlePathLength = 5;
 
             var camera, scene, renderer, particleSystem, particleCount, particles;
+
+            var particleRenderer = new ParticleRenderer();
 
             init();
             animate();
@@ -66,7 +71,7 @@
                 var pMaterial = new THREE.PointCloudMaterial(
                         {
                             color: 0xFFFFFF,
-                            size: 20,
+                            size: 1,
                             map: THREE.ImageUtils.loadTexture(
                                     "res/textures/particle.png"
                             ),
@@ -79,13 +84,14 @@
                 for (var p = 0; p < particleCount; p++) {
                     // create a particle with random
                     // position values, -250 -> 250
-                    var pX = Math.random() * 500 - 250,
-                            pY = Math.random() * 500 - 250,
-                            pZ = Math.random() * 500 - 250,
-                            particle = new THREE.Vector3(pX, pY, pZ);
+                    var particle = new THREE.Vector3(
+                            Math.sin(Math.random())-0.5,
+                            particlePathLength-Math.random()*particlePathLength,
+                            Math.cos(Math.random())-0.5
+                    );
 
                     // add it to the geometry
-                    particle.velocity = new THREE.Vector3(0, -Math.random(), 0);
+                    particle.velocity = new THREE.Vector3(0, -Math.random()*0.01, 0);
                     particles.vertices.push(particle);
                 }
 
@@ -100,19 +106,25 @@
             }
 
             function animate() {
+
                 requestAnimationFrame(animate);
                 render();
+            }
 
-                particleSystem.rotation.y += 0.01;
+            function render() {
+
+                /*//particleSystem.rotation.y += 0.01;
                 var pCount = particleCount;
+
+
                 while (pCount--) {
                     var particle = particles.vertices[pCount];
-                    if (particle.y < -200) {
-                        particle.y = 200;
+                    if (particle.y < 0) {
+                        particle.y = particlePathLength;
                         particle.velocity.y = 0;
                     }
 
-                    particle.velocity.y -= Math.random() * 0.1;
+                    particle.velocity.y -= Math.random() * 0.01;
 
                     particle.x += particle.velocity.x;
                     particle.y += particle.velocity.y;
@@ -120,16 +132,15 @@
 
                     particleSystem.geometry.__dirtyVertices = true;
                 }
+
+                particles.verticesNeedUpdate = true;*/
+                renderer.render(scene, camera);
             }
 
             function onWindowResize() {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-
-            function render() {
-                renderer.render(scene, camera);
             }
 
 
