@@ -31,7 +31,7 @@ var Interface = function() {
 function interfaceInit(){
 	setMaxHP(100);
 	setHP(100);
-	changeHP(-99);
+	updateWeaponInterface();
 	displayLevel(1);
 }
 
@@ -102,9 +102,21 @@ var maxAmmo = 0;
  
 /* Updates the weapon interface of the secondary weapon*/
 function updateWeaponInterface() {
-	//currentWeapon = get current weapon
-	//correntAmmo = get current ammo
-	//maxAmmo = get max ammo
+	
+	switch(activeSecWeapon) {
+		case 0: 
+				currentAmmo = rocketAmmo;
+				maxAmmo = MaxRockedAmmo;
+				break;
+		case 1: 
+				currentAmmo = MGAmmo;
+				maxAmmo = MaxMGAmmo;
+				break;
+		default:
+				currentAmmo = 42;
+				maxAmmo = 42;
+				break;
+	}
 	
 	currentAmmoLabel.innerHTML = currentAmmo;
 	maxAmmoLabel.innerHTML = maxAmmo;
@@ -131,26 +143,29 @@ function changeHP(value) {
 	function frame() {
 		
 		if(i < ticks) {
-			currentHP += hpTick;
 			
-			if (currentHP > maxHP) {
-				clearInterval(tempID);
-				currentHP = maxHP;
+			if (!pause) {
+				currentHP += hpTick;
+			
+				if (currentHP > maxHP) {
+					clearInterval(tempID);
+					currentHP = maxHP;
+					updateHPDisplay();
+					return;
+				}
+			
+				if (parseInt(currentHP + 0.5) <= 0) {
+					clearInterval(tempID);
+					var temp = document.getElementById('currentHP');
+					temp.innerHTML = parseInt(0);
+					hpBoxCurrent.style.width = 0;
+					//gameOver();
+					return;
+				}
+			
 				updateHPDisplay();
-				return;
-			}
-			
-			if (parseInt(currentHP + 0.5) <= 0) {
-				clearInterval(tempID);
-				var temp = document.getElementById('currentHP');
-				temp.innerHTML = parseInt(0);
-				hpBoxCurrent.style.width = 0;
-				//gameOver();
-				return;
-			}
-			
-			updateHPDisplay();
-			i++;			
+				i++;
+			}				
 		} else {
 			clearInterval(tempID);
 			currentHP = originalHP + value;
@@ -263,8 +278,7 @@ function setSpeed(newSpeed) {
 	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + parseInt(Math.random() * 10);
 
 	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - 10)
-		//temp.innerHTML = maxSpeed * speedFactor * 10;
-		temp.innerHTML = 42;
+		temp.innerHTML = parseInt(maxSpeed * speedFactor * 10);
 
 	if(parseInt(temp.innerHTML) < 10)
 		temp.innerHTML = 0;
