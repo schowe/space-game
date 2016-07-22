@@ -220,22 +220,21 @@ function displayLevel (value) {
 	
 	var tempLevel = document.getElementById('currentLevel');
 	tempLevel.innerHTML = parseInt(value);
-	
-	$('#levelDisplay').animate({opacity: "1", top:"50px"}, 1000);
+	$('#levelDisplay').animate({opacity: "1", top: "50px"}, 1000);
 
-	setTimeout(nay, 1000)
-	function nay () {
-    	$('#currentLevel').animate({opacity: "1"}, 100);
-		$('#currentLevel').animate({opacity: "0.3"}, 100);
-		$('#currentLevel').animate({opacity: "1"}, 100);
-		$('#currentLevel').animate({opacity: "0.3"}, 100);
-		$('#currentLevel').animate({opacity: "1"}, 100);
+	setTimeout(animateLevel, 1000)
+	function animateLevel () {
+    		$('#currentLevel').animate({opacity: '1'}, 100);
+		$('#currentLevel').animate({opacity: '0.3'}, 100);
+		$('#currentLevel').animate({opacity: '1'}, 100);
+		$('#currentLevel').animate({opacity: '0.3'}, 100);
+		$('#currentLevel').animate({opacity: '1'}, 100);
 	}
+	
 	setTimeout(hideLevel, 1500)
 	function hideLevel () {
-    	$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
+    		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
 	}
-	
 }
 
 /**
