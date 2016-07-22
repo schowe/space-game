@@ -1,24 +1,5 @@
-
-var asteroids = [];
-
-function destroyAsteroid(asteroid42){
-    scene.remove(asteroid42);
-//  	//var index = asteroids.indexOf(asteroid42);
-// 	//asteroids.splice(index, 1);
-}
-
-function successLaser(laser42){
-	scene.remove(laser42);
-//  	//var index = projectiles.indexOf(laser42);
-// 	//projectiles.splice(index, 1);
-}
-
-function getAsteroidHitbox(asteroid42) {
-    return asteroid42;
-}
-
 //Variables
-
+var weaponsActive = false;
 var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
@@ -82,7 +63,6 @@ rocketMaterial = new THREE.MeshBasicMaterial({ color:0xA0A0AF });
 //var collidableMeshList = [];
 
 // Create Materials for Bullets etc.
-
 var shootMaterial = new THREE.MeshBasicMaterial({ color:0xFF0000 });
 var explosionMaterial = new THREE.MeshBasicMaterial({ color:0xFFFFFF });
 
@@ -92,18 +72,8 @@ var explosionMaterial = new THREE.MeshBasicMaterial({ color:0xFFFFFF });
 //Initialize, sp: the controlled Spaceship; cms: the List of Objects checked for collisions (CollidableMeshLists)
 function initializeWeapons(){
 
-
-
-	//Target for testing
-
-	var testGeometry = new THREE.SphereGeometry(50,16,16);
-	var testMaterial = new THREE.MeshBasicMaterial({ color:0xFFFF00 });
-	var testTarget1 = new THREE.Mesh(testGeometry, testMaterial);
-	testTarget1.translateX(200);
-	scene.add(testTarget1);
-	//testTarget1.name = "Asteroid";
-
-	asteroids.push(testTarget1);
+	//this.spaceship   = sp;
+	//this.collidableMeshList = cms;
 
 	//initialize Audio-files
 	 //laserAudio = document.createElement('audio');
@@ -128,8 +98,6 @@ function initializeWeapons(){
 
 	//initialize clock for time-control
 	weaponClock = new THREE.Clock();
-
-	document.addEventListener('mousedown', shoot, false);
 }
 
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
@@ -190,13 +158,11 @@ function shoot(){
 
 		//create mesh
      	bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
-
      	bullet1.name = "Laser";
       	//translate to ship position
       	bullet1.position.x = ship.position.x;
       	bullet1.position.y = ship.position.y;
       	bullet1.position.z = ship.position.z;
-
       	//set orientation of the bullet according to ship orientation
       	bullet1.lookAt(targetPosition);
 
@@ -313,7 +279,6 @@ function renderWeapons(){
 	      mgCounter -= 1;
 	    }
 	  }
-
 	  //Translate projectiles
 	  for( var bul in projectiles){
 	    projectiles[bul].translateY(-2000 * add);
@@ -356,4 +321,14 @@ function renderWeapons(){
 	        explosion = undefined;
 	    }
 	  }
+}
+
+function toggleWeapons(){
+	if(weaponsActive == true){
+		document.removeEventListener('mousedown', shoot, false);
+		weaponsActive = false;
+	}else{
+		document.addEventListener('mousedown', shoot, false);
+		weaponsActive = true;
+	}
 }

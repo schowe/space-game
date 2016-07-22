@@ -1,7 +1,6 @@
 
 var targetPosition;
 
-var controls;
 var movementVector = new THREE.Vector4(0,0,0,1);
 var speedVector = new THREE.Vector4(0,0,0,1);
 var moveForward;
@@ -14,9 +13,13 @@ var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
 
-var Sensitivity = 0.4;
-var maxVel = 20;
-var maxDrift = 10;
+var directionVector = new THREE.Vector4(0,0,0,1);
+var Pause = false;
+var PauseScreen = false;
+
+var Sensitivity = 0.2;
+var maxVel = 14;
+var maxDrift = 5;
 
 var mouseX = 0;
 var mouseY = 0;
@@ -31,12 +34,8 @@ var theta = 0;
 
 
 function Movement() {
-    
-    return {
 
-        //getTargetPosition:function(){
-        //    return targetPosition;
-        //}
+    return {
 
         init:function() {
 
@@ -51,22 +50,26 @@ function Movement() {
                 var element = document.body;
 
                 var pointerlockchange = function (event) {
-
+                    toggleWeapons();
                     if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
 
-                        controlsEnabled = true;
                         blocker.style.display = 'none';
                         document.addEventListener('mousemove', moveCallback, false);
-                        console.log("Added Event Listener");
+                        Pause = false;
 
-                    } else {               
+                    } else {
+                        if(PauseScreen == true){
 
-                        blocker.style.display = '-webkit-box';
-                        blocker.style.display = '-moz-box';
-                        blocker.style.display = 'box';
+                        }else{
+                            blocker.style.display = '-webkit-box';
+                            blocker.style.display = '-moz-box';
+                            blocker.style.display = 'box';
+                            instructions.style.display = '';
+                        }
+                        Pause = true;
+
                         document.removeEventListener('mousemove', moveCallback, false);
-                        console.log("Removed Event Listener");
-                        instructions.style.display = '';
+
 
                     }
 
@@ -91,6 +94,7 @@ function Movement() {
 
                     instructions.style.display = 'none';
                     blocker.style.display = 'none';
+                    Pause = false;
 
                     // Ask the browser to lock the pointer
                     element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
@@ -159,8 +163,6 @@ function Movement() {
                     case 70:
                         moveDown = true;
 
-
-
                 }
 
 
@@ -192,6 +194,9 @@ function Movement() {
                         break;
                     case 67:
                         changeCam();
+                        break;
+                    case 88:
+                        stop();
                 }
 
 
@@ -200,11 +205,11 @@ function Movement() {
 
 
         },
-     
+
 
 
         move:function(delta) {
-            setMaxSpeed(20);
+            setMaxSpeed(14);
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
                 setSpeed(-yAxis);
@@ -239,16 +244,17 @@ function Movement() {
             ship.translateZ(yAxis);
             ship.translateY(-xAxis);
             ship.translateX(-zAxis);
+
             sphere.position.set(ship.position.x,ship.position.y,ship.position.z);
-            
+            biggerSphere.position.set(ship.position.x,ship.position.y,ship.position.z);
+
 
             mouseX *= Sensitivity;
             mouseY *= Sensitivity;
             lon += mouseX;
             lat -= mouseY;
-            mouseX = 0;
-            mouseY = 0;
-            lat = Math.max(-85, Math.min(85, lat));
+
+            lat = Math.max(-85, Math.min(70, lat));
             phi = THREE.Math.degToRad(90 - lat);
             theta = THREE.Math.degToRad(lon);
 
@@ -259,21 +265,29 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
+<<<<<<< HEAD
+=======
+            directionVector = position - targetPosition;
+
+>>>>>>> be75a2add8fc1419737c2c534bf09cc1dc43635e
         },
 
         unlockPointer:function(){
 
             var element = document.body;
             if(document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
-                element.exitPointerLock = element.exitPointerLock || element.mozExitPointerLock || element.webkitExitPointerLock;
+                document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+                document.exitPointerLock();
             }
         },
 
         lockPointer:function(){
             var element = document.body;
-            if(document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element){
-                element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-            }
+
+            element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+            element.requestPointerLock();
+
+
         }
     }
 }
@@ -293,3 +307,11 @@ function changeCam(){
     }
 }
 
+function stop(){
+    xAxis = 0.0;
+    yAxis = 0.0;
+    zAxis = 0.0;
+    setSpeed(0.0);
+    mouseX = 0.0;
+    mouseY = 0.0;
+}
