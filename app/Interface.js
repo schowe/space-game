@@ -25,14 +25,15 @@ var Interface = function() {
             }
         }
     }
-    
 };
 
+/* Sets the starting values. Also used for testing. */
 function interfaceInit(){
 	setMaxHP(100);
-	setHP(100);
+	setHP(1);
+	changeHP(99);
+	displayLevel(1);
 }
-
 
 /**
  * FUNCTIONS FOR HIGHSCORE
@@ -51,14 +52,9 @@ function stopScoreCounter() {
 	clearInterval(scoreCounterID);
 }
 
-/* Increases the score by @value */
-function addScore(value) {   
+/* Changes the score by @value */
+function changeScore(value) {   
     scoreReference.innerHTML = parseInt(scoreReference.innerHTML) + parseInt(value);
-}
-
-/* Decreases the score by @value */
-function subScore(value) {   
-    scoreReference.innerHTML = parseInt(scoreReference.innerHTML) - parseInt(value);
 }
 
 /* Sets the current score to @value */
@@ -77,14 +73,9 @@ function getScore() {
 
 var moneyReference = document.getElementById('money'); 
 
-/* Increases the amount of money by @value */
-function addMoney(value) {   
+/* Changes the amount of money by @value */
+function changeMoney(value) {   
     moneyReference.innerHTML = parseInt(moneyReference.innerHTML) + parseInt(value);
-}
-
-/* Increases the amount of money by @value */
-function subMoney(value) {  
-    moneyReference.innerHTML = parseInt(moneyReference.innerHTML) - parseInt(value);
 }
 
 /* Sets the current amount of money to @value */
@@ -100,51 +91,23 @@ function getMoney() {
 /**
  * FUNCTIONS FOR AMMO
  */
+ 
+var currentAmmoLabel = document.getElementById('currentAmmo');
+var maxAmmoLabel = document.getElementById('maxAmmo');
+var currentWeapon = 0;
+var currentAmmo = 0;
+var maxAmmo = 0;
 
-var ammoWeapon = 60;
-var ammoPerShot = 1;
-
-//Reload der waffe
-function reload(){
-	var actual = document.getElementById('currentAmmo'); 
-	var max = document.getElementById('maxAmmo');
-	var diff = ammoWeapon - parseInt(actual.innerHTML);
-
-	if(diff>parseInt(max.innerHTML)){
-		//FEHLERBEHANDLUNG PLS!
-	}else{
-		maxAmmo.innerHTML = parseInt(max.innerHTML)-diff;
-		actual.innerHTML = ammoWeapon;
-	}
-}
-
-//Zum minuszählen der ammo beim shot der waffe
-function shot(){
-	var actual = document.getElementById('currentAmmo');
-	if(parseInt(actual.innerHTML)<=0){
-		//FEHLERBEHANDLUNG PLS!
-		//evtl automatisches reloaden nach upgradekauf
-	}else{
-		actual.innerHTML = parseInt(actual.innerHTML)-ammoPerShot;
-	}
-}
-
-//zum parameter laden der waffen
-//temp1 = ammo pro magazin
-//temp2 = ammo per shot
-function switchWeapon(temp1, temp2, name){
-
-	//Speicherung von alten Waffen
-	//Bearbeitungsbedarf!
-
-	ammoWeapon = temp1;
-	ammoPerShot = temo2;
-}
-
-//wenn munition erhalten wird (durch powerups/shop etc. )
-function plusAmmo(temp){
-	var max = document.getElementById('maxAmmo');
-	max.innerHTML = parseInt(max.innerHTML) + temp;
+// Function for secondary weapon display missing
+ 
+/* Updates the weapon interface of the secondary weapon*/
+function updateWeaponInterface() {
+	//currentWeapon = get current weapon
+	//correntAmmo = get current ammo
+	//maxAmmo = get max ammo
+	
+	currentAmmoLabel.innerHTML = currentAmmo;
+	maxAmmoLabel.innerHTML = maxAmmo;
 }
 
 /**
@@ -152,104 +115,68 @@ function plusAmmo(temp){
  */
  
  	var currentHP = 0;
-	var maxHP = 0 ;
-
+	var maxHP = 0;
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
-	var hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
-	var currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
-	
-	var hpBoxMax = document.getElementById('hpBox');
-	var hpBoxMStyle = window.getComputedStyle(hpBoxMax);
-	var maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
 
-function updateHpBar(value){
-	hpBoxCurrent.style.width = value / maxHPpx * 100 + '%';
-}
-
-function calcWidthFromHP(){	
-	return currentHP / maxHP * maxHPpx * 100;
-}
-
-function changeHP(value){
-	
-	hpBoxMax = document.getElementById('hpBox');
-	hpBoxMStyle = window.getComputedStyle(hpBoxMax);
-	maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
-
-	hpBoxCurrent = document.getElementById('hpBoxValue');
-	hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
-	currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
-
+/* Changes HP by @value */
+function changeHP(value) {
 	var i = 0;
-
 	var ticks = 100;
-	value = parseInt(value + 0.5);
-
-	// Amount of pixels per tick
-	var pxTick = value / maxHP * maxHPpx / ticks;
-
-	var tempID = setInterval(frame, 10);
+	value = parseInt(value);
+	// Amount of HP per tick
+	var hpTick = value / ticks;
+	var tempID = setInterval(frame, 1);
 	
 	function frame() {
 		
 		if(i < ticks) {
-
-			if(currentHPpx>maxHPpx||currentHPpx<0){
-				checkStuff();
+			
+			if (currentHP > maxHP) {
 				clearInterval(tempID);
+				currentHP = maxHP;
+				updateHPDisplay();
 				return;
 			}
-			currentHPpx += pxTick;
-			// Change the HP bar width
-			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';	
-
-			// Update displayed HP and color
-			currentHP = currentHPpx / maxHPpx * maxHP;			
-			updateHPDisplay(currentHP);
-			hpSetColor(currentHP);
 			
-			i++;
-			//document.write('D');
+			if (currentHP <= 0) {
+				clearInterval(tempID);
+				var temp = document.getElementById('currentHP');
+				temp.innerHTML = parseInt(0);
+				hpBoxCurrent.style.width = 0;
+				//gameOver();
+				return;
+			}
 			
+			currentHP += hpTick;
+			updateHPDisplay();
+			i++;			
 		} else {
-			checkStuff();
 			clearInterval(tempID);
 		}
 	}
-
-	function checkStuff(){
-		if(value<0){
-			setHP(getHP()-1);
-		}
-		if(getHP()<=0){
-			
-		}
-	}
-
 }
 
+/* Initiates the gameOver sequences */
+function gameOver() {
+	//TODO
+}
 
 /* Sets HP to @value */
 function setHP(value) {
-	this.currentHP = value;
-	hpBoxCurrent.style.width = value / maxHP * 100 + '%';
-	updateHPDisplay(value);
-	hpSetColor(value);
+	currentHP = value;
+	updateHPDisplay();
 }
 
 /* Returns HP */
 function getHP() {
-	//currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
-	//return currentHPpx / maxHPpx * maxHP;
 	return currentHP;
 }
 
 /* Sets maxHP to @value */
 function setMaxHP(value) {
-	this.maxHP = value;
-	document.getElementById('maxHP').innerHTML = parseInt(value + 0.5);
-
-	updateHpBar(getHP());
+	maxHP = parseInt(value + 0.5);
+	document.getElementById('maxHP').innerHTML = maxHP;
+	updateHPDisplay();
 }
 
 /* Returns maxHP */
@@ -257,8 +184,21 @@ function getMaxHP() {
 	return maxHP;
 }
 
+/* Updates the displayed HP */
+function updateHPDisplay() {
+	// Update the HP label
+	var temp = document.getElementById('currentHP');
+	temp.innerHTML = parseInt(currentHP + 0.5);
+	
+	// Update the HP width
+	hpBoxCurrent.style.width = currentHP / maxHP * 100 + '%';
+	
+	// Update the HP color
+	hpUpdateColor();
+}
+
 /* Sets the HP bar to a calculated color-gradient. */
-function hpSetColor(currentHP) {
+function hpUpdateColor() {
 	
 	if(currentHP <= (maxHP / 2)) {
 		// Color gradient in hex from 0% to 50%
@@ -271,26 +211,30 @@ function hpSetColor(currentHP) {
 	}
 }
 
-/* Updates the displayed HP */
-function updateHPDisplay(currentHP) {
-	var temp = document.getElementById('currentHP');
-	temp.innerHTML = parseInt(currentHP + 0.5);
-}
-
 /**
- * FUNCTIONS FOR LEVEL (Proof of concept)
+ * FUNCTIONS FOR LEVEL
  */
- 
-var currentLevel = 0;
 
-function updateLevel () {
-	currentLevel = parseInt(currentLevel) + 1;
-	var levelText = document.getElementById('levelDisplay');
-	document.getElementById('currentLevel').innerHTML = currentLevel;
-	//levelText.style.display = 'visible';
-	levelText.style.color = 'purple';
-	//setTimeout(function(){ levelText.style.display = 'none'; }, 3500);
-	setTimeout(function(){ levelText.style.color = 'transparent'; }, 2500);
+/* Displays @value as the current level */
+function displayLevel (value) {
+	
+	var tempLevel = document.getElementById('currentLevel');
+	tempLevel.innerHTML = parseInt(value);
+	$('#levelDisplay').animate({opacity: "1", top: "50px"}, 1000);
+
+	setTimeout(animateLevel, 1000)
+	function animateLevel () {
+    		$('#currentLevel').animate({opacity: '1'}, 100);
+		$('#currentLevel').animate({opacity: '0.3'}, 100);
+		$('#currentLevel').animate({opacity: '1'}, 100);
+		$('#currentLevel').animate({opacity: '0.3'}, 100);
+		$('#currentLevel').animate({opacity: '1'}, 100);
+	}
+	
+	setTimeout(hideLevel, 1500)
+	function hideLevel () {
+    		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
+	}
 }
 
 /**
@@ -298,10 +242,13 @@ function updateLevel () {
  */
  
 var maxSpeed = 100;
+var speedFactor = 4.04;
+var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
-function setSpeed(newSpeed) {	
-	// Set height of the speed bar
+function setSpeed(newSpeed) {
+	
+	// Set the height of the speed bar
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
 	
@@ -310,21 +257,30 @@ function setSpeed(newSpeed) {
 	speedBox.style.background = '#FF' + padHex(temp.toString(16)) + '00';
 
 	// Set the displayed speed value
-	document.getElementById('speedValue').innerHTML = parseInt(newSpeed + 0.5);
+	var temp = document.getElementById('speedValue');
+	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + parseInt(Math.random() * 10);
+
+	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - 10)
+		//temp.innerHTML = maxSpeed * speedFactor * 10;
+		temp.innerHTML = 42;
+
+	if(parseInt(temp.innerHTML) < 10)
+		temp.innerHTML = 0;
 }
 
 /* Sets maxSpeed to @newMaxSpeed */
 function setMaxSpeed(newMaxSpeed) {
-	maxSpeed = parseInt(newMaxSpeed);
+	maxSpeed = parseInt(newMaxSpeed * maxBoost);
 }
 
 /**
  * FUNCTIONS FOR POWERUPS
  */
  
+/* Changes the status of an addressed PowerUp */
 function setPowerUp(powerUp, removeOrAdd) {
-/* mit Platzhalterelementen */
 	var icon;
+	
 	switch(powerUp) {
 		case 1:
 			icon = document.getElementById('one');
@@ -335,20 +291,18 @@ function setPowerUp(powerUp, removeOrAdd) {
 		case 3:
 			icon = document.getElementById('three');
 			break;
-
 		case 4: 
 			icon = document.getElementById('four');
 			break;
 		default:
+			return;
 	}
 
-	if (removeOrAdd == 1) {
-		icon.classList.remove('unactive');
-	}
-	if (removeOrAdd == 0) {
-		icon.classList.add('unactive');
-	}
-
+	if (removeOrAdd == 1)
+		icon.classList.remove('inactive');
+	
+	if (removeOrAdd == 0)
+		icon.classList.add('inactive');
 }
 
 /**
