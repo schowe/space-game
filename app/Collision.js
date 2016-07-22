@@ -5,7 +5,7 @@
 function Collision(_collidableMeshList) {
 
     // Contains all Meshes that can collide
-    var collidableMeshList = _collidableMeshList;
+    collidableMeshList = _collidableMeshList;
 
 
     // Calculates the min x value of the vertices of a box

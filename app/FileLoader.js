@@ -8,11 +8,14 @@ var FileLoader = function() {
         "../res/textures/test.jpg",
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
+        "../res/textures/Crosshair.png",
+
 
         // Models
-        "../res/meshes/HeroShipV1.json",
-        "../res/meshes/HeroShipV2.json",
-        "../res/meshes/HeroShipV4.json",
+        //"../res/meshes/HeroShipV1.json",
+        //"../res/meshes/HeroShipV2.json",
+        //"../res/meshes/HeroShipV4.json",
+        "../res/meshes/HeroShipV5.json",
         "../res/meshes/EnemyMiniShipV1.json",
         "../res/meshes/AsteroidPart1.json",
         "../res/meshes/AsteroidPart2.json",
