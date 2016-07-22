@@ -1,13 +1,14 @@
-function RayParticleRenderer(rayRadius, particleColor, nParticles, particleTexture, startVector, endVector) {
+function RayParticleRenderer(particleColor, nParticles, particleTexture, startVector, endVector) {
 
     function rand() {
         return Math.random();
     }
 
+    // TODO: Partikel anzahl begrenzen! sonst aua für den computer
 
-    // TODO: camera position verwenden als endVector
+    // TODO: camera position verwenden als endVector ?
 
-    this.rayRadius = rayRadius;
+    this.rayRadius = 1; // TODO: evtl konfigurierbar machen?
     this.startVector = startVector;
     this.endVector = endVector;
     this.particleCount = nParticles;

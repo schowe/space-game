@@ -17,17 +17,13 @@
     <script src="res/js/lib/threejs/tween.min.js"></script>
 
     <!-- custom -->
-    <script src="app/RayParticleRenderer.js"></script>
+    <script src="app/ExplosionParticleRenderer.js"></script>
 
     <script>
-
-        console.log("hallo!");
-
         var camera, scene, renderer;
         $(function() {
 
             var particleRenderer;
-            var particleRenderer2;
 
 
             init();
@@ -56,32 +52,20 @@
                 scene.add(new THREE.AmbientLight(0x404040));
 
                 var axes = new THREE.AxisHelper(50);
-                scene.add(axes); // rot: x, blau: y, grün: z
+                //scene.add(axes); // rot: x, blau: y, grün: z
 
                 var gridXZ = new THREE.GridHelper(10, 1);
-                scene.add(gridXZ);
+                //scene.add(gridXZ);
 
 
-
-
-
-                particleRenderer = new RayParticleRenderer(
-                        1,
-                        0xffffff,
+                particleRenderer = new ExplosionParticleRenderer(
+                        0xffcc22,
                         100,
                         "res/textures/particle.png",
-                        new THREE.Vector3(2, 1, 7),
-                        new THREE.Vector3(1, 2, 3)
+                        0.5,
+                        new THREE.Vector3(0, 0, 0)
                 );
 
-                particleRenderer2 = new RayParticleRenderer(
-                        1,
-                        0xff0000,
-                        100,
-                        "res/textures/particle.png",
-                        new THREE.Vector3(-3, 6, 1),
-                        new THREE.Vector3(3, 2, 0)
-                );
 
             }
 
@@ -93,8 +77,15 @@
 
             function render() {
 
-                particleRenderer.update();
-                particleRenderer2.update();
+                if (particleRenderer !== undefined) {
+                    var result = particleRenderer.update();
+                    if (result == false) {
+                        // aufhören:
+                        particleRenderer = undefined;
+                    }
+                }
+
+
 
                 renderer.render(scene, camera);
             }
