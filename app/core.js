@@ -80,7 +80,7 @@ function init() {
     var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
-
+    
 
     /********** Module laden **********/
 
@@ -118,6 +118,9 @@ function init() {
     window.onkeydown = onKeyDown;
 
 
+    initializeWeapons();
+
+
 
 }
 
@@ -150,7 +153,7 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
-
+    renderWeapons();
     delta = clock.getDelta();
     Movement().move(delta);
     camera.update();

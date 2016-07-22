@@ -1,11 +1,12 @@
 // The Collision has to be initialized with an array containing all objects/meshes
 // that should be able to collide/intersect with another object/mesh.
 
+var collidableMeshList = [];
 
 function Collision(_collidableMeshList) {
 
     // Contains all Meshes that can collide
-    var collidableMeshList = _collidableMeshList;
+    collidableMeshList = _collidableMeshList;
 
 
     // Calculates the min x value of the vertices of a box
