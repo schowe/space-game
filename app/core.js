@@ -41,14 +41,14 @@ function init() {
         targetObject: ship,
         cameraPosition: new THREE.Vector3(0,15,30),
         fixed: false,
-        stiffness: 0.3,
+        stiffness: 0.15,
         matchRotation: false
     });
 
     camera.addTarget({
         name:'Cockpit',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,5,-10),
+        cameraPosition: new THREE.Vector3(0,0,-10),
         fixed: false,
         stiffness: 1,
         matchRotation: true
@@ -135,8 +135,14 @@ function init() {
 }
 
 function onKeyDown(e) {
-    if (e.keyCode == 80) { // = 'P'
+    if (e.keyCode == 80 && Pause == false) { // = 'P'
         interface.toggleMenuOverlay();
+        var movement = Movement();
+        movement.unlockPointer();
+    }else if(e.keyCode == 80 && Pause == true){
+        interface.toggleMenuOverlay();
+        var movement = Movement();
+        movement.lockPointer();
     }
 }
 
@@ -157,11 +163,11 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
-
     delta = clock.getDelta();
-    Movement().move(delta);
-    updateStars();
-    camera.update();
-    renderer.render( scene, camera );
-
+    if(!Pause) {        
+        Movement().move(delta);
+        updateStars();
+        camera.update();        
+    }
+    renderer.render(scene, camera);
 }
