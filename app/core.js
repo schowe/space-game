@@ -87,6 +87,7 @@ function init() {
     var world = World();
     world.init();
     createStars();
+    createAsteroids(); 
     var movement = Movement();
     movement.init();
     interfaceInit();
@@ -161,6 +162,7 @@ function render() {
         renderWeapons();
         Movement().move(delta);
         updateStars();
+        updateAsteroids(); 
         camera.update();        
     }
     renderer.render(scene, camera);
