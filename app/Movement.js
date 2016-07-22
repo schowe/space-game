@@ -1,4 +1,6 @@
 
+var targetPosition;
+
 var controls;
 var movementVector = new THREE.Vector4(0,0,0,1);
 var speedVector = new THREE.Vector4(0,0,0,1);
@@ -33,6 +35,11 @@ var theta = 0;
 function Movement() {
     
     return {
+
+        //getTargetPosition:function(){
+        //    return targetPosition;
+        //}
+
         init:function() {
 
 
@@ -246,16 +253,15 @@ function Movement() {
             phi = THREE.Math.degToRad(90 - lat);
             theta = THREE.Math.degToRad(lon);
 
-            var targetPosition = target;
+            targetPosition = target;
             var position = ship.position;
 
             targetPosition.x = position.x + 100 * Math.sin(phi) * Math.cos(theta);
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
-            //ship.rotation.set(ship.rotation.x - zAxis/0.35, ship.rotation.y, ship.rotation.z);
-
             directionVector = position - targetPosition;
+
         },
 
         unlockPointer:function(){
