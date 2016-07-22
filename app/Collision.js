@@ -1,7 +1,6 @@
 // The Collision has to be initialized with an array containing all objects/meshes
 // that should be able to collide/intersect with another object/mesh.
 
-var collidableMeshList = [];
 
 function Collision(_collidableMeshList) {
 

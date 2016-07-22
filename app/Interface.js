@@ -28,6 +28,12 @@ var Interface = function() {
     
 };
 
+function interfaceInit(){
+	setMaxHP(100);
+	setHP(100);
+}
+
+
 /**
  * FUNCTIONS FOR HIGHSCORE
  */
@@ -125,7 +131,7 @@ function shot(){
 
 //zum parameter laden der waffen
 //temp1 = ammo pro magazin
-//temp2 = 
+//temp2 = ammo per shot
 function switchWeapon(temp1, temp2, name){
 
 	//Speicherung von alten Waffen
@@ -145,102 +151,105 @@ function plusAmmo(temp){
  * FUNCTIONS FOR HP
  */
  
-	var maxHP = 200;
-	var hpBoxCurrent = document.getElementById('hpBoxValue');
-	var hpBoxMax = document.getElementById('hpBox');
+ 	var currentHP = 0;
+	var maxHP = 0 ;
 
-/* Increases HP by @value */
-function addHP(value) {
+	var hpBoxCurrent = document.getElementById('hpBoxValue');
+	var hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
+	var currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
+	
+	var hpBoxMax = document.getElementById('hpBox');
+	var hpBoxMStyle = window.getComputedStyle(hpBoxMax);
+	var maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
+
+function updateHpBar(value){
+	hpBoxCurrent.style.width = value / maxHPpx * 100 + '%';
+}
+
+function calcWidthFromHP(){	
+	return currentHP / maxHP * maxHPpx * 100;
+}
+
+function changeHP(value){
+	
+	hpBoxMax = document.getElementById('hpBox');
+	hpBoxMStyle = window.getComputedStyle(hpBoxMax);
+	maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
+
+	hpBoxCurrent = document.getElementById('hpBoxValue');
+	hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
+	currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
+
 	var i = 0;
+
 	var ticks = 100;
 	value = parseInt(value + 0.5);
-	
-	var temp = window.getComputedStyle(hpBoxCurrent);
-	// Current HP in pixel
-	var currentHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	temp = window.getComputedStyle(hpBoxMax);
-	// Max HP in pixel
-	var maxHPpx = parseInt(temp.getPropertyValue('width'));
-	
+
 	// Amount of pixels per tick
 	var pxTick = value / maxHP * maxHPpx / ticks;
+
 	var tempID = setInterval(frame, 10);
 	
 	function frame() {
 		
 		if(i < ticks) {
-			// TODO: < MaxHP	
-		
+
+			if(currentHPpx>maxHPpx||currentHPpx<0){
+				checkStuff();
+				clearInterval(tempID);
+				return;
+			}
 			currentHPpx += pxTick;
 			// Change the HP bar width
-			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';
+			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';	
 
 			// Update displayed HP and color
-			var currentHP = currentHPpx / maxHPpx * maxHP;			
+			currentHP = currentHPpx / maxHPpx * maxHP;			
 			updateHPDisplay(currentHP);
 			hpSetColor(currentHP);
 			
 			i++;
+			//document.write('D');
+			
 		} else {
+			checkStuff();
 			clearInterval(tempID);
 		}
 	}
-}	
 
-/* Decreases HP by @value */
-function subHP(value) {
-	var i = 0;
-	var ticks = 100;
-	value = parseInt(value + 0.5);
-	
-	var temp = window.getComputedStyle(hpBoxCurrent);
-	// Current HP in pixel
-	var currentHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	temp = window.getComputedStyle(hpBoxMax);
-	// Max HP in pixel
-	var maxHPpx = parseInt(temp.getPropertyValue('width'));
-	
-	// Amount of pixels per tick
-	var pxTick = value / maxHP * maxHPpx / ticks;
-	var tempID = setInterval(frame, 10);
-	
-	function frame() {
-		
-		if(i < ticks) {
-			// TODO: > 0 HP
+	function checkStuff(){
+		if(value<0){
+			setHP(getHP()-1);
+		}
+		if(getHP()<=0){
 			
-			currentHPpx -= pxTick;
-			// Change the HP bar width
-			hpBoxCurrent.style.width = currentHPpx / maxHPpx * 100 + '%';
-			
-			// Update displayed HP and color
-			var currentHP = currentHPpx / maxHPpx * maxHP;
-			updateHPDisplay(currentHP);
-			hpSetColor(currentHP);
-
-			i++;
-		} else {
-			clearInterval(tempID);
 		}
 	}
+
 }
+
 
 /* Sets HP to @value */
 function setHP(value) {
-	// TODO
+	this.currentHP = value;
+	hpBoxCurrent.style.width = value / maxHP * 100 + '%';
+	updateHPDisplay(value);
+	hpSetColor(value);
 }
 
 /* Returns HP */
 function getHP() {
-	//var 
+	//currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
+	//return currentHPpx / maxHPpx * maxHP;
+	return currentHP;
 }
 
 /* Sets maxHP to @value */
 function setMaxHP(value) {
-	maxHP = parseInt(value + 0.5);
-	// TODO
+	this.maxHP = value;
+	document.getElementById('maxHP').innerHTML = parseInt(value + 0.5);
+
+	updateHpBar(getHP());
 }
 
 /* Returns maxHP */
@@ -291,12 +300,7 @@ function updateLevel () {
 var maxSpeed = 100;
 
 /* Sets the displayed speed value and bar to @newSpeed */
-function setSpeed(newSpeed) {
-	
-	if(newSpeed >= maxSpeed) {
-		// TODO: Error - Illegal Value
-	}
-	
+function setSpeed(newSpeed) {	
 	// Set height of the speed bar
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';

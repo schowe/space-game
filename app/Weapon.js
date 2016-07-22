@@ -1,12 +1,22 @@
 
 //Variables
 
+var rocketAmmo = 2;
+var MaxRockedAmmo =10;
+
+var MGAmmo = 0;
+var MaxMGAmmo = 100;
+
+//Rocket: 0, MG: 1
+var activeSecWeapon = 0;
+
+
 //Audio-Variables
-var laserAudio;
+//var laserAudio;
 
-var MGAudio;
+//var MGAudio;
 
-var explosionAudio;
+//var explosionAudio;
 
 //Variables for bullets, the rocket and the explosion
 
@@ -39,14 +49,14 @@ var mgCounter = 0;
 //Geometries for bullets etc.
 var shootGeometry = new THREE.CylinderGeometry(1,1,100); 
 
-var jsonLoader = new THREE.JSONLoader();
+//var jsonLoader = new THREE.JSONLoader();
 var rocketGeometry = undefined;
 var rocketMaterial = undefined;
 
-jsonLoader.load("RocketV1.json", function (geometry, texture) {
-	 rocketGeometry = geometry;
+//jsonLoader.load("RocketV1.json", function (geometry, texture) {
+//	 rocketGeometry = geometry;
 //	 rocketMaterial = new THREE.MultiMaterial(texture);
-});
+//});
 var explosionGeometry = new THREE.SphereGeometry(7,32,32);
 var MGGeometry = new THREE.SphereGeometry(0.1,16,16);
 rocketMaterial = new THREE.MeshBasicMaterial({ color:0xA0A0AF });
@@ -67,25 +77,25 @@ function initializeWeapons(){
 	//this.collidableMeshList = cms;
 
 	//initialize Audio-files
-	laserAudio = document.createElement('audio');
-	var laserAudioSource = document.createElement('source');
-	laserAudioSource.src = 'gun.wav';
-	laserAudio.appendChild(laserAudioSource);
+	 //laserAudio = document.createElement('audio');
+	 //var laserAudioSource = document.createElement('source');
+	 //laserAudioSource.src = 'gun.wav';
+	 //laserAudio.appendChild(laserAudioSource);
 
-	rocketAudio = document.createElement('audio');
-	var rocketAudioSource = document.createElement('source');
-	rocketAudioSource.src = 'rocket.wav';
-	rocketAudio.appendChild(rocketAudioSource);
+	// rocketAudio = document.createElement('audio');
+	// var rocketAudioSource = document.createElement('source');
+	// rocketAudioSource.src = 'rocket.wav';
+	// rocketAudio.appendChild(rocketAudioSource);
 
-	explosionAudio = document.createElement('audio');
-	var explosionAudioSource = document.createElement('source');
-	explosionAudioSource.src = 'explosion.wav';
-	explosionAudio.appendChild(explosionAudioSource);
+	// explosionAudio = document.createElement('audio');
+	// var explosionAudioSource = document.createElement('source');
+	// explosionAudioSource.src = 'explosion.wav';
+	// explosionAudio.appendChild(explosionAudioSource);
 
-	MGAudio = document.createElement('audio');
-	var MGAudioSource = document.createElement('source');
-	MGAudioSource.src = 'mg.wav';
-	MGAudio.appendChild(MGAudioSource);
+	// MGAudio = document.createElement('audio');
+	// var MGAudioSource = document.createElement('source');
+	// MGAudioSource.src = 'mg.wav';
+	// MGAudio.appendChild(MGAudioSource);
 
 	//initialize clock for time-control
 	weaponClock = new THREE.Clock();
@@ -145,24 +155,32 @@ function MGShoot(){
 	  collidableMeshList.push(bullet5);
 }
 
-//shoot standart laser
 function shoot(){
-	//create mesh
-      bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
-      //rotate: laser beam would be pointing up otherwise
-      bullet1.rotateZ(1.57);
-      //translate to ship position
-      bullet1.position.x = ship.position.x;
-      bullet1.position.y = ship.position.y;
-      bullet1.position.z = ship.position.z;
-      //add bullet to scene
-      scene.add(bullet1);
-      //add bullet to bullet list so it will be mooved
-      bullets.push(bullet1);
+	  //if(timeSinceShoot > 0.4){ 
+	  	timeSinceShoot = 0;
 
-      collidableMeshList.push(bullet1);
+		//create mesh
+     	bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
+      	//translate to ship position
+      	bullet1.position.x = ship.position.x;
+      	bullet1.position.y = ship.position.y;
+      	bullet1.position.z = ship.position.z;
+      	
+      	//set orientation of the bullet according to ship orientation
+      	bullet1.lookAt(targetPosition);
+
+      	//rotate: laser beam would be pointing up otherwise
+      	bullet1.rotateX(1.57);
+
+      	//add bullet to scene
+      	scene.add(bullet1);
+
+      	//add bullet to bullet list so it will be mooved
+      	bullets.push(bullet1);
+
+      //collidableMeshList.push(bullet1);
       //play lazer-sound
-      laserAudio.play();
+      //laserAudio.play();
 }
 
 
@@ -179,9 +197,9 @@ function shootRocket(){
   	rocket1.position.z = ship.position.z;
   	scene.add(rocket1);
   	rocket = rocket1;
-  	rocketAudio.play();
+  	//rocketAudio.play();
 
-  	collidableMeshList.push(rocket);
+  	//collidableMeshList.push(rocket);
   	//reset timer for rocket-explosion after specific time
   	rocketTime=0;
   }
@@ -203,7 +221,7 @@ function rocketExplode(){
   //reset explosion timer for ending explosion after specific time
   explosionTime = 0;
   //play explosion time
-  explosionAudio.play();
+  //explosionAudio.play();
 
   //collidableMeshList.push(explosion);
 }
@@ -265,7 +283,7 @@ function renderWeapons(){
 
 	  //Translate bullets
 	  for( var bul in bullets){
-	    bullets[bul].translateY(1000 * add);
+	    bullets[bul].translateY(-2000 * add);
 
 	    var dis = calculateDistanceToShip(bullets[bul]);
 	    if (dis > 1000){

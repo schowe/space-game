@@ -77,6 +77,7 @@ function init() {
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
+    
     var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
@@ -87,10 +88,25 @@ function init() {
     
     var world = World();
     world.init();
+    createStars();
     var movement = Movement();
     movement.init();
+    interfaceInit();
     
-	subHP(190);
+
+    object = new THREE.AxisHelper( 100 );
+    object.position.set( 0, 0, 0 );
+    scene.add( object );
+
+   /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
+    object.position.set( 400, 0, -200 );
+    scene.add( object ); */
+
+    //
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
 
    /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
@@ -102,7 +118,6 @@ function init() {
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
-
 
 
     /********** Input **********/
@@ -119,8 +134,6 @@ function init() {
 
 
     initializeWeapons();
-
-
 
 }
 
@@ -144,18 +157,13 @@ function animate() {
     render();
 }
 
-
-  
-
-
-
-
 function render() {
 
     // TODO: animation code goes here
     renderWeapons();
     delta = clock.getDelta();
     Movement().move(delta);
+    updateStars();
     camera.update();
     renderer.render( scene, camera );
 
