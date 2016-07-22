@@ -30,12 +30,8 @@ var Interface = function() {
 /* Sets the starting values. Also used for testing. */
 function interfaceInit(){
 	setMaxHP(100);
-	setHP(5);
-	changeHP(-25);
-	changeHP(-25);
-	changeHP(60);
-	setMaxHP(600); //Buggy wenn HP geändert wird
-	//changeHP(500);
+	setHP(1);
+	changeHP(99);
 }
 
 /**
@@ -94,51 +90,23 @@ function getMoney() {
 /**
  * FUNCTIONS FOR AMMO
  */
+ 
+var currentAmmoLabel = document.getElementById('currentAmmo');
+var maxAmmoLabel = document.getElementById('maxAmmo');
+var currentWeapon = 0;
+var currentAmmo = 0;
+var maxAmmo = 0;
 
-var ammoWeapon = 60;
-var ammoPerShot = 1;
-
-//Reload der waffe
-function reload(){
-	var actual = document.getElementById('currentAmmo'); 
-	var max = document.getElementById('maxAmmo');
-	var diff = ammoWeapon - parseInt(actual.innerHTML);
-
-	if(diff>parseInt(max.innerHTML)){
-		//FEHLERBEHANDLUNG PLS!
-	}else{
-		maxAmmo.innerHTML = parseInt(max.innerHTML)-diff;
-		actual.innerHTML = ammoWeapon;
-	}
-}
-
-//Zum minuszählen der ammo beim shot der waffe
-function shot(){
-	var actual = document.getElementById('currentAmmo');
-	if(parseInt(actual.innerHTML)<=0){
-		//FEHLERBEHANDLUNG PLS!
-		//evtl automatisches reloaden nach upgradekauf
-	}else{
-		actual.innerHTML = parseInt(actual.innerHTML)-ammoPerShot;
-	}
-}
-
-//zum parameter laden der waffen
-//temp1 = ammo pro magazin
-//temp2 = ammo per shot
-function switchWeapon(temp1, temp2, name){
-
-	//Speicherung von alten Waffen
-	//Bearbeitungsbedarf!
-
-	ammoWeapon = temp1;
-	ammoPerShot = temo2;
-}
-
-//wenn munition erhalten wird (durch powerups/shop etc. )
-function plusAmmo(temp){
-	var max = document.getElementById('maxAmmo');
-	max.innerHTML = parseInt(max.innerHTML) + temp;
+// Function for secondary weapon display missing
+ 
+ /* Updates the weapon interface of the secondary weapon*/
+function updateWeaponInterface() {
+	//currentWeapon = get current weapon
+	//correntAmmo = get current ammo
+	//maxAmmo = get max ammo
+	
+	currentAmmoLabel.innerHTML = currentAmmo;
+	maxAmmoLabel.innerHTML = maxAmmo;
 }
 
 /**
@@ -158,45 +126,36 @@ function plusAmmo(temp){
 
 /* Changes HP by @value */
 function changeHP(value) {
-	/*
-	hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
-	currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
-	
-	hpBoxMStyle = window.getComputedStyle(hpBoxMax);
-	maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
-	*/
 	var i = 0;
-	var ticks = 200;
+	var ticks = 100;
 	value = parseInt(value);
-
-	// Amount of pixels per tick
-	//var pxTick = value / maxHP * maxHPpx / ticks;
+	// Amount of HP per tick
 	var hpTick = value / ticks;
-
 	var tempID = setInterval(frame, 1);
 	
 	function frame() {
 		
 		if(i < ticks) {
-
-			if(currentHPpx > maxHPpx) {
+			
+			if (currentHP > maxHP) {
 				clearInterval(tempID);
 				currentHP = maxHP;
 				updateHPDisplay();
 				return;
 			}
 			
-			if(currentHP <= 0) {
+			if (currentHP <= 0) {
 				clearInterval(tempID);
+				var temp = document.getElementById('currentHP');
+				temp.innerHTML = parseInt(0);
 				hpBoxCurrent.style.width = 0;
-				gameOver();
+				//gameOver();
 				return;
 			}
-
-			currentHPpx += pxTick;
-			currentHP = currentHPpx / maxHPpx * maxHP;			
+			
+			currentHP += hpTick;
 			updateHPDisplay();
-			i++;
+			i++;			
 		} else {
 			clearInterval(tempID);
 		}
@@ -314,7 +273,7 @@ $('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
  
 var maxSpeed = 100;
 var speedFactor = 4.04;
-var maxBoost = 1.2;
+var maxBoost = 1;
 
 /* Sets the displayed speed value and bar to @newSpeed */
 function setSpeed(newSpeed) {
@@ -331,7 +290,7 @@ function setSpeed(newSpeed) {
 	var temp = document.getElementById('speedValue');
 	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + parseInt(Math.random() * 10);
 
-	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10)
+	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - 10)
 		//temp.innerHTML = maxSpeed * speedFactor * 10;
 		temp.innerHTML = 42;
 
