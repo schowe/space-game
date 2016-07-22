@@ -1,12 +1,4 @@
-// The Collision has to be initialized with an array containing all objects/meshes
-// that should be able to collide/intersect with another object/mesh.
-
-
-function Collision(_collidableMeshList) {
-
-    // Contains all Meshes that can collide
-    var collidableMeshList = _collidableMeshList;
-
+function Collision() {
 
     // Calculates the min x value of the vertices of a box
     function minX(box) {
@@ -133,11 +125,6 @@ function Collision(_collidableMeshList) {
         var isIntersect = intersectSphereBox(sphere, hitBox);
         hitBox = undefined;
 
-        if(isIntersect) {
-            console.log("Collision");
-            collisionSuccess(sphere);
-        }
-
         return isIntersect;
 
     }
@@ -152,11 +139,6 @@ function Collision(_collidableMeshList) {
         // check intersection
         var isIntersect = intersectBoxBox(box, hitBox);
         hitBox = undefined;
-
-        if(isIntersect) {
-            console.log("Collision");
-            collisionSuccess(box);
-        }
 
         return isIntersect;
 
@@ -190,6 +172,10 @@ function Collision(_collidableMeshList) {
         intersectSphereOther: intersectSphereOther,
         // returns whether there is an intersection between a sphere and a box
         intersectSphereBox: intersectSphereBox,
+        // returns whether there is an intersection between a sphere and a cylinder
+        intersectSphereCylinder: intersectSphereCylinder,
+        // returns whether there is an intersection between a box and a cylinder
+        intersectBoxCylinder: intersectBoxCylinder,
 
         // returns wheter there is a collision between a spehere and any other mesh
         // that is collidable
