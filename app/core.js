@@ -5,10 +5,14 @@ var camera, scene, renderer, clock;
 var fileLoader;
 var interface;
 var ship;
+var collision;
+
+//var projectileList = [];
 
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
+    collision = Collision();
     setTimeout(function(){
         init();
         animate();
@@ -24,9 +28,6 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-
-
-
     //while(!fileLoader.isReady()){};
         scene = new THREE.Scene();
     // Beispiel-Code ...
@@ -34,8 +35,8 @@ function init() {
     player.init();
 
 
-    
-    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
+
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );
     camera.addTarget({
         name:'Target',
         targetObject: ship,
@@ -57,7 +58,7 @@ function init() {
     camera.setTarget('Target');
 
 
-  
+
 
 
 
@@ -77,7 +78,7 @@ function init() {
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
-    
+
     var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
@@ -85,14 +86,14 @@ function init() {
 
     /********** Module laden **********/
 
-    
+
     var world = World();
     world.init();
     createStars();
     var movement = Movement();
     movement.init();
     interfaceInit();
-    
+
 
 
     object = new THREE.AxisHelper( 100 );
@@ -112,7 +113,7 @@ function init() {
 
 
     /********** Input **********/
-    
+
     // Szene in DOM einsetzen
     container.appendChild( renderer.domElement );
     // Event-Listener
@@ -121,6 +122,8 @@ function init() {
     clock = new THREE.Clock();
 
     window.onkeydown = onKeyDown;
+
+    initializeWeapons();
 }
 
 function onKeyDown(e) {
@@ -148,7 +151,8 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
-
+    handleCollision();
+    renderWeapons();
     delta = clock.getDelta();
     Movement().move(delta);
     updateStars();

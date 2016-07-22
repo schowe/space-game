@@ -1,4 +1,4 @@
-function Collision() {
+var Collision = function() {
 
     // Calculates the min x value of the vertices of a box
     function minX(box) {
