@@ -93,6 +93,7 @@ function init() {
     interfaceInit();
     
 
+
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
     scene.add( object );
