@@ -1,6 +1,6 @@
 
 //Variables
-
+var weaponsActive = false;
 var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
@@ -100,7 +100,7 @@ function initializeWeapons(){
 	//initialize clock for time-control
 	weaponClock = new THREE.Clock();
 
-	document.addEventListener('mousedown', shoot, false);
+	
 }
 
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
@@ -323,4 +323,15 @@ function renderWeapons(){
 	        explosion = undefined;
 	    }
 	  }
+}
+
+
+function toggleWeapons(){
+	if(weaponsActive == true){
+		document.removeEventListener('mousedown', shoot, false);
+		weaponsActive = false;
+	}else{
+		document.addEventListener('mousedown', shoot, false);
+		weaponsActive = true;
+	}
 }

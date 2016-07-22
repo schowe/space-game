@@ -120,18 +120,7 @@ $(function () {
                 spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({map:texture}));
                 spaceship.position.set(0, 0, 0);
                 spaceship.rotateY(225);
-                // scene.add(spaceship);
-
-                var particleSpawnLocation = new THREE.Mesh({
-                    geometry: new THREE.SphereGeometry(0.1, 32, 32),
-                    material: new THREE.MeshBasicMaterial()
-                });
-                particleSpawnLocation.position.set(-5, 0.5, 0); // TODO: anpassen
-
-                spaceshipWrapper = new THREE.Group(); // TODO: bugfix? gibt nen error
-                spaceshipWrapper.add(particleSpawnLocation);
-                spaceshipWrapper.add(spaceship);
-                scene.add(spaceshipWrapper);
+                scene.add(spaceship);
             });
         });
 
