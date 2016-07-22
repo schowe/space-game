@@ -165,14 +165,12 @@ body {
 
 #levelDisplay {
 	position: fixed;
-	top:10%;
-	left:55%;
-	margin-left: -5%;
-	width:10%;
-	height:100px;
-	//background: -moz-linear-gradient(bottom, pink, purple);
+	left:40%;
+	width:20%;
+	height: 30px;
+
 	background-color: rgba(255,255,255,0.4);
-	border-style:solid;
+	border-style:ridge;
 	border-color:white;
 	border-width:3px;
 	border-radius: 15px/50px;
@@ -181,17 +179,18 @@ body {
 }
 
 #levelText {
-	margin-top:5%;
 	color:yellow;
 	width:auto;
+
+	margin-bottom: 36px;
+	font-size: 28px;
+	line-height: 26.4px;
 }
 
 #currentLevel {
-	font-size:35px;
-	color:pink;
-	//display:none;
-	//color:transparent;
-	//width:5px;
+	margin-top: -30px;
+	font-size: 36px;
+	color:yellow;
 }
 
 #powerUps {

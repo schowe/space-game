@@ -30,12 +30,8 @@ var Interface = function() {
 /* Sets the starting values. Also used for testing. */
 function interfaceInit(){
 	setMaxHP(100);
-	setHP(5);
-	changeHP(-25);
-	changeHP(-25);
-	changeHP(60);
-	setMaxHP(600); //Buggy wenn HP geändert wird
-	//changeHP(500);
+	setHP(100);
+	displayLevel(1);
 }
 
 /**
@@ -158,20 +154,20 @@ function plusAmmo(temp){
 
 /* Changes HP by @value */
 function changeHP(value) {
-	/*
+	
 	hpBoxCStyle = window.getComputedStyle(hpBoxCurrent);
 	currentHPpx = parseInt(hpBoxCStyle.getPropertyValue('width'));
 	
 	hpBoxMStyle = window.getComputedStyle(hpBoxMax);
 	maxHPpx = parseInt(hpBoxMStyle.getPropertyValue('width'));
-	*/
+	
 	var i = 0;
 	var ticks = 200;
 	value = parseInt(value);
 
 	// Amount of pixels per tick
-	//var pxTick = value / maxHP * maxHPpx / ticks;
-	var hpTick = value / ticks;
+	var pxTick = Math.abs(value) / maxHP * maxHPpx / ticks;
+	//var hpTick = value / ticks;
 
 	var tempID = setInterval(frame, 1);
 	
@@ -193,7 +189,13 @@ function changeHP(value) {
 				return;
 			}
 
-			currentHPpx += pxTick;
+			if(value<0){
+				currentHPpx -= pxTick;
+			}else{
+				currentHPpx += pxTick;
+			}
+
+
 			currentHP = currentHPpx / maxHPpx * maxHP;			
 			updateHPDisplay();
 			i++;
@@ -264,30 +266,26 @@ function hpUpdateColor() {
  
 var currentLevel = 0;
 
-function nextLevel () {
-	/*
-	var toChange = document.getElementById("levelDisplay");
+function displayLevel (value) {
 	
-	var id = setInterval(frame, 10);
+	var toChange = document.getElementById("currentLevel");
+	toChange.innerHTML = parseInt(value);
 	
-	function frame() {
-	} else {
-
-	}
 	
-	*/
-	$('#levelDisplay').animate({opacity: "1", left:"50%"}, 1000);
+	
+	
+	$('#levelDisplay').animate({opacity: "1", top:"50px"}, 1000);
 
 	//$('#levelDisplay').animate({'borderWidth':'10px'}, 500);
 
 	//$('#levelDisplay').children('#currentLevel').animate({'fontSize': 60}, 1000);
 
-	setTimeout(nay, 1000)
+	//setTimeout(nay, 1000)
 	function nay () {
     	$('#currentLevel').animate({'fontSize': 40}, 100);
-	$('#currentLevel').animate({'fontSize': 35}, 100);
-	$('#currentLevel').animate({'fontSize': 40}, 100);
-	$('#currentLevel').animate({'fontSize': 35}, 100);
+		$('#currentLevel').animate({'fontSize': 35}, 100);
+		$('#currentLevel').animate({'fontSize': 40}, 100);
+		$('#currentLevel').animate({'fontSize': 35}, 100);
 	}
 /*
 $('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
@@ -298,7 +296,7 @@ $('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
 */	
 	setTimeout(yay, 1500)
 	function yay () {
-    	$('#levelDisplay').animate({opacity: "0", left:"45%"}, 1000);
+    	$('#levelDisplay').animate({opacity: "0", top:"0px"}, 1000);
 	}
 
 	//$('#levelDisplay').children('#levelText').animate({width: "5px"}, 2000);
@@ -314,7 +312,7 @@ $('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
  
 var maxSpeed = 100;
 var speedFactor = 4.04;
-var maxBoost = 1.2;
+var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
 function setSpeed(newSpeed) {
@@ -331,7 +329,7 @@ function setSpeed(newSpeed) {
 	var temp = document.getElementById('speedValue');
 	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + parseInt(Math.random() * 10);
 
-	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10)
+	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10-10)
 		//temp.innerHTML = maxSpeed * speedFactor * 10;
 		temp.innerHTML = 42;
 
