@@ -271,38 +271,22 @@ function displayLevel (value) {
 	var toChange = document.getElementById("currentLevel");
 	toChange.innerHTML = parseInt(value);
 	
-	
-	
-	
 	$('#levelDisplay').animate({opacity: "1", top:"50px"}, 1000);
 
-	//$('#levelDisplay').animate({'borderWidth':'10px'}, 500);
-
-	//$('#levelDisplay').children('#currentLevel').animate({'fontSize': 60}, 1000);
-
-	//setTimeout(nay, 1000)
+	setTimeout(nay, 1000)
 	function nay () {
-    	$('#currentLevel').animate({'fontSize': 40}, 100);
-		$('#currentLevel').animate({'fontSize': 35}, 100);
-		$('#currentLevel').animate({'fontSize': 40}, 100);
-		$('#currentLevel').animate({'fontSize': 35}, 100);
+    	$('#currentLevel').animate({opacity: "1"}, 100);
+		$('#currentLevel').animate({opacity: "0.3"}, 100);
+		$('#currentLevel').animate({opacity: "1"}, 100);
+		$('#currentLevel').animate({opacity: "0.3"}, 100);
+		$('#currentLevel').animate({opacity: "1"}, 100);
+		$('#currentLevel').animate({'transform: rotate(90deg);': 35}, 100);
 	}
-/*
-$('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
-$('#levelDisplay').children('#currentLevel').animate({opacity: "1"}, 100);
-$('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
-$('#levelDisplay').children('#currentLevel').animate({opacity: "1"}, 100);
-$('#levelDisplay').children('#currentLevel').animate({opacity: "0"}, 100);
-*/	
+	
 	setTimeout(yay, 1500)
 	function yay () {
     	$('#levelDisplay').animate({opacity: "0", top:"0px"}, 1000);
 	}
-
-	//$('#levelDisplay').children('#levelText').animate({width: "5px"}, 2000);
-	//$('#levelDisplay').children('#currentLevel').animate({width: "5px"}, 1000);
-	
-	//$('#currentLevel').animate({display: "none"});
 	
 }
 
