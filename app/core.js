@@ -81,7 +81,7 @@ function init() {
     var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
-
+    
 
     /********** Module laden **********/
 
@@ -121,6 +121,8 @@ function init() {
     clock = new THREE.Clock();
 
     window.onkeydown = onKeyDown;
+
+    initializeWeapons();
 }
 
 function onKeyDown(e) {
@@ -148,7 +150,7 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
-
+    renderWeapons();
     delta = clock.getDelta();
     Movement().move(delta);
     updateStars();
