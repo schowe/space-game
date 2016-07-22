@@ -162,6 +162,7 @@ function render() {
         renderWeapons();
         Movement().move(delta);
         updateStars();
+        updateAsteroids(); 
         camera.update();        
     }
     renderer.render(scene, camera);
