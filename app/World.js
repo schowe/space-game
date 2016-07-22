@@ -74,7 +74,7 @@ function createAsteroids(){
 
   for( countAst =0; countAst < 10; countAst++){
 
-     astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial());
+     astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
      astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (1000 - (-1000)) -1000); 
      astOriginal.position.y = ship.position.y + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
      astOriginal.position.z = ship.position.z + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
@@ -160,8 +160,6 @@ function updateAsteroids(){
 
     tmpAsteroid = asteroids[countAst]; 
 
-    tmpAsteroid.position
-
     tmpAsteroid.rotation.x -= rotSpeed * 2;
     tmpAsteroid.rotation.y -= rotSpeed;
     tmpAsteroid.rotation.z -= rotSpeed * 3;
@@ -187,8 +185,8 @@ function World(){
 
     return {
         init: function() {
-                var geometry = new THREE.SphereGeometry(1000, 200, 200);
-                var biggerGeometry = new THREE.SphereGeometry (2000, 200,200); 
+                var geometry = new THREE.SphereGeometry(100, 200, 200);
+                var biggerGeometry = new THREE.SphereGeometry (5000, 200,200); 
                 var material = new THREE.MeshBasicMaterial({
                     transparent: true
                 });
