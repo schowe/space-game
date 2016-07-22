@@ -4,13 +4,16 @@ var camera, scene, renderer, clock;
 
 var fileLoader;
 var interface;
+var ship;
 
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
+    setTimeout(function(){
+        init();
+        animate();
+    },1000)
 
-    init();
-    animate();
 });
 
 
@@ -21,20 +24,32 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-
+    
     scene = new THREE.Scene();
+
     // Beispiel-Code ...
     var player = Player();
     player.init();
+
+
     
     camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
     camera.addTarget({
         name:'Target',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,0,400),        
+        cameraPosition: new THREE.Vector3(0,15,30),
         fixed: false,
-        stiffness: 0.1,
+        stiffness: 0.3,
         matchRotation: false
+    });
+
+    camera.addTarget({
+        name:'Cockpit',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0,5,-10),
+        fixed: false,
+        stiffness: 1,
+        matchRotation: true
     });
 
     camera.setTarget('Target');
@@ -56,20 +71,27 @@ function init() {
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
+    
     var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
-
+    
 
     /********** Module laden **********/
 
     
     var world = World();
     world.init();
+    createStars();
     var movement = Movement();
     movement.init();
+    interfaceInit();
     
-	subHP(190);
+
+
+    object = new THREE.AxisHelper( 100 );
+    object.position.set( 0, 0, 0 );
+    scene.add( object );
 
 
    /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
@@ -83,7 +105,6 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 
-
     /********** Input **********/
     
     // Szene in DOM einsetzen
@@ -93,16 +114,16 @@ function init() {
 
     clock = new THREE.Clock();
 
-
     window.onkeydown = onKeyDown;
 
-
-
+    initializeWeapons();
 }
 
 function onKeyDown(e) {
     if (e.keyCode == 80) { // = 'P'
+        Movement().unlockPointer();
         interface.toggleMenuOverlay();
+
     }
 }
 
@@ -120,18 +141,13 @@ function animate() {
     render();
 }
 
-
-  
-
-
-
-
 function render() {
 
     // TODO: animation code goes here
-
+    renderWeapons();
     delta = clock.getDelta();
     Movement().move(delta);
+    updateStars();
     camera.update();
     renderer.render( scene, camera );
 

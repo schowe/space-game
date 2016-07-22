@@ -1,4 +1,6 @@
 
+var targetPosition;
+
 var controls;
 var movementVector = new THREE.Vector4(0,0,0,1);
 var speedVector = new THREE.Vector4(0,0,0,1);
@@ -12,7 +14,9 @@ var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
 
-
+var Sensitivity = 0.4;
+var maxVel = 20;
+var maxDrift = 10;
 
 var mouseX = 0;
 var mouseY = 0;
@@ -29,6 +33,11 @@ var theta = 0;
 function Movement() {
     
     return {
+
+        //getTargetPosition:function(){
+        //    return targetPosition;
+        //}
+
         init:function() {
 
 
@@ -150,6 +159,8 @@ function Movement() {
                     case 70:
                         moveDown = true;
 
+
+
                 }
 
 
@@ -178,6 +189,9 @@ function Movement() {
                         break;
                     case 70:
                         moveDown = false;
+                        break;
+                    case 67:
+                        changeCam();
                 }
 
 
@@ -190,23 +204,26 @@ function Movement() {
 
 
         move:function(delta) {
-
-            if (moveForward == true && yAxis > -20) {
+            setMaxSpeed(20);
+            if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
+                setSpeed(-yAxis);
             }
-            if (moveBackward == true && yAxis < 20) {
+            if (moveBackward == true && yAxis < maxVel) {
                 yAxis++;
+                setSpeed(-yAxis);
+
             }
-            if (moveLeft == true && zAxis < 10) {
+            if (moveLeft == true && zAxis < maxDrift) {
                 zAxis++;
             }
-            if (moveRight == true && zAxis > -10) {
+            if (moveRight == true && zAxis > -maxDrift) {
                 zAxis--;
             }
-            if (moveUp == true && xAxis < 10) {
+            if (moveUp == true && xAxis < maxDrift) {
                 xAxis--;
             }
-            if (moveDown == true && xAxis > -10) {
+            if (moveDown == true && xAxis > -maxDrift) {
                 xAxis++;
             }
             if (xAxis > 0) {
@@ -221,12 +238,12 @@ function Movement() {
             }
             ship.translateZ(yAxis);
             ship.translateY(-xAxis);
-            ship.translateX(-zAxis);           
+            ship.translateX(-zAxis);
             sphere.position.set(ship.position.x,ship.position.y,ship.position.z);
             
 
-            mouseX *= 0.4;
-            mouseY *= 0.4;
+            mouseX *= Sensitivity;
+            mouseY *= Sensitivity;
             lon += mouseX;
             lat -= mouseY;
             mouseX = 0;
@@ -235,7 +252,7 @@ function Movement() {
             phi = THREE.Math.degToRad(90 - lat);
             theta = THREE.Math.degToRad(lon);
 
-            var targetPosition = target;
+            targetPosition = target;
             var position = ship.position;
 
             targetPosition.x = position.x + 100 * Math.sin(phi) * Math.cos(theta);
@@ -265,5 +282,14 @@ function moveCallback(event){
     mouseX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
     mouseY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
+}
+
+function changeCam(){
+    console.log(camera.currentTargetName);
+    if(camera.currentTargetName == 'Target' ){
+        camera.setTarget('Cockpit');
+    }else{
+        camera.setTarget('Target');
+    }
 }
 
