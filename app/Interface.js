@@ -29,6 +29,7 @@ var Interface = function() {
 
 /* Sets the starting values. Also used for testing. */
 function interfaceInit(){
+	setScore(100000);
 	setMaxHP(100);
 	setHP(100);
 	updateWeaponInterface();
@@ -133,7 +134,7 @@ function updateWeaponInterface() {
 /* Changes HP by @value */
 function changeHP(value) {
 	var i = 0;
-	var ticks = 100;
+	var ticks = 200;
 	value = parseInt(value);
 	// Saved to correct float accuracy errors later
 	var originalHP = currentHP;
@@ -164,7 +165,7 @@ function changeHP(value) {
 			
 				updateHPDisplay();
 				i++;
-			}				
+			}
 		} else {
 			clearInterval(tempID);
 			currentHP = originalHP + value;
@@ -174,7 +175,19 @@ function changeHP(value) {
 
 /* Initiates the gameOver sequences */
 function gameOver() {
-	//TODO
+
+	var gameOverScore = document.getElementById('gameOverText3');
+	gameOverScore.innerHTML = parseInt(getScore());
+
+	setTimeout(animateGameOver, 1);
+	function animateGameOver () {
+		$('#gameOverBox').animate({top : '20%'}, 250);
+	}
+
+  	Pause = true;  
+  	PauseScreen = true;     
+    Movement().unlockPointer();
+
 }
 
 /* Sets HP to @value */
@@ -238,7 +251,7 @@ function displayLevel (value) {
 	tempLevel.innerHTML = parseInt(value);
 	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
 
-	setTimeout(animateLevel, 1000)
+	setTimeout(animateLevel, 5000);
 	function animateLevel () {
     	$('#currentLevel').animate({opacity: '1'}, 100);
 		$('#currentLevel').animate({opacity: '0.3'}, 100);
@@ -247,7 +260,7 @@ function displayLevel (value) {
 		$('#currentLevel').animate({opacity: '1'}, 100);
 	}
 	
-	setTimeout(hideLevel, 1500)
+	setTimeout(hideLevel, 1500);
 	function hideLevel () {
     	$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
 	}
@@ -258,7 +271,7 @@ function displayLevel (value) {
  */
  
 var maxSpeed = 100;
-var speedFactor = 4.04;
+var speedFactor = 4.04; //ERR Page not found
 var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
