@@ -265,11 +265,6 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
-<<<<<<< HEAD
-=======
-            directionVector = position - targetPosition;
-
->>>>>>> be75a2add8fc1419737c2c534bf09cc1dc43635e
         },
 
         unlockPointer:function(){
