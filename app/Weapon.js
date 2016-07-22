@@ -18,9 +18,9 @@ var activeSecWeapon = 0;
 
 //var explosionAudio;
 
-//Variables for bullets, the rocket and the explosion
+//Variables for projectiles, the rocket and the explosion
 
-var bullets = [];
+var projectiles = [];
 
 var rocket;
 
@@ -114,7 +114,7 @@ function MGShoot(){
 	  bullet1.position.y = ship.position.y+0.3;
 	  bullet1.position.z = ship.position.z+0.3;
 	  scene.add(bullet1);
-	  bullets.push(bullet1);
+	  projectiles.push(bullet1);
 	  collidableMeshList.push(bullet1);
 
 	  var bullet2= new THREE.Mesh(MGGeometry, shootMaterial);
@@ -123,7 +123,7 @@ function MGShoot(){
 	  bullet2.position.y = ship.position.y-0.3;
 	  bullet2.position.z = ship.position.z+0.3;
 	  scene.add(bullet2);
-	  bullets.push(bullet2);
+	  projectiles.push(bullet2);
 	  collidableMeshList.push(bullet2);
 
 	  var bullet3= new THREE.Mesh(MGGeometry, shootMaterial);
@@ -132,7 +132,7 @@ function MGShoot(){
 	  bullet3.position.y = ship.position.y-0.3;
 	  bullet3.position.z = ship.position.z-0.3;
 	  scene.add(bullet3);
-	  bullets.push(bullet3);
+	  projectiles.push(bullet3);
 	  collidableMeshList.push(bullet3);
 
 
@@ -142,7 +142,7 @@ function MGShoot(){
 	  bullet4.position.y = ship.position.y+0.3;
 	  bullet4.position.z = ship.position.z-0.3;
 	  scene.add(bullet4);
-	  bullets.push(bullet4);
+	  projectiles.push(bullet4);
 	  collidableMeshList.push(bullet4);
 
 	  var bullet5= new THREE.Mesh(MGGeometry, shootMaterial);
@@ -151,7 +151,7 @@ function MGShoot(){
 	  bullet5.position.y = ship.position.y;
 	  bullet5.position.z = ship.position.z;
 	  scene.add(bullet5);
-	  bullets.push(bullet5);
+	  projectiles.push(bullet5);
 	  collidableMeshList.push(bullet5);
 }
 
@@ -161,6 +161,8 @@ function shoot(){
 
 		//create mesh
      	bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
+
+     	bullet1.name = "Laser";
       	//translate to ship position
       	bullet1.position.x = ship.position.x;
       	bullet1.position.y = ship.position.y;
@@ -175,8 +177,10 @@ function shoot(){
       	//add bullet to scene
       	scene.add(bullet1);
 
-      	//add bullet to bullet list so it will be mooved
-      	bullets.push(bullet1);
+      	//add bullet to bullet list so it will be moved
+      	projectiles.push(bullet1);
+
+      	//console.log(bullet1.name);
 
       //collidableMeshList.push(bullet1);
       //play lazer-sound
@@ -281,17 +285,17 @@ function renderWeapons(){
 	    }
 	  }
 
-	  //Translate bullets
-	  for( var bul in bullets){
-	    bullets[bul].translateY(-2000 * add);
+	  //Translate projectiles
+	  for( var bul in projectiles){
+	    projectiles[bul].translateY(-2000 * add);
 
-	    var dis = calculateDistanceToShip(bullets[bul]);
+	    var dis = calculateDistanceToShip(projectiles[bul]);
 	    if (dis > 1000){
-	    	scene.remove(bullets[bul]);
-	    	//var index = collidableMeshList.indexOf(bullets[bul]);
+	    	scene.remove(projectiles[bul]);
+	    	//var index = collidableMeshList.indexOf(projectiles[bul]);
 	    	//collidableMeshList.splice(index, 1);		
-	    	delete bullets[bul];
-	    	bullets.splice(bul,1);
+	    	delete projectiles[bul];
+	    	projectiles.splice(bul,1);
 	    }
 
 	  }

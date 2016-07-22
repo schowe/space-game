@@ -6,6 +6,8 @@ var fileLoader;
 var interface;
 var ship;
 
+//var projectileList = [];
+
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
