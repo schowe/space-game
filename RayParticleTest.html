@@ -70,7 +70,7 @@
                         100,
                         "res/textures/particle.png",
                         new THREE.Vector3(2, 1, 7),
-                        new THREE.Vector3(1, 2, 3)
+                        new THREE.Vector3(5, 5, -9)
                 );
 
                 particleRenderer2 = new RayParticleRenderer(
@@ -91,7 +91,12 @@
 
             function render() {
 
-                particleRenderer.update();
+                var newStart = new THREE.Vector3(
+                        Math.random()*5,
+                        Math.random()*5,
+                        Math.random()*5
+                );
+                particleRenderer.update(newStart);
                 particleRenderer2.update();
 
                 renderer.render(scene, camera);

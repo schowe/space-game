@@ -58,10 +58,16 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
     
 
 
+    this.update = function(newStartVector) {
 
-    
-    
-    this.update = function() {
+        if (newStartVector !== undefined) {
+            this.startVector = newStartVector;
+            this.directionVector = new THREE.Vector3(
+                this.endVector.x - this.startVector.x,
+                this.endVector.y - this.startVector.y,
+                this.endVector.z - this.startVector.z
+            );
+        }
 
         var pCount = this.particleCount;
         while (pCount--) {

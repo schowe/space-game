@@ -114,24 +114,25 @@ $(function () {
 
         // Spaceship
         var loader = new THREE.JSONLoader();
+        loader.load("res/meshes/HeroShipV5.json", function (geometry) {
+            var textureLoader = new THREE.TextureLoader();
+            textureLoader.load("res/textures/TextureHero.png", function (texture) {
+                spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({map:texture}));
+                spaceship.position.set(0, 0, 0);
+                spaceship.rotateY(225);
+                // scene.add(spaceship);
 
+                var particleSpawnLocation = new THREE.Mesh({
+                    geometry: new THREE.SphereGeometry(0.1, 32, 32),
+                    material: new THREE.MeshBasicMaterial()
+                });
+                particleSpawnLocation.position.set(-5, 0.5, 0); // TODO: anpassen
 
-        loader.load("res/models/HeroShipV2.json", function (geometry) {
-
-            spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "orange"}));
-            spaceship.position.set(0, 0, 0);
-            // scene.add(spaceship);
-
-            var particleSpawnLocation = new THREE.Mesh({
-                geometry: new THREE.SphereGeometry(0.1, 32, 32),
-                material: new THREE.MeshBasicMaterial()
+                spaceshipWrapper = new THREE.Group(); // TODO: bugfix? gibt nen error
+                spaceshipWrapper.add(particleSpawnLocation);
+                spaceshipWrapper.add(spaceship);
+                scene.add(spaceshipWrapper);
             });
-            particleSpawnLocation.position.set(-5, 0.5, 0); // TODO: anpassen
-
-            spaceshipWrapper = new THREE.Group(); // TODO: bugfix? gibt nen error
-            spaceshipWrapper.add(particleSpawnLocation);
-            spaceshipWrapper.add(spaceship);
-            scene.add(spaceshipWrapper);
         });
 
         // Event-Listener für Resize
