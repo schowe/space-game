@@ -14,10 +14,13 @@ Dieses Spiel wird in JavaScript mit three.js entwickelt. Teilweise wird auch mit
 Normalerweise sollte mit `git pull upstream dev` der neueste Stand gepullt werden.
 
 Wollt ihr aber versuchen den Stand eines anderen bei euch einzupflegen, dann geht ihr folgendermaßen vor:
+
 `git checkout -b testStuff dev`
+
 -> Erstellt einen Branch mit dem Namen "testStuff" auf Basis eures dev-branches und wechselt in diesen.
 
 `git pull https://github.com/GITHUBLOGIN/space-game.git BRANCH`
+
 -> Pullt den Stand des anderen Nutzers mit dem Namen GITHUBLOGIN anhand dessen BRANCH-Branches in euren soeben erstellten Branch.
 
 Hier könnt ihr nun tun und lassen was ihr wollt, ohne eure Code-Basis (bzw. die eures Gegenparts) zu verändern.
@@ -25,6 +28,7 @@ Hier könnt ihr nun tun und lassen was ihr wollt, ohne eure Code-Basis (bzw. die
 Seit ihr fertig, diese zu übernehmen und alles was ihr tun wolltet funktioniert nun, dann merged ihr die Veränderungen wieder in euren dev mit:
 
 `git checkout dev`
+
 `git merge testStuff`
 
 Um den nun überflüssigen anderen Branch wieder zu entfernen gebt ihr dann noch `git branch -D testStuff` ein.
