@@ -52,7 +52,7 @@ function Movement() {
                 var element = document.body;
 
                 var pointerlockchange = function (event) {
-
+                    toggleWeapons();
                     if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
 
                         blocker.style.display = 'none';

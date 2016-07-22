@@ -132,7 +132,7 @@ function onKeyDown(e) {
         movement.unlockPointer();
     }else if(e.keyCode == 80 && Pause == true){
         interface.toggleMenuOverlay();        
-        movement.lockPointer();
+        movement.lockPointer();        
         PauseScreen = false;
     }
 }
