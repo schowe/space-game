@@ -29,9 +29,11 @@ var Interface = function() {
 
 /* Sets the starting values. Also used for testing. */
 function interfaceInit(){
+	setScore(100000);
 	setMaxHP(100);
-	setHP(1);
-	changeHP(99);
+	setHP(100);
+	changeHP(-99);
+	changeHP(-1);
 	displayLevel(1);
 }
 
@@ -121,14 +123,14 @@ function updateWeaponInterface() {
 /* Changes HP by @value */
 function changeHP(value) {
 	var i = 0;
-	var ticks = 100;
+	var ticks = 42;
 	value = parseInt(value);
 	// Amount of HP per tick
 	var hpTick = value / ticks;
 	var tempID = setInterval(frame, 1);
 	
 	function frame() {
-		
+
 		if(i < ticks) {
 			
 			if (currentHP > maxHP) {
@@ -137,13 +139,14 @@ function changeHP(value) {
 				updateHPDisplay();
 				return;
 			}
-			
-			if (currentHP <= 0) {
+
+				
+			if (parseInt(currentHP) <= 0) {
 				clearInterval(tempID);
 				var temp = document.getElementById('currentHP');
 				temp.innerHTML = parseInt(0);
 				hpBoxCurrent.style.width = 0;
-				//gameOver();
+				gameOver();
 				return;
 			}
 			
@@ -158,7 +161,9 @@ function changeHP(value) {
 
 /* Initiates the gameOver sequences */
 function gameOver() {
-	//TODO
+	pause = true;
+	var gameOverScore = document.getElementById('gameOverText3');
+	gameOverScore.innerHTML = parseInt(getScore());
 }
 
 /* Sets HP to @value */

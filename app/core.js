@@ -124,10 +124,11 @@ function init() {
 }
 
 function onKeyDown(e) {
-    if (e.keyCode == 80) { // = 'P'
-        Movement().unlockPointer();
-        interface.toggleMenuOverlay();
-
+    switch(e.keyCode){
+        case 80: // = 'P'
+            Movement().unlockPointer();
+            interface.toggleMenuOverlay();
+        break;
     }
 }
 
