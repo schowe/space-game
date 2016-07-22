@@ -1,7 +1,7 @@
 
 var targetPosition;
 
-var controls;
+
 var movementVector = new THREE.Vector4(0,0,0,1);
 var speedVector = new THREE.Vector4(0,0,0,1);
 var moveForward;
@@ -15,8 +15,9 @@ var xAxis = 0;
 var yAxis = 0;
 var directionVector = new THREE.Vector4(0,0,0,1);
 var Pause = false;
+var PauseScreen = false;
 
-var Sensitivity = 0.4;
+var Sensitivity = 0.2;
 var maxVel = 14;
 var maxDrift = 5;
 
@@ -36,9 +37,7 @@ function Movement() {
     
     return {
 
-        //getTargetPosition:function(){
-        //    return targetPosition;
-        //}
+
 
         init:function() {
 
@@ -56,19 +55,23 @@ function Movement() {
 
                     if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
 
-                        Pause = false;
                         blocker.style.display = 'none';
                         document.addEventListener('mousemove', moveCallback, false);
-                       // console.log("Added Event Listener");
+                        Pause = false;
 
-                    } else {               
+                    } else {
+                        if(PauseScreen == true){
+
+                        }else{
+                            blocker.style.display = '-webkit-box';
+                            blocker.style.display = '-moz-box';
+                            blocker.style.display = 'box';
+                            instructions.style.display = '';
+                        }
                         Pause = true;
-                        //blocker.style.display = '-webkit-box';
-                        //blocker.style.display = '-moz-box';
-                        //blocker.style.display = 'box';
+
                         document.removeEventListener('mousemove', moveCallback, false);
-                       // console.log("Removed Event Listener");
-                        //instructions.style.display = '';
+
 
                     }
 
@@ -162,8 +165,6 @@ function Movement() {
                     case 70:
                         moveDown = true;
 
-
-
                 }
 
 
@@ -195,6 +196,9 @@ function Movement() {
                         break;
                     case 67:
                         changeCam();
+                        break;
+                    case 88:
+                        stop();
                 }
 
 
@@ -297,5 +301,14 @@ function changeCam(){
     }else{
         camera.setTarget('Target');
     }
+}
+
+function stop(){
+    xAxis = 0.0;
+    yAxis = 0.0;
+    zAxis = 0.0;
+    setSpeed(0.0);
+    mouseX = 0.0;
+    mouseY = 0.0;
 }
 

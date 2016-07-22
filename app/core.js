@@ -75,10 +75,8 @@ function init() {
 
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
-    scene.add( object );
-
+    scene.add( object );    
     
-    var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
     
@@ -126,16 +124,15 @@ function init() {
 }
 
 function onKeyDown(e) {
-
+    var movement = Movement();
     if (e.keyCode == 80 && Pause == false) { // = 'P'
-        interface.toggleMenuOverlay();
-        var movement = Movement();
+        PauseScreen = true;
+        interface.toggleMenuOverlay();        
         movement.unlockPointer();
     }else if(e.keyCode == 80 && Pause == true){
-        interface.toggleMenuOverlay();
-        var movement = Movement();
+        interface.toggleMenuOverlay();        
         movement.lockPointer();
-
+        PauseScreen = false;
     }
 }
 
