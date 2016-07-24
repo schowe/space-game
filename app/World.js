@@ -5,6 +5,7 @@ var asteroids = [];
 var asteroidSpeedVecs = []; 
 var asteroidRotVecs = []; 
 var asteroidHitBoxes =[]; 
+var smallSphereRadius = 1000; 
 var biggerSphereRadius = 5000; 
 
 
@@ -25,13 +26,13 @@ function createStars(){
 
         color: 0xffffff } );
       
-        var geometry = new THREE.SphereGeometry(1,32,32);
+        var sphereGeometry = new THREE.SphereGeometry(1,32,32);
              // make the star
-        star = new THREE.Mesh(geometry, material);
+        star = new THREE.Mesh(sphereGeometry, material);
 
-        star.position.x = ship.position.x + Math.floor(Math.random() * (1000 - (-1000)) -1000); 
-        star.position.y = ship.position.y + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
-        star.position.z = ship.position.z + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
+        star.position.x = ship.position.x + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) -smallSphereRadius); 
+        star.position.y = ship.position.y + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) -smallSphereRadius ); 
+        star.position.z = ship.position.z + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) -smallSphereRadius ); 
         star.scale.x = star.scale.y = star.scale.z = Math.random() * 3 - 2;
 
         scene.add(star);
@@ -57,9 +58,9 @@ function createAsteroids(){
   
   for( countAst =0; countAst < 10; countAst++){
 
-     rndSpeedX = Math.random() * 10 - 6; 
-     rndSpeedY = Math.random() * 10 - 6; 
-     rndSpeedZ = Math.random() * 10 - 6; 
+     rndSpeedX = Math.random() * 20 - 16; 
+     rndSpeedY = Math.random() * 20 - 16; 
+     rndSpeedZ = Math.random() * 20 - 16; 
      rotSpeed = Math.random () * 0.05 - 0.01;
      rndScale = Math.random() * 70 - 40; 
 
@@ -187,7 +188,7 @@ function World(){
 
     return {
         init: function() {
-                var geometry = new THREE.SphereGeometry(1000, 200, 200);
+                var geometry = new THREE.SphereGeometry(smallSphereRadius, 200, 200);
                 var biggerGeometry = new THREE.SphereGeometry (biggerSphereRadius, 200,200); 
                 var material = new THREE.MeshBasicMaterial({
                     transparent: true
@@ -217,11 +218,11 @@ function updateStars(){
 
         // star.position.z +=  0.3;hip.positi
  
-       if((star.position.x < sphere.position.x - 1000 || star.position.x > sphere.position.x + 1000 ||star.position.y < sphere.position.y - 1000 || star.position.y > sphere.position.y + 1000 || star.position.z < sphere.position.z - 1000|| star.position.z > sphere.position.z + 1000) ){
+       if((star.position.x < sphere.position.x - smallSphereRadius || star.position.x > sphere.position.x + smallSphereRadius ||star.position.y < sphere.position.y - smallSphereRadius || star.position.y > sphere.position.y + smallSphereRadius || star.position.z < sphere.position.z - smallSphereRadius|| star.position.z > sphere.position.z + smallSphereRadius) ){
 
-             star.position.x = ship.position.x + Math.floor(Math.random() * (1000 - (-1000)) -1000); 
-             star.position.y = ship.position.y + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
-             star.position.z = ship.position.z + Math.floor(Math.random() * (1000 - (-1000)) -1000 ); 
+             star.position.x = ship.position.x + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) -smallSphereRadius); 
+             star.position.y = ship.position.y + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) -smallSphereRadius ); 
+             star.position.z = ship.position.z + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) -smallSphereRadius ); 
 
 
        }
