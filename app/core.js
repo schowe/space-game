@@ -35,7 +35,7 @@ function init() {
 
 
     
-    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );    
     camera.addTarget({
         name:'Target',
         targetObject: ship,
@@ -72,7 +72,7 @@ function init() {
     light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 0, 1, 0 );
     scene.add( light );
-
+    
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
     scene.add( object );    
@@ -88,6 +88,7 @@ function init() {
     world.init();
     createStars();
     createAsteroids(); 
+  //  THREEx.Transparency.init(sphere); 
     var movement = Movement();
     movement.init();
     interfaceInit();
@@ -162,7 +163,8 @@ function render() {
         renderWeapons();
         Movement().move(delta);
         updateStars();
-        updateAsteroids(); 
+        updateAsteroids();
+       // THREEx.Transparency.update(sphere, camera); 
         camera.update();        
     }
     renderer.render(scene, camera);
