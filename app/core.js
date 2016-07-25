@@ -5,13 +5,8 @@ var camera, scene, renderer, clock, delta;
 var fileLoader;
 var interface;
 var ship;
-<<<<<<< HEAD
 var player;
-=======
 var collision;
-
-//var projectileList = [];
->>>>>>> 110408cf1d29c5f94f659ecd21ef975bf8a1e4c7
 
 //var projectileList = [];
 
