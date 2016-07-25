@@ -1,0 +1,212 @@
+body {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+}
+
+#scoreBox {
+	width: 100px;
+	position: fixed;
+	top: 20px; 
+	left: 20px; 
+	border-color: black;
+	border-width: 5px;
+	color: yellow;
+	text-align: left;
+	line-height: 26.4px;
+}
+
+#score {
+	font-size: 30px;
+}
+
+#moneyBox {
+	font-size: 20px;
+}
+
+#money {
+	display: inline;
+}
+
+#ammoBox {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	width: 80px;
+	color: yellow;
+}
+
+#currentAmmo {
+	font-size: 30px;
+	line-height: 26.4px;
+}
+
+#ammoDivider {
+	position: fixed;
+	margin-top: -11px;
+	margin-left: 32px;
+	font-size: 10px;
+}
+
+#maxAmmo {
+	position: fixed;
+	margin-top: -12px;
+	margin-left: 36px;
+	font-size: 14px;
+	line-height: 26.4px;
+}
+
+#bg1 {
+	transform: skewX(45deg);
+	background-image:url(../textures/metall.jpg);
+
+	position: fixed;
+	left : -40px;
+	bottom: -4px;
+	height: 50px;
+    outline: 1px solid;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    width: 40%;
+}
+
+#bg2 {
+	transform: skewX(-45deg);
+	background-image:url(../textures/metall.jpg);
+
+	position: fixed;
+	right : -40px;
+	bottom: -4px;
+	height: 50px;
+    outline: 1px solid;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    width: 40%;
+}
+
+#hpBox {
+	position: fixed;
+	left: 60px;
+	right: 20px;
+
+	bottom: 15px;
+	height:20px;
+
+	background-color: rgba(0, 0, 0, 0.5);
+
+	border: 1px solid black;
+	border-radius: 10px;
+}
+
+#hpBoxValue {
+	width: 0%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+#hpTextBox{
+	text-shadow: 2px 2px #000000;
+	transform: skewX(-45deg);
+	color: #ffffff;
+	bottom: 33%;
+	left: 50%;
+	position: fixed;
+	text-align: center;
+	font-weight: bold;
+}
+
+#currentHP{
+	display: inline;
+}
+
+#hpDivider{
+	display: inline;
+}
+
+#maxHP{
+	display: inline;
+}
+
+#speedBar {
+	transform: rotate(180deg);
+	position: fixed;
+	right: 15px;
+	bottom: 60px;
+	width:15px;
+	height:180px;
+	background-color:black;
+	opacity: 0.5;
+	border: 1px solid black;
+	border-radius: 10px;
+
+}
+
+#speedBarValue {
+	transform: rotate(180deg);
+	position:relative;
+	width:100%;
+	height:0%;
+	border-radius: 10px;
+}
+
+#speedBox{
+	position: fixed;
+	transform: skewX(45deg);
+	color: yellow;
+	font-size: 30px;
+	bottom: 18%;
+	right: 60px;
+	bottom: 18%;
+	text-align: right;
+}
+
+#levelDisplay {
+	position: fixed;
+	left:40%;
+	width:20%;
+	height: 30px;
+
+	background-color: rgba(255,255,255,0.4);
+	border-style:ridge;
+	border-color:white;
+	border-width:3px;
+	border-radius: 15px/50px;
+	text-align:center;
+	opacity:0;
+}
+
+#levelText {
+	color:yellow;
+	width:auto;
+
+	margin-bottom: 36px;
+	font-size: 28px;
+	line-height: 26.4px;
+}
+
+#currentLevel {
+	margin-top: -30px;
+	font-size: 36px;
+	color:yellow;
+}
+
+#powerUps {
+	position:fixed;
+	height:30px;
+	bottom: 15px;
+	left: 30px;
+	transform: skewX(45deg);
+}
+#icons img{
+	height: 35px;
+	width:auto;
+	display:inline;
+	margin-right:20px;
+}
+
+.inactive {
+	opacity:0.4;
+}

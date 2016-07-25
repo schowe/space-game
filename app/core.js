@@ -1,166 +1,198 @@
-/**
- * Created by jp on 18.07.16.
- */
-
 var container;
 
-var camera, scene, renderer;
+var camera, scene, renderer, clock, delta;
 
-init();
-animate();
+var fileLoader;
+var interface;
+var ship;
+var player;
+var frames = 0;
+var collision;
+//var projectileList = [];
+
+
+$(function() {
+    fileLoader = FileLoader();
+    interface = Interface();
+    collision = Collision();
+    setTimeout(function(){
+        init();
+        cameraAnimate();
+    },1000)
+});
+
 
 function init() {
-    
-    // HTML-Container erzeugen
+
+    /********** THREE.js initialisieren **********/
+
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    
-    
-    
-    // Beispiel-Code ...
-    
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    camera.position.y = 400;
-
+    //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
+
+    // Beispiel-Code ...
+    player = Player();
+    player.init();
+
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
+
+    camera.addTarget({
+        name:'Target',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0,15,30),
+        fixed: false,
+        stiffness: 0.15,
+        matchRotation: false
+    });
+
+    camera.addTarget({
+        name:'Cockpit',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0,0,-10),
+        fixed: false,
+        stiffness: 1,
+        matchRotation: true
+    });
+    var cam = Camera();
+    cam.init();
+
+
+    camera.setTarget('Target');
+
+
+    /********** Szene füllen **********/
+
 
     var light, object;
 
     scene.add( new THREE.AmbientLight( 0x404040 ) );
-
     light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 0, 1, 0 );
     scene.add( light );
 
-    /*var map = new THREE.TextureLoader().load( 'textures/UV_Grid_Sm.jpg' );
-    map.wrapS = map.wrapT = THREE.RepeatWrapping;
-    map.anisotropy = 16;
+    object = new THREE.AxisHelper( 100 );
+    object.position.set( 0, 0, 0 );
 
-    var material = new THREE.MeshLambertMaterial( { map: map, side: THREE.DoubleSide } );*/
-    var material = new THREE.MeshBasicMaterial();
-
-    //
-
-    object = new THREE.Mesh( new THREE.SphereGeometry( 75, 20, 10 ), material );
-    object.position.set( -400, 0, 200 );
     scene.add( object );
 
-    object = new THREE.Mesh( new THREE.IcosahedronGeometry( 75, 1 ), material );
-    object.position.set( -200, 0, 200 );
-    scene.add( object );
 
-    object = new THREE.Mesh( new THREE.OctahedronGeometry( 75, 2 ), material );
-    object.position.set( 0, 0, 200 );
-    scene.add( object );
 
-    object = new THREE.Mesh( new THREE.TetrahedronGeometry( 75, 0 ), material );
-    object.position.set( 200, 0, 200 );
-    scene.add( object );
 
-    //
+    /********** Module laden **********/
 
-    object = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100, 4, 4 ), material );
-    object.position.set( -400, 0, 0 );
-    scene.add( object );
 
-    object = new THREE.Mesh( new THREE.BoxGeometry( 100, 100, 100, 4, 4, 4 ), material );
-    object.position.set( -200, 0, 0 );
-    scene.add( object );
+    var world = World();
+    world.init();
+    createStars();
 
-    object = new THREE.Mesh( new THREE.CircleGeometry( 50, 20, 0, Math.PI * 2 ), material );
+    createAsteroids();
+
+    var movement = Movement();
+    movement.init();    
+    interfaceInit();
+
+
+
+    object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
     scene.add( object );
 
-    object = new THREE.Mesh( new THREE.RingGeometry( 10, 50, 20, 5, 0, Math.PI * 2 ), material );
-    object.position.set( 200, 0, 0 );
-    scene.add( object );
 
-    object = new THREE.Mesh( new THREE.CylinderGeometry( 25, 75, 100, 40, 5 ), material );
-    object.position.set( 400, 0, 0 );
-    scene.add( object );
-
-    //
-
-    var points = [];
-
-    for ( var i = 0; i < 50; i ++ ) {
-
-        points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * Math.sin( i * 0.1 ) * 15 + 50, ( i - 5 ) * 2 ) );
-
-    }
-
-    object = new THREE.Mesh( new THREE.LatheGeometry( points, 20 ), material );
-    object.position.set( -400, 0, -200 );
-    scene.add( object );
-
-    object = new THREE.Mesh( new THREE.TorusGeometry( 50, 20, 20, 20 ), material );
-    object.position.set( -200, 0, -200 );
-    scene.add( object );
-
-    object = new THREE.Mesh( new THREE.TorusKnotGeometry( 50, 10, 50, 20 ), material );
-    object.position.set( 0, 0, -200 );
-    scene.add( object );
-
-    object = new THREE.AxisHelper( 50 );
-    object.position.set( 200, 0, -200 );
-    scene.add( object );
-
-    object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
+   /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
     object.position.set( 400, 0, -200 );
-    scene.add( object );
+    scene.add( object ); */
 
-    //
+
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
 
+    stats = new Stats();
+    container.appendChild( stats.dom );
+
+
+    /********** Input **********/
+
+    // Szene in DOM einsetzen
     container.appendChild( renderer.domElement );
-
-    //
-
+    // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
 
+    clock = new THREE.Clock();
+
+
+    initializeWeapons();
 }
 
-function onWindowResize() {
 
+function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
 
-//
+function cameraAnimate(){
+    if(frames < 25) {
+        frames++;
+        requestAnimationFrame(cameraAnimate);
+    }else {
+        yAxis = -2;
+        requestAnimationFrame(animate);
+    }
+    //
+    delta = clock.getDelta();
+    Movement().move(delta);
+    camera.update();
+    renderer.render(scene, camera);
+}
+
+var fps =  30;
+var now;
+var then = Date.now();
+var interval = 1000 / fps;
+var delta;
+
 
 function animate() {
+    // dont touch!    
 
-    requestAnimationFrame( animate );
-
-    render();
-
+        requestAnimationFrame( animate );
+    now = Date.now();
+    delta = now - then;
+    if(delta > interval){
+        then = now - (delta % interval);
+        render();
+    }
+   
 }
 
 function render() {
 
-    var timer = Date.now() * 0.0001;
+    // TODO: animation code goes here
 
-    camera.position.x = Math.cos( timer ) * 800;
-    camera.position.z = Math.sin( timer ) * 800;
-
-    camera.lookAt( scene.position );
-
-    for ( var i = 0, l = scene.children.length; i < l; i ++ ) {
-
-        var object = scene.children[ i ];
-
-        object.rotation.x = timer * 5;
-        object.rotation.y = timer * 2.5;
-
+    stats.update();
+    delta = clock.getDelta();
+    if (!Pause) {
+        handleCollision();
+        renderWeapons();
+        Movement().move(delta);
+        updateStars();
+        updateAsteroids();
     }
 
-    renderer.render( scene, camera );
+    if (player !== undefined) {
+        player.update();
+    }
+    
+    camera.update();
 
+    renderer.render(scene, camera);
 }
+
+
+
+
