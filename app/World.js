@@ -136,7 +136,7 @@ function updateAsteroids(){
             newVec = new THREE.Vector3(Math.random(), Math.random(), Math.random()); 
             newVec.normalize(); 
             
-            console.log("new VEC : " + newVec.x + " " + newVec.y + " " + newVec.z ); 
+            //console.log("new VEC : " + newVec.x + " " + newVec.y + " " + newVec.z ); 
             tmpAsteroid.position.x = ship.position.x + biggerSphereRadius * newVec.x; 
             tmpAsteroid.position.y = ship.position.y + biggerSphereRadius * newVec.y;
             tmpAsteroid.position.z = ship.position.z + biggerSphereRadius * newVec.z;
