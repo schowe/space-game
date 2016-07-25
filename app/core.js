@@ -5,13 +5,20 @@ var camera, scene, renderer, clock, delta;
 var fileLoader;
 var interface;
 var ship;
+<<<<<<< HEAD
 var player;
+=======
+var collision;
+
+//var projectileList = [];
+>>>>>>> 110408cf1d29c5f94f659ecd21ef975bf8a1e4c7
 
 //var projectileList = [];
 
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
+    collision = Collision();
     setTimeout(function(){
         init();
         animate();
@@ -26,16 +33,15 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    
+    //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
     // Beispiel-Code ...
     player = Player();
     player.init();
 
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
 
-    
-    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );    
     camera.addTarget({
         name:'Target',
         targetObject: ship,
@@ -57,8 +63,6 @@ function init() {
     camera.setTarget('Target');
 
 
-
-
     /********** Szene füllen **********/
 
 
@@ -68,27 +72,28 @@ function init() {
     light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 0, 1, 0 );
     scene.add( light );
-    
+
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
-    scene.add( object );    
-    
+
+    scene.add( object );
 
 
-    
+
 
     /********** Module laden **********/
 
-    
+
     var world = World();
     world.init();
     createStars();
-    createAsteroids(); 
-  //  THREEx.Transparency.init(sphere); 
+
+    createAsteroids();
+
     var movement = Movement();
     movement.init();
     interfaceInit();
-    
+
 
 
     object = new THREE.AxisHelper( 100 );
@@ -108,7 +113,7 @@ function init() {
 
 
     /********** Input **********/
-    
+
     // Szene in DOM einsetzen
     container.appendChild( renderer.domElement );
     // Event-Listener
@@ -125,11 +130,11 @@ function onKeyDown(e) {
     var movement = Movement();
     if (e.keyCode == 80 && Pause == false) { // = 'P'
         PauseScreen = true;
-        interface.toggleMenuOverlay();        
+        interface.toggleMenuOverlay();
         movement.unlockPointer();
     }else if(e.keyCode == 80 && Pause == true){
-        interface.toggleMenuOverlay();        
-        movement.lockPointer();        
+        interface.toggleMenuOverlay();
+        movement.lockPointer();
         PauseScreen = false;
     }
 }
@@ -152,14 +157,15 @@ function render() {
 
     // TODO: animation code goes here
 
+
     delta = clock.getDelta();
     if(!Pause) {
+        handleCollision();
         renderWeapons();
         Movement().move(delta);
         updateStars();
         updateAsteroids();
-       // THREEx.Transparency.update(sphere, camera); 
-        camera.update();        
+        camera.update();
     }
 
     if (player !== undefined) {
