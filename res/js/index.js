@@ -129,7 +129,7 @@ $(function () {
                 rayStart.visible = false;
 
                 rayEnd = new THREE.Mesh(sphereGeometry, material);
-                rayEnd.translateX(-7);
+                rayEnd.translateX(-8);
                 rayEnd.visible = false;
 
                 spaceshipGroup = new THREE.Group();
@@ -206,8 +206,6 @@ $(function () {
         if (spaceshipGroup !== undefined && rayParticleRenderer !== undefined) {
 
             var time = new Date().getTime() * 0.0005;
-
-            // TODO: transformieren klappt nicht
 
             spaceshipGroup.position.set(
                 -Math.sin(time) + Math.pow(Math.cos(time), 2),

@@ -5,6 +5,7 @@ var camera, scene, renderer, clock;
 var fileLoader;
 var interface;
 var ship;
+var player;
 
 //var projectileList = [];
 
@@ -28,9 +29,9 @@ function init() {
 
     
     scene = new THREE.Scene();
-    
+
     // Beispiel-Code ...
-    var player = Player();
+    player = Player();
     player.init();
 
 
@@ -161,5 +162,10 @@ function render() {
        // THREEx.Transparency.update(sphere, camera); 
         camera.update();        
     }
+
+    if (player !== undefined) {
+        player.update();
+    }
+
     renderer.render(scene, camera);
 }
