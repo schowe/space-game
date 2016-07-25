@@ -6,8 +6,6 @@ var maxShipAngle = 70 * (Math.PI / 360);
 
 var asteroids, enemies, enemy, asteroid, playerPosition,
     radius, i, bezierPoints;
-var tmpDistance, obstacleDistance; // deprecated
-
 
 // Enemyklasse
 function Enemy(location, speed ,weapon) {
@@ -20,16 +18,16 @@ function Enemy(location, speed ,weapon) {
 }
 
 Enemy.prototype.move = function(delta, asteroids, enemies) {
-    var wrongDir, avoidDir, alpha, shootAble, d, distanceToShip,
-         tmpDistance;
+    var avoidDir, avoidDirs, collisions, d, distanceToShip, collision;
     var onPlayerAttack = false;
 
     // 0. Schritt: Checke ob auf Bezierkurve oder nicht
     if(onPlayerAttack) {
-    // Achte darauf, dass sich der Spieler nicht um mehr als 90° zur
-    // urspruenglichen Richtung gedreht hat
+        // Achte darauf, dass sich der Spieler nicht um mehr als 90° zur
+        // urspruenglichen Richtung gedreht hat
         optimalDir = this.moveBezier();
     } else {
+
         // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
         var directionToPlayer = MATH.clone(playerPosition);
         directionToPlayer.sub(this.location);
@@ -42,15 +40,15 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         var optimalDir = MATH.clone(directionToPlayer);
 
         // 2. Schritt: Ueberpruefe, ob dem Spieler zu nahe geraten
-        if(distanceToNext < minDistanceToPlayer) {
-                // fliege in Bezierkurve hinter den Flieger
-                // setze Idealrichtung als Richtung zu naechstem Punkt auf der Kurve
-        } else {
+        if(distanceToNext < minDistanceToPlayer){
             // Gelange hinter dem Spieler:
+            // fliege in Bezierkurve hinter den Flieger
+            // setze Idealrichtung als Richtung zu naechstem Punkt auf der Kurve
             // berechne Bezierkurve und setze flag onBezier = true
             onBezier = true;
         }
     }
+
     // 3. Schritt: Ueberpruefe auf Hindernisse
     var obstacles = [];
 
@@ -66,7 +64,9 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
     for(asteroid of asteroids) { // Asteroiden schon geupdatet
         d = Math.abs(shipDistance - asteroid.location.distance(playerPosition));
+
         // Teste, ob im richtigen Ring um den Spieler
+        // possibleObstacle um die Sortierung zu nutzen -> Doppelter switch
         if(d <= minObstacleDistance) { // nahe (in Bezug auf Distanz zum Player)
             possibleObstacle = true;
             distanceToShip = asteroid.position.distanceTo(shipPosition);
@@ -105,7 +105,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         // einfacher Fall: nur ein Hindernis
         if(obstacles.length == 1) {
             var flightAngle =
-                Math.dot(obstacles[1].direction.normalize(),this.direction);
+                Math.dot(obstacles[0].direction.normalize(),this.direction);
 
             // Falls nicht auf einen zufliegend
             if(flightAngle >= -0.965) { // im 15° Winkel auf einen zufliegend
@@ -113,7 +113,21 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 //  Normale zum Schnittpunkt mit Hindernis
                 var avoidDir = new THREE.Vector3(0,0,0);
                 // TODO: weiche aus in Richtung der Normalen des Schnittpunkts
+                // a) Berechne Schnittpunkt(e) mit Obstacle
+                // b) Falls mehr als ein (zwei) Schnittpunkt, nimm das naehere
+                // -> t kleiner waehlen -> - statt + in Formel
+                var dirToObstacle = new THREE.Vector3(
+                    obstacles[0].location.x - this.location.x,
+                    obstacles[0].location.y - this.location.y,
+                    obstacles[0].location.z - this.location.z);
+                var a = dirToObstacle.x * dirToObstacle.x +
+                        dirToObstacle.y * dirToObstacle.y +
+                        dirToObstacle.z * dirToObstacle.z;
+                // c) Normale ist Schnittpunkt.sub(obstacle.location)
+                // d) .normalize()
+
                 // TODO: rotiere avoidDir um bis zu +-10° bzgl. jeder Richtung
+                //          sowie in createAsteroid()
 
                 // Gewichte die Laengen, um Kollision zu vermeiden
                 var bestImpact = this.position.distanceTo(obstacles[0].location);
@@ -129,33 +143,10 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             } else {
             // sonst, weiche aus bzw. zerschiesse Asteroid wie aufs Zettel 1
             }
-        } else { // schwieriger Fall: mindestens zwei Hindernisse
+        } else {
+            directionFound = false;
 
-            // 3.5. Schritt: Sortiere nach Distanz zu this
-            // Naechste Objekte vorne
-            // obstacles.sort(function(a,b) {
-            //     var distanceA = a.location.distanceToSquared(shipPosition);
-            //     var distanceB = b.location.distanceToSquared(shipPosition);
-
-            //     if(distanceA < distanceB) {
-            //         return -1;
-            //     } else if(distanceA > distanceB) {
-            //         return 1;
-            //     } else {
-            //         return 0;
-            //     }
-            // });
-
-            // Ausweichalgorithmus:
-            // Projeziere Szene auf Plane, deren Abstand zum Schiff durch
-            // den maximalen Flugwinkel bestimmt ist
-            // -> render mit Kamera bei this in Richtung this.direction
-            // da alles Kugel genuegt Mittelpunkt und Radius
-            // ! weiter entfernte Objekte sind auf der Plane kleiner
-            //      -> Gewichtung entfaellt (bzw. haengt am Radius)
-
-            // Koordinatensystemwechsel:
-            // N = optimalDir,U =N x(Up x N),V =N x U, Up=shipPosition + e_y
+            // Konstruiere Richtungsplane
             var upVector = new THREE.Vector3(0,1,0);
             //upVector.add(shipPosition);
             // TODO: Ueberpruefe, ob Up richtig
@@ -172,69 +163,14 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             U.normalize();
             V.normalize();
 
-            // Stelle Koordinatensystemwechselmatrix auf
-            // Ursprung = this.position + a * optimalDir
-            var coordMatrix = new Matrix4();
-            // Plane etwas vor einem
-            var distanceToPlane = 1.2 * speed * delta;
-            var planeHeight = distanceToPlane * Math.tan(maxShipAngle);
 
-            var ursprung = MATH.clone(optimalDir);
-            ursprung.multiplyScalar(distanceToPlane);
-            ursprung.add(this.position);
+            // 4.1 Suche bis zu fuenf Iterationen lang eine neue Richtung
 
-            coordMatrix.set(U.x,V.x,N.x,ursprung.x,
-                            U.y,V.y,N.y,ursprung.y,
-                            U.z,V.z,N.z,ursprung.z,
-                            0,  0,  0,  1);
-            coordMatrix.getInverse(coordMatrix);
+            // 4.1.1 trivialer Versuch -> geht optimale Richtung?
+            directionFound = checkDirection(direction, obstacles);
 
-            // Transformation der Mittelpunkte sowie der Radien
-            // Sammle zu jedem obstacle den Mittelpunkt und schick ihn durch die
-            // Matrix Radius bleibt bei coordMatrix, da UVN ONB ist
-
-            var projMatrix = new Matrix4();
-            projMatrix.set(1,0,0,0, 0,1,0,0, 0,0,0,0, 0,0,1/distanceToPlane,1);
-
-            var obstaclesCenter = [];
-            var obstaclesRadius = [];
-            var obstaclesUVN    = [];
-            var center;
-
-            // Transformiere Mittelpunkt und Radius
-            for(i = 0; i < obstacles.length; i++) {
-                obstacle = obstacles[i];
-                var tmp = [obstacle.location.x, obstacle.location.y,
-                                obstacle.location.z];
-                tmp = coordMatrix.applyToVector3Array(tmp);
-                obstaclesUVN.push(tmp);
-                tmp = projMatrix.applyToVector3Array(tmp);
-                center = new THREE.Vector3(tmp[0],tmp[1],tmp[2]);
-                // push setzt bei Array hinten drauf
-                obstaclesCenter.push(center);
-                // TODO: Formel fuer projectedRadius einsetzen
-                obstaclesRadius.push(projectedRadius);
-            }
-            // -> Projektion der Schutzradien
-            // -> Ausweichproblem in 2D
-
-            var directionInPlane = MATH.clone(this.position);
-            directionInPlane.add(optimalDir.multiplyScalar(distanceToPlane));
-            // TODO: Formel fuer guadingRadius auf Plane einsetzen
-            var guardingPlane = 1;
-
-            // Ueberpruefe auf Kollision und merke den "Fehler"
-            for(i = 0; i < obstacles.length; i++) {
-                tmpDistance = this.location.distanceTo(obstacles[i].location);
-                tmpDistance = tmpDistance - guardingPlane - obstaclesRadius;
-                if(obstacleDistance > tmpDistance) {
-                    obstacleDistance = tmpDistance;
-                }
-            }
-
-
-            // Falls Fehlergroesse min |a-b|-r-R >= 0 -> widerstandsfrei
-            if(obstacleDistance >= 0) {
+            if(directionFound) {
+                direction = optimalDir;
                 // Falls bevorzugte Richtung geht, gehe in diese Richtung
                 // mit einem kleinen vom "Fehler" abhaengigen Unterschied
                 direction = new THREE.Vector3(
@@ -242,33 +178,112 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 direction.addScalar(directionError);
                 direction.add(optimalDir.multiplyScalar(distanceToNext));
             } else {
-                directionFound = false;
+                // 4.1.2 wenn nicht, ueberpruefe schrittweise Umgebungs
+                // 4.1.3 alles in Umgebung (gleicher Abstand)
+                var scalar = this.speed * delta * Math.tan(maxShipAngle);
+                var checkingDistance =  0.2 * scalar; // s. Zettel 3
 
-                // Sonst gehe in andere Richtung
-                // TODO: Suche weitere Richtung
+                // setze die Laengen von U und V neu, auf maximale Distanz
+                // (je nach Winkel des Raumschiffs)
+                U.multiplyScalar(checkingDistance);
+                V.multiplyScalar(checkingDistance);
 
-                // falls Fehler klein -> in Umgebung um optimalDir
-                if(obstacleDistance > -guardingPlane) {
-                    for(i = 0; i < 5; i++) {
-                        avoidDir = MATH.clone(U);
-                        U.addScalar(2*Math.random() - 1);
-                        V.addScalar(2*Math.random() - 1);
-                        avoidDir.add(V);
-                        V.normalize();
-                        avoidDir.normalize();
-                        avoidDir.addScalar(guardingPlane);
+                for(i = 0; i < 4; i++) {
+                    avoidDir = MATH.clone(direction);
+                    switch(i) {
+                        case 0: avoidDir = avoidDir.add(U).add(V); break;
+                        case 1: avoidDir = avoidDir.add(U).sub(V); break;
+                        case 2: avoidDir = avoidDir.sub(U).add(V); break;
+                        case 3: avoidDir = avoidDir.sub(U).sub(V); break;
+                        default: avoidDir = optimalDir;
+                    }
 
-                        //  teste, ob diese geht
-                        if() { // falls ja, nimm diese
-                            directionFound = true;
-                            break;
-                        }
+                    avoidDirs.push(avoidDir);
+                    collisions[i] = checkDirection(avoidDir, obstacles);
+                    directionFound = (collisions[i] == 0);
+
+                    if(directionFound) {
+                        direction = avoidDir;
+                        break;
                     }
                 }
 
+                var iter = 0;
+                do {
+                    // 4.1.4a Bestimme Richtung mit minimaler Kollisionsanzahl
+                    if(!directionFound) {
+                        direction = avoidDirs[MATH.getMinIndex(collisions)];
+                    }
 
-                } else {
+                    // setze die Laengen von U und V neu, auf maximale Distanz
+                    // (je nach Winkel des Raumschiffs)
+                    U.normalize();
+                    V.normalize();
+                    U.multiplyScalar(2/3*checkingDistance*scalar);
+                    V.multiplyScalar(2/3*checkingDistance*scalar);
+
+                    // 4.1.4b Betrachte die Eckpunkte (Abstand ungleich) in der Umgebung
+                    for(i = 0; i < 4; i++) {
+                        avoidDir = MATH.clone(direction);
+                        switch(i) {
+                            case 0: avoidDir = avoidDir.add(U).add(V); break;
+                            case 1: avoidDir = avoidDir.add(U).sub(V); break;
+                            case 2: avoidDir = avoidDir.sub(U).add(V); break;
+                            case 3: avoidDir = avoidDir.sub(U).sub(V); break;
+                            default: avoidDir = optimalDir;
+                        }
+
+                        collisions[i] = checkDirection(avoidDir, obstacles);
+                        directionFound = (collisions[i] == 0);
+
+                        if(directionFound) {
+                            direction = avoidDir;
+                        }
+                    }
+
+                    if(directionFound) {
+                        // 4.1.4c Mach eine weitere Iteration zum Pruefen
+
+                        // setze die Laengen von U und V neu, auf maximale Distanz
+                        U.normalize();
+                        V.normalize();
+                        U.multiplyScalar(2/3 * checkingDistance * scalar);
+                        V.multiplyScalar(2/3 * checkingDistance * scalar);
+
+                        for(i = 0; i < 4; i++) {
+                            avoidDir = MATH.clone(direction);
+                            switch(i) {
+                                case 0: avoidDir = avoidDir.add(U).add(V); break;
+                                case 1: avoidDir = avoidDir.add(U).sub(V); break;
+                                case 2: avoidDir = avoidDir.sub(U).add(V); break;
+                                case 3: avoidDir = avoidDir.sub(U).sub(V); break;
+                                default: avoidDir = optimalDir;
+                            }
+
+                            collisions[i] = checkDirection(avoidDir, obstacles);
+                            if(collisions[i] != 0) {
+                                // Falls Kollision -> weiter iterieren
+                                directionFound = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    // Automatisch erfuellt
+                    // Falls immer noch keine Kollision, nimm die vorherige
+
+                    // Falls doch und Iterationsanzahl erreicht
+                    //    -> nimm letzte gute und schiesse
+                    iter++;
+                } while(!directionFound && iter <= 5);
+            }
+
+
+            if(!directionFound){
                     // sonst rate bis zu fuenfmal Richtung
+                    U.normalize();
+                    V.normalize();
+
                     for(i = 0; i < 5; i++) {
                         // "rate" neue Richtung
                         avoidDir = MATH.clone(U);
@@ -278,62 +293,67 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                         V.normalize();
                         avoidDir.normalize();
                         // Strecke, bleibe aber im Bereich
-                        avoidDir.addScalar(Math.random() * planeHeight);
+                        avoidDir.addScalar(Math.random() * distanceToNext);
+
+                        direction = MATH.clone(optimalDir);
+                        direction.add(avoidDir);
 
                         //  teste, ob diese geht
-                        if(checkCollisionOnPlane(
-                                direction, obstaclesCenter, obstaclesRadius)) {
+                        collision = checkDirection(direction, obstacles);
+                        directionFound = (collision == 0);
+
+                        if(directionFound) {
                                 // falls ja, nimm diese
                             directionFound = true;
                             break;
                         }
                     }
 
-                }
+
 
 
 
                 if(!directionFound) {
                     // Falls dies auch nicht geht, pruefe, ob Ecken der Plane frei
-                    var edgeNotPossible = true;
+
+                    // Setze die Laengen von U und V neu, auf maximale Distanz
+                    // (je nach Winkel des Raumschiffs)
+                    U.normalize();
+                    V.normalize();
+                    U.multiplyScalar(scalar);
+                    V.multiplyScalar(scalar);
 
                     i = 0;
-                    while(edgeNotPossible) {
+                    while(!directionFound) {
 
-                        direction = directionInPlane.clone();
+                        direction = MATH.clone(optimalDir);
 
                         switch(i) {
                             case 0:
-                                direction.x -= planeHeight * u.x;
-                                direction.y -= planeHeight * u.y;
-                                edgeNotPossible =
-                                checkCollisionInDirection(direction, obstacles);
+                                direction = direction.add(U).add(V);
                                 break;
                             case 1:
-                                direction.x += planeHeight * u.x;
-                                direction.y -= planeHeight * u.y;
-                                edgeNotPossible =
-                                checkCollisionInDirection(direction, obstacles);
+                                direction = direction.add(U).sub(V);
                                 break;
                             case 2:
-                                direction.x += planeHeight * u.x;
-                                direction.y += planeHeight * u.y;
-                                edgeNotPossible =
-                                checkCollisionInDirection(direction, obstacles);
+                                direction = direction.sub(U).add(V);
                                 break;
                             case 3:
-                                direction.x -= planeHeight * u.x;
-                                direction.y += planeHeight * u.y;
-                                edgeNotPossible =
-                                checkCollisionInDirection(direction, obstacles);
+                                direction = direction.sub(U).sub(V);
                                 break;
-                            default: edgeNotPossible = true;
+                            default: direction = optimalDir;
                         }
 
-                        directionFound = !edgeNotPossible;
 
+
+                        collision = checkDirection(direction, obstacles);
+                        directionFound = (collision == 0);
                         i++;
                     }
+
+                    // TODO: Falls dies auch nicht geht, gehe orthogonal
+                    // Raycaster in v x e1, v x e2, v x e3 -> falls nichts getroffen -> hierhin
+                    // nur in diese Richtung nicht linearkominiert
 
                     if(!directionFound) {
                         // Falls vor einem alles versperrt, bleibe stehen und schiesse
@@ -362,29 +382,11 @@ Enemy.prototype.moveBezier = function() {
     return new THREE.Vector3(0,0,0);
 }
 
-Enemy.prototype.checkCollisionOnPlane
-    = function(direction, obstaclesMids, obstaclesRadius) {
-        var tmpDistance, obstacleDistance, position, dist;
+// Ueberprueft die Richtung auf Hindernisse
+// @return {true,false} Richtung hindernisfrei?
+Enemy.prototype.checkDirection = function(direction, objects) {
 
-        // TODO: position aus direction
-        dist =  Math.sqrt(distanceToPlane * distanceToPlane + )
-        direction.multiplyScalar();
-
-        for(i = 0; i < obstaclesMids.length; i++) {
-                tmpDistance = position.distanceTo(obstaclesMids[i]);
-                tmpDistance = tmpDistance - guardingPlane - obstaclesRadius[i];
-                if(obstacleDistance > tmpDistance) {
-                    obstacleDistance = tmpDistance;
-                }
-        }
-
-        // Falls
-        if(obstacleDistance >= 0) {
-            return true;
-        }
-
-        return false;
-    }
+}
 
 
 Enemy.prototype.shoot = function() {
