@@ -4,27 +4,62 @@ var guardingRadius      = 50;
 var minDistanceToPlayer = 10;
 var maxShipAngle        = 70 * (Math.PI / 360);
 
+var ENEMY.BOSS1  = 1;
+var ENEMY.BOSS2  = 2;
+var ENEMY.SMALL1 = 3;
+var ENEMY.SMALL2 = 4;
+
 var asteroids, enemies, enemy, asteroid, playerPosition,
-    radius, i, bezierPoints;
+    radius, i, bezierPoints, geometry;
 
 // Enemyklasse
-// TODO: Erben von Mesh mit call , constructor und prototype
-function Enemy(location, speed ,weapon, level) {
+// TODO: location durch position ersetzen
+function Enemy(location, speed, typ, level) {
     // TODO: unterschiedliche Enemies
-    // Textur
-    var texture = fileLoader.get("EnemyMiniShipV1");
+
+    // Waffe setzen
+    // TODO: weapon
+    switch(typ) {
+        case ENEMY.BOSS1:
+            geometry = fileLoader.get("EnemyMiniShipV1");
+            this.weapon = 1;
+            this.size   = 1;
+            break;
+        case ENEMY.BOSS2:
+            geometry = fileLoader.get("EnemyMiniShipV1");
+            this.weapon = 1;
+            this.size   = 1;
+            break;
+        case ENEMY.SMALL1:
+            geometry = fileLoader.get("EnemyMiniShipV1");
+            this.weapon = 1;
+            this.size   = 1;
+            break;
+        case ENEMY.SMALL2:
+            geometry = fileLoader.get("EnemyMiniShipV1");
+            this.weapon = 1;
+            this.size   = 1;
+            break;
+        default:
+            geometry = fileLoader.get("EnemyMiniShipV1");
+            this.weapon = 1;
+            this.size   = 1;
+    }
+
 
     // Mesh setzen
-    THREE.Mesh.call(this,texture,
+    THREE.Mesh.call(this, geometry,
         new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
 
-    this.speed = speed;
-    this.location = location;
-    this.weapon = weapon;
-    this.isAlive = true;
-    this.shootAble = false;
-    this.onBezier = false;
-    this.level = level;
+
+
+
+    this.speed      = speed;
+    this.position   = location;
+    this.level      = level;
+    this.isAlive    = true;
+    this.shootAble  = false;
+    this.onBezier   = false;
 }
 
 Enemy.prototype.constructor = Asteroid;
@@ -43,7 +78,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
         // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
         var directionToPlayer = MATH.clone(playerPosition);
-        directionToPlayer.sub(this.location);
+        directionToPlayer.sub(this.position);
 
         var distanceToNext = directionToPlayer.length();
 
@@ -78,7 +113,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
     for(asteroid of asteroids) { // Asteroiden schon geupdatet
-        d = Math.abs(shipDistance - asteroid.location.distance(playerPosition));
+        d = Math.abs(shipDistance - asteroid.position.distance(playerPosition));
 
         // Teste, ob im richtigen Ring um den Spieler
         // possibleObstacle um die Sortierung zu nutzen -> Doppelter switch
@@ -96,7 +131,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     }
 
     for(enemy of enemies) {
-        d =  enemy.location.distanceTo(playerPosition) - shipDistance;
+        d =  enemy.position.distanceTo(playerPosition) - shipDistance;
         if(d <= 0 && d <= minObstacleDistance) { // nahe und vor einem
             distanceToShip = enemy.position.distanceTo(shipPosition);
             if(distanceToShip <= guardingRadius) { // nahe an this
@@ -130,9 +165,9 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 // TODO: weiche aus in Richtung der Normalen des Schnittpunkts
 
                 var avoidDir = new THREE.Vector3(
-                    this.location.x - obstacles[0].location.x,
-                    this.location.y - obstacles[0].location.y ,
-                    this.location.z - obstacles[0].location.z);
+                    this.position.x - obstacles[0].position.x,
+                    this.position.y - obstacles[0].position.y ,
+                    this.position.z - obstacles[0].position.z);
                 avoidDir.normalize();
 
                 // rotiere avoidDir um bis zu +-10° bzgl. jeder Richtung
@@ -146,7 +181,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 direction.add(randomDir);
 
                 // Gewichte die Laengen, um Kollision zu vermeiden
-                var bestImpact = this.position.distanceTo(obstacles[0].location);
+                var bestImpact = this.position.distanceTo(obstacles[0].position);
                 var avoidImpact = 1.5 * maxAsteroidSize;
 
                 avoidDir.multiplyScalar(avoidImpact);
@@ -424,7 +459,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     direction.normalize();
 
     // 6. Schritt:
-    this.location.add(direction.multiplyScalar(delta * this.speed);
+    this.position.add(direction.multiplyScalar(delta * this.speed);
 }
 
 // @return optimale Richtung nach Bezierflugbahn
@@ -433,14 +468,18 @@ Enemy.prototype.moveBezier = function() {
 }
 
 // Ueberprueft die Richtung auf Hindernisse
-// @return {true,false} Richtung hindernisfrei?
+// @return #Hindernisse
 Enemy.prototype.checkDirection = function(direction, objects) {
+    var raycaster =
+        new THREE.Raycaster(this.position, direction, 0, minObstacleDistance);
+    var rayObstacles = raycaster.intersectObjects(objects);
 
+    return rayObstacles.length;
 }
 
 
 Enemy.prototype.shoot = function() {
-    // Schießt von location mit weapon in direction
+    // Schießt von position mit weapon in direction
     // TODO: Je naeher desto haeufiger
 }
 

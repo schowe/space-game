@@ -53,6 +53,8 @@ function checkCollisionAndAct(asteroids, enemies) {
     // 2. Enemy <-> Enemy
     // 3. Asteroid <-> Enemy
 
+    // TODO: Fuer alle mit !isAlive neue Objekte erzeugen
+
 
     return enemies;
 }
@@ -148,14 +150,14 @@ function createEnemy(level) {
 
     // TODO: weapon
     switch(Math.round(level * Math.random())) {
-        case 0 : weapon = 0; break;
-        case 1 : weapon = 1; break;
-        case 2 : weapon = 2; break;
-        case 3 : weapon = 3; break;
-        default: weapon = 4; // hardest weapon
+        case 0 : typ = 0; break;
+        case 1 : typ = 1; break;
+        case 2 : typ = 2; break;
+        case 3 : typ = 3; break;
+        default: typ = 4; // hardest weapon
     }
 
-    enemy = new Bots.Enemy(enemyPosition, speed, weapon, level);
+    enemy = new Bots.Enemy(enemyPosition, speed, typ, level);
 
     return enemy;
 }
