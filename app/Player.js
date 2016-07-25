@@ -12,8 +12,6 @@ function Player() {
             
              var geometry = fileLoader.get("HeroShipV5");
             
-            
-
              ship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "darkgrey",specular:"darkgrey"}));
              ship.position.set(0, 0, 0);
             
@@ -25,9 +23,9 @@ function Player() {
             
              cross = new THREE.Sprite(materialA);
              cross.position.set(0,10,-40);
-
             cross.scale.set(3.0,3.0,1.0);
             ship.add(cross);
+
             
 
 

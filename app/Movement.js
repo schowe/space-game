@@ -9,6 +9,7 @@ var moveDown;
 var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
+
 var directionVector = new THREE.Vector4(0,0,0,1);
 var Pause = true;
 var PauseScreen = false;
@@ -30,10 +31,8 @@ var theta = 0;
 
 
 function Movement() {
-    
+
     return {
-
-
 
         init:function() {
 
@@ -224,7 +223,7 @@ function Movement() {
 
 
         },
-     
+
 
 
         move:function(delta) {
@@ -256,7 +255,7 @@ function Movement() {
 
             sphere.position.set(ship.position.x,ship.position.y,ship.position.z);
             biggerSphere.position.set(ship.position.x,ship.position.y,ship.position.z);
-            
+
 
             mouseX *= Sensitivity;
             mouseY *= Sensitivity;
@@ -274,8 +273,6 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
-            directionVector = position - targetPosition;
-
         },
 
         unlockPointer:function(){
@@ -283,16 +280,16 @@ function Movement() {
             var element = document.body;
             if(document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
                 document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
-                document.exitPointerLock();                
-            }            
+                document.exitPointerLock();
+            }
         },
 
         lockPointer:function(){
-            var element = document.body;     
-            
+            var element = document.body;
+
             element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
             element.requestPointerLock();
-            
+
 
         }
     }
@@ -321,4 +318,3 @@ function stop(){
     mouseX = 0.0;
     mouseY = 0.0;
 }
-

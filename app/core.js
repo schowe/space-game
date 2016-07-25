@@ -6,10 +6,17 @@ var fileLoader;
 var interface;
 var ship;
 var frames = 0;
+var collision;
+
+//var projectileList = [];
+
+//var projectileList = [];
+
 
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
+    collision = Collision();
     setTimeout(function(){
         init();
         cameraAnimate();
@@ -25,18 +32,14 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-
-
-    
     //while(!fileLoader.isReady()){};
         scene = new THREE.Scene();
     // Beispiel-Code ...
     var player = Player();
     player.init();
 
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
 
-    
-    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
     camera.addTarget({
         name:'Target',
         targetObject: ship,
@@ -61,7 +64,7 @@ function init() {
     camera.setTarget('Target');
 
 
-  
+
 
 
 
@@ -79,23 +82,25 @@ function init() {
 
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
-    scene.add( object );    
-    
+
+    scene.add( object );
 
 
-    
+
 
     /********** Module laden **********/
 
-    
+
     var world = World();
     world.init();
     createStars();
-    createAsteroids(); 
+
+    createAsteroids();
+
     var movement = Movement();
     movement.init();    
     interfaceInit();
-    
+
 
 
     object = new THREE.AxisHelper( 100 );
@@ -118,7 +123,7 @@ function init() {
 
 
     /********** Input **********/
-    
+
     // Szene in DOM einsetzen
     container.appendChild( renderer.domElement );
     // Event-Listener
@@ -129,6 +134,7 @@ function init() {
 
     initializeWeapons();
 }
+
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -175,15 +181,15 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
+
     stats.update();
     delta = clock.getDelta();
-
     if (!Pause) {
+        handleCollision();
         renderWeapons();
         Movement().move(delta);
         updateStars();
         updateAsteroids();
-
     }
     camera.update();
     renderer.render(scene, camera);
