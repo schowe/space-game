@@ -119,9 +119,10 @@ $(function () {
                 var spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({map:texture}));
                 spaceship.position.set(0, 0, 0);
                 spaceship.rotateY(-1.571);
+                // spaceship.visible = false;
 
                 var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-                var material =  new THREE.MeshBasicMaterial({color: "red"});
+                var material =  new THREE.MeshBasicMaterial();
 
                 rayStart = new THREE.Mesh(sphereGeometry, material);
                 rayStart.translateX(-5);
@@ -138,7 +139,7 @@ $(function () {
                 scene.add(spaceshipGroup);
 
                 rayParticleRenderer = new RayParticleRenderer(
-                    0xffffff,10000,"res/textures/particle.png",
+                    0x2255ff,10000,"res/textures/particle.png",
                     rayStart.position, rayEnd.position
                 );
 

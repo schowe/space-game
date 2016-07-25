@@ -1,11 +1,6 @@
 function RayParticleRenderer(particleColor, nParticles, particleTexture, startVector, endVector) {
 
-    function rand() {
-        return Math.random();
-    }
-
     // TODO: Partikel anzahl begrenzen! sonst aua für den computer
-
     // TODO: camera position verwenden als endVector ?
 
     this.rayRadius = 1; // TODO: evtl konfigurierbar machen?
@@ -40,14 +35,14 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
             this.startVector.z
         );
 
-        particle.x += this.directionVector.x * rand() * 0.001;
-        particle.y += this.directionVector.y * rand() * 0.001;
-        particle.z += this.directionVector.z * rand() * 0.001;
+        particle.x += this.directionVector.x * Math.random() * 0.001;
+        particle.y += this.directionVector.y * Math.random() * 0.001;
+        particle.z += this.directionVector.z * Math.random() * 0.001;
         
         particle.velocity = new THREE.Vector3(
-            this.directionVector.x * rand(),
-            this.directionVector.y * rand(),
-            this.directionVector.z * rand()
+            this.directionVector.x * Math.random(),
+            this.directionVector.y * Math.random(),
+            this.directionVector.z * Math.random()
         );
         this.particles.vertices.push(particle);
     }
@@ -91,14 +86,14 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
 
                 // Particle hat den Endpunkt erreicht => zurücksetzen!
                 particle = new THREE.Vector3(
-                    this.startVector.x,
-                    this.startVector.y,
-                    this.startVector.z
+                    this.startVector.x+(Math.random()-0.5)*0.1,
+                    this.startVector.y+(Math.random()-0.5)*0.1,
+                    this.startVector.z+(Math.random()-0.5)*0.1
                 );
 
-                particle.x += distanceFromEndVector.x * rand() * 0.001;
-                particle.y += distanceFromEndVector.y * rand() * 0.001;
-                particle.z += distanceFromEndVector.z * rand() * 0.001;
+                particle.x += distanceFromEndVector.x * Math.random() * 0.001;
+                particle.y += distanceFromEndVector.y * Math.random() * 0.001;
+                particle.z += distanceFromEndVector.z * Math.random() * 0.001;
 
                 particle.velocity = new THREE.Vector3(0, 0, 0);
 
@@ -106,10 +101,10 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
             } else {
 
                 // Particles auf Flugbahn weiterbewegen
-                var r = rand();
-                particle.velocity.x = distanceFromEndVector.x * r * 0.1 + (rand()-0.5) * 0.1;
-                particle.velocity.y = distanceFromEndVector.y * r * 0.1 + (rand()-0.5) * 0.1;
-                particle.velocity.z = distanceFromEndVector.z * r * 0.1 + (rand()-0.5) * 0.1;
+                var r = Math.random();
+                particle.velocity.x = distanceFromEndVector.x * r * 0.1 + (Math.random()-0.5) * 0.1;
+                particle.velocity.y = distanceFromEndVector.y * r * 0.1 + (Math.random()-0.5) * 0.1;
+                particle.velocity.z = distanceFromEndVector.z * r * 0.1 + (Math.random()-0.5) * 0.1;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;
@@ -125,5 +120,3 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
 
     
 }
-
-// particleExplosion: function (vector, maxRadius, duration, color) {
