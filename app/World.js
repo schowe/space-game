@@ -50,7 +50,7 @@ function createAsteroids(){
  var  materialAst, astHitBox, hitGeometry;
  var astTexture, astOriginal;
 
-  astTexture = fileLoader.get("Asteroid V2");
+  astTexture = fileLoader.get("AsteroidV2");
 
   for( countAst =0; countAst < 10; countAst++){
 
@@ -73,7 +73,7 @@ function createAsteroids(){
 
      astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
 
-     hitGeometry =  new THREE.SphereGeometry(6.618, 32, 32);
+     hitGeometry =  new THREE.SphereGeometry(4, 32, 32);
 
       var colSphereMaterial = new THREE.MeshBasicMaterial({
                     transparent: true,
@@ -91,7 +91,7 @@ function createAsteroids(){
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
-     scene.add(astHitBox);
+     //scene.add(astHitBox);
   }
 
 
