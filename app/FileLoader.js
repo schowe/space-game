@@ -1,5 +1,6 @@
 //Audio-Variables
 var laserAudio;
+var rocketAudio;
 
 
 var FileLoader = function() {
@@ -80,10 +81,20 @@ var FileLoader = function() {
 
 
     //initialize Audio-files
+
+    //Main-laser audio
     laserAudio = document.createElement('audio');
     var laserAudioSource = document.createElement('source');
     laserAudioSource.src = '../res/sounds/gun.wav';
     laserAudio.appendChild(laserAudioSource);
+
+    //rocket audio
+    rocketAudio = document.createElement('audio');
+    var rocketAudioSource = document.createElement('source');
+    rocketAudioSource.src = '../res/sounds/rocket.wav';
+    rocketAudio.appendChild(rocketAudioSource);
+
+
 
     console.log("FileLoader done.");
     

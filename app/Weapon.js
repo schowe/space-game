@@ -26,7 +26,6 @@ var MaxMGAmmo = 100;
 //Rocket: 0, MG: 1
 var activeSecWeapon = 0;
 
-
 //var MGAudio;
 
 //var explosionAudio;
@@ -62,24 +61,18 @@ var mgCounter = 0;
 //Geometries for bullets etc.
 var shootGeometry = new THREE.CylinderGeometry(1,1,100); 
 
-//var jsonLoader = new THREE.JSONLoader();
 var rocketGeometry = undefined;
 var rocketMaterial = undefined;
 
-//jsonLoader.load("RocketV1.json", function (geometry, texture) {
-//	 rocketGeometry = geometry;
-//	 rocketMaterial = new THREE.MultiMaterial(texture);
-//});
 var explosionGeometry = new THREE.SphereGeometry(7,32,32);
 var MGGeometry = new THREE.SphereGeometry(0.1,16,16);
-rocketMaterial = new THREE.MeshBasicMaterial({ color:0xA0A0AF });
 
 //var collidableMeshList = [];
 
 // Create Materials for Bullets etc. 
   
 var shootMaterial = new THREE.MeshBasicMaterial({ color:0xFF0000 });
-var explosionMaterial = new THREE.MeshBasicMaterial({ color:0xFFFFFF });
+var explosionMaterial = new THREE.MeshPhongMaterial({ color:0xFFFFFF });
 
 //variable for holding reference to spaceship
 //var spaceship;
@@ -89,22 +82,8 @@ function initializeWeapons(){
 
  
 
-	//Target for testing
 
-	// var testGeometry = new THREE.SphereGeometry(50,16,16);
-	// var testMaterial = new THREE.MeshBasicMaterial({ color:0xFFFF00 });
-	// var testTarget1 = new THREE.Mesh(testGeometry, testMaterial);
-	// testTarget1.translateX(200);
-	// scene.add(testTarget1);
-	// //testTarget1.name = "Asteroid";
-
-	// asteroids.push(testTarget1);
-
-	// rocketAudio = document.createElement('audio');
-	// var rocketAudioSource = document.createElement('source');
-	// rocketAudioSource.src = 'rocket.wav';
-	// rocketAudio.appendChild(rocketAudioSource);
-
+	
 	// explosionAudio = document.createElement('audio');
 	// var explosionAudioSource = document.createElement('source');
 	// explosionAudioSource.src = 'explosion.wav';
@@ -120,15 +99,10 @@ function initializeWeapons(){
 
 	//document.addEventListener('leftclick', shoot, false);
 
-	document.body.addEventListener('mousedown', function (e){
-    if(e.button === 0){
-    	shoot();
-    }
-    else if(e.button === 1){
-        //MGShoot();
-        console.log("right");
-    }
-}, false);
+	document.body.addEventListener('mousedown', shoot, false);
+
+	rocketGeometry = fileLoader.get("RocketV1");
+	rocketMaterial = new THREE.MeshBasicMaterial({ color:0xA0A0AF });
 }
 
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
@@ -183,57 +157,74 @@ function MGShoot(){
 	  //collidableMeshList.push(bullet5);
 }
 
-function shoot(){
-	  if(timeSinceShoot > 0.4){ 
+function shoot(e){
+	if(e.button == 0){
+		shootLaser();
+	}
+	else{
+		shootRocket();
+	}
+}
+
+
+function shootLaser(){
+	if(timeSinceShoot > 0.4){ 
 	  	timeSinceShoot = 0;
 		//create mesh
-     	bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
+	 	bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
 
-     	bullet1.name = "Laser";
-      	//translate to ship position
-      	bullet1.position.x = ship.position.x;
-      	bullet1.position.y = ship.position.y;
-      	bullet1.position.z = ship.position.z;
-      	
-      	//set orientation of the bullet according to ship orientation
-      	bullet1.lookAt(targetPosition);
+	 	bullet1.name = "Laser";
+	  	//translate to ship position
+	  	bullet1.position.x = ship.position.x;
+	  	bullet1.position.y = ship.position.y;
+	  	bullet1.position.z = ship.position.z;
+	  	
+	  	//set orientation of the bullet according to ship orientation
+	  	bullet1.lookAt(targetPosition);
 
-      	//rotate: laser beam would be pointing up otherwise
-      	bullet1.rotateX(1.57);
+	  	//rotate: laser beam would be pointing up otherwise
+	  	bullet1.rotateX(1.57);
 
-      	//add bullet to scene
-      	scene.add(bullet1);
+	  	//add bullet to scene
+	  	scene.add(bullet1);
 
-      	//add bullet to bullet list so it will be moved
-      	projectiles.push(bullet1);
+	  	//add bullet to bullet list so it will be moved
+	  	projectiles.push(bullet1);
 
-      	//console.log(bullet1.name);
+	  	//console.log(bullet1.name);
 
-      //collidableMeshList.push(bullet1);
-      //play lazer-sound
-      laserAudio.play();
-    }
+	  	//collidableMeshList.push(bullet1);
+	  	//play lazer-sound
+	  	laserAudio.play();
+	}
 }
 
 
 
 function shootRocket(){
-  if(rocketGeometry !== undefined){
-  	console.log(rocketMaterial);
-  	rocket1 = new THREE.Mesh(rocketGeometry, rocketMaterial);
-  	rocket1.rotateY(1.57);
-  	//for an unknown reason rocket has to be turned differend than the laser-beam
-  	rocket1.rotateZ(-1.57);
-  	rocket1.position.x = ship.position.x;
-  	rocket1.position.y = ship.position.y;
-  	rocket1.position.z = ship.position.z;
-  	scene.add(rocket1);
-  	rocket = rocket1;
-  	//rocketAudio.play();
+   if(rocketGeometry !== undefined){
+  // 	console.log(rocketMaterial);
+  	 	rocket1 = new THREE.Mesh(rocketGeometry, rocketMaterial);
+  	 	rocket1.rotateY(-1.57);
+  // 	//for an unknown reason rocket has to be turned differend than the laser-beam
+  // 	rocket1.rotateZ(-1.57);
+  		rocket1.scale.x = rocket1.scale.y = rocket1.scale.z = 2;
 
-  	//collidableMeshList.push(rocket);
-  	//reset timer for rocket-explosion after specific time
-  	rocketTime=0;
+  	 	rocket1.position.x = ship.position.x;
+  	 	rocket1.position.y = ship.position.y;
+  	 	rocket1.position.z = ship.position.z;
+    	scene.add(rocket1);
+
+    	rocket1.name = "Rocket";
+    	//projectiles.push(rocket1);
+  // 	rocket = rocket1;
+  // 	//rocketAudio.play();
+
+  // 	//collidableMeshList.push(rocket);
+  // 	//reset timer for rocket-explosion after specific time
+  // 	rocketTime=0;
+
+  	rocketAudio.play();
   }
 
 }
