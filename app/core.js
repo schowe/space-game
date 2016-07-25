@@ -37,20 +37,20 @@ function init() {
 
 
     
-    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );    
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );    
     camera.addTarget({
         name:'Target',
         targetObject: ship,
         cameraPosition: new THREE.Vector3(0,15,30),
         fixed: false,
-        stiffness: 0.3,
+        stiffness: 0.15,
         matchRotation: false
     });
 
     camera.addTarget({
         name:'Cockpit',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,5,-10),
+        cameraPosition: new THREE.Vector3(0,0,-10),
         fixed: false,
         stiffness: 1,
         matchRotation: true
@@ -74,13 +74,11 @@ function init() {
     light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 0, 1, 0 );
     scene.add( light );
-
+    
     object = new THREE.AxisHelper( 100 );
     object.position.set( 0, 0, 0 );
-    scene.add( object );
-
+    scene.add( object );    
     
-    var spaceShipModel = fileLoader.get("HeroShipV2");
 
 
     
@@ -91,6 +89,8 @@ function init() {
     var world = World();
     world.init();
     createStars();
+    createAsteroids(); 
+  //  THREEx.Transparency.init(sphere); 
     var movement = Movement();
     movement.init();
     interfaceInit();
@@ -128,10 +128,15 @@ function init() {
 }
 
 function onKeyDown(e) {
-    if (e.keyCode == 80) { // = 'P'
-        Movement().unlockPointer();
-        interface.toggleMenuOverlay();
-
+    var movement = Movement();
+    if (e.keyCode == 80 && Pause == false) { // = 'P'
+        PauseScreen = true;
+        interface.toggleMenuOverlay();        
+        movement.unlockPointer();
+    }else if(e.keyCode == 80 && Pause == true){
+        interface.toggleMenuOverlay();        
+        movement.lockPointer();        
+        PauseScreen = false;
     }
 }
 
@@ -152,12 +157,15 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
-    //handleCollision();
-    renderWeapons();
-    delta = clock.getDelta();
-    Movement().move(delta);
-    updateStars();
-    camera.update();
-    renderer.render( scene, camera );
 
+    delta = clock.getDelta();
+    if(!Pause) {
+        renderWeapons();
+        Movement().move(delta);
+        updateStars();
+        updateAsteroids();
+       // THREEx.Transparency.update(sphere, camera); 
+        camera.update();        
+    }
+    renderer.render(scene, camera);
 }

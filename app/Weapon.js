@@ -16,7 +16,7 @@ var asteroids = [];
 // }
 
 //Variables
-
+var weaponsActive = false;
 var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
@@ -26,9 +26,6 @@ var MaxMGAmmo = 100;
 //Rocket: 0, MG: 1
 var activeSecWeapon = 0;
 
-
-//Audio-Variables
-var laserAudio;
 
 //var MGAudio;
 
@@ -103,12 +100,6 @@ function initializeWeapons(){
 
 	// asteroids.push(testTarget1);
 
-	//initialize Audio-files
-	laserAudio = document.createElement('audio');
-	var laserAudioSource = document.createElement('source');
-	laserAudioSource.src = '../res/sounds/gun.wav';
-	laserAudio.appendChild(laserAudioSource);
-
 	// rocketAudio = document.createElement('audio');
 	// var rocketAudioSource = document.createElement('source');
 	// rocketAudioSource.src = 'rocket.wav';
@@ -138,7 +129,6 @@ function initializeWeapons(){
         console.log("right");
     }
 }, false);
-
 }
 
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
@@ -365,4 +355,15 @@ function renderWeapons(){
 	        explosion = undefined;
 	    }
 	  }
+}
+
+
+function toggleWeapons(){
+	if(weaponsActive == true){
+		document.removeEventListener('mousedown', shoot, false);
+		weaponsActive = false;
+	}else{
+		document.addEventListener('mousedown', shoot, false);
+		weaponsActive = true;
+	}
 }
