@@ -27,7 +27,7 @@ function init() {
     document.body.appendChild( container );
 
 
-
+    //var Collision = Collision();
 
     //while(!fileLoader.isReady()){};
         scene = new THREE.Scene();
@@ -152,6 +152,7 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
+    //handleCollision();
     renderWeapons();
     delta = clock.getDelta();
     Movement().move(delta);
