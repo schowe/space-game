@@ -24,7 +24,8 @@ function Player() {
              var materialA = new THREE.SpriteMaterial({map: mapA});
             
              cross = new THREE.Sprite(materialA);
-             cross.position.set(0,0,-20);
+             cross.position.set(0,10,-40);
+
             cross.scale.set(3.0,3.0,1.0);
             ship.add(cross);
             

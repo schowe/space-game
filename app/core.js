@@ -5,13 +5,14 @@ var camera, scene, renderer, clock;
 var fileLoader;
 var interface;
 var ship;
+var frames = 0;
 
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
     setTimeout(function(){
         init();
-        animate();
+        cameraAnimate();
     },1000)
 
 });
@@ -26,7 +27,7 @@ function init() {
 
 
 
-
+    
     //while(!fileLoader.isReady()){};
         scene = new THREE.Scene();
     // Beispiel-Code ...
@@ -53,6 +54,9 @@ function init() {
         stiffness: 1,
         matchRotation: true
     });
+    var cam = Camera();
+    cam.init();
+
 
     camera.setTarget('Target');
 
@@ -89,7 +93,7 @@ function init() {
     createStars();
     createAsteroids(); 
     var movement = Movement();
-    movement.init();
+    movement.init();    
     interfaceInit();
     
 
@@ -109,6 +113,9 @@ function init() {
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
 
+    stats = new Stats();
+    container.appendChild( stats.dom );
+
 
     /********** Input **********/
     
@@ -119,22 +126,8 @@ function init() {
 
     clock = new THREE.Clock();
 
-    window.onkeydown = onKeyDown;
 
     initializeWeapons();
-}
-
-function onKeyDown(e) {
-    var movement = Movement();
-    if (e.keyCode == 80 && Pause == false) { // = 'P'
-        PauseScreen = true;
-        interface.toggleMenuOverlay();        
-        movement.unlockPointer();
-    }else if(e.keyCode == 80 && Pause == true){
-        interface.toggleMenuOverlay();        
-        movement.lockPointer();        
-        PauseScreen = false;
-    }
 }
 
 function onWindowResize() {
@@ -144,26 +137,58 @@ function onWindowResize() {
 
 }
 
+function cameraAnimate(){
+    if(frames < 25) {
+        frames++;
+        requestAnimationFrame(cameraAnimate);
+    }else {
+        yAxis = -2;
+        requestAnimationFrame(animate);
+    }
+    //
+    delta = clock.getDelta();
+    Movement().move(delta);
+    camera.update();
+    renderer.render(scene, camera);
+}
+
+var fps =  30;
+var now;
+var then = Date.now();
+var interval = 1000 / fps;
+var delta;
+
 
 function animate() {
-    // dont touch!
-    requestAnimationFrame( animate );
-    render();
+    // dont touch!    
+
+        requestAnimationFrame( animate );
+    now = Date.now();
+    delta = now - then;
+    if(delta > interval){
+        then = now - (delta % interval);
+        render();
+    }
+   
 }
 
 function render() {
 
     // TODO: animation code goes here
-
-
-
+    stats.update();
     delta = clock.getDelta();
-    if(!Pause) {
+
+    if (!Pause) {
         renderWeapons();
         Movement().move(delta);
         updateStars();
-        updateAsteroids(); 
-        camera.update();        
+        updateAsteroids();
+
     }
+    camera.update();
     renderer.render(scene, camera);
 }
+
+
+
+
