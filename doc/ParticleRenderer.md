@@ -19,9 +19,7 @@ im gewünschten Scope (Variablen-Sichtbarkeitsbereich) erstellen mit:
 
 ```var startVector = new THREE.Vector3(2, 1, 7);```
 
-
 ```var explosionParticleRenderer = new ExplosionParticleRenderer(color, numberParticles, texturePath, startVector);```
-```
 
  
 
@@ -43,9 +41,9 @@ im gewünschten Scope (Variablen-Sichtbarkeitsbereich) erstellen mit:
 
 ### Animieren
 
-```var newStart = new THREE.Vector3(0, 1, 0);````
+```var newStart = new THREE.Vector3(0, 1, 0);```
 
-```var newEnd = new THREE.Vector3(1, 0, 1);````
+```var newEnd = new THREE.Vector3(1, 0, 1);```
 
 ```rayParticleRenderer.startVector = newStart;```
 

@@ -1,8 +1,8 @@
-var camera, scene, renderer, composer;
+var camera, scene, renderer;
 
-var spaceship, sphere, planet, spaceshipWrapper;
+var spaceshipGroup, sphere, planet;
 
-
+var rayParticleRenderer, rayStart, rayEnd;
 
 $(function () {
 
@@ -14,6 +14,7 @@ $(function () {
     init();
     fadeOutLoadingOverlay();
     animate();
+
 
     function init() {
 
@@ -35,10 +36,7 @@ $(function () {
         container.appendChild(renderer.domElement);
 
         // Licht
-        //scene.add(new THREE.AmbientLight(0x404040));
-
         var light = new THREE.DirectionalLight(0xffffff);
-        // dirLight.castShadow = true;
         light.position.set(3, 6, 0);
         scene.add(light);
 
@@ -109,6 +107,7 @@ $(function () {
             planet = new THREE.Mesh(geometry, material);
             planet.position.set(-500, -500, 300);
             planet.rotateZ(0.5);
+            planet.castShadow = true;
             scene.add(planet);
         });
 
@@ -117,12 +116,36 @@ $(function () {
         loader.load("res/meshes/HeroShipV5.json", function (geometry) {
             var textureLoader = new THREE.TextureLoader();
             textureLoader.load("res/textures/TextureHero.png", function (texture) {
-                spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({map:texture}));
+                var spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({map:texture}));
                 spaceship.position.set(0, 0, 0);
-                spaceship.rotateY(225);
-                scene.add(spaceship);
+                spaceship.rotateY(-1.571);
+
+                var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+                var material =  new THREE.MeshBasicMaterial({color: "red"});
+
+                rayStart = new THREE.Mesh(sphereGeometry, material);
+                rayStart.translateX(-5);
+                rayStart.visible = false;
+
+                rayEnd = new THREE.Mesh(sphereGeometry, material);
+                rayEnd.translateX(-7);
+                rayEnd.visible = false;
+
+                spaceshipGroup = new THREE.Group();
+                spaceshipGroup.add(spaceship);
+                spaceshipGroup.add(rayStart);
+                spaceshipGroup.add(rayEnd);
+                scene.add(spaceshipGroup);
+
+                rayParticleRenderer = new RayParticleRenderer(
+                    0xffffff,10000,"res/textures/particle.png",
+                    rayStart.position, rayEnd.position
+                );
+
             });
         });
+
+
 
         // Event-Listener für Resize
         window.addEventListener("resize", onWindowResize, false);
@@ -161,7 +184,7 @@ $(function () {
         render();
 
         // animation goes here
-        //TWEEN.update();
+
         moveSpaceship();
     }
 
@@ -179,17 +202,35 @@ $(function () {
     }
 
     function moveSpaceship() {
-        if (spaceship !== undefined) {
-            // TODO: dreht sich zu weit
+        if (spaceshipGroup !== undefined && rayParticleRenderer !== undefined) {
 
             var time = new Date().getTime() * 0.0005;
-            spaceship.position.x = -Math.sin(time) + Math.pow(Math.cos(time), 2);
-            spaceship.position.y = -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2);
-            spaceship.position.z = Math.sin(time);
+
+            // TODO: transformieren klappt nicht
+
+            spaceshipGroup.position.set(
+                -Math.sin(time) + Math.pow(Math.cos(time), 2),
+                -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2),
+                Math.sin(time)
+            );
 
             var angle = -Math.sin(time) * 0.0015;
-            spaceship.rotateX(angle);
-            spaceship.rotateZ(angle * 0.1);
+            spaceshipGroup.rotateX(angle);
+            spaceshipGroup.rotateZ(angle * 0.1);
+
+            var newStart = new THREE.Vector3(
+                spaceshipGroup.position.x+rayStart.position.x,
+                spaceshipGroup.position.y+rayStart.position.y,
+                spaceshipGroup.position.z+rayStart.position.z
+            );
+            var newEnd = new THREE.Vector3(
+                spaceshipGroup.position.x+rayEnd.position.x,
+                spaceshipGroup.position.y+rayEnd.position.y,
+                spaceshipGroup.position.z+rayEnd.position.z
+            );
+
+            rayParticleRenderer.updateStartAndEndpoint(newStart, newEnd);
+            rayParticleRenderer.update();
         }
 
         if (planet !== undefined) {
