@@ -9,6 +9,8 @@ var collision;
 
 //var projectileList = [];
 
+//var projectileList = [];
+
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();

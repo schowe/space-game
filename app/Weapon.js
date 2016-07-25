@@ -1,3 +1,6 @@
+
+var asteroids = [];
+
 //Variables
 var weaponsActive = false;
 var rocketAmmo = 2;
@@ -9,9 +12,6 @@ var MaxMGAmmo = 100;
 //Rocket: 0, MG: 1
 var activeSecWeapon = 0;
 
-
-//Audio-Variables
-//var laserAudio;
 
 //var MGAudio;
 
@@ -72,14 +72,16 @@ var explosionMaterial = new THREE.MeshBasicMaterial({ color:0xFFFFFF });
 //Initialize, sp: the controlled Spaceship; cms: the List of Objects checked for collisions (CollidableMeshLists)
 function initializeWeapons(){
 
-	//this.spaceship   = sp;
-	//this.collidableMeshList = cms;
+	//Target for testing
 
-	//initialize Audio-files
-	 //laserAudio = document.createElement('audio');
-	 //var laserAudioSource = document.createElement('source');
-	 //laserAudioSource.src = 'gun.wav';
-	 //laserAudio.appendChild(laserAudioSource);
+	// var testGeometry = new THREE.SphereGeometry(50,16,16);
+	// var testMaterial = new THREE.MeshBasicMaterial({ color:0xFFFF00 });
+	// var testTarget1 = new THREE.Mesh(testGeometry, testMaterial);
+	// testTarget1.translateX(200);
+	// scene.add(testTarget1);
+	// //testTarget1.name = "Asteroid";
+
+	// asteroids.push(testTarget1);
 
 	// rocketAudio = document.createElement('audio');
 	// var rocketAudioSource = document.createElement('source');
@@ -98,6 +100,19 @@ function initializeWeapons(){
 
 	//initialize clock for time-control
 	weaponClock = new THREE.Clock();
+
+	//document.addEventListener('leftclick', shoot, false);
+
+	document.body.addEventListener('mousedown', function (e){
+    if(e.button === 0){
+    	shoot();
+    }
+    else if(e.button === 1){
+        //MGShoot();
+        console.log("right");
+    }
+}, false);
+
 }
 
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
@@ -112,7 +127,6 @@ function MGShoot(){
 	  bullet1.position.z = ship.position.z+0.3;
 	  scene.add(bullet1);
 	  projectiles.push(bullet1);
-	  collidableMeshList.push(bullet1);
 
 	  var bullet2= new THREE.Mesh(MGGeometry, shootMaterial);
 	  bullet2.rotateZ(1.57);
@@ -121,7 +135,6 @@ function MGShoot(){
 	  bullet2.position.z = ship.position.z+0.3;
 	  scene.add(bullet2);
 	  projectiles.push(bullet2);
-	  collidableMeshList.push(bullet2);
 
 	  var bullet3= new THREE.Mesh(MGGeometry, shootMaterial);
 	  bullet3.rotateZ(1.57);
@@ -130,7 +143,6 @@ function MGShoot(){
 	  bullet3.position.z = ship.position.z-0.3;
 	  scene.add(bullet3);
 	  projectiles.push(bullet3);
-	  collidableMeshList.push(bullet3);
 
 
 	  var bullet4= new THREE.Mesh(MGGeometry, shootMaterial);
@@ -140,7 +152,6 @@ function MGShoot(){
 	  bullet4.position.z = ship.position.z-0.3;
 	  scene.add(bullet4);
 	  projectiles.push(bullet4);
-	  collidableMeshList.push(bullet4);
 
 	  var bullet5= new THREE.Mesh(MGGeometry, shootMaterial);
 	  bullet5.rotateZ(1.57);
@@ -149,17 +160,15 @@ function MGShoot(){
 	  bullet5.position.z = ship.position.z;
 	  scene.add(bullet5);
 	  projectiles.push(bullet5);
-	  collidableMeshList.push(bullet5);
 }
 
+
 function shoot(){
-	  //if(timeSinceShoot > 0.4){
+	  if(timeSinceShoot > 0.4){
 	  	timeSinceShoot = 0;
-
-        console.log("Shoot");
-
 		//create mesh
      	bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
+
      	bullet1.name = "Laser";
       	//translate to ship position
       	bullet1.position.x = ship.position.x;
@@ -181,7 +190,8 @@ function shoot(){
 
       //collidableMeshList.push(bullet1);
       //play lazer-sound
-      //laserAudio.play();
+      laserAudio.play();
+    }
 }
 
 
@@ -285,11 +295,14 @@ function renderWeapons(){
 	  for( var bul in projectiles){
 	    projectiles[bul].translateY(-2000 * add);
 
+	  //Translate projectiles
+	  for( var bul in projectiles){
+	    projectiles[bul].translateY(-2000 * add);
+
 	    var dis = calculateDistanceToShip(projectiles[bul]);
 	    if (dis > 1000){
 	    	scene.remove(projectiles[bul]);
 	    	//var index = collidableMeshList.indexOf(projectiles[bul]);
-	    	//collidableMeshList.splice(index, 1);
 	    	delete projectiles[bul];
 	    	projectiles.splice(bul,1);
 	    }

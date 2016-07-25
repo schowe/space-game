@@ -1,5 +1,6 @@
 function handleAsteroids() {
 
+
     // for (var i = 0; i <= asteroids.length - 2; i++) {
 
         // Asteroidenkollision
@@ -20,6 +21,7 @@ function handleAsteroids() {
         //     }
         // }
 
+
         // Kollision mit Gegner
         // for (var j = 0; j < enemies.length - 1; j++) {
         //     var enemyHitboxes = getEnemyHitboxes(enemies[j]);
@@ -34,19 +36,19 @@ function handleAsteroids() {
     // }
 }
 
-function handleProjectiles() {
 
+function handleProjectiles() {
     // for every projectile
     for (var i = 0; i <= projectiles.length - 1; i++) {
 
         // Asteroidentreffer
-        for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
+
+        for (var j = 0; j <= asteroids.length - 1; j++) {
 
             if (projectiles[i].name === "Laser") {
-
-                if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
+                if (Collision.intersectSphereCylinder(getAsteroidHitbox(asteroids[j]),
                         projectiles[i])) {
-                    console.log("HIT!!!!!");
+                    console.log("HIT!!");
                     successLaser(projectiles[i]);
                     destroyAsteroid(asteroids[j]);
                 }
@@ -74,6 +76,29 @@ function handleProjectiles() {
             //         destroyAsteroid(asteroids[j]);
             //     }
             // }
+
+            else if (projectiles[i].name === "Rocket") {
+                if (Collision.intersectSphereCylinder(getAsteroidHitbox(asteroids[j]),
+                        projectiles[i])) {
+                    successRocket(projectiles[i]);
+                    destroyAsteroid(asteroids[j]);
+                }
+            }
+
+            else if (projectiles[i].name === "Explosion") {
+                if (Collision.intersectSphereOther(getAsteroidHitbox(asteroids[j]),
+                        projectiles[i])) {
+                    destroyAsteroid(asteroids[j]);
+                }
+            }
+
+            else if (projectiles[i].name === "MachineGun") {
+                if (Collision.intersectSphereOther(getAsteroidHitbox(asteroids[j]),
+                        projectiles[i])) {
+                    successMachineGunBullet(projectiles[i]);
+                    destroyAsteroid(asteroids[j]);
+                }
+            }
 
         }
 
