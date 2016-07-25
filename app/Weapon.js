@@ -46,7 +46,7 @@ var explosionTime = 0;
 var mgCounter = 0;
 
 //Geometries for bullets etc.
-var shootGeometry = new THREE.CylinderGeometry(1,1,100);
+var shootGeometry = new THREE.CylinderGeometry(1,1,500);
 
 //var jsonLoader = new THREE.JSONLoader();
 var rocketGeometry = undefined;
@@ -300,7 +300,7 @@ function renderWeapons(){
 	    projectiles[bul].translateY(-2000 * add);
 
 	    var dis = calculateDistanceToShip(projectiles[bul]);
-	    if (dis > 1000){
+	    if (dis > 3000){
 	    	scene.remove(projectiles[bul]);
 	    	//var index = collidableMeshList.indexOf(projectiles[bul]);
 	    	delete projectiles[bul];
