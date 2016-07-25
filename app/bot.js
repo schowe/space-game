@@ -31,6 +31,7 @@ function compare(a,b) {
 
 
 // Kollisionsueberpruefung und getroffene Ausschalten
+// !!! wird in Collision gemacht -> brauchen nur interne Methoden
 function checkCollisionAndAct(asteroids, enemies) {
     // TODO:
     // falls Asteroid getroffen:
@@ -103,6 +104,7 @@ function createAsteroid(level) {
             Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
         asteroidPosition.multiplyScalar(positionRadius);
+        asteroidPosition.add(playerPosition);
         // Radius zufaellig, aber mindestens so gross wie Schiff
         radius = minShipSize + Math.random * (maxAsteroidSize - minShipSize);
     } while(!farAway(asteroidPosition, radius));
@@ -143,6 +145,7 @@ function createEnemy(level) {
             Math.sin(beta) * Math.cos(alpha),
             Math.cos(beta));
         enemyPosition.multiplyScalar(radius);
+        enemyPosition.add(playerPosition);
     } while(!farAway(enemyPosition, maxShipSize));
 
     // TODO: speed abhaengig von Level
