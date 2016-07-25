@@ -1,3 +1,7 @@
+//Audio-Variables
+var laserAudio;
+
+
 var FileLoader = function() {
     console.log("FileLoader running ...");
 
@@ -73,6 +77,13 @@ var FileLoader = function() {
                 console.log("Error: unknown file format: "+file);
         }
     }
+
+
+    //initialize Audio-files
+    laserAudio = document.createElement('audio');
+    var laserAudioSource = document.createElement('source');
+    laserAudioSource.src = '../res/sounds/gun.wav';
+    laserAudio.appendChild(laserAudioSource);
 
     console.log("FileLoader done.");
     
