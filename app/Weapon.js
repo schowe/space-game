@@ -156,6 +156,8 @@ function shoot(){
 	  //if(timeSinceShoot > 0.4){
 	  	timeSinceShoot = 0;
 
+        console.log("Shoot");
+
 		//create mesh
      	bullet1 = new THREE.Mesh(shootGeometry, shootMaterial);
      	bullet1.name = "Laser";

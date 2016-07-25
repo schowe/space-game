@@ -46,6 +46,7 @@ function handleProjectiles() {
 
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
+                    console.log("HIT!!!!!");
                     successLaser(projectiles[i]);
                     destroyAsteroid(asteroids[j]);
                 }

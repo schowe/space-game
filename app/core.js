@@ -34,9 +34,8 @@ function init() {
     var player = Player();
     player.init();
 
+    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
 
-
-    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );
     camera.addTarget({
         name:'Target',
         targetObject: ship,
@@ -88,7 +87,9 @@ function init() {
     var world = World();
     world.init();
     createStars();
+
     createAsteroids();
+
     var movement = Movement();
     movement.init();
     interfaceInit();
