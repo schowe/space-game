@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../res/css/gui.css" />
 	
 </head>
-<body>
+<body scroll="no">
 
 
 
@@ -20,26 +20,68 @@
 
             		<button type="Button" id="shopButton" class="menuText" onClick="showShop()"> Shop </button>
             		<button type="Button" id="highscoreButton" class="menuText" onClick="showHighscore()"> Highscore </button>
-            		<div id="pauseBox" class="menuText"> Milestones </div>
-                    <div id="pauseBox" class="menuText"> Options </div>
+            		<div id="pauseBox" class="menuText" onClick="showShop()"> Milestones </div>
+                    <div id="pauseBox" class="menuText" onClick="showHighscore()"> Options </div>
                     <div id="pauseBox" class="menuText"> Let's a go! </div>
-
 
         	   </div>
 		
 	       </div>
         	<div id="rightMenu"> 
                 <div id="shop" hidden>
-                    <table id="shopItems">
+                    <table id="shopTable">
                         <tr>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
+                            <td class="shopTableTd1">
+                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
+                            </td>
+                            <td>
+                                <div id="shopItemDesc"><div>
+                            </td>
                         </tr>
+
                         <tr>
-                            <td>D</td>
-                            <td>E</td>
-                            <td>F</td>
+                            <td class="shopTableTd1">
+                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" ><div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="shopTableTd1">
+                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" ><div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="shopTableTd1">
+                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" ><div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="shopTableTd1">
+                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" ><div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="shopTableTd1">
+                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" ><div>
+                            </td>
                         </tr>
                     </table>
                 </div>

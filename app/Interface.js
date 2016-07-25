@@ -46,11 +46,9 @@ function interfaceInit(){
 	setHP(100);
 
 
-	changeHP(-10);
-
-	setLevelTimer(61);
-	startLevelTimer();
-	displayLevel(1);
+	//setLevelTimer(61);
+	//startLevelTimer();
+	//displayLevel(1);
 }
 
 /**

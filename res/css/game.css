@@ -43,7 +43,8 @@ canvas{
 
 }
 
-#menu-overlay {
+#menu-overlay { 
+    overflow: hidden;   
     position: absolute;
     height: 100%;
     width: 100%;
@@ -53,6 +54,7 @@ canvas{
 }
 
 #menu-box {
+    overflow: hidden;
     margin-left: 25%;
     margin-top: 12%;
     width: 50%;
@@ -64,6 +66,9 @@ canvas{
    border: 2px solid white;
    border-radius: 30px;
 }
+
+
+
 /*
 #menu-highscore-table {
     font-size: 24px;
@@ -131,8 +136,8 @@ canvas{
 }
 
 
+
 #menuArea {
-    overflow: hidden;
     display: inline-block;
     width: 25%;
     height:50%;
@@ -145,6 +150,7 @@ canvas{
 }
 
 #rightMenu {
+    overflow:hidden;
 	width:50%;
 	height:100%;
 	margin-left:50%;
