@@ -83,14 +83,20 @@ function init() {
 
     /********** Module laden **********/
 
-    
     var world = World();
     world.init();
     createStars();
     createAsteroids(); 
     var movement = Movement();
     movement.init();
+	console.log("verrückt");
     interfaceInit();
+	console.log("test1");
+	//interfaceInit().test();
+	console.log("bla");
+	//intTest();
+	//$('#loadingTexturesOverlay').fadeOut();
+	console.log("test2");
     
 
 

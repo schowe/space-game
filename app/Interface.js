@@ -27,13 +27,39 @@ var Interface = function() {
     }
 };
 
+var blaID;
+
+function intTest() {
+	if(FileLoader().isReady()) {
+		$('#loadingTexturesOverlay').hide();
+		clearInterval(blaID);
+	}
+}
+
 /* Sets the starting values. Also used for testing. */
-function interfaceInit(){
-	setScore(100000);
+function interfaceInit() {
+	$('#loadingTexturesOverlay').hide();
+	//blaID = setInterval(intTest, 2000);
+	//intTest();
+	//var bla = FileLoader().isReady();
+	console.log(bla);
+	console.log(FileLoader().isReady());
+	//$('#loadingTextures-overlay').fadeOut();
+	
+	//console.log(FileLoader().isReady);
+	//console.log(2);
 	setMaxHP(100);
 	setHP(100);
+	//changeHP(-100);
 	updateWeaponInterface();
 	displayLevel(1);
+	console.log("init1");
+	
+	/*return {
+		test: function() {	
+			$("#loadingTexturesOverlay").hide();
+		}
+	}*/
 }
 
 /**
@@ -95,7 +121,6 @@ function getMoney() {
  
 var currentAmmoLabel = document.getElementById('currentAmmo');
 var maxAmmoLabel = document.getElementById('maxAmmo');
-var currentWeapon = 0;
 var currentAmmo = 0;
 var maxAmmo = 0;
 
@@ -129,6 +154,7 @@ function updateWeaponInterface() {
  
  	var currentHP = 0;
 	var maxHP = 0;
+	var displayedHP = 0;
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
 
 /* Changes HP by @value */
@@ -136,25 +162,28 @@ function changeHP(value) {
 	var i = 0;
 	var ticks = 200;
 	value = parseInt(value);
-	// Saved to correct float accuracy errors later
-	var originalHP = currentHP;
+	currentHP = currentHP + value;
+
+	if (currentHP > maxHP)
+		currentHP = maxHP;
+
 	// Amount of HP per tick
 	var hpTick = value / ticks;
 	var tempID = setInterval(frame, 1);
 	
 	function frame() {
 		if(i < ticks) {
-			if (!pause) {
-				currentHP += hpTick;
+			if (!Pause) {
+				displayedHP += hpTick;
 			
-				if (currentHP > maxHP) {
+				if (displayedHP > maxHP) {
 					clearInterval(tempID);
-					currentHP = maxHP;
+					displayedHP = maxHP;
 					updateHPDisplay();
 					return;
 				}
 			
-				if (parseInt(currentHP + 0.5) <= 0) {
+				if (displayedHP <= 0) {
 					clearInterval(tempID);
 					var temp = document.getElementById('currentHP');
 					temp.innerHTML = 0;
@@ -168,7 +197,6 @@ function changeHP(value) {
 			}
 		} else {
 			clearInterval(tempID);
-			currentHP = originalHP + value;
 		}
 	}
 }
@@ -187,12 +215,12 @@ function gameOver() {
   	Pause = true;  
   	PauseScreen = true;     
     Movement().unlockPointer();
-
 }
 
 /* Sets HP to @value */
 function setHP(value) {
 	currentHP = value;
+	displayedHP = value;
 	updateHPDisplay();
 }
 
@@ -217,10 +245,10 @@ function getMaxHP() {
 function updateHPDisplay() {
 	// Update the HP label
 	var temp = document.getElementById('currentHP');
-	temp.innerHTML = parseInt(currentHP + 0.5);
+	temp.innerHTML = parseInt(displayedHP + 0.5);
 	
 	// Update the HP width
-	hpBoxCurrent.style.width = currentHP / maxHP * 100 + '%';
+	hpBoxCurrent.style.width = displayedHP / maxHP * 100 + '%';
 	
 	// Update the HP color
 	hpUpdateColor();
@@ -229,13 +257,13 @@ function updateHPDisplay() {
 /* Sets the HP bar to a calculated color-gradient. */
 function hpUpdateColor() {
 	
-	if(currentHP <= (maxHP / 2)) {
+	if(displayedHP <= (maxHP / 2)) {
 		// Color gradient in hex from 0% to 50%
-		var temp = parseInt((510 * currentHP / maxHP) + 0.5);
+		var temp = parseInt((510 * displayedHP / maxHP) + 0.5);
 		hpBoxCurrent.style.background = '#FF' + padHex(temp.toString(16)) + '00';
 	} else {
 		// Color gradient in hex from 50% to 100%
-		var temp = parseInt(255.5 - 255 * (2 * currentHP / maxHP - 1));
+		var temp = parseInt(255.5 - 255 * (2 * displayedHP / maxHP - 1));
 		hpBoxCurrent.style.background = '#' + padHex(temp.toString(16)) + 'FF00';
 	}
 }
@@ -245,7 +273,7 @@ function hpUpdateColor() {
  */
 
 /* Displays @value as the current level */
-function displayLevel (value) {
+function displayLevel(value) {
 	
 	var tempLevel = document.getElementById('currentLevel');
 	tempLevel.innerHTML = parseInt(value);
@@ -271,7 +299,7 @@ function displayLevel (value) {
  */
  
 var maxSpeed = 100;
-var speedFactor = 4.04; //ERR Page not found
+var speedFactor = 4.04;
 var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
@@ -311,16 +339,16 @@ function setPowerUp(powerUp, removeOrAdd) {
 	
 	switch(powerUp) {
 		case 1:
-			icon = document.getElementById('one');
+			icon = document.getElementById('powerUpOne');
 			break;	
 		case 2:
-			icon = document.getElementById('two');
+			icon = document.getElementById('powerUpTwo');
 			break;
 		case 3:
-			icon = document.getElementById('three');
+			icon = document.getElementById('powerUpThree');
 			break;
 		case 4: 
-			icon = document.getElementById('four');
+			icon = document.getElementById('powerUpFour');
 			break;
 		default:
 			return;

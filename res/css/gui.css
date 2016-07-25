@@ -6,12 +6,10 @@ body {
 }
 
 #scoreBox {
-	width: 100px;
 	position: fixed;
 	top: 20px; 
-	left: 20px; 
-	border-color: black;
-	border-width: 5px;
+	left: 20px;
+	width: 100px;
 	color: yellow;
 	text-align: left;
 	line-height: 26.4px;
@@ -38,28 +36,31 @@ body {
 }
 
 #currentAmmo {
+	position: fixed;
+	top: 15px;
+	right: 55px;
 	font-size: 30px;
-	line-height: 26.4px;
+	text-align: right;
 }
 
 #ammoDivider {
 	position: fixed;
-	margin-top: -11px;
-	margin-left: 32px;
+	top: 35px;
+	right: 50px;
 	font-size: 10px;
 }
 
 #maxAmmo {
-	position: fixed;
-	margin-top: -12px;
-	margin-left: 36px;
+	position: relative;
+	top: 20px;
+	left: 52px;
 	font-size: 14px;
-	line-height: 26.4px;
+	text-align: left;
 }
 
 #bg1 {
 	transform: skewX(45deg);
-	background-image:url(../textures/metall.jpg);
+	background-image: url(../textures/metall.jpg);
 
 	position: fixed;
 	left : -40px;
@@ -74,7 +75,7 @@ body {
 
 #bg2 {
 	transform: skewX(-45deg);
-	background-image:url(../textures/metall.jpg);
+	background-image: url(../textures/metall.jpg);
 
 	position: fixed;
 	right : -40px;
@@ -91,42 +92,39 @@ body {
 	position: fixed;
 	left: 60px;
 	right: 20px;
-
 	bottom: 15px;
-	height:20px;
-
-	background-color: rgba(0, 0, 0, 0.5);
-
+	height: 20px;
 	border: 1px solid black;
 	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 #hpBoxValue {
-	width: 0%;
 	height: 100%;
+	//width: 0%;
 	border-radius: 10px;
 }
 
-#hpTextBox{
-	text-shadow: 2px 2px #000000;
-	transform: skewX(-45deg);
-	color: #ffffff;
-	bottom: 33%;
-	left: 50%;
+#hpTextBox {
 	position: fixed;
+	left: 50%;
+	bottom: 33%;
+	color: white;
 	text-align: center;
 	font-weight: bold;
+	text-shadow: 2px 2px #000000;
+	transform: skewX(-45deg);
 }
 
-#currentHP{
+#currentHP {
 	display: inline;
 }
 
-#hpDivider{
+#hpDivider {
 	display: inline;
 }
 
-#maxHP{
+#maxHP {
 	display: inline;
 }
 
@@ -135,9 +133,9 @@ body {
 	position: fixed;
 	right: 15px;
 	bottom: 60px;
-	width:15px;
-	height:180px;
-	background-color:black;
+	width: 15px;
+	height: 180px;
+	background-color: black;
 	opacity: 0.5;
 	border: 1px solid black;
 	border-radius: 10px;
@@ -146,9 +144,9 @@ body {
 
 #speedBarValue {
 	transform: rotate(180deg);
-	position:relative;
-	width:100%;
-	height:0%;
+	position: relative;
+	width: 100%;
+	height: 0%;
 	border-radius: 10px;
 }
 
@@ -165,22 +163,22 @@ body {
 
 #levelDisplay {
 	position: fixed;
-	left:40%;
-	width:20%;
+	left: 40%;
+	width: 20%;
 	height: 30px;
 
 	background-color: rgba(255,255,255,0.4);
-	border-style:ridge;
-	border-color:white;
-	border-width:3px;
-	border-radius: 15px/50px;
-	text-align:center;
-	opacity:0;
+	border-style: ridge;
+	border-color: white;
+	border-width: 3px;
+	border-radius: 15px / 50px;
+	text-align: center;
+	opacity: 0;
 }
 
 #levelText {
-	color:yellow;
-	width:auto;
+	color: yellow;
+	width: auto;
 
 	margin-bottom: 36px;
 	font-size: 28px;
@@ -190,17 +188,17 @@ body {
 #currentLevel {
 	margin-top: -30px;
 	font-size: 36px;
-	color:yellow;
+	color: yellow;
 }
 
 #powerUps {
-	position:fixed;
-	height:30px;
+	position: fixed;
+	height: 30px;
 	bottom: 15px;
 	left: 30px;
 	transform: skewX(45deg);
 }
-#icons img{
+#powerUpIcons img{
 	height: 35px;
 	width:auto;
 	display:inline;
@@ -208,7 +206,7 @@ body {
 }
 
 .inactive {
-	opacity:0.4;
+	opacity: 0.4;
 }
 
 #gameOverBox{
@@ -234,7 +232,6 @@ body {
 	margin-top: 20px;
 	font-size: 30px;
 	color : white;
-
 }
 
 #gameOverText2{
@@ -247,15 +244,12 @@ body {
 
 #gameOverButton {
 	margin-top: 50px;
-
-  -webkit-border-radius: 38;
-  -moz-border-radius: 38;
-  border-radius: 38px;
-  text-shadow: 4px 2px 13px #666666;
-  color: #ffffff;
-  font-size: 20px;
-  background: #dbdbdb;
-  padding: 10px 20px 10px 20px;
+    border-radius: 38px;
+    text-shadow: 4px 2px 13px #666666;
+    color: #ffffff;
+    font-size: 20px;
+    background: #dbdbdb;
+    padding: 10px 20px 10px 20px;
 }
 
 #gameOverButton:hover {
@@ -266,4 +260,20 @@ body {
   background-image: -o-linear-gradient(top, #d1d1d1, #b0b0b0);
   background-image: linear-gradient(to bottom, #d1d1d1, #b0b0b0);
   text-decoration: none;
+}
+
+#loadingTexturesOverlay {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    background: black;
+    z-index: 1000;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.95);
+}
+#loadingTextures-text {
+    text-align: center;
+    padding: 25%;
 }
