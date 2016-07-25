@@ -6,6 +6,8 @@ var fileLoader;
 var interface;
 var ship;
 
+//var projectileList = [];
+
 $(function() {
     fileLoader = FileLoader();
     interface = Interface();
@@ -25,7 +27,7 @@ function init() {
     document.body.appendChild( container );
 
 
-
+    //var Collision = Collision();
 
     //while(!fileLoader.isReady()){};
         scene = new THREE.Scene();
@@ -155,8 +157,6 @@ function animate() {
 function render() {
 
     // TODO: animation code goes here
-
-
 
     delta = clock.getDelta();
     if(!Pause) {
