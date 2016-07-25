@@ -30,9 +30,9 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
     // Particles initial erstellen (am Startvektor) mit Velocity (zum Endvektor)
     for (var p = 0; p < this.particleCount; p++) {
         var particle = new THREE.Vector3(
-            this.startVector.x,
-            this.startVector.y,
-            this.startVector.z
+            this.startVector.x+(Math.random()-0.5),
+            this.startVector.y+(Math.random()-0.5),
+            this.startVector.z+(Math.random()-0.5)
         );
 
         particle.x += this.directionVector.x * Math.random() * 0.001;
@@ -91,9 +91,9 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
                     this.startVector.z+(Math.random()-0.5)*0.1
                 );
 
-                particle.x += distanceFromEndVector.x * Math.random() * 0.001;
-                particle.y += distanceFromEndVector.y * Math.random() * 0.001;
-                particle.z += distanceFromEndVector.z * Math.random() * 0.001;
+                particle.x += distanceFromEndVector.x * Math.random() * 0.01;
+                particle.y += distanceFromEndVector.y * Math.random() * 0.01;
+                particle.z += distanceFromEndVector.z * Math.random() * 0.01;
 
                 particle.velocity = new THREE.Vector3(0, 0, 0);
 

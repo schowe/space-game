@@ -1,6 +1,6 @@
 var container;
 
-var camera, scene, renderer, clock;
+var camera, scene, renderer, clock, delta;
 
 var fileLoader;
 var interface;
@@ -16,7 +16,6 @@ $(function() {
         init();
         animate();
     },1000)
-
 });
 
 

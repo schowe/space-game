@@ -27,7 +27,6 @@ function Player() {
             scene.add(ship);
 
             var mapA = fileLoader.get("Crosshair");
-            
             var materialA = new THREE.SpriteMaterial({map: mapA});
             
             cross = new THREE.Sprite(materialA);
@@ -36,7 +35,6 @@ function Player() {
             ship.add(cross);
         },
         update: function() {
-
             var pos = ship.position;
             var dirVector = getMeshDirection(ship);
 
@@ -52,6 +50,15 @@ function Player() {
                 pos.y+endScale*dirVector.y,
                 pos.z+endScale*dirVector.z
             );
+
+            // if (Math.floor(clock.getElapsedTime()) % 3 == 0) {
+            //     console.log("from: ");
+            //     console.log(startVector);
+            //     console.log("to: ");
+            //     console.log(endVector);
+            //     console.log("distance: ");
+            //     console.log(startVector.distanceTo(endVector));
+            // }
 
             particleRay.updateStartAndEndpoint(startVector, endVector);
             particleRay.update();
