@@ -36,7 +36,11 @@ function Player() {
         },
         update: function() {
             var pos = ship.position;
-            var dirVector = getMeshDirection(ship);
+
+            //Default Front-Facing
+            var dirVector = new THREE.Vector3(0,0,1);
+            //Apply rotation of Mesh
+            dirVector.applyQuaternion (ship.quaternion);
 
             var startScale = 6;
             startVector = new THREE.Vector3(
@@ -50,15 +54,6 @@ function Player() {
                 pos.y+endScale*dirVector.y,
                 pos.z+endScale*dirVector.z
             );
-
-            // if (Math.floor(clock.getElapsedTime()) % 3 == 0) {
-            //     console.log("from: ");
-            //     console.log(startVector);
-            //     console.log("to: ");
-            //     console.log(endVector);
-            //     console.log("distance: ");
-            //     console.log(startVector.distanceTo(endVector));
-            // }
 
             particleRay.updateStartAndEndpoint(startVector, endVector);
             particleRay.update();
