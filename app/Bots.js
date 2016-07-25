@@ -1,21 +1,34 @@
 var minObstacleDistance = 100;
-var maxAsteroidSize = 30;
-var guardingRadius = 50;
+var maxAsteroidSize     = 30;
+var guardingRadius      = 50;
 var minDistanceToPlayer = 10;
-var maxShipAngle = 70 * (Math.PI / 360);
+var maxShipAngle        = 70 * (Math.PI / 360);
 
 var asteroids, enemies, enemy, asteroid, playerPosition,
     radius, i, bezierPoints;
 
 // Enemyklasse
-function Enemy(location, speed ,weapon) {
+// TODO: Erben von Mesh mit call , constructor und prototype
+function Enemy(location, speed ,weapon, level) {
+    // TODO: unterschiedliche Enemies
+    // Textur
+    var texture = fileLoader.get("EnemyMiniShipV1");
+
+    // Mesh setzen
+    THREE.Mesh.call(this,texture,
+        new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+
     this.speed = speed;
     this.location = location;
     this.weapon = weapon;
     this.isAlive = true;
     this.shootAble = false;
     this.onBezier = false;
+    this.level = level;
 }
+
+Enemy.prototype.constructor = Asteroid;
+Enemy.prototype = new THREE.Mesh;
 
 Enemy.prototype.move = function(delta, asteroids, enemies) {
     var avoidDir, avoidDirs, collisions, d, distanceToShip, collision;
@@ -45,7 +58,9 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             // fliege in Bezierkurve hinter den Flieger
             // setze Idealrichtung als Richtung zu naechstem Punkt auf der Kurve
             // berechne Bezierkurve und setze flag onBezier = true
-            onBezier = true;
+            onPlayerAttack = true;
+
+            // TODO: Init Bezier-Kurve und gebe ersten Punkt vor
         }
     }
 
@@ -113,21 +128,22 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 //  Normale zum Schnittpunkt mit Hindernis
                 var avoidDir = new THREE.Vector3(0,0,0);
                 // TODO: weiche aus in Richtung der Normalen des Schnittpunkts
-                // a) Berechne Schnittpunkt(e) mit Obstacle
-                // b) Falls mehr als ein (zwei) Schnittpunkt, nimm das naehere
-                // -> t kleiner waehlen -> - statt + in Formel
-                var dirToObstacle = new THREE.Vector3(
-                    obstacles[0].location.x - this.location.x,
-                    obstacles[0].location.y - this.location.y,
-                    obstacles[0].location.z - this.location.z);
-                var a = dirToObstacle.x * dirToObstacle.x +
-                        dirToObstacle.y * dirToObstacle.y +
-                        dirToObstacle.z * dirToObstacle.z;
-                // c) Normale ist Schnittpunkt.sub(obstacle.location)
-                // d) .normalize()
 
-                // TODO: rotiere avoidDir um bis zu +-10° bzgl. jeder Richtung
+                var avoidDir = new THREE.Vector3(
+                    this.location.x - obstacles[0].location.x,
+                    this.location.y - obstacles[0].location.y ,
+                    this.location.z - obstacles[0].location.z);
+                avoidDir.normalize();
+
+                // rotiere avoidDir um bis zu +-10° bzgl. jeder Richtung
                 //          sowie in createAsteroid()
+                var randomDir = new THREE.Vector3(Math.random(),
+                                        Math.random(), Math.random());
+                randomDir.normalize();
+                randomDir.multiplyScalar(
+                        Math.pow(-1, Math.round(1000 * Math.random())) *
+                        Math.random() * 0.176); // tan(10°)
+                direction.add(randomDir);
 
                 // Gewichte die Laengen, um Kollision zu vermeiden
                 var bestImpact = this.position.distanceTo(obstacles[0].location);
@@ -303,8 +319,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                         directionFound = (collision == 0);
 
                         if(directionFound) {
-                                // falls ja, nimm diese
-                            directionFound = true;
+                            // falls ja, nimm diese
                             break;
                         }
                     }
@@ -351,14 +366,49 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                         i++;
                     }
 
-                    // TODO: Falls dies auch nicht geht, gehe orthogonal
+                    // Falls dies auch nicht geht, gehe orthogonal
                     // Raycaster in v x e1, v x e2, v x e3 -> falls nichts getroffen -> hierhin
-                    // nur in diese Richtung nicht linearkominiert
-
                     if(!directionFound) {
-                        // Falls vor einem alles versperrt, bleibe stehen und schiesse
-                        direction = new THREE.Vector3(0,0,0);
-                        this.shoot();
+                    // nur in diese Richtung nicht linearkominiert
+                        for(i = 0; i < 5; i++) {
+                            direction = MATH.clone(optimalDir);
+                            switch(i) {
+                                case 0:
+                                    direction.cross(new THREE.Vector3(1,0,0));
+                                    break;
+                                case 1:
+                                    direction.cross(new THREE.Vector3(0,1,0));
+                                    break;
+                                case 2:
+                                    direction.cross(new THREE.Vector3(0,0,1));
+                                    break;
+                                case 3:
+                                    direction.cross(new THREE.Vector3(-1,0,0));
+                                    break;
+                                case 4:
+                                    direction.cross(new THREE.Vector3(0,-1,0));
+                                    break;
+                                case 5:
+                                    direction.cross(new THREE.Vector3(0,0,-1));
+                                    break;
+                                default: break;
+                            }
+
+                            direction.normalize();
+                            collision = checkDirection(direction, obstacles);
+                            directionFound = (collision == 0);
+
+                            if(directionFound) {
+                                break;
+                            }
+                        }
+
+
+                        if(!directionFound) {
+                            // Falls alles versperrt, bleibe stehen und schiesse
+                            direction = new THREE.Vector3(0,0,0);
+                            this.shoot();
+                        }
                     }
                 }
             }
@@ -400,23 +450,17 @@ Enemy.prototype.shot = function() {
     return false;
 }
 
-Enemy.prototype.onCollisionDetect = function(other) {
-    // use other instanceof whatever
-}
+Enemy.prototype.onCollisionDetect = function(other, typ) {
 
+    // TODO:
+    // falls Schiff getroffen:
+    if(other instanceof Enemy) {
+        this = bot.createEnemy(level);
+    }
+    // Asteroid, Schiff, Schuss von Gegner ? -> neu setzen
+    // Schuss vom Spieler ? -> explodieren
 
-// Asteroidenklasse
+    // nutze die Methoden {asteroid,enemy}.onCollisionDetect(other)
 
-function Asteroid(location,radius, direction, speed) {
-    this.direction = speed * direction.normalize();
-    this.radius = radius;
-    this.location = location;
-}
-
-Asteroid.prototype.move = function(delta, asteroids, enemies) {
-    this.location.add(direction.multiplyScalar(delta));;
-}
-
-Asteroid.prototype.onCollisionDetect(other) {
-    // TODO: aufspalten in Dreiecke mit reflektiertem Winkel
+    // gebe "Ueberlebende" zurueck
 }

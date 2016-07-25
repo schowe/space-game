@@ -1,11 +1,15 @@
 // Botklasse
 
-var minShipSize = 10;
-var maxShipSize = 20;
+var minShipSize     = 10;
+var maxShipSize     = 20;
 var maxAsteroidSize = 30;
-var guardingRadius = 50;
+var guardingRadius  = 50;
 
-var asteroids, enemies, enemy, asteroid, playerPosition,
+var BOT.SHOT     = 1;
+var BOT.ASTEROID = 2;
+var BOT.SHIP     = 3;
+
+var asteroids = [], enemies = [], enemy, asteroid, playerPosition,
     worldRadius, radius, i;
 
 
@@ -26,31 +30,6 @@ function compare(a,b) {
 
 
 
-// Reflektiert Asteroiden a und b
-function reflectAsteroids(a,b) {
-    var factor;
-
-    // "Normale" der Reflektion (zeigt von a nach b -> "Normale fuer a")
-    var axis = MATH.negated(b.position);
-    axis.sub(a);
-    axis.normalize();
-
-    var negAxis = MATH.negated(axis);
-
-    // Reflektion fuer Asteroid a
-    var axisA = MATH.clone(axis);
-    factor = 2 * Math.dot(axisA,a.direction);
-    a.direction.negate();
-    a.direction.add(axis.multiplyScalar(factor));
-
-    // Reflektion fuer Asteroid b
-    var axisB = MATH.clone(negAxis);
-    factor = 2 * Math.dot(axisB,b.direction);
-    b.direction.negate();
-    b.direction.add(negAxis.multiplyScalar(factor));
-}
-
-
 // Kollisionsueberpruefung und getroffene Ausschalten
 function checkCollisionAndAct(asteroids, enemies) {
     // TODO:
@@ -60,6 +39,7 @@ function checkCollisionAndAct(asteroids, enemies) {
     // Schiff   ? -> weiterbewegen
     // Schuss   ? -> explodieren und neu setzen
 
+
     // falls Schiff getroffen:
     // Asteroid, Schiff, Schuss von Gegner ? -> neu setzen
     // Schuss vom Spieler ? -> explodieren
@@ -67,32 +47,37 @@ function checkCollisionAndAct(asteroids, enemies) {
     // nutze die Methoden {asteroid,enemy}.onCollisionDetect(other)
 
     // gebe "Ueberlebende" zurueck
+
+
+    // 1. Asteroid <-> Asteroid
+    // 2. Enemy <-> Enemy
+    // 3. Asteroid <-> Enemy
+
+
     return enemies;
 }
 
 // Testet so, dass sich Gegenstaende beim Erzeugen nicht behindern
+// TODO: Falls es lagt, Spieler - 1/4 - Asteroiden - 5/6 - Enemies
 function farAway(position,size) {
     // ueberpruefe Kollision mit Asteroiden
-    // (ausnutzen, dass asteroids sortiert)
-    distance = position.distanceTo(playerPosition);
-
-    var asteroidsLength;
+    var asteroidsLength = asteroids.length;
     for(i = 1; i <= asteroidsLength; i++) {
         asteroid = asteroids[asteroidsLength - i];
-        var distanceAsteroid = asteroid.position.distanceTo(playerPosition);
+        var distanceAsteroid = asteroid.position.distanceTo(position);
 
-        if(distance - size - distanceAsteroid - asteroid.radius < 0) {
+        if(distanceAsteroid - size - asteroid.radius < 0) {
             return false;
         }
     }
 
     // ueberpruefe Kollision mit Enemies
-    var enemiesLength;
+    var enemiesLength = enemies.length;
     for(i = 1; i <= enemiesLength; i++) {
         enemy = enemies[enemiesLength - i];
-        var distanceEnemy = enemy.position.distanceTo(playerPosition);
+        var distanceEnemy = enemy.position.distanceTo(position);
 
-        if(distance - size - distanceEnemy - maxShipSize < 0) {
+        if(distanceEnemy - size - maxShipSize < 0) {
             return false;
         }
     }
@@ -104,8 +89,8 @@ function farAway(position,size) {
 
 // Erschaffe Asteroiden
 function createAsteroid(level) {
-    // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
-    positionRadius = worldRadius/6 * (5+Math.random());
+    // Welt als Kugel -> Setze an den aeusseren 3/4 Rand
+    positionRadius = worldRadius/4 * (1+3*Math.random());
 
     // zufaellig an den Rand positionieren
     do {
@@ -124,18 +109,18 @@ function createAsteroid(level) {
     speed = level;
 
     // Richtung:
-    // Gegengesetzt zur Normalen mit Fehlerwinkel (bis zu 40°)
     direction = new THREE.Vector3(
-            Math.sin(beta) * Math.sin(alpha),
-            Math.sin(beta) * Math.cos(alpha),
-            Math.cos(beta));
-    var randomDir = new THREE.Vector3(Math.random(), Math.random(), Math.random());
+                        playerPosition.x - asteroidPosition.x,
+                        playerPosition.y - asteroidPosition.y,
+                        playerPosition.z - asteroidPosition.z)
+    var randomDir = new THREE.Vector3(
+                        Math.random(), Math.random(), Math.random());
     randomDir.normalize();
     randomDir.multiplyScalar(Math.pow(-1,Math.round(1000 * Math.random())) *
                      Math.random() * 0.839); // tan(40°)
     direction.add(randomDir);
 
-    asteroid = new Bots.Asteroid(asteroidPosition, direction, speed);
+    asteroid = new Bots.Asteroid(asteroidPosition, direction, speed, level);
 
     return asteroid;
 }
@@ -162,7 +147,7 @@ function createEnemy(level) {
     speed = 2;
 
     // TODO: weapon
-    switch(Math.round(level * Math.random()) {
+    switch(Math.round(level * Math.random())) {
         case 0 : weapon = 0; break;
         case 1 : weapon = 1; break;
         case 2 : weapon = 2; break;
@@ -170,7 +155,7 @@ function createEnemy(level) {
         default: weapon = 4; // hardest weapon
     }
 
-    enemy = new Bots.Enemy(enemyPosition, speed, weapon);
+    enemy = new Bots.Enemy(enemyPosition, speed, weapon, level);
 
     return enemy;
 }
@@ -180,7 +165,7 @@ function createEnemy(level) {
 // Setze direction neu
 function updateLocation(delta) {
 
-    // 1. Schritt: Asteroiden und Gegner sortieren
+    // 1. Schritt: Gegner sortieren (siehe 2. Schritt)
     enemies.sort(compare);
 
     // 2. Schritt: Ausweichen
@@ -192,7 +177,7 @@ function updateLocation(delta) {
 
     // Asteroiden: Bewegung updaten
     for(asteroid of asteroids) {
-        asteroid.move(delta, asteroids, enemies)
+        asteroid.move(delta);
     }
 
     asteroids.sort(compare);
@@ -209,7 +194,7 @@ function updateLocation(delta) {
 // update-Methode, aufzurufen in jedem Durchlauf des Renderers
 function update(delta) {
     // Spielerposition updaten
-    playerPosition = new THREE.Vector3(0,0,0);
+    playerPosition = ship.position;
     // Gegner und Asteroiden updaten
     updateLocation(delta);
     // Kollisionsueberpruefung -> zerstoerte Loeschen
@@ -227,24 +212,29 @@ function update(delta) {
 // Initialisierer der Bots je Level
 function init(level) {
     // setzen unserer externen Faktoren
-    playerPosition = Player.getPosition();
+    playerPosition = ship.position;
     worldRadius = World.getRadius();
 
     // erstelle Asteroiden
-    asteroids = [];
+    if(level == 1) {
+        asteroids = [];
+    }
 
     // TODO: Levelabhaengigkeit klaeren
-
     for(i = 0; i < 5 * level; i++) {
         asteroid = createAsteroid(level);
         asteroids.push(asteroid);
+        scene.add(asteroid);
     }
 
     // erstelle Gegner
-    enemies = [];
+    if(level == 1) {
+        enemies = [];
+    }
 
     for(i =0 ; i < 3 * level; i++) {
         enemy = createEnemy(level);
         enemies.push(enemy);
+        scene.add(enemy);
     }
 }
