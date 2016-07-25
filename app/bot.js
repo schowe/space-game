@@ -1,5 +1,9 @@
 // Botklasse
 
+// Hier aufzurufen:
+// - init()
+// - update(delta)
+
 var minShipSize     = 10;
 var maxShipSize     = 20;
 var maxAsteroidSize = 30;
@@ -160,7 +164,7 @@ function createEnemy(level) {
         default: typ = 4; // hardest weapon
     }
 
-    enemy = new Bots.Enemy(enemyPosition, speed, typ, level);
+    enemy = new Bots.Enemy(enemyPosition, speed, level, typ);
 
     return enemy;
 }

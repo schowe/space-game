@@ -1,6 +1,7 @@
 // Asteroidenklasse
+// Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
+// (Ausnahme: Collision soll auf onCollisionDetect zugreifen)
 
-// TODO: location -> position
 var geometry;
 
 var despawnDistance = 3000;
@@ -45,17 +46,33 @@ Asteroid.prototype.onCollisionDetect(other, typ) {
     // Asteroid ? -> abstossen und verkleinern
     if(typ == BOT.ASTEROID) {
     	this.reflect(other);
-    }
-    // (notfalls loeschen, falls kleiner maxShipSize -> sowie bei Schuss)
 
-    // Schiff   ? -> weiterbewegen
+    	if(small) {
+    		isAlive = false;
+    	} else {
+    		// verkleiner und erzeuge neuen
+    	}
+
+    	if(other.small) {
+    		isAlive = false;
+    	} else {
+    		// verkleiner und erzeuge neuen
+    	}
+    }
+
+    // Schiff   ? -> weiterbewegen (nichts tun)
+    if(typ == BOT.SHIP) {
+    	other.isAlive = false;
+    }
+
     // Schuss   ? -> explodieren und neu setzen
-
     if(typ == BOT.SHOT) {
-
+    	if(small) {
+    		isAlive = false;
+    	} else {
+    		// verkleiner und erzeuge neuen
+    	}
     }
-
-    // gebe "Ueberlebende" zurueck
 
     // TODO: aufspalten in Dreiecke mit reflektiertem Winkel
 }

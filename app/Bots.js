@@ -13,12 +13,13 @@ var asteroids, enemies, enemy, asteroid, playerPosition,
     radius, i, bezierPoints, geometry;
 
 // Enemyklasse
-// TODO: location durch position ersetzen
-function Enemy(location, speed, typ, level) {
+// Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
+// (Ausnahme: Collision soll auf onCollisionDetect zugreifen)
+function Enemy(location, speed, level, typ) {
     // TODO: unterschiedliche Enemies
 
     // Waffe setzen
-    // TODO: weapon
+    // TODO: weaponguard
     switch(typ) {
         case ENEMY.BOSS1:
             geometry = fileLoader.get("EnemyMiniShipV1");
@@ -65,6 +66,7 @@ function Enemy(location, speed, typ, level) {
 Enemy.prototype.constructor = Asteroid;
 Enemy.prototype = new THREE.Mesh;
 
+// TODO: currentDir merken und einfließen lassen -> weniger hakelig (Traegheit)
 Enemy.prototype.move = function(delta, asteroids, enemies) {
     var avoidDir, avoidDirs, collisions, d, distanceToShip, collision;
     var onPlayerAttack = false;
@@ -489,7 +491,8 @@ Enemy.prototype.moveBezier = function() {
 // @return #Hindernisse
 Enemy.prototype.checkDirection = function(direction, objects) {
     var raycaster =
-        new THREE.Raycaster(this.position, direction, 0, minObstacleDistance);
+        new THREE.Raycaster(this.position, direction, 0,
+            guardingRadius - this.speed * delta);
     var rayObstacles = raycaster.intersectObjects(objects);
 
     return rayObstacles.length;
