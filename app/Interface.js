@@ -27,6 +27,18 @@ var Interface = function() {
     }
 };
 
+var $menuShop = $("#shop");
+function showShop(){
+	$istEgal.hide();
+	$menuShop.show();
+}
+
+var $istEgal = $("#test41234");
+function showHighscore(){
+	$menuShop.hide();
+	$istEgal.show();
+}
+
 /* Sets the starting values. Also used for testing. */
 function interfaceInit(){
 	setScore(100000);
