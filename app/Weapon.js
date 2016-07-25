@@ -104,14 +104,14 @@ function initializeWeapons(){
 	//document.addEventListener('leftclick', shoot, false);
 
 	document.body.addEventListener('mousedown', function (e){
-    if(e.button === 0){
-    	shoot();
-    }
-    else if(e.button === 1){
+        if(e.button === 0){
+    	   shoot();
+        }
+        else if(e.button === 1){
         //MGShoot();
-        console.log("right");
-    }
-}, false);
+            console.log("right");
+        }
+    }, false);
 
 }
 
@@ -336,6 +336,7 @@ function renderWeapons(){
 	        explosion = undefined;
 	    }
 	  }
+    }
 }
 
 function toggleWeapons(){

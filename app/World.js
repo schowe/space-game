@@ -52,30 +52,6 @@ function createAsteroids(){
 
   astTexture = fileLoader.get("Asteroid V2");
 
-
-     astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
-     // astOriginal.position.set(getMeshDirection(ship).x + 2, getMeshDirection(ship).y +2 , getMeshDirection(ship).z +2);
-     astOriginal.translateX(-200);
-     astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = 10;
-     asteroidRotVecs.push(new THREE.Vector3(0,0,0));
-     asteroidSpeedVecs.push(new THREE.Vector3(0,0,0));
-     asteroids.push(astOriginal);
-      hitGeometry =  new THREE.SphereGeometry(6.618, 32, 32);
-
-      var colSphereMaterial = new THREE.MeshBasicMaterial({
-                    transparent: true,
-                    opacity: 0.5,
-                     color: 0xffffff
-                });
-
-                astHitBox = new THREE.Mesh(hitGeometry, colSphereMaterial);
-                astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
-                astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = 10;
-
-                asteroidHitBoxes.push(astHitBox);
-                scene.add(astHitBox);
-     scene.add(astOriginal);
-
   for( countAst =0; countAst < 10; countAst++){
 
      rndSpeedX = Math.random() * 20 - 16;
@@ -115,7 +91,6 @@ function createAsteroids(){
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
-     scene.add(astHitBox);
   }
 
 
@@ -186,11 +161,11 @@ function collideAsteroids(ast1, ast2){
 
 
 //Function to trigger if Asteroid get destroyed
-function destroyAsteroid(asteroid){
+function destroyAsteroid(asteroidNumber){
 
-    asteroid.position.x = ship.position.x + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-    asteroid.position.y = ship.position.y + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
-    asteroid.position.z = ship.position.z + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
+    asteroids[asteroidNumber].position.x = ship.position.x + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
+    asteroids[asteroidNumber].position.y = ship.position.y + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
+    asteroids[asteroidNumber].position.z = ship.position.z + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
 
 }
 
