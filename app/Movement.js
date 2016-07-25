@@ -15,8 +15,8 @@ var Pause = true;
 var PauseScreen = false;
 
 var Sensitivity = 0.2;
-var maxVel = 14;
-var maxDrift = 5;
+var maxVel = 1;
+var maxDrift = 2;
 
 var mouseX = 0;
 var mouseY = 0;

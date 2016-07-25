@@ -13,6 +13,7 @@ var FileLoader = function() {
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
+        "../res/textures/TextureHero.png",
 
 
         // Models

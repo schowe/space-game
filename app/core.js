@@ -1,15 +1,13 @@
 var container;
 
-var camera, scene, renderer, clock;
+var camera, scene, renderer, clock, delta;
 
 var fileLoader;
 var interface;
 var ship;
+var player;
 var frames = 0;
 var collision;
-
-//var projectileList = [];
-
 //var projectileList = [];
 
 
@@ -21,7 +19,6 @@ $(function() {
         init();
         cameraAnimate();
     },1000)
-
 });
 
 
@@ -33,9 +30,10 @@ function init() {
     document.body.appendChild( container );
 
     //while(!fileLoader.isReady()){};
-        scene = new THREE.Scene();
+    scene = new THREE.Scene();
+
     // Beispiel-Code ...
-    var player = Player();
+    player = Player();
     player.init();
 
     camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
@@ -62,12 +60,6 @@ function init() {
 
 
     camera.setTarget('Target');
-
-
-
-
-
-
 
 
     /********** Szene füllen **********/
@@ -191,7 +183,13 @@ function render() {
         updateStars();
         updateAsteroids();
     }
+
+    if (player !== undefined) {
+        player.update();
+    }
+    
     camera.update();
+
     renderer.render(scene, camera);
 }
 
