@@ -1,7 +1,7 @@
 // TODO: eventuell Refactoring?
 
 
-var Interface = function() {
+function Interface() {
     var $overlay = $("#menu-overlay");
     var menuVisible = false;
 
@@ -27,39 +27,77 @@ var Interface = function() {
     }
 };
 
-var blaID;
+/* Sets the starting values. Also used for testing. */
+function interfaceInit() {
+	LoadingScreen();
+	setMaxHP(100);
+	setHP(100);
+	updateWeaponInterface();
+	displayLevel(1);
+}
 
-function intTest() {
-	if(FileLoader().isReady()) {
-		$('#loadingTexturesOverlay').hide();
-		clearInterval(blaID);
+/**
+ * FUNCTIONS FOR LOADING SCREEN
+ */
+
+var loadingEllipsisID;
+var loadingSplashID;
+
+/* Runs the overlay functions while the textures are loading */
+function LoadingScreen() {
+	loadingEllipsis();
+	loadingSplash();
+	loadingEllipsisID = setInterval(loadingEllipsis, 1000);
+	loadingSplashID = setInterval(loadingSplash, 5000);
+	hideTextureLoading();
+}
+
+/* Adds an animated ellipsis to the loading screen */
+function loadingEllipsis() {
+	var loadingHeader = document.getElementById('loadingTexturesHeader');
+	
+	switch(loadingHeader.innerHTML.length) {
+		case 7:
+			loadingHeader.innerHTML = 'Loading.';
+			break;
+		case 8:
+			loadingHeader.innerHTML = 'Loading..';
+			break;
+		case 9:
+			loadingHeader.innerHTML = 'Loading...';
+			break;
+		default:
+			loadingHeader.innerHTML = 'Loading';
+			break;
 	}
 }
 
-/* Sets the starting values. Also used for testing. */
-function interfaceInit() {
-	$('#loadingTexturesOverlay').hide();
-	//blaID = setInterval(intTest, 2000);
-	//intTest();
-	//var bla = FileLoader().isReady();
-	console.log(bla);
-	console.log(FileLoader().isReady());
-	//$('#loadingTextures-overlay').fadeOut();
+/* Randomly selects a splash text from an array */
+function loadingSplash() {
 	
-	//console.log(FileLoader().isReady);
-	//console.log(2);
-	setMaxHP(100);
-	setHP(100);
-	//changeHP(-100);
-	updateWeaponInterface();
-	displayLevel(1);
-	console.log("init1");
+	var splashArray = [
+		"text1",
+		"text2",
+		"text3",
+	];
 	
-	/*return {
-		test: function() {	
-			$("#loadingTexturesOverlay").hide();
+	// Random number between 0 and splashArray.length - 1
+	var i = Math.floor(Math.random() * (splashArray.length));
+	var temp = document.getElementById('loadingTexturesSplash');
+	temp.innerHTML = splashArray[i];
+}
+
+/* Hides the overlay and stops its functions */
+function hideTextureLoading() {
+	// Set an Interval to check if textures have loaded
+	var loadingID = setInterval(function() {
+		if(fileLoader.isReady()) {
+			$('#loadingTexturesOverlay').hide();
+			clearInterval(loadingID);
+			clearInterval(loadingEllipsisID);
+			clearInterval(loadingSplashID);
 		}
-	}*/
+	}, 1000);
 }
 
 /**
@@ -203,7 +241,6 @@ function changeHP(value) {
 
 /* Initiates the gameOver sequences */
 function gameOver() {
-
 	var gameOverScore = document.getElementById('gameOverText3');
 	gameOverScore.innerHTML = parseInt(getScore());
 
