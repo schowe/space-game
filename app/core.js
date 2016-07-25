@@ -26,7 +26,6 @@ function init() {
 
 
 
-
     //while(!fileLoader.isReady()){};
         scene = new THREE.Scene();
     // Beispiel-Code ...
@@ -87,7 +86,6 @@ function init() {
     var world = World();
     world.init();
     createStars();
-    createAsteroids(); 
     var movement = Movement();
     movement.init();
     interfaceInit();
@@ -132,7 +130,7 @@ function onKeyDown(e) {
         movement.unlockPointer();
     }else if(e.keyCode == 80 && Pause == true){
         interface.toggleMenuOverlay();        
-        movement.lockPointer();        
+        movement.lockPointer();
         PauseScreen = false;
     }
 }
@@ -162,7 +160,6 @@ function render() {
         renderWeapons();
         Movement().move(delta);
         updateStars();
-        updateAsteroids(); 
         camera.update();        
     }
     renderer.render(scene, camera);

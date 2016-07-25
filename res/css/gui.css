@@ -34,7 +34,9 @@ body {
 	top: 20px;
 	right: 20px;
 	width: 80px;
+	height: 80px;
 	color: yellow;
+	float: none;
 }
 
 #currentAmmo {
@@ -57,7 +59,19 @@ body {
 	line-height: 26.4px;
 }
 
+#ammopic{
+	margin-top: 10px;
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	width: 80px;
+	height: 80px;
+	opacity: 0.3;
+	background: transparent url("../res/img/rocketplaceholder.png");
+}
+
 #bg1 {
+	z-index: 2;
 	transform: skewX(45deg);
 	background-image:url(../textures/metall.jpg);
 
@@ -73,6 +87,7 @@ body {
 }
 
 #bg2 {
+	z-index: 2;
 	transform: skewX(-45deg);
 	background-image:url(../textures/metall.jpg);
 
@@ -211,13 +226,47 @@ body {
 	opacity:0.4;
 }
 
+#timerBox{
+	z-index: 1;
+	position: fixed;
+	color: yellow;
+
+	width: 100%;
+	bottom: -25px;
+
+	height: 50px;
+
+	border-top: solid;
+	text-align: center;
+	border-color: white;
+	background-color: rgba(255,255,255,0.2);
+}
+
+#timerBoxText{
+	display: inline;
+}
+
+#timerBoxMin{
+	display: inline;
+}
+
+#timerBoxDiv{
+	display: inline;
+}
+
+#timerBoxSec{
+	display: inline;
+}
+
+
+
 #gameOverBox{
 	position: fixed;
 	border-style: solid;
 	border-color: white;
 	border-radius: 30px; 
 	text-align: center;
-	top : -50%;
+	top : -1000px;
 	left: 20%;
 	width: 60%;
 	height: 340px;

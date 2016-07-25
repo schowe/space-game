@@ -32,7 +32,12 @@ function interfaceInit(){
 	setScore(100000);
 	setMaxHP(100);
 	setHP(100);
-	changeHP(-100);
+
+
+	changeHP(-10);
+
+	setLevelTimer(61);
+	startLevelTimer();
 	displayLevel(1);
 }
 
@@ -40,6 +45,7 @@ function interfaceInit(){
  * FUNCTIONS FOR HIGHSCORE
  */
 
+var score = 0;
 var scoreCounterID;
 var scoreReference = document.getElementById('score'); 
 
@@ -55,38 +61,43 @@ function stopScoreCounter() {
 
 /* Changes the score by @value */
 function changeScore(value) {   
-    scoreReference.innerHTML = parseInt(scoreReference.innerHTML) + parseInt(value);
+	score += parseInt(value + 0.5);
+    scoreReference.innerHTML = score;
 }
 
 /* Sets the current score to @value */
 function setScore(value) {
-    scoreReference.innerHTML = parseInt(value);
+	score = parseInt(value + 0.5);
+    scoreReference.innerHTML = score;
 }
 
 /* Returns the current score */
 function getScore() {
-	return parseInt(scoreReference.innerHTML);
+	return parseInt(score);
 }
 
 /**
  * FUNCTIONS FOR MONEY	
  */
 
+var money = 0;
 var moneyReference = document.getElementById('money'); 
 
 /* Changes the amount of money by @value */
 function changeMoney(value) {   
-    moneyReference.innerHTML = parseInt(moneyReference.innerHTML) + parseInt(value);
+	money +=parseInt(value + 0.5);
+    moneyReference.innerHTML = money
 }
 
 /* Sets the current amount of money to @value */
-function setMoney(value) {   
-    moneyReference.innerHTML = parseInt(value);
+function setMoney(value) {
+	money = parseInt(value + 0.5);
+    moneyReference.innerHTML = money;
 }
 
 /* Returns the current amount of money */
 function getMoney() {
-	return parseInt(moneyReference.innerHTML);
+	return parseInt(money);
 }
 
 /**
@@ -160,23 +171,6 @@ function changeHP(value) {
 	}
 }
 
-/* Initiates the gameOver sequences */
-function gameOver() {
-
-	var gameOverScore = document.getElementById('gameOverText3');
-	gameOverScore.innerHTML = parseInt(getScore());
-
-	setTimeout(animateGameOver, 1);
-	function animateGameOver () {
-		$('#gameOverBox').animate({top : '20%'}, 250);
-	}
-
-  	Pause = true;  
-  	PauseScreen = true;     
-    Movement().unlockPointer();
-
-}
-
 /* Sets HP to @value */
 function setHP(value) {
 	currentHP = value;
@@ -226,6 +220,25 @@ function hpUpdateColor() {
 		hpBoxCurrent.style.background = '#' + padHex(temp.toString(16)) + 'FF00';
 	}
 }
+
+//GAME OVER FUNC
+/* Initiates the gameOver sequences */
+function gameOver() {
+
+	var gameOverScore = document.getElementById('gameOverText3');
+	gameOverScore.innerHTML = parseInt(getScore());
+
+	setTimeout(animateGameOver, 1);
+	function animateGameOver () {
+		$('#gameOverBox').animate({top : '20%'}, 250);
+	}
+
+  	Pause = true;  
+  	PauseScreen = true;     
+    Movement().unlockPointer();
+
+}
+
 
 /**
  * FUNCTIONS FOR LEVEL
@@ -333,4 +346,59 @@ function padHex(hex) {
 	}
 	
 	return hex;
+}
+
+/**
+ * LEVEL TIMER FUNCTIONS
+ */
+
+var min = 0;
+var sec = 0;
+
+var minHTML = 0;
+var secHTML = 0;
+
+//Setzt die Zeit : Value in sec pls!
+function setLevelTimer(value){
+	min = parseInt(value/60);
+	sec = value%60;
+
+	minHTML = document.getElementById('timerBoxMin');
+	secHTML = document.getElementById('timerBoxSec');
+
+	displayTimer();
+}
+
+function startLevelTimer() {
+	var levelTimer = setInterval(minus, 1000);
+
+	function minus(){
+		if(!Pause){
+			if(sec==0&&min>0){
+				min--;
+				sec=59;
+			}else if(sec==0&&min==0){
+				//next level
+				clearInterval(levelTimer);
+			}
+			else{
+				sec--;
+			}
+			displayTimer();
+		}
+	}
+}
+
+function displayTimer(){
+	if(sec<10){
+		secHTML.innerHTML = '0' + sec;
+	}else{
+		secHTML.innerHTML = sec;
+	}
+
+	if(min<10){
+		minHTML.innerHTML = '0' + min;
+	}else{
+		minHTML.innerHTML = min;
+	}
 }
