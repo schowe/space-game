@@ -52,7 +52,6 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
     scene.add(this.particleSystem);
     
 
-
     this.updateStartAndEndpoint = function(startVector, endVector) {
         this.startVector = startVector;
         this.endVector = endVector;
@@ -103,9 +102,10 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
 
                 // Particles auf Flugbahn weiterbewegen
                 var r = Math.random();
-                particle.velocity.x = distanceFromEndVector.x * r * 0.1 + (Math.random()-0.5) * 0.1;
-                particle.velocity.y = distanceFromEndVector.y * r * 0.1 + (Math.random()-0.5) * 0.1;
-                particle.velocity.z = distanceFromEndVector.z * r * 0.1 + (Math.random()-0.5) * 0.1;
+
+                particle.velocity.x = distanceFromEndVector.x * r * 0.1 + (Math.random()-0.5) * 1;
+                particle.velocity.y = distanceFromEndVector.y * r * 0.1 + (Math.random()-0.5) * 1;
+                particle.velocity.z = distanceFromEndVector.z * r * 0.1 + (Math.random()-0.5) * 1;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;
@@ -119,5 +119,7 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
         this.particles.verticesNeedUpdate = true;
     };
 
-    
+    this.reset =function(){
+        scene.remove(this.particleSystem);
+    };
 }

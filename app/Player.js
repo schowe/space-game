@@ -11,7 +11,7 @@ function Player() {
     var endVector = new THREE.Vector3(100, 0, 0);
     var particleRay= new RayParticleRenderer(
         0x2255ff, 1000, "../res/textures/particle.png", startVector, endVector
-    );;
+    );
 
     return {
         init: function() {
@@ -35,32 +35,28 @@ function Player() {
             ship.add(cross);
         },
         update: function() {
+            particleRay.reset();
+            particleRay = new RayParticleRenderer(
+              0x2255ff, 1000, "../res/textures/particle.png", startVector, endVector
+             );
+            
+
+
             var pos = ship.position;
             var dirVector = getMeshDirection(ship);
-            particleRay = new RayParticleRenderer(
-        0x2255ff, 1000, "../res/textures/particle.png", startVector, endVector
-    );
-            var startScale = 6;
+
+            var startScale = 8;
             startVector = new THREE.Vector3(
                 pos.x+startScale*dirVector.x,
                 pos.y+startScale*dirVector.y,
                 pos.z+startScale*dirVector.z
             );
-            var endScale = 8;
+            var endScale = 10;
             endVector = new THREE.Vector3(
                 pos.x+endScale*dirVector.x,
                 pos.y+endScale*dirVector.y,
                 pos.z+endScale*dirVector.z
             );
-
-            // if (Math.floor(clock.getElapsedTime()) % 3 == 0) {
-            //     console.log("from: ");
-            //     console.log(startVector);
-            //     console.log("to: ");
-            //     console.log(endVector);
-            //     console.log("distance: ");
-            //     console.log(startVector.distanceTo(endVector));
-            // }
 
             //particleRay.updateStartAndEndpoint(startVector, endVector);
             particleRay.update();
