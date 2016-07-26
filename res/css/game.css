@@ -1,7 +1,13 @@
 body {
+	cursor: default;
     padding: 0;
     margin: 0px;
     background: black;
+	
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 canvas{
@@ -16,7 +22,6 @@ canvas{
 }
 
 #splash {
-
     width: 100%;
     height: 100%;
 
@@ -63,40 +68,9 @@ canvas{
     //background-color: rgba(0, 255, 153, 0.1);
     background-color: rgba(255, 255, 255, 0.2);
     //background-color: purple;
-   border: 2px solid white;
-   border-radius: 30px;
+    border: 2px solid white;
+    border-radius: 30px;
 }
-
-
-
-/*
-#menu-highscore-table {
-    font-size: 24px;
-    font-family: "Courier New", Courier, monospace;
-    width: 100%;
-    height: 100%;
-    padding: 5px;
-    /*background-color: rgba(0, 255, 153, 0.2);*/
-}
-/*
-#menu-highscore-table td, th {
-    padding: 5px;
-    background-color: rgba(0, 255, 153, 0.5);
-    border: 2px solid rgba(0, 255, 153, 0.3);
-}
-
-#menu-highscore-table th {
-    font-weight: bolder;
-}
-
-.menu-highscore-table-nr {
-    width: 120px;
-}
-
-.menu-highscore-table-points {
-    width: 120px;
-}
-*/
 
 #menu-highscore-table {
     font-size: 12px;
@@ -105,10 +79,10 @@ canvas{
     height: 100%;
     padding: 3px;
     /*background-color: rgba(0, 255, 153, 0.2);*/
-   // position: absolute; 
+    // position: absolute; 
     top: 50px;
     //margin-top: -10px;
-   // background-color:yellow;
+    // background-color:yellow;
     overflow: scroll;
     
 }
@@ -142,8 +116,6 @@ canvas{
     width:60%;
 }
 
-
-
 #menuArea {
     display: inline-block;
     width: 25%;
@@ -152,8 +124,7 @@ canvas{
     //background-color:rgba(255, 255, 255, 0.5);
     position: fixed;
     //vertical-align: center;
-    display:inline;
-  
+    display:inline;  
 }
 
 #rightMenu {
@@ -168,14 +139,15 @@ canvas{
 }
 
 #pauseBox {
+	//cursor: default;
     width: 90%;
     //width: 100%;
     margin-left:5%;
     height: 8%;
     margin-bottom: 4%;
     background-color: rgba(230, 230, 230, 0.7);
-//rgba(230, 230, 230, 0.6);
-//rgba(204, 204, 204, 0.6)
+	//rgba(230, 230, 230, 0.6);
+	//rgba(204, 204, 204, 0.6)
     font-family: 'Sarpanch', sans-serif;
     font-size: 27px;
     padding: 4px 0px;
@@ -185,10 +157,14 @@ canvas{
     //border-color: rgba(230, 230, 230, 0.7);
     border-radius: 9px;
     //transform: skewy(2deg);
-   //-webkit-box-shadow: 5px 2px 71px -11px rgba(255,255,255,0.4);
-      box-shadow: inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7);
-   //  box-shadow: 4px 3px 71px -11px rgba(255,255,255,0.5);
+    //-webkit-box-shadow: 5px 2px 71px -11px rgba(255,255,255,0.4);
+    box-shadow: inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7);
+    //box-shadow: 4px 3px 71px -11px rgba(255,255,255,0.5);
    
+}
+
+#pauseBox:first-child {
+	margin-top:15%;
 }
 
 #pauseBox:hover {

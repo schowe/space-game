@@ -27,18 +27,6 @@ function Interface() {
     }
 };
 
-var $menuShop = $('#shop');
-function showShop(){
-	$istEgal.hide();
-	$menuShop.show();
-}
-
-var $istEgal = $('#test41234');
-function showHighscore(){
-	$menuShop.hide();
-	$istEgal.show();
-}
-
 /* Sets the starting values. Also used for testing. */
 function interfaceInit() {
 	setMaxHP(100);
@@ -334,11 +322,11 @@ function displayLevel(value) {
 	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
 
 	setTimeout(function() {
-    	$(levelReference).animate({opacity: '1'}, 100);
-		$(levelReference).animate({opacity: '0.3'}, 100);
-		$(levelReference).animate({opacity: '1'}, 100);
-		$(levelReference).animate({opacity: '0.3'}, 100);
-		$(levelReference).animate({opacity: '1'}, 100);
+    	$levelReference.animate({opacity: '1'}, 100);
+		$levelReference.animate({opacity: '0.3'}, 100);
+		$levelReference.animate({opacity: '1'}, 100);
+		$levelReference.animate({opacity: '0.3'}, 100);
+		$levelReference.animate({opacity: '1'}, 100);
 	}, 5000);
 	
 	setTimeout(function() {
@@ -469,6 +457,12 @@ var $menuShop = $("#shop");
 var $menuOptions = $("#options");
 var $menuMilestones = $("#milestones");
 var $menuHighscore = $("#highscore");
+
+function closeMenu() {
+    PauseScreen = false;
+    interface.toggleMenuOverlay();
+    movement.lockPointer();
+}
 
 function showShop(){
 	$menuOptions.hide();
