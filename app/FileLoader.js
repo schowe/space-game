@@ -15,6 +15,7 @@ var FileLoader = function() {
         "../res/textures/Crosshair.png",
         "../res/textures/TextureHero.png",
         "../res/textures/particle.png",
+        "../res/textures/particle_grey.png",
         "../res/textures/Planet.png",
         "../res/textures/lensflare1.png",
         "../res/textures/lensflare2.png",

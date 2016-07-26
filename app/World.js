@@ -164,9 +164,7 @@ function collideAsteroids(ast1, ast2){
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber){
     
-    
-    
-    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xffffff);
+    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc);
     
     
     var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);

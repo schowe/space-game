@@ -4,7 +4,7 @@ var ExplosionParticleHandler = function() {
     
     return {
         addExplosion: function(position, lifetime, color) {
-            var explosion = new ExplosionParticleRenderer(color, 100000, fileLoader.get("particle"), lifetime, position);
+            var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime, position);
             
             currentExplosions.push(explosion);
         },
