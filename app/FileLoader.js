@@ -17,7 +17,6 @@ var FileLoader = function() {
         "../res/textures/particle.png",
         "../res/textures/Planet.png",
         "../res/textures/lensflare1.png",
-        "../res/textures/lensflare1.png",
         "../res/textures/lensflare2.png",
         "../res/textures/lensflare3.png",
 

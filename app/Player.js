@@ -1,6 +1,7 @@
 var ship, frontVector, backVector, directionVector;
 var cross;
 frontVector = new THREE.Vector3(0, 0, 0);
+
 backVector = new THREE.Vector3(0, 0, 0);
 directionVector = new THREE.Vector3(0, 0, 0);
 
@@ -41,14 +42,20 @@ function Player() {
         updateParticleValues: function () {
             particleRay.reset();
             createRay();
-            var pos = ship.position;
 
-            //Default Front-Facing
+            if (moveLeft) {
+                  
+            } else if (moveRight) {
+                
+            }
+
+
+            var pos = ship.position;
             var dirVector = new THREE.Vector3(0, 0, 1);
-            //Apply rotation of Mesh
             dirVector.applyQuaternion(ship.quaternion);
 
-            var startScale = 8;
+            var relativeSpeed = (-yAxis-2)/maxVel;
+            var startScale = 6-relativeSpeed*12;
             startVector = new THREE.Vector3(
                 pos.x + startScale * dirVector.x,
                 pos.y + startScale * dirVector.y,
@@ -61,8 +68,7 @@ function Player() {
                 pos.z + endScale * dirVector.z
             );
 
-
-            // particleRay.updateStartAndEndpoint(startVector, endVector);
+            
             particleRay.update();
         }
     };
