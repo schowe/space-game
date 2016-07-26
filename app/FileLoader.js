@@ -13,6 +13,21 @@ var FileLoader = function() {
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
+        "../res/img/Crosshair1.png",
+        "../res/img/Crosshair2.png",
+        "../res/img/Crosshair3.png",
+        "../res/img/Crosshair4.png",
+        "../res/img/Crosshair5.png",
+        "../res/img/Crosshair6.png",
+        "../res/img/Crosshair7.png",
+        "../res/img/Crosshair8.png",
+        "../res/img/Crosshair9.png",
+        "../res/img/Crosshair10.png",
+        "../res/img/Crosshair11.png",
+        "../res/img/Crosshair12.png",
+        "../res/img/Crosshair13.png",
+        "../res/img/Crosshair14.png",
+        "../res/img/Crosshair15.png",
         "../res/textures/TextureHero.png",
         "../res/textures/particle.png",
         "../res/textures/particle_grey.png",
@@ -20,6 +35,7 @@ var FileLoader = function() {
         "../res/textures/lensflare1.png",
         "../res/textures/lensflare2.png",
         "../res/textures/lensflare3.png",
+
 
 
         // Models
