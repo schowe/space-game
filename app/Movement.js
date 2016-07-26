@@ -128,6 +128,8 @@ function Movement() {
 
                     } else {
 
+                        window.addEventListener('keydown', kdown);
+                        window.addEventListener('keyup', kup);
                         element.requestPointerLock();
 
                     }
