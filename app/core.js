@@ -1,16 +1,16 @@
 var container;
 
-var camera, scene, renderer, clock;
+var camera, scene, renderer, clock, delta;
 
 var fileLoader;
 var interface;
 var crosshair;
-//var ship;
+var ship;
+var player;
+var movement;
+
 var frames = 0;
 var collision;
-
-//var projectileList = [];
-
 //var projectileList = [];
 
 
@@ -23,7 +23,6 @@ $(function() {
         init();
         cameraAnimate();
     },1000)
-
 });
 
 
@@ -35,9 +34,10 @@ function init() {
     document.body.appendChild( container );
 
     //while(!fileLoader.isReady()){};
-        scene = new THREE.Scene();
+    scene = new THREE.Scene();
+
     // Beispiel-Code ...
-    var player = Player();
+    player = Player();
     player.init();
 
     camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
@@ -65,13 +65,8 @@ function init() {
 
     camera.setTarget('Target');
 
-
     crosshair = new Crosshairs();
     crosshair.init();
-
-
-
-
 
     /********** Szene füllen **********/
 
@@ -100,7 +95,7 @@ function init() {
 
     createAsteroids();
 
-    var movement = Movement();
+    movement = Movement();
     movement.init();    
     interfaceInit();
 
@@ -171,8 +166,7 @@ var delta;
 
 function animate() {
     // dont touch!    
-
-        requestAnimationFrame( animate );
+    requestAnimationFrame( animate );
     now = Date.now();
     delta = now - then;
     if(delta > interval){
@@ -191,11 +185,14 @@ function render() {
     if (!Pause) {
         handleCollision();
         renderWeapons();
-        Movement().move(delta);
+        movement.move(delta);
         updateStars();
         updateAsteroids();
     }
+    
+    player.updateParticleValues();
     camera.update();
+
     renderer.render(scene, camera);
 }
 

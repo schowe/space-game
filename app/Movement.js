@@ -128,6 +128,7 @@ function Movement() {
                         element.requestFullscreen();
 
                     } else {
+
                         window.addEventListener('keydown', kdown);
                         window.addEventListener('keyup', kup);
                         element.requestPointerLock();

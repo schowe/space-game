@@ -28,8 +28,14 @@ var FileLoader = function() {
         "../res/img/Crosshair13.png",
         "../res/img/Crosshair14.png",
         "../res/img/Crosshair15.png",
-        
-        
+        "../res/textures/TextureHero.png",
+        "../res/textures/particle.png",
+        "../res/textures/Planet.png",
+        "../res/textures/lensflare1.png",
+        "../res/textures/lensflare1.png",
+        "../res/textures/lensflare2.png",
+        "../res/textures/lensflare3.png",
+
 
 
         // Models
@@ -43,7 +49,7 @@ var FileLoader = function() {
         "../res/meshes/AsteroidPart3.json",
         "../res/meshes/AsteroidComplete.json",
         "../res/meshes/RocketV1.json",
-        "../res/meshes/Asteroid V2.json"
+        "../res/meshes/AsteroidV2.json"
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
@@ -117,8 +123,11 @@ var FileLoader = function() {
             return isReady() ? loadedFiles : undefined;
         },
         get: function(name) {
-
-            return isReady() ? loadedFiles[name] : undefined;
+            var result = isReady() ? loadedFiles[name] : undefined;
+            if (result == undefined) {
+                console.log("FileLoader could not find texture '"+name+"'");
+            }
+            return result;
         }
     }
 };

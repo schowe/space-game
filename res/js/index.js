@@ -1,15 +1,31 @@
+var camera, scene, renderer;
+
+var spaceshipGroup, sphere, planet;
+
+var rayParticleRenderer, rayStart, rayEnd;
+
+var fileLoader = FileLoader();
+
 $(function () {
 
     var container;
-
-    var camera, scene, renderer, composer;
-
-    var spaceship, sphere, planet;
+    var tick;
+    var clock = new THREE.Clock(true);
 
     // start
-    init();
-    fadeOutLoadingOverlay();
-    animate();
+    var loadingLoop = setInterval(function() {
+        console.log("loading");
+        if (fileLoader.isReady()) {
+            console.log("done");
+            clearInterval(loadingLoop);
+            init();
+            fadeOutLoadingOverlay();
+            animate();
+
+        }
+    }, 500);
+
+
 
     function init() {
 
@@ -31,8 +47,6 @@ $(function () {
         container.appendChild(renderer.domElement);
 
         // Licht
-        //scene.add(new THREE.AmbientLight(0x404040));
-
         var light = new THREE.DirectionalLight(0xffffff);
         light.position.set(3, 6, 0);
         scene.add(light);
@@ -43,84 +57,93 @@ $(function () {
         dirLight.color.setHSL( 0.1, 0.7, 0.5 );
         scene.add( dirLight );
 
-        var textureLoaderLensFlare = new THREE.TextureLoader();
-        textureLoaderLensFlare.load("res/textures/lensflare0.png", function (texture1) {
-            textureLoaderLensFlare.load("res/textures/lensflare2.png", function (texture2) {
-                textureLoaderLensFlare.load("res/textures/lensflare3.png", function (texture3) {
-                    var light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
-                    light.color.setHSL( 0.55, 0.9, 0.5 );
-                    light.position.set( 5, 5, 5 );
-                    scene.add( light );
+        var textureLensflare1 = fileLoader.get("lensflare1");
+        var textureLensflare2 = fileLoader.get("lensflare2");
+        var textureLensflare3 = fileLoader.get("lensflare3");
 
-                    var flareColor = new THREE.Color( 0xffffff );
-                    flareColor.setHSL( 0.55, 0.9, 1);
+        var pointLight = new THREE.PointLight( 0xffffff, 1.5, 2000 );
+        pointLight.color.setHSL( 32/255, 1, 0.5 );
+        pointLight.position.set( 5, 5, 5 );
+        scene.add( pointLight );
 
-                    var lensFlare = new THREE.LensFlare(texture1, 700, 0.0, THREE.AdditiveBlending, flareColor );
+        var flareColor = new THREE.Color( 0xffffff );
+        flareColor.setHSL( 0.55, 0.9, 1);
+        var lensFlare = new THREE.LensFlare(textureLensflare1, 700, 0.0, THREE.AdditiveBlending, flareColor );
 
-                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
-                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
-                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
 
-                    lensFlare.add( texture3, 60, 0.6, THREE.AdditiveBlending );
-                    lensFlare.add( texture3, 70, 0.7, THREE.AdditiveBlending );
-                    lensFlare.add( texture3, 120, 0.9, THREE.AdditiveBlending );
-                    lensFlare.add( texture3, 70, 1.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 60, 0.6, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 0.7, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 120, 0.9, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 1.0, THREE.AdditiveBlending );
 
-                    //lensFlare.customUpdateCallback = lensFlareUpdateCallback;
-                    lensFlare.position.copy( light.position );
+        lensFlare.position.copy( pointLight.position );
 
-                    scene.add( lensFlare );
-                });
-            });
-        } );
+        scene.add( lensFlare );
 
 
         // Skybox
-        var textureLoader = new THREE.TextureLoader();
-        textureLoader.setCrossOrigin('anonymous');
-        textureLoader.load('../res/textures/sky_sphere_map.jpg', function (texture) {
-            var geometry = new THREE.SphereGeometry(1000, 256, 256);
-
-            var material = new THREE.MeshBasicMaterial({
-                map: texture,
-                side: THREE.DoubleSide
-            });
-
-            sphere = new THREE.Mesh(geometry, material);
-
-            scene.add(sphere);
+        var geometrySkysphere = new THREE.SphereGeometry(1000, 256, 256);
+        var materialSkysphere = new THREE.MeshBasicMaterial({
+            map: fileLoader.get("sky_sphere_map"),
+            side: THREE.DoubleSide
         });
+        sphere = new THREE.Mesh(geometrySkysphere, materialSkysphere);
+        scene.add(sphere);
 
         // Planet
-        var textureLoader2 = new THREE.TextureLoader();
-        textureLoader2.setCrossOrigin("anonymous");
-        textureLoader2.load("../res/textures/Planet.png", function (texture) {
-            var geometry = new THREE.SphereGeometry(100, 128, 128);
-            var material = new THREE.MeshPhongMaterial({
-                map: texture,
-                side: THREE.DoubleSide
-            });
-            planet = new THREE.Mesh(geometry, material);
-            planet.position.set(-500, -500, 300);
-            planet.rotateZ(0.5);
-            scene.add(planet);
+        var geometryPlanet = new THREE.SphereGeometry(100, 128, 128);
+        var materialPlanet = new THREE.MeshPhongMaterial({
+            map: fileLoader.get("Planet"),
+            side: THREE.DoubleSide
         });
+        planet = new THREE.Mesh(geometryPlanet, materialPlanet);
+        planet.position.set(-500, -500, 300);
+        planet.rotateZ(0.5);
+        planet.castShadow = true;
+        scene.add(planet);
 
-        // Spaceship
-        var loader = new THREE.JSONLoader();
+        // Spaceship Group (= space ship + particle ray)
+        var modelShip = fileLoader.get("HeroShipV5");
+        var textureShip = fileLoader.get("TextureHero");
+        var spaceship = new THREE.Mesh(modelShip, new THREE.MeshPhongMaterial({map:textureShip}));
+        spaceship.position.set(0, 0, 0);
+        spaceship.rotateY(-1.571);
 
+        var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+        var materialBasic =  new THREE.MeshBasicMaterial();
 
-        loader.load("res/models/HeroShipV2.json", function (geometry) {
+        rayStart = new THREE.Mesh(sphereGeometry, materialBasic);
+        rayStart.translateX(-5);
+        rayStart.visible = false;
 
-            spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "darkgrey",specular: "darkgrey"}));
-            spaceship.position.set(0, 0, 0);
-            scene.add(spaceship);
-        });
+        rayEnd = new THREE.Mesh(sphereGeometry, materialBasic);
+        rayEnd.translateX(-8);
+        rayEnd.visible = false;
+
+        spaceshipGroup = new THREE.Group();
+        spaceshipGroup.add(spaceship);
+        spaceshipGroup.add(rayStart);
+        spaceshipGroup.add(rayEnd);
+        scene.add(spaceshipGroup);
+
+        rayParticleRenderer = new RayParticleRenderer(
+            0x2255ff,1000, fileLoader.get("particle"), rayStart.position, rayEnd.position, 0.2
+        );
+
 
         // Event-Listener für Resize
         window.addEventListener("resize", onWindowResize, false);
         window.addEventListener("mousemove", onMouseMove, false);
+
     }
+
+
+
+
+
 
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -148,6 +171,7 @@ $(function () {
         render();
 
         // animation goes here
+
         moveSpaceship();
     }
 
@@ -165,48 +189,40 @@ $(function () {
     }
 
     function moveSpaceship() {
-        if (spaceship !== undefined) {
-            // TODO: dreht sich zu weit
+        if (spaceshipGroup !== undefined && rayParticleRenderer !== undefined) {
 
             var time = new Date().getTime() * 0.0005;
-            spaceship.position.x = -Math.sin(time) + Math.pow(Math.cos(time), 2);
-            spaceship.position.y = -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2);
-            spaceship.position.z = Math.sin(time);
+
+            spaceshipGroup.position.set(
+                -Math.sin(time) + Math.pow(Math.cos(time), 2),
+                -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2),
+                Math.sin(time)
+            );
 
             var angle = -Math.sin(time) * 0.0015;
-            spaceship.rotateX(angle);
-            spaceship.rotateZ(angle * 0.1);
+            spaceshipGroup.rotateX(angle);
+            spaceshipGroup.rotateZ(angle * 0.1);
+
+            var newStart = new THREE.Vector3(
+                spaceshipGroup.position.x+rayStart.position.x,
+                spaceshipGroup.position.y+rayStart.position.y,
+                spaceshipGroup.position.z+rayStart.position.z
+            );
+            var newEnd = new THREE.Vector3(
+                spaceshipGroup.position.x+rayEnd.position.x,
+                spaceshipGroup.position.y+rayEnd.position.y,
+                spaceshipGroup.position.z+rayEnd.position.z
+            );
+
+            
+            rayParticleRenderer.updateStartAndEndpoint(newStart, newEnd);
+            rayParticleRenderer.update();
         }
 
         if (planet !== undefined) {
-            console.log("spin");
             planet.rotateX(0.0002);
             planet.rotateY(0.0002);
         }
-
-    }
-
-    function lensFlareUpdateCallback( object ) {
-
-        var f, fl = object.lensFlares.length;
-        var flare;
-        var vecX = -object.positionScreen.x * 2;
-        var vecY = -object.positionScreen.y * 2;
-
-
-        for( f = 0; f < fl; f++ ) {
-
-            flare = object.lensFlares[ f ];
-
-            flare.x = object.positionScreen.x + vecX * flare.distance;
-            flare.y = object.positionScreen.y + vecY * flare.distance;
-
-            flare.rotation = 0;
-
-        }
-
-        object.lensFlares[ 2 ].y += 0.025;
-        object.lensFlares[ 3 ].rotation = object.positionScreen.x * 0.5 + THREE.Math.degToRad( 45 );
 
     }
 
