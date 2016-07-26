@@ -2,7 +2,7 @@
 
 
 function Interface() {
-    var $overlay = $("#menu-overlay");
+    var $overlay = $('#menu-overlay');
     var menuVisible = false;
 
 
@@ -27,13 +27,13 @@ function Interface() {
     }
 };
 
-var $menuShop = $("#shop");
+var $menuShop = $('#shop');
 function showShop(){
 	$istEgal.hide();
 	$menuShop.show();
 }
 
-var $istEgal = $("#test41234");
+var $istEgal = $('#test41234');
 function showHighscore(){
 	$menuShop.hide();
 	$istEgal.show();
@@ -87,9 +87,9 @@ function loadingEllipsis() {
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
 	var splashArray = [
-		"text1",
-		"text2",
-		"text3",
+		'text1',
+		'text2',
+		'text3',
 	];
 	
 	// Random number between 0 and splashArray.length - 1
@@ -321,6 +321,11 @@ function gameOver() {
  * FUNCTIONS FOR LEVEL
  */
 
+var min = 0;
+var sec = 0;
+var minHTML = document.getElementById('timerBoxMin');
+var secHTML = document.getElementById('timerBoxSec');
+
 /* Displays @value as the current level */
 function displayLevel(value) {	
 	var levelReference = document.getElementById('currentLevel');
@@ -328,16 +333,55 @@ function displayLevel(value) {
 	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
 
 	setTimeout(function() {
-    	$levelReference.animate({opacity: '1'}, 100);
-		$levelReference.animate({opacity: '0.3'}, 100);
-		$levelReference.animate({opacity: '1'}, 100);
-		$levelReference.animate({opacity: '0.3'}, 100);
-		$levelReference.animate({opacity: '1'}, 100);
+    	$(levelReference).animate({opacity: '1'}, 100);
+		$(levelReference).animate({opacity: '0.3'}, 100);
+		$(levelReference).animate({opacity: '1'}, 100);
+		$(levelReference).animate({opacity: '0.3'}, 100);
+		$(levelReference).animate({opacity: '1'}, 100);
 	}, 5000);
 	
 	setTimeout(function() {
-		$levelReference.animate({opacity: '0', top: '0px'}, 1000);
+		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
 	}, 1500);
+}
+
+/* Sets the timer to @value translated to minutes and seconds */
+function setLevelTimer(value) {
+	min = Math.floor(parseInt(value + 0.5) / 60);
+	sec = parseInt(value + 0.5) % 60;
+	displayTimer();
+}
+
+/* Starts the timer */
+function startLevelTimer() {
+	var levelTimer = setInterval(function() {
+		if(!Pause ) {
+			if(sec == 0 && min > 0) {
+				min--;
+				sec = 59;
+			} else if(sec == 0 && min == 0) {
+				//next level
+				clearInterval(levelTimer);
+			}
+			else {
+				sec--;
+			}
+			displayTimer();
+		}
+	}, 1000);
+}
+
+/* Updates the displayed time */
+function displayTimer() {
+	if(sec < 10)
+		secHTML.innerHTML = '0' + sec;
+	else
+		secHTML.innerHTML = sec;
+
+	if(min < 10) 
+		minHTML.innerHTML = '0' + min;
+	else
+		minHTML.innerHTML = min;
 }
 
 /**
@@ -418,55 +462,4 @@ function padHex(hex) {
 	}
 	
 	return hex;
-}
-
-/**
- * LEVEL TIMER FUNCTIONS
- */
-
-var min = 0;
-var sec = 0;
-
-var minHTML = document.getElementById('timerBoxMin');;
-var secHTML = document.getElementById('timerBoxSec');;
-
-/* Sets the timer to @value translated to minutes and seconds */
-function setLevelTimer(value) {
-	min = Math.floor(parseInt(value + 0.5) / 60);
-	sec = parseInt(value + 0.5) % 60;
-	displayTimer();
-}
-
-/* Starts the timer */
-function startLevelTimer() {
-	var levelTimer = setInterval(function() {
-		if(!Pause ) {
-			if(sec == 0 && min > 0) {
-				min--;
-				sec = 59;
-			} else if(sec == 0 && min == 0) {
-				//next level
-				clearInterval(levelTimer);
-			}
-			else {
-				sec--;
-			}
-			displayTimer();
-		}
-	}, 1000);
-}
-
-/* Updates the displayed time */
-function displayTimer() {
-	if(sec < 10) {
-		secHTML.innerHTML = '0' + sec;
-	} else {
-		secHTML.innerHTML = sec;
-	}
-
-	if(min < 10) {
-		minHTML.innerHTML = '0' + min;
-	} else {
-		minHTML.innerHTML = min;
-	}
 }
