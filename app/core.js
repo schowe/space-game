@@ -14,7 +14,7 @@ var collision;
 
 $(function() {
     fileLoader = FileLoader();
-	LoadingScreen();
+    LoadingScreen();
     interface = Interface();
     collision = Collision();
     setTimeout(function(){
