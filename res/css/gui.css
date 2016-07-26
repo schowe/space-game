@@ -385,7 +385,7 @@ body {
 
 .buyButton:hover{
 	box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(0,0,255,0.5); 
-
+	
 }
 
 #shopItemDesc{
