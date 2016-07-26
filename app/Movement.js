@@ -13,6 +13,7 @@ var yAxis = 0;
 var directionVector = new THREE.Vector4(0,0,0,1);
 var Pause = true;
 var PauseScreen = false;
+var isFirstPerson = false;
 
 var Sensitivity = 0.2;
 var maxVel = 14;
@@ -213,6 +214,10 @@ function Movement() {
                             Movement().unlockPointer();
                             PauseScreen = true;
                         }
+                        break;
+                    case 86:
+                        crosshair.switch();
+
 
                 }
 
@@ -306,8 +311,12 @@ function moveCallback(event){
 function changeCam(){
     console.log(camera.currentTargetName);
     if(camera.currentTargetName == 'Target' ){
+        isFirstPerson = true;
+        crosses[pos].position.set(0,0,-40);
         camera.setTarget('Cockpit');
     }else{
+        isFirstPerson = false;
+        crosses[pos].position.set(0,10,-40);
         camera.setTarget('Target');
     }
 }

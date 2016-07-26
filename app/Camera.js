@@ -41,16 +41,19 @@ function Camera(){
         
         doOrbit:function(){
             if(Pause){
+                crosses[pos].visible = false;
                 orbit();
                 setTimeout(function(){
                     Camera().doOrbit();
                 },20000);
             }else{
+                crosses[pos].visible = true;
                 camera.setTarget('Target');
             }
         },
         
         endOrbit:function(){
+            crosses[pos].visible = true;
             camera.setTarget('Target');
         }
     }
