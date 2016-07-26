@@ -103,22 +103,29 @@ canvas{
     font-family: "Courier New", Courier, monospace;
     width: 100%;
     height: 100%;
-    padding: 0px;
+    padding: 3px;
     /*background-color: rgba(0, 255, 153, 0.2);*/
-    position: absolute;
-    //margin-left:50%;
-    background-color:purple;
+   // position: absolute; 
+    top: 50px;
+    //margin-top: -10px;
+   // background-color:yellow;
+    overflow: scroll;
+    
 }
 
 #menu-highscore-table td, th {
     //padding: 5px;
     //background-color: rgba(0, 255, 153, 0.5);
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 2px solid rgba(0, 255, 153, 0.3);
+    //background-color: rgba(255, 255, 255, 0.5);
+    //border: 2px solid rgba(255, 255, 230, 0.3);
 }
 
 #menu-highscore-table th {
     font-weight: bolder;
+}
+
+#menu-highscore-table tr {
+	border: 2px solid rgba(255, 255, 230, 0.3);
 }
 
 .menu-highscore-table-nr {
@@ -126,11 +133,11 @@ canvas{
     width: 10%;
 }
 
-.menu-highscore-table-player {
-    
+.menu-highscore-table-points {
+    width: 30%;
 }
 
-.menu-highscore-table-points {
+.menu-highscore-table-player {
     //width: 120px;
     width:60%;
 }
@@ -150,17 +157,14 @@ canvas{
 }
 
 #rightMenu {
-    overflow:hidden;
+	background-color: transparent;
 	width:50%;
 	height:100%;
 	margin-left:50%;
 	border-top-right-radius: 30px;
 	border-bottom-right-radius: 30px;
-	overflow: auto;
-}
-
-#menuBoxes {
-    
+	overflow: hidden;
+	//position:absolute;
 }
 
 #pauseBox {
@@ -182,23 +186,13 @@ canvas{
     border-radius: 9px;
     //transform: skewy(2deg);
    //-webkit-box-shadow: 5px 2px 71px -11px rgba(255,255,255,0.4);
-      box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.5);
+      box-shadow: inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7);
    //  box-shadow: 4px 3px 71px -11px rgba(255,255,255,0.5);
    
 }
-#pauseBox:first-child {
-   //background-color: rgba(204, 204, 204, 0.6);
-   margin-top:20%;
-   //transform: skew(2deg , 2deg);
-   //-webkit-transform: skew(2deg,2deg);
-   //border-radius: 10px/5px;
 
-
-}
-#box:last-child { 
-   //background-color:red;
-}
-
-.menuText {
-    font-family: 'Sarpanch', sans-serif;
+#pauseBox:hover {
+	background-color: #cccccc;
+	border-color: rgba(255, 255, 255, 0.8);
+        transition: all 0.2s ease-out;
 }
