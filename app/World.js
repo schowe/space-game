@@ -46,7 +46,6 @@ function createStars(){
 
 function createAsteroids(){
 
-<<<<<<< HEAD
     var rndSpeedX, rndSpeedY, rndSpeedZ, rotSpeed, rndScale;
     var  materialAst, astHitBox, hitGeometry;
     var astTexture, astOriginal;
@@ -85,8 +84,6 @@ function createAsteroids(){
                 astHitBox = new THREE.Mesh(hitGeometry, colSphereMaterial);
                 astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
                 astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = rndScale;
-              //astHitBox.geometry.applyMatrix(astOriginal.matrix);
-
 
 
      asteroids.push(astOriginal);
