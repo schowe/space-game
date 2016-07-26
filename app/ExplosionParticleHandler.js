@@ -4,8 +4,10 @@ var ExplosionParticleHandler = function() {
     
     return {
         addExplosion: function(position, lifetime, color) {
-            var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime, position);
-            
+            var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime+2, position);
+            for (var i = 0; i < 15; i++) {
+                explosion.update();
+            }
             currentExplosions.push(explosion);
         },
         update: function() {
@@ -16,7 +18,6 @@ var ExplosionParticleHandler = function() {
                     currentExplosions.splice(i,1);
                 }
             }
-            console.log(currentExplosions.length);
         }
     }
     
