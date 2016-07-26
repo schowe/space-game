@@ -36,6 +36,7 @@ function init() {
     player = Player();
     player.init();
 
+
     camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
 
     camera.addTarget({
@@ -87,10 +88,11 @@ function init() {
     world.init();
     createStars();
 
-    createAsteroids();
+    // Asteroiden und Bots initialisieren
+    Bot.init(1);
 
     var movement = Movement();
-    movement.init();    
+    movement.init();
     interfaceInit();
 
 
@@ -158,7 +160,7 @@ var delta;
 
 
 function animate() {
-    // dont touch!    
+    // dont touch!
 
         requestAnimationFrame( animate );
     now = Date.now();
@@ -167,7 +169,7 @@ function animate() {
         then = now - (delta % interval);
         render();
     }
-   
+
 }
 
 function render() {
@@ -181,18 +183,15 @@ function render() {
         renderWeapons();
         Movement().move(delta);
         updateStars();
-        updateAsteroids();
+        Bot.update(delta);
     }
 
     if (player !== undefined) {
         player.update();
     }
-    
+
+
     camera.update();
 
     renderer.render(scene, camera);
 }
-
-
-
-

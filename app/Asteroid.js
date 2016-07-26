@@ -1,10 +1,10 @@
 // Asteroidenklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
-// (Ausnahme: Collision soll auf onCollisionDetect zugreifen)
+// (Ausnahme: Collision soll onCollisionDetect aufrufen)
 
 var geometry;
 
-var despawnDistance = 3000;
+var despawnDistance = 5000; // aus core.js (Backplane der Camera)
 
 function Asteroid(location,radius, direction, speed, level, small) {
 	this.small	= small || false;
@@ -37,6 +37,8 @@ Asteroid.prototype.move = function(delta) {
     if(this.position.distanceTo(playerPosition) > despawnDistance) {
     	isAlive = false;
     }
+
+    // TODO: add rotation (this.rotation? <- von Object3D)
 
 }
 
@@ -77,7 +79,6 @@ Asteroid.prototype.onCollisionDetect(other, typ) {
     // TODO: aufspalten in Dreiecke mit reflektiertem Winkel
 }
 
-// gniebaum
 Asteroid.prototype.reflect = function(other) {
 	// Reflektiert Asteroiden this und other
     var factor;

@@ -1,5 +1,9 @@
 // Botklasse
 
+// Fuer Kollision:
+// asteroids und enemies sind nach Abstand zum Spieler sortiert
+// -> break-Chance
+
 // Hier aufzurufen:
 // - init()
 // - update(delta)
@@ -32,37 +36,6 @@ function compare(a,b) {
     }
 }
 
-
-
-// Kollisionsueberpruefung und getroffene Ausschalten
-// !!! wird in Collision gemacht -> brauchen nur interne Methoden
-function checkCollisionAndAct(asteroids, enemies) {
-    // TODO:
-    // falls Asteroid getroffen:
-    // Asteroid ? -> abstossen und verkleinern
-    // (notfalls loeschen, falls kleiner maxShipSize -> sowie bei Schuss)
-    // Schiff   ? -> weiterbewegen
-    // Schuss   ? -> explodieren und neu setzen
-
-
-    // falls Schiff getroffen:
-    // Asteroid, Schiff, Schuss von Gegner ? -> neu setzen
-    // Schuss vom Spieler ? -> explodieren
-
-    // nutze die Methoden {asteroid,enemy}.onCollisionDetect(other)
-
-    // gebe "Ueberlebende" zurueck
-
-
-    // 1. Asteroid <-> Asteroid
-    // 2. Enemy <-> Enemy
-    // 3. Asteroid <-> Enemy
-
-    // TODO: Fuer alle mit !isAlive neue Objekte erzeugen
-
-
-    return enemies;
-}
 
 // Testet so, dass sich Gegenstaende beim Erzeugen nicht behindern
 // TODO: Falls es lagt, Spieler - 1/4 - Asteroiden - 5/6 - Enemies
@@ -201,7 +174,7 @@ function updateLocation(delta) {
 }
 
 // update-Methode, aufzurufen in jedem Durchlauf des Renderers
-function update(delta) {
+function Bot.update(delta) {
     // Spielerposition updaten
     playerPosition = ship.position;
     // Gegner und Asteroiden updaten
@@ -219,7 +192,7 @@ function update(delta) {
 
 
 // Initialisierer der Bots je Level
-function init(level) {
+function Bot.init(level) {
     // setzen unserer externen Faktoren
     playerPosition = ship.position;
     worldRadius = World.getRadius();
