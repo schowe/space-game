@@ -464,3 +464,64 @@ function padHex(hex) {
 	
 	return hex;
 }
+
+var $menuShop = $("#shop");
+var $menuOptions = $("#options");
+var $menuMilestones = $("#milestones");
+var $menuHighscore = $("#highscore");
+
+function showShop(){
+	$menuOptions.hide();
+	$menuMilestones.hide();
+	$menuHighscore.hide();
+	$menuShop.show();
+	resetColors();
+	$(".shopBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
+        $(".shopBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
+	
+}
+
+function showOptions(){
+	$menuMilestones.hide();
+	$menuShop.hide();
+	$menuHighscore.hide();
+	$menuOptions.show();
+	resetColors();
+	$(".optionsBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
+        $(".optionsBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
+    
+}
+
+function showHighscore(){
+	$menuOptions.hide();
+	$menuMilestones.hide();
+	$menuShop.hide();
+	$menuHighscore.show();
+	resetColors();
+	$(".highscoreBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
+        $(".highscoreBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	   -11px rgba(255,255,255,0.7)"); 
+}
+
+function showMilestones(){
+	$menuOptions.hide();
+	$menuHighscore.hide();
+	$menuShop.hide();
+	$menuMilestones.show();
+	resetColors();
+	$(".milestoneBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
+        $(".milestoneBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
+}
+
+function resetColors() {
+	$(".shopBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
+        $(".shopBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".highscoreBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
+        $(".highscoreBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".milestoneBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
+        $(".milestoneBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".optionsBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
+        $(".optionsBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".returnBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
+        $(".returnBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+
+}
