@@ -1,8 +1,5 @@
 function handleAsteroids() {
 
-    console.log("handleAsteroids");
-
-
     for (var i = 0; i <= asteroids.length - 2; i++) {
 
         // Asteroidenkollision
