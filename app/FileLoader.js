@@ -14,6 +14,7 @@ var FileLoader = function() {
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
         "../res/textures/TextureHero.png",
+        "../res/textures/particle.png",
 
 
         // Models

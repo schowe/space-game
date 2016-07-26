@@ -9,18 +9,14 @@ function Player() {
 
     var startVector = new THREE.Vector3(0, 0, 0);
     var endVector = new THREE.Vector3(0, 0, 0);
-    var particleRay = new RayParticleRenderer(
-        0x2255ff, 100, "../res/textures/particle.png", startVector, endVector
-    );
-    var mapA = fileLoader.get("Crosshair");
+    var particleRay;
 
-    var materialA = new THREE.SpriteMaterial({map: mapA});
 
-    cross = new THREE.Sprite(materialA);
-    cross.position.set(0, 10, -40);
-    cross.scale.set(3.0, 3.0, 1.0);
-    ship.add(cross);
+    function createRay() {
+        particleRay = new RayParticleRenderer(0x2255ff, 100, fileLoader.get("particle"), startVector, endVector);
+    }
 
+    createRay();
 
     return {
         init: function () {
@@ -44,6 +40,9 @@ function Player() {
             ship.add(cross);
         },
         update: function () {
+            particleRay.reset();
+            createRay();
+
             var pos = ship.position;
 
             //Default Front-Facing
@@ -51,23 +50,24 @@ function Player() {
             //Apply rotation of Mesh
             dirVector.applyQuaternion(ship.quaternion);
 
-            var startScale = 6;
+            var startScale = 8;
             startVector = new THREE.Vector3(
                 pos.x + startScale * dirVector.x,
                 pos.y + startScale * dirVector.y,
                 pos.z + startScale * dirVector.z
             );
-            var endScale = 8;
+            var endScale = 10;
             endVector = new THREE.Vector3(
                 pos.x + endScale * dirVector.x,
                 pos.y + endScale * dirVector.y,
                 pos.z + endScale * dirVector.z
             );
 
-            particleRay.updateStartAndEndpoint(startVector, endVector);
+
+            // particleRay.updateStartAndEndpoint(startVector, endVector);
             particleRay.update();
         }
-    }
+    };
 
 };
 

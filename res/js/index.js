@@ -138,11 +138,11 @@ $(function () {
                 spaceshipGroup.add(rayEnd);
                 scene.add(spaceshipGroup);
 
-                rayParticleRenderer = new RayParticleRenderer(
-                    0x2255ff,10000,"res/textures/particle.png",
-                    rayStart.position, rayEnd.position
-                );
-
+                textureLoader.load("res/textures/particle.png", function(texture){
+                    rayParticleRenderer = new RayParticleRenderer(
+                        0x2255ff,1000, texture, rayStart.position, rayEnd.position
+                    );
+                });
             });
         });
 
@@ -227,7 +227,9 @@ $(function () {
                 spaceshipGroup.position.y+rayEnd.position.y,
                 spaceshipGroup.position.z+rayEnd.position.z
             );
-
+            
+            rayParticleRenderer = 
+            
             rayParticleRenderer.updateStartAndEndpoint(newStart, newEnd);
             rayParticleRenderer.update();
         }
