@@ -15,7 +15,6 @@ function Player() {
     function createRay() {
         particleRay = new RayParticleRenderer(0x2255ff, 100, fileLoader.get("particle"), startVector, endVector);
     }
-
     createRay();
 
     return {
@@ -42,7 +41,6 @@ function Player() {
         update: function () {
             particleRay.reset();
             createRay();
-
             var pos = ship.position;
 
             //Default Front-Facing
