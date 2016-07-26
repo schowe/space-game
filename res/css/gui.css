@@ -363,6 +363,7 @@ body {
 
 
 .shopItemPic{
+
 	margin-left: auto;
     margin-right: auto;
 
@@ -379,12 +380,15 @@ body {
 }
 
 .shopItemPic:hover {
-	opacity: 0.8;
 	-moz-box-shadow: 0 0 10px #ccc;
 	-webkit-box-shadow: 0 0 10px #ccc;
-	box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(0,0,255,0.5); 
+	box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,0,0.5); 
+	background-color: rgba(0,0,0,1);
+	-webkit-transform:scale(0.95);
+	transform:scale(0.95);
 }
 
+/*
 .shopTableTd1:hover > .buyButton{
 	font-size: 30px;
 	position: absolute;
@@ -392,7 +396,9 @@ body {
 	left: 30px;
 	opacity: 1;
 }
+*/
 
+/*
 .buyButton{
 	width: 40px;
 	height: 20px;
@@ -401,14 +407,13 @@ body {
 	opacity: 0;
 	color : black;
 }
+*/
 
-.buyButton:hover{
-	box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(0,0,255,0.5); 
-	
-}
+//.buyButton:hover{
+//	box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(0,0,255,0.5); 	
+//}
 
 #shopItemDesc{
-	overflow:hidden;
 	margin-left: auto;
     margin-right: auto;
     color: white;

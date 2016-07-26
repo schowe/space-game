@@ -22,17 +22,15 @@
     <div id="menu-overlay" hidden>
         <div id="menu-box">
             <div id="menuArea">
+
         		<div id="menuBoxes">
-
-            		
             		<div id="pauseBox" class="menuText shopBox" onClick="showShop()"> Shop </div>
-		<div id="pauseBox" class="menuText highscoreBox" onClick="showHighscore()"> Highscore </div>
-		<div id="pauseBox" class="menuText milestoneBox" onClick="showMilestones()"> Milestones </div>
-                <div id="pauseBox" class="menuText optionsBox" onClick="showOptions()"> Options </div>
-                <div id="pauseBox" class="menuText returnBox"> Let's a go! </div>
-
+					<div id="pauseBox" class="menuText highscoreBox" onClick="showHighscore()"> Highscore </div>
+					<div id="pauseBox" class="menuText milestoneBox" onClick="showMilestones()"> Milestones </div>
+               		<div id="pauseBox" class="menuText optionsBox" onClick="showOptions()"> Options </div>
+                	<div id="pauseBox" class="menuText returnBox"> Let's a go! </div>
         	   </div>
-		
+	
 	       </div>
         	<div id="rightMenu"> 
                 <div id="shop" hidden>
@@ -40,8 +38,10 @@
 
                         <tr id="shopItem1">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/img/hpShopItem.png">
-                                <div class="buyButton">Buy</div>
+                                <img class="shopItemPic" src="../res/img/hpShopItem.png" onClick="buyUpgrade(1)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
                             </td>
                             <td>
                                 <div id="shopItemDesc">
@@ -54,53 +54,37 @@
 
                         <tr id="shopItem2">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/img/hpShopItem.png">
-                                <div class="buyButton">Buy</div>
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(2)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
                             </td>
                             <td>
                                 <div id="shopItemDesc" >
-                                	<div> Increases the maximum HP by 50 </div>
+                                	<div> Increases the maximum flight speed by ~40 </div>
                                 	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade2" class="costUpgrade">0</div>
                                 <div>
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr id="shopItem3">
                             <td class="shopTableTd1">
-                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
                             </td>
                             <td>
-                                <div id="shopItemDesc" ><div>
+                                <div id="shopItemDesc" >
+                                	<div>Slowly recharge your HP</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade3" class="costUpgrade">0</div>
+                                <div>
                             </td>
                         </tr>
 
-                        <tr>
-                            <td class="shopTableTd1">
-                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
-                            </td>
-                            <td>
-                                <div id="shopItemDesc" ><div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="shopTableTd1">
-                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
-                            </td>
-                            <td>
-                                <div id="shopItemDesc" ><div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="shopTableTd1">
-                                <img id="shopItemPic" src="../res/img/hpShopItem.png">
-                            </td>
-                            <td>
-                                <div id="shopItemDesc" ><div>
-                            </td>
-                        </tr>
+                        
                     </table>
                 </div>
 
