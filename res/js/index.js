@@ -130,7 +130,7 @@ $(function () {
         scene.add(spaceshipGroup);
 
         rayParticleRenderer = new RayParticleRenderer(
-            0x2255ff,1000, fileLoader.get("particle"), rayStart.position, rayEnd.position
+            0x2255ff,1000, fileLoader.get("particle"), rayStart.position, rayEnd.position, 0.2
         );
 
 
