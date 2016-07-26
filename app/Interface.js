@@ -76,9 +76,10 @@ function loadingEllipsis() {
 function loadingSplash() {
 	var splashArray = [
 		'Lasers are being painted red', //1 or 2? //RGB?
-		'Painting the lasers red',
+		//'Painting the lasers red',
 		'Teaching the AI', //Instructing?
-		'...'
+		'Selecting suitable spaceship',
+		'...'	
 	];
 	
 	// Random number between 0 and splashArray.length - 1
@@ -472,6 +473,7 @@ function showShop(){
 	resetColors();
 	$(".shopBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
         $(".shopBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
+	$(".shopBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
 	
 }
 
@@ -483,6 +485,7 @@ function showOptions(){
 	resetColors();
 	$(".optionsBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
         $(".optionsBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
+	$(".optionsBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
     
 }
 
@@ -494,6 +497,7 @@ function showHighscore(){
 	resetColors();
 	$(".highscoreBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
         $(".highscoreBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	   -11px rgba(255,255,255,0.7)"); 
+	$(".highscoreBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
 }
 
 function showMilestones(){
@@ -504,17 +508,23 @@ function showMilestones(){
 	resetColors();
 	$(".milestoneBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
         $(".milestoneBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
+	$(".milestoneBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
 }
 
 function resetColors() {
 	$(".shopBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
         $(".shopBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".shopBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
 	$(".highscoreBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
         $(".highscoreBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".highscoreBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
+	$(".milestoneBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
 	$(".milestoneBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
         $(".milestoneBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".optionsBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
 	$(".optionsBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
         $(".optionsBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
+	$(".returnBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
 	$(".returnBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
         $(".returnBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
 
