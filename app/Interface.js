@@ -27,6 +27,18 @@ function Interface() {
     }
 };
 
+var $menuShop = $("#shop");
+function showShop(){
+	$istEgal.hide();
+	$menuShop.show();
+}
+
+var $istEgal = $("#test41234");
+function showHighscore(){
+	$menuShop.hide();
+	$istEgal.show();
+}
+
 /* Sets the starting values. Also used for testing. */
 function interfaceInit() {
 	LoadingScreen();
@@ -74,7 +86,6 @@ function loadingEllipsis() {
 
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
-	
 	var splashArray = [
 		"text1",
 		"text2",
@@ -104,6 +115,7 @@ function hideTextureLoading() {
  * FUNCTIONS FOR HIGHSCORE
  */
 
+var currentScore = 0;
 var scoreCounterID;
 var scoreReference = document.getElementById('score'); 
 
@@ -119,38 +131,43 @@ function stopScoreCounter() {
 
 /* Changes the score by @value */
 function changeScore(value) {   
-    scoreReference.innerHTML = parseInt(scoreReference.innerHTML) + parseInt(value);
+	currentScore += parseInt(value + 0.5);
+    scoreReference.innerHTML = currentScore;
 }
 
 /* Sets the current score to @value */
 function setScore(value) {
-    scoreReference.innerHTML = parseInt(value + 0.5);
+	currentScore = parseInt(value + 0.5);
+    scoreReference.innerHTML = currentScore;
 }
 
 /* Returns the current score */
 function getScore() {
-	return parseInt(scoreReference.innerHTML);
+	return parseInt(currentScore);
 }
 
 /**
  * FUNCTIONS FOR MONEY	
  */
 
+var currentMoney = 0;
 var moneyReference = document.getElementById('money'); 
 
 /* Changes the amount of money by @value */
 function changeMoney(value) {   
-    moneyReference.innerHTML = parseInt(moneyReference.innerHTML) + parseInt(value);
+	currentMoney +=parseInt(value + 0.5);
+    moneyReference.innerHTML = currentMoney;
 }
 
 /* Sets the current amount of money to @value */
-function setMoney(value) {   
-    moneyReference.innerHTML = parseInt(value + 0.5);
+function setMoney(value) {
+	currentMoney = parseInt(value + 0.5);
+    moneyReference.innerHTML = currentMoney;
 }
 
 /* Returns the current amount of money */
 function getMoney() {
-	return parseInt(moneyReference.innerHTML);
+	return parseInt(currentMoney);
 }
 
 /**
@@ -166,7 +183,6 @@ var maxAmmo = 0;
  
 /* Updates the weapon interface of the secondary weapon*/
 function updateWeaponInterface() {
-	
 	switch(activeSecWeapon) {
 		case 0: 
 				currentAmmo = rocketAmmo;
@@ -223,8 +239,7 @@ function changeHP(value) {
 			
 				if (displayedHP <= 0) {
 					clearInterval(tempID);
-					var temp = document.getElementById('currentHP');
-					temp.innerHTML = 0;
+					document.getElementById('currentHP').innerHTML = 0;
 					hpBoxCurrent.style.width = 0;
 					gameOver();
 					return;
@@ -237,21 +252,6 @@ function changeHP(value) {
 			clearInterval(tempID);
 		}
 	}
-}
-
-/* Initiates the gameOver sequences */
-function gameOver() {
-	var gameOverScore = document.getElementById('gameOverText3');
-	gameOverScore.innerHTML = parseInt(getScore());
-
-	setTimeout(animateGameOver, 1);
-	function animateGameOver () {
-		$('#gameOverBox').animate({top : '20%'}, 250);
-	}
-
-  	Pause = true;  
-  	PauseScreen = true;     
-    Movement().unlockPointer();
 }
 
 /* Sets HP to @value */
@@ -293,7 +293,6 @@ function updateHPDisplay() {
 
 /* Sets the HP bar to a calculated color-gradient. */
 function hpUpdateColor() {
-	
 	if(displayedHP <= (maxHP / 2)) {
 		// Color gradient in hex from 0% to 50%
 		var temp = parseInt((510 * displayedHP / maxHP) + 0.5);
@@ -306,29 +305,39 @@ function hpUpdateColor() {
 }
 
 /**
+ * FUNCTIONS FOR GAME OVER
+ */
+ 
+/* Initiates the gameOver sequences */
+function gameOver() {
+	document.getElementById('gameOverText3').innerHTML = getScore();
+	$('#gameOverBox').animate({top : '20%'}, 250);
+  	Pause = true;  
+  	PauseScreen = true;     
+    Movement().unlockPointer();
+}
+
+/**
  * FUNCTIONS FOR LEVEL
  */
 
 /* Displays @value as the current level */
-function displayLevel(value) {
-	
-	var tempLevel = document.getElementById('currentLevel');
-	tempLevel.innerHTML = parseInt(value);
+function displayLevel(value) {	
+	var levelReference = document.getElementById('currentLevel');
+	levelReference.innerHTML = parseInt(value);
 	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
 
-	setTimeout(animateLevel, 5000);
-	function animateLevel () {
-    	$('#currentLevel').animate({opacity: '1'}, 100);
-		$('#currentLevel').animate({opacity: '0.3'}, 100);
-		$('#currentLevel').animate({opacity: '1'}, 100);
-		$('#currentLevel').animate({opacity: '0.3'}, 100);
-		$('#currentLevel').animate({opacity: '1'}, 100);
-	}
+	setTimeout(function() {
+    	$levelReference.animate({opacity: '1'}, 100);
+		$levelReference.animate({opacity: '0.3'}, 100);
+		$levelReference.animate({opacity: '1'}, 100);
+		$levelReference.animate({opacity: '0.3'}, 100);
+		$levelReference.animate({opacity: '1'}, 100);
+	}, 5000);
 	
-	setTimeout(hideLevel, 1500);
-	function hideLevel () {
-    	$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
-	}
+	setTimeout(function() {
+		$levelReference.animate({opacity: '0', top: '0px'}, 1000);
+	}, 1500);
 }
 
 /**
@@ -341,7 +350,6 @@ var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
 function setSpeed(newSpeed) {
-	
 	// Set the height of the speed bar
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
@@ -410,4 +418,55 @@ function padHex(hex) {
 	}
 	
 	return hex;
+}
+
+/**
+ * LEVEL TIMER FUNCTIONS
+ */
+
+var min = 0;
+var sec = 0;
+
+var minHTML = document.getElementById('timerBoxMin');;
+var secHTML = document.getElementById('timerBoxSec');;
+
+/* Sets the timer to @value translated to minutes and seconds */
+function setLevelTimer(value) {
+	min = Math.floor(parseInt(value + 0.5) / 60);
+	sec = parseInt(value + 0.5) % 60;
+	displayTimer();
+}
+
+/* Starts the timer */
+function startLevelTimer() {
+	var levelTimer = setInterval(function() {
+		if(!Pause ) {
+			if(sec == 0 && min > 0) {
+				min--;
+				sec = 59;
+			} else if(sec == 0 && min == 0) {
+				//next level
+				clearInterval(levelTimer);
+			}
+			else {
+				sec--;
+			}
+			displayTimer();
+		}
+	}, 1000);
+}
+
+/* Updates the displayed time */
+function displayTimer() {
+	if(sec < 10) {
+		secHTML.innerHTML = '0' + sec;
+	} else {
+		secHTML.innerHTML = sec;
+	}
+
+	if(min < 10) {
+		minHTML.innerHTML = '0' + min;
+	} else {
+		minHTML.innerHTML = min;
+	}
 }
