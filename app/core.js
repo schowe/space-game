@@ -8,6 +8,7 @@ var ship;
 
 $(function() {
     fileLoader = FileLoader();
+	LoadingScreen();
     interface = Interface();
     setTimeout(function(){
         init();

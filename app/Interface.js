@@ -41,11 +41,11 @@ function showHighscore(){
 
 /* Sets the starting values. Also used for testing. */
 function interfaceInit() {
-	LoadingScreen();
 	setMaxHP(100);
 	setHP(100);
 	updateWeaponInterface();
 	displayLevel(1);
+	setLevelTimer(200);
 }
 
 /**
@@ -60,7 +60,7 @@ function LoadingScreen() {
 	loadingEllipsis();
 	loadingSplash();
 	loadingEllipsisID = setInterval(loadingEllipsis, 1000);
-	loadingSplashID = setInterval(loadingSplash, 5000);
+	loadingSplashID = setInterval(loadingSplash, 2500);
 	hideTextureLoading();
 }
 
@@ -87,9 +87,10 @@ function loadingEllipsis() {
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
 	var splashArray = [
-		'text1',
-		'text2',
-		'text3',
+		'Lasers are being painted red', //1 or 2? //RGB?
+		'Painting the lasers red',
+		'Teaching the AI', //Instructing?
+		'...'
 	];
 	
 	// Random number between 0 and splashArray.length - 1
@@ -155,7 +156,7 @@ var moneyReference = document.getElementById('money');
 
 /* Changes the amount of money by @value */
 function changeMoney(value) {   
-	currentMoney +=parseInt(value + 0.5);
+	currentMoney += parseInt(value + 0.5);
     moneyReference.innerHTML = currentMoney;
 }
 
@@ -345,10 +346,10 @@ function displayLevel(value) {
 	}, 1500);
 }
 
-/* Sets the timer to @value translated to minutes and seconds */
-function setLevelTimer(value) {
-	min = Math.floor(parseInt(value + 0.5) / 60);
-	sec = parseInt(value + 0.5) % 60;
+/* Sets the timer to @seconds translated to minutes and seconds */
+function setLevelTimer(seconds) {
+	min = Math.floor(parseInt(seconds + 0.5) / 60);
+	sec = parseInt(seconds + 0.5) % 60;
 	displayTimer();
 }
 

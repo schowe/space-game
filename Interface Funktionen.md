@@ -1,11 +1,21 @@
 # Derzeitige Interface Methoden
 
+##Anmerkung zum Ladebildschirm:
+
+	Falls euch interessante oder lustige Splash Texts einfallen die man beim Ladebildschirm zeigen könnte, 
+	sagt Bescheid oder schreibt sie direkt in den splashArray in Interface.js
+
+	
 ##Level Funtionen:
 
 Zeigt die Leveleinblendung mit @value als Level an.
 Das derzeitige Level wird nicht im Interface gespeichert.
 
 	displayLevel(value);
+	
+	setLevelTimer(seconds);
+	
+	startLevelTimer();
 
 
 ##Score Funktionen:
@@ -78,3 +88,5 @@ removeOrAdd 0 für remove und 1 für add.
 #Known Bugs:
 
 	HP Bar kann in niedrigen Werten leicht über die Kanten hinaus gehen.
+	Theoretisch kann man mit einem sehr häufigen HP Wechsel zwischen 0 und maxHP die displayedHP
+	um 1 oder mehr flippen durch die Ungenauigkeit von floats.
