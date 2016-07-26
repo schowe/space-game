@@ -50,7 +50,7 @@ function createAsteroids(){
     var  materialAst, astHitBox, hitGeometry;
     var astTexture, astOriginal;
 
-    astTexture = fileLoader.get("Asteroid V2");
+    astTexture = fileLoader.get("AsteroidV2");
 
   for( countAst = 0; countAst < 100; countAst++){
 
