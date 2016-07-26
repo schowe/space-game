@@ -179,13 +179,9 @@ function render() {
     if (!Pause) {
         handleCollision();
         renderWeapons();
-        Movement().move(delta);
+        movement.move(delta);
         updateStars();
         updateAsteroids();
-    }
-
-    if (player !== undefined) {
-        player.update();
     }
     
     camera.update();
