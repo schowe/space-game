@@ -4,7 +4,8 @@ var camera, scene, renderer, clock;
 
 var fileLoader;
 var interface;
-var ship;
+var crosshair;
+//var ship;
 var frames = 0;
 var collision;
 
@@ -14,7 +15,8 @@ var collision;
 
 
 $(function() {
-    fileLoader = FileLoader();
+    
+    fileLoader = FileLoader();    
     interface = Interface();
     collision = Collision();
     setTimeout(function(){
@@ -64,7 +66,8 @@ function init() {
     camera.setTarget('Target');
 
 
-
+    crosshair = new Crosshairs();
+    crosshair.init();
 
 
 
@@ -128,6 +131,7 @@ function init() {
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+
 
     clock = new THREE.Clock();
 
