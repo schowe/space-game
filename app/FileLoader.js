@@ -15,6 +15,11 @@ var FileLoader = function() {
         "../res/textures/Crosshair.png",
         "../res/textures/TextureHero.png",
         "../res/textures/particle.png",
+        "../res/textures/Planet.png",
+        "../res/textures/lensflare0.png",
+        "../res/textures/lensflare1.png",
+        "../res/textures/lensflare2.png",
+        "../res/textures/lensflare3.png",
 
 
         // Models
@@ -102,8 +107,11 @@ var FileLoader = function() {
             return isReady() ? loadedFiles : undefined;
         },
         get: function(name) {
-
-            return isReady() ? loadedFiles[name] : undefined;
+            var result = isReady() ? loadedFiles[name] : undefined
+            if (result == undefined) {
+                console.log("FileLoader could not find texture '"+name+"'");
+            }
+            return result;
         }
     }
 };

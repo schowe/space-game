@@ -4,6 +4,8 @@ var spaceshipGroup, sphere, planet;
 
 var rayParticleRenderer, rayStart, rayEnd;
 
+var fileLoader = FileLoader();
+
 $(function () {
 
     var container;
@@ -11,9 +13,18 @@ $(function () {
     var clock = new THREE.Clock(true);
 
     // start
-    init();
-    fadeOutLoadingOverlay();
-    animate();
+    var loadingLoop = setInterval(function() {
+        console.log("loading");
+        if (fileLoader.isReady()) {
+            console.log("done");
+            clearInterval(loadingLoop);
+            init();
+            fadeOutLoadingOverlay();
+            animate();
+
+        }
+    }, 500);
+
 
 
     function init() {
@@ -46,106 +57,81 @@ $(function () {
         dirLight.color.setHSL( 0.1, 0.7, 0.5 );
         scene.add( dirLight );
 
+        var textureLensflare0 = fileLoader.get("lensflare0");
+        var textureLensflare2 = fileLoader.get("lensflare2");
+        var textureLensflare3 = fileLoader.get("lensflare3");
 
-        var textureLoaderLensFlare = new THREE.TextureLoader();
-        textureLoaderLensFlare.load("res/textures/lensflare0.png", function (texture1) {
-            textureLoaderLensFlare.load("res/textures/lensflare2.png", function (texture2) {
-                textureLoaderLensFlare.load("res/textures/lensflare3.png", function (texture3) {
-                    var light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
-                    light.color.setHSL( 32/255, 1, 0.5 );
-                    light.position.set( 5, 5, 5 );
-                    scene.add( light );
+        var light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
+        light.color.setHSL( 32/255, 1, 0.5 );
+        light.position.set( 5, 5, 5 );
+        scene.add( light );
 
-                    var flareColor = new THREE.Color( 0xffffff );
-                    flareColor.setHSL( 0.55, 0.9, 1);
+        var flareColor = new THREE.Color( 0xffffff );
+        flareColor.setHSL( 0.55, 0.9, 1);
+        var lensFlare = new THREE.LensFlare(textureLensflare0, 700, 0.0, THREE.AdditiveBlending, flareColor );
 
-                    var lensFlare = new THREE.LensFlare(texture1, 700, 0.0, THREE.AdditiveBlending, flareColor );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
 
-                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
-                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
-                    lensFlare.add( texture2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 60, 0.6, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 0.7, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 120, 0.9, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 1.0, THREE.AdditiveBlending );
 
-                    lensFlare.add( texture3, 60, 0.6, THREE.AdditiveBlending );
-                    lensFlare.add( texture3, 70, 0.7, THREE.AdditiveBlending );
-                    lensFlare.add( texture3, 120, 0.9, THREE.AdditiveBlending );
-                    lensFlare.add( texture3, 70, 1.0, THREE.AdditiveBlending );
+        lensFlare.position.copy( light.position );
 
-                    //lensFlare.customUpdateCallback = lensFlareUpdateCallback;
-                    lensFlare.position.copy( light.position );
-
-                    scene.add( lensFlare );
-                });
-            });
-        } );
+        scene.add( lensFlare );
 
 
         // Skybox
-        var textureLoader = new THREE.TextureLoader();
-        textureLoader.setCrossOrigin('anonymous');
-        textureLoader.load('../res/textures/sky_sphere_map.jpg', function (texture) {
-            var geometry = new THREE.SphereGeometry(1000, 256, 256);
-
-            var material = new THREE.MeshBasicMaterial({
-                map: texture,
-                side: THREE.DoubleSide
-            });
-
-            sphere = new THREE.Mesh(geometry, material);
-
-            scene.add(sphere);
+        var geometrySkysphere = new THREE.SphereGeometry(1000, 256, 256);
+        var materialSkysphere = new THREE.MeshBasicMaterial({
+            map: fileLoader.get("sky_sphere_map"),
+            side: THREE.DoubleSide
         });
+        sphere = new THREE.Mesh(geometrySkysphere, materialSkysphere);
+        scene.add(sphere);
 
         // Planet
-        var textureLoader2 = new THREE.TextureLoader();
-        textureLoader2.setCrossOrigin("anonymous");
-        textureLoader2.load("../res/textures/Planet.png", function (texture) {
-            var geometry = new THREE.SphereGeometry(100, 128, 128);
-            var material = new THREE.MeshPhongMaterial({
-                map: texture,
-                side: THREE.DoubleSide
-            });
-            planet = new THREE.Mesh(geometry, material);
-            planet.position.set(-500, -500, 300);
-            planet.rotateZ(0.5);
-            planet.castShadow = true;
-            scene.add(planet);
+        var geometryPlanet = new THREE.SphereGeometry(100, 128, 128);
+        var materialPlanet = new THREE.MeshPhongMaterial({
+            map: fileLoader.get("Planet"),
+            side: THREE.DoubleSide
         });
+        planet = new THREE.Mesh(geometryPlanet, materialPlanet);
+        planet.position.set(-500, -500, 300);
+        planet.rotateZ(0.5);
+        planet.castShadow = true;
+        scene.add(planet);
 
-        // Spaceship
-        var loader = new THREE.JSONLoader();
-        loader.load("res/meshes/HeroShipV5.json", function (geometry) {
-            var textureLoader = new THREE.TextureLoader();
-            textureLoader.load("res/textures/TextureHero.png", function (texture) {
-                var spaceship = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({map:texture}));
-                spaceship.position.set(0, 0, 0);
-                spaceship.rotateY(-1.571);
-                // spaceship.visible = false;
+        // Spaceship Group (= space ship + particle ray)
+        var modelShip = fileLoader.get("HeroShipV5");
+        var textureShip = fileLoader.get("TextureHero");
+        var spaceship = new THREE.Mesh(modelShip, new THREE.MeshPhongMaterial({map:textureShip}));
+        spaceship.position.set(0, 0, 0);
+        spaceship.rotateY(-1.571);
 
-                var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-                var material =  new THREE.MeshBasicMaterial();
+        var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+        var materialBasic =  new THREE.MeshBasicMaterial();
 
-                rayStart = new THREE.Mesh(sphereGeometry, material);
-                rayStart.translateX(-5);
-                rayStart.visible = false;
+        rayStart = new THREE.Mesh(sphereGeometry, materialBasic);
+        rayStart.translateX(-5);
+        rayStart.visible = false;
 
-                rayEnd = new THREE.Mesh(sphereGeometry, material);
-                rayEnd.translateX(-8);
-                rayEnd.visible = false;
+        rayEnd = new THREE.Mesh(sphereGeometry, materialBasic);
+        rayEnd.translateX(-8);
+        rayEnd.visible = false;
 
-                spaceshipGroup = new THREE.Group();
-                spaceshipGroup.add(spaceship);
-                spaceshipGroup.add(rayStart);
-                spaceshipGroup.add(rayEnd);
-                scene.add(spaceshipGroup);
+        spaceshipGroup = new THREE.Group();
+        spaceshipGroup.add(spaceship);
+        spaceshipGroup.add(rayStart);
+        spaceshipGroup.add(rayEnd);
+        scene.add(spaceshipGroup);
 
-                textureLoader.load("res/textures/particle.png", function(texture){
-                    rayParticleRenderer = new RayParticleRenderer(
-                        0x2255ff,1000, texture, rayStart.position, rayEnd.position
-                    );
-                });
-            });
-        });
-
+        rayParticleRenderer = new RayParticleRenderer(
+            0x2255ff,1000, fileLoader.get("particle"), rayStart.position, rayEnd.position
+        );
 
 
         // Event-Listener für Resize
@@ -227,8 +213,7 @@ $(function () {
                 spaceshipGroup.position.y+rayEnd.position.y,
                 spaceshipGroup.position.z+rayEnd.position.z
             );
-            
-            rayParticleRenderer = 
+
             
             rayParticleRenderer.updateStartAndEndpoint(newStart, newEnd);
             rayParticleRenderer.update();
