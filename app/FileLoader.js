@@ -1,3 +1,7 @@
+//Audio-Variables
+var laserAudio;
+
+
 var FileLoader = function() {
     console.log("FileLoader running ...");
 
@@ -9,6 +13,7 @@ var FileLoader = function() {
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
+        "../res/textures/TextureHero.png",
 
 
         // Models
@@ -22,7 +27,7 @@ var FileLoader = function() {
         "../res/meshes/AsteroidPart3.json",
         "../res/meshes/AsteroidComplete.json",
         "../res/meshes/RocketV1.json",
-        "../res/meshes/Asteroid V2.json"
+        "../res/meshes/AsteroidV2.json"
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
@@ -73,6 +78,13 @@ var FileLoader = function() {
                 console.log("Error: unknown file format: "+file);
         }
     }
+
+
+    //initialize Audio-files
+    laserAudio = document.createElement('audio');
+    var laserAudioSource = document.createElement('source');
+    laserAudioSource.src = '../res/sounds/gun.wav';
+    laserAudio.appendChild(laserAudioSource);
 
     console.log("FileLoader done.");
     

@@ -7,20 +7,29 @@
 
     <link rel="stylesheet" href="../res/css/game.css" />
     <link rel="stylesheet" href="../res/css/gui.css" />
-	
+
 </head>
 <body scroll="no">
+
+
+	
+	<div id="loadingTexturesOverlay">
+        <div id="loadingTexturesHeader">Placeholder</div>
+		<div id="loadingTexturesSplash"></div>
+    </div>
+
 
     <div id="menu-overlay" hidden>
         <div id="menu-box">
             <div id="menuArea">
         		<div id="menuBoxes">
 
-            		<button type="Button" id="shopButton" class="menuText" onClick="showShop()"> Shop </button>
-            		<button type="Button" id="highscoreButton" class="menuText" onClick="showHighscore()"> Highscore </button>
-            		<div id="pauseBox" class="menuText" onClick="showShop()"> Milestones </div>
-                    <div id="pauseBox" class="menuText" onClick="showHighscore()"> Options </div>
-                    <div id="pauseBox" class="menuText"> Let's a go! </div>
+            		
+            		<div id="pauseBox" class="menuText shopBox" onClick="showShop()"> Shop </div>
+		<div id="pauseBox" class="menuText highscoreBox" onClick="showHighscore()"> Highscore </div>
+		<div id="pauseBox" class="menuText milestoneBox" onClick="showMilestones()"> Milestones </div>
+                <div id="pauseBox" class="menuText optionsBox" onClick="showOptions()"> Options </div>
+                <div id="pauseBox" class="menuText returnBox"> Let's a go! </div>
 
         	   </div>
 		
@@ -96,19 +105,40 @@
                 </div>
 
 
-                <div id="test41234" hidden>
-                    <table id="testsdasd">
-                        <tr>
-                            <td>Adasdasd</td>
-                            <td>Bdasdasd</td>
-                            <td>Casdasda</td>
-                        </tr>
-                        <tr>
-                            <td>Dsdasda</td>
-                            <td>Esdasdasd</td>
-                            <td>Fasdasda</td>
-                        </tr>
-                    </table>
+                <div id="highscore" hidden>
+                    
+                    <!-- HIGHSCORE -->
+	
+	<div id="headingHighscore"> Highscore </div>
+
+            <table id="menu-highscore-table" >
+                <thead>
+                    <tr>
+                        <th class="menu-highscore-table-nr">#</th>
+                        <th>Player</th>
+                        <th class="menu-highscore-table-points">Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+	
+                    <!-- Testdaten -->
+
+                    <tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">3</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">4</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">5</th><th class="menu-highscore-table-player">ein Mensch</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">6</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">7</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">8</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">9</th><th class="menu-highscore-table-player">niemand</th><th class="menu-highscore-table-points">100</th></tr>
+                    <tr><th class="menu-highscore-table-nr">10</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+
+
+                </tbody>
+            </table>
+<!-- Ende HIGHSCORE -->
+                    
                 </div>
 
             </div>
@@ -131,8 +161,7 @@
         <div id="maxAmmo">999</div>
     </div>
 
-    <section id="bg1">
-            
+    <div id="bg1">
         <div id="hpBox">
             <div id="hpBoxValue"></div>
             <div id="hpTextBox">
@@ -141,25 +170,26 @@
                 <div id="maxHP">0</div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="bg2">
+    <div id="bg2">
         <div id="speedBox">
             <div id="speedValue">0</div>
         </div>
+		
             <!-- PLATZHALTER ICONS -->
 		<div id="powerUps"> 
-			<div id="icons">
+			<div id="powerUpIcons">
 				<img src="../res/img/powerUp.png" id="one" /> 
 				<img src="../res/img/powerUp.png" id="two" /> 
 				<img src="../res/img/powerUp.png" id="three" class="inactive" /> 
 				<img src="../res/img/powerUp.png" id="four" /> 
 			</div>
 		</div>    
-    </section>
+    </div>
 
     <div id="timerBox"> 
-        <div id ="timerBoxText">Next wave in : </div>
+        <div id ="timerBoxText">Next wave in:</div>
         <div id ="timerBoxMin">0</div>
         <div id ="timerBoxDiv">:</div>
         <div id ="timerBoxSec">0</div>
@@ -169,11 +199,10 @@
         <div id="speedBarValue"> </div>
     </div>
 
-    <div id="levelDisplay"> 
+    <div id="levelDisplay">
         <div id="levelText">Level</div>
         <div id="currentLevel">0</div>
     </div>
-
 
     <div id="block">
         <div id="splash">
@@ -196,22 +225,30 @@
             <button type="Button" id="gameOverButton" value="back to menu" >back to menu</button>
         </a>
     </div>
-
+	
 
 
     <!-- Libraries -->
     <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
     <script src="../res/js/lib/threejs/three.js"></script>
     <script src="../res/js/lib/TargetCamera.js"></script>
+    <script src="../res/js/lib/stats.min.js"></script>
 
 
-    <!-- custom -->
+
+   <!-- custom -->
     <script src="FileLoader.js"></script>
+    <script src="RayParticleRenderer.js"></script>
+    <script src="ExplosionParticleRenderer.js"></script>
+    <script src="Camera.js"></script>
     <script src="Interface.js"></script>
     <script src="Player.js"></script>
     <script src="World.js"></script>
     <script src="Movement.js"></script>
+    <script src="CollisionHandling.js"></script>
     <script src="core.js"></script>
+    <script src="Collision.js"></script>
+    <script src="CollisionHandling.js"></script>
     <script src="Weapon.js"></script>
 
 
