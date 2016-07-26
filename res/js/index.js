@@ -57,18 +57,18 @@ $(function () {
         dirLight.color.setHSL( 0.1, 0.7, 0.5 );
         scene.add( dirLight );
 
-        var textureLensflare0 = fileLoader.get("lensflare0");
+        var textureLensflare1 = fileLoader.get("lensflare1");
         var textureLensflare2 = fileLoader.get("lensflare2");
         var textureLensflare3 = fileLoader.get("lensflare3");
 
-        var light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
-        light.color.setHSL( 32/255, 1, 0.5 );
-        light.position.set( 5, 5, 5 );
-        scene.add( light );
+        var pointLight = new THREE.PointLight( 0xffffff, 1.5, 2000 );
+        pointLight.color.setHSL( 32/255, 1, 0.5 );
+        pointLight.position.set( 5, 5, 5 );
+        scene.add( pointLight );
 
         var flareColor = new THREE.Color( 0xffffff );
         flareColor.setHSL( 0.55, 0.9, 1);
-        var lensFlare = new THREE.LensFlare(textureLensflare0, 700, 0.0, THREE.AdditiveBlending, flareColor );
+        var lensFlare = new THREE.LensFlare(textureLensflare1, 700, 0.0, THREE.AdditiveBlending, flareColor );
 
         lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
         lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
@@ -79,7 +79,7 @@ $(function () {
         lensFlare.add( textureLensflare3, 120, 0.9, THREE.AdditiveBlending );
         lensFlare.add( textureLensflare3, 70, 1.0, THREE.AdditiveBlending );
 
-        lensFlare.position.copy( light.position );
+        lensFlare.position.copy( pointLight.position );
 
         scene.add( lensFlare );
 

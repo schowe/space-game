@@ -1,11 +1,7 @@
 function RayParticleRenderer(particleColor, nParticles, particleTexture, startVector, endVector, randomness) {
     
     if (randomness == undefined) randomness = 1;
-    
-    // TODO: Partikel anzahl begrenzen! sonst aua für den computer
-    // TODO: camera position verwenden als endVector ?
 
-    this.rayRadius = 1; // TODO: evtl konfigurierbar machen?
     this.startVector = startVector;
     this.endVector = endVector;
     this.particleCount = nParticles;
@@ -88,7 +84,7 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
             distanceFromEndVector.y *= scaling;
             distanceFromEndVector.z *= scaling;
 
-            if (distance < this.rayRadius) {
+            if (distance < 1) {
 
                 // Particle hat den Endpunkt erreicht => zurücksetzen!
                 particle = new THREE.Vector3(
