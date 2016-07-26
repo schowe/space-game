@@ -1,3 +1,4 @@
+var p1,p2,p3,p4,ploop;
 function Camera(){
     
     return {
@@ -43,10 +44,15 @@ function Camera(){
             if(Pause){
                 crosses[pos].visible = false;
                 orbit();
-                setTimeout(function(){
-                    Camera().doOrbit();
-                },20000);
+                ploop = setTimeout(function(){
+                        Camera().doOrbit();
+                    },20000);
             }else{
+                clearTimeout(ploop);
+                clearTimeout(p1);
+                clearTimeout(p2);
+                clearTimeout(p3);
+                clearTimeout(p4);
                 crosses[pos].visible = true;
                 camera.setTarget('Target');
             }
@@ -54,25 +60,31 @@ function Camera(){
         
         endOrbit:function(){
             crosses[pos].visible = true;
+            clearTimeout(ploop);
+            clearTimeout(p1);
+            clearTimeout(p2);
+            clearTimeout(p3);
+            clearTimeout(p4);
             camera.setTarget('Target');
         }
     }
     
 }
 
+
 function orbit(){
 
     pos1();
-   setTimeout(function(){
+   p2 = setTimeout(function(){
         pos2();
     },5000);
-    setTimeout(function(){
+   p3 = setTimeout(function(){
         pos3();
     },10000);
-    setTimeout(function(){
+   p4 = setTimeout(function(){
         pos4();
     },15000);
-    setTimeout(function(){
+   p1 = setTimeout(function(){
         pos1();
     },20000);
 
