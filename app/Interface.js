@@ -31,6 +31,7 @@ function Interface() {
 function interfaceInit() {
 	setMaxHP(100);
 	setHP(100);
+	setMoney(20333300);
 	updateWeaponInterface();
 	displayLevel(1);
 	setLevelTimer(200);
@@ -71,6 +72,7 @@ function loadingEllipsis() {
 			break;
 	}
 }
+
 
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
@@ -121,7 +123,7 @@ function stopScoreCounter() {
 
 /* Changes the score by @value */
 function changeScore(value) {   
-	currentScore += parseInt(value + 0.5);
+	currentScore += parseInt(value);
     scoreReference.innerHTML = currentScore;
 }
 
@@ -143,19 +145,19 @@ function getScore() {
 var currentMoney = 0;
 var moneyReference = document.getElementById('money'); 
 
-/* Changes the amount of money by @value */
+/* Changes the amount of currentMoney by @value */
 function changeMoney(value) {   
-	currentMoney += parseInt(value + 0.5);
-    moneyReference.innerHTML = currentMoney;
+	currentMoney +=parseInt(value);
+    moneyReference.innerHTML = currentMoney
 }
 
-/* Sets the current amount of money to @value */
+/* Sets the current amount of currentMoney to @value */
 function setMoney(value) {
 	currentMoney = parseInt(value + 0.5);
     moneyReference.innerHTML = currentMoney;
 }
 
-/* Returns the current amount of money */
+/* Returns the current amount of currentMoney */
 function getMoney() {
 	return parseInt(currentMoney);
 }
@@ -246,9 +248,11 @@ function changeHP(value) {
 
 /* Sets HP to @value */
 function setHP(value) {
-	currentHP = value;
-	displayedHP = value;
-	updateHPDisplay();
+	if(value<=maxHP){
+		currentHP = value;
+		displayedHP = value;
+		updateHPDisplay();
+	}
 }
 
 /* Returns HP */
@@ -465,6 +469,18 @@ function closeMenu() {
     movement.lockPointer();
 }
 
+var costUpgrade1Faktor = 1.2;
+var costUpgrade1 = 1000; //+ 25 maxHP
+
+var costUpgrade2Faktor = 1.2;
+var costUpgrade2 = 5000; //+ 1 maxSpeed
+
+var firstBuyUpgrade3 = true;
+var amountUpgrade3 = 1;
+var costUpgrade3Faktor = 1.2;
+var costUpgrade3 = 40000; //+ 1 maxSpeed
+var upgrade3Time = 5000;
+
 function showShop(){
 	$menuOptions.hide();
 	$menuMilestones.hide();
@@ -472,9 +488,89 @@ function showShop(){
 	$menuShop.show();
 	resetColors();
 	$(".shopBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
-        $(".shopBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
+    $(".shopBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
 	$(".shopBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
-	
+	checkBuyable();
+}
+
+function checkBuyable(){
+	//setzen der Preise
+	var cost1 = document.getElementById('costUpgrade1');
+	cost1.innerHTML = parseInt(costUpgrade1);
+
+	var cost2 = document.getElementById('costUpgrade2');
+	cost2.innerHTML = parseInt(costUpgrade2);
+
+	var cost3 = document.getElementById('costUpgrade3');
+	cost3.innerHTML = parseInt(costUpgrade3);
+
+	//Opacity setzen (Display ob kaufbar oder nicht)
+	var shopTr1 = document.getElementById('shopItem1');
+	var shopTr2 = document.getElementById('shopItem2');
+	var shopTr3 = document.getElementById('shopItem3');
+
+	if(currentMoney<costUpgrade1){
+		shopTr1.style.opacity = '0.5';
+	}else{
+		shopTr1.style.opacity="1";
+	}
+
+	if(currentMoney<costUpgrade2){
+		shopTr2.style.opacity = '0.5';
+	}else{
+		shopTr2.style.opacity="1";
+	}    
+
+	if(currentMoney<costUpgrade3){
+		shopTr3.style.opacity = '0.5';
+	}else{
+		shopTr3.style.opacity="1";
+	} 
+
+}
+var addHPID;
+
+function buyUpgrade(value){
+	switch(value){
+		case 1: //max hp +25
+			var cost = costUpgrade1;
+			if(abrechnung(cost)){
+				setMaxHP(getMaxHP()+25);
+				costUpgrade1 = parseInt(costUpgrade1*costUpgrade1Faktor);
+			}
+			break;
+		case 2:
+			var cost = costUpgrade2;
+			if(abrechnung(cost)){
+				maxVel++;
+				setMaxSpeed(maxVel);
+				costUpgrade2 = parseInt(costUpgrade2*costUpgrade2Faktor);
+			}
+			break;
+		case 3:
+			var cost = costUpgrade3;
+			if(abrechnung(cost)){
+				clearInterval(addHPID);
+				addHPID = setInterval(function() {
+					if(!Pause){
+						setHP(getHP()+1);
+					}	
+				}, 5000 / amountUpgrade3++);
+			}
+			break;
+		default:
+			break;
+	}
+	checkBuyable();
+}
+
+function abrechnung(value){
+	if(currentMoney>=value){
+		changeMoney(-value);
+		return true;
+	}else{
+		return false;
+	}
 }
 
 function showOptions(){
