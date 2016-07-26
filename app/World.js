@@ -5,7 +5,7 @@ var stars = [];
 var asteroids = [];
 var asteroidSpeedVecs = [];
 var asteroidRotVecs = [];
-var asteroidHitBoxes =[];
+var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
 var biggerSphereRadius = 5000;
 
@@ -46,17 +46,95 @@ function createStars(){
 
 function createAsteroids(){
 
- var rndSpeedX, rndSpeedY, rndSpeedZ, rotSpeed, rndScale;
- var  materialAst, astHitBox, hitGeometry;
- var astTexture, astOriginal;
+    var rndSpeedX, rndSpeedY, rndSpeedZ, rotSpeed, rndScale;
+    var  materialAst, astHitBox, hitGeometry;
+    var astTexture, astOriginal;
 
-  astTexture = fileLoader.get("Asteroid V2");
+    astTexture = fileLoader.get("Asteroid V2");
 
-  for( countAst =0; countAst < 10; countAst++){
+    // var vecSpeed = new THREE.Vector3 (0 ,-1, 1);
+    // var vecRot = new THREE.Vector3 (0, 0, 0);
+    // asteroidSpeedVecs.push(vecSpeed);
+    // asteroidRotVecs.push(vecRot);
+    // astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+    // astOriginal.position.x = -400;
+    // astOriginal.position.y = 200;
+    // astOriginal.position.z = -200;
+    // astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = 10;
+    // hitGeometry =  new THREE.SphereGeometry(66.18, 32, 32);
 
-     rndSpeedX = Math.random(); //* 20 - 18;
-     rndSpeedY = Math.random(); //* 20 - 18;
-     rndSpeedZ = Math.random(); //* 20 - 18;
+    // var colSphereMaterial = new THREE.MeshBasicMaterial({
+    //                 transparent: true,
+    //                 opacity: 0.5,
+    //                  color: 0xffffff
+    //             });
+    //             astHitBox = new THREE.Mesh(hitGeometry, colSphereMaterial);
+    //             astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
+    //             astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = 1;
+    //           //astHitBox.geometry.applyMatrix(astOriginal.matrix);
+    //  asteroids.push(astOriginal);
+    //  asteroidHitBoxes.push(astHitBox);
+    //  scene.add(astOriginal);
+    //  scene.add(astHitBox);
+
+
+    // var vecSpeed2 = new THREE.Vector3 (0 ,-1, -1);
+    // var vecRot2 = new THREE.Vector3 (0, 0, 0);
+    // asteroidSpeedVecs.push(vecSpeed2);
+    // asteroidRotVecs.push(vecRot2);
+    // astOriginal2 = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+    // astOriginal2.position.x = -400;
+    // astOriginal2.position.y = 200;
+    // astOriginal2.position.z = 200;
+    // astOriginal2.scale.x = astOriginal2.scale.y = astOriginal2.scale.z = 10;
+    // hitGeometry =  new THREE.SphereGeometry(66.18, 32, 32);
+
+    // var colSphereMaterial2 = new THREE.MeshBasicMaterial({
+    //                 transparent: true,
+    //                 opacity: 0.5,
+    //                  color: 0xffffff
+    //             });
+    //             astHitBox2 = new THREE.Mesh(hitGeometry, colSphereMaterial2);
+    //             astHitBox2.position.set(astOriginal2.position.x,astOriginal2.position.y,astOriginal2.position.z);
+    //             astHitBox2.scale.x = astHitBox2.scale.y = astHitBox2.scale.z = 1;
+    //           //astHitBox.geometry.applyMatrix(astOriginal.matrix);
+    //  asteroids.push(astOriginal2);
+    //  asteroidHitBoxes.push(astHitBox2);
+    //  scene.add(astOriginal2);
+    //  scene.add(astHitBox2);
+
+
+    // var vecSpeed3 = new THREE.Vector3 (0 ,0, -3);
+    // var vecRot3 = new THREE.Vector3 (0, 0, 0);
+    // asteroidSpeedVecs.push(vecSpeed3);
+    // asteroidRotVecs.push(vecRot3);
+    // astOriginal3 = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+    // astOriginal3.position.x = -400;
+    // astOriginal3.position.y = 0;
+    // astOriginal3.position.z = 400;
+    // astOriginal3.scale.x = astOriginal3.scale.y = astOriginal3.scale.z = 10;
+    // hitGeometry =  new THREE.SphereGeometry(66.18, 32, 32);
+
+    // var colSphereMaterial3 = new THREE.MeshBasicMaterial({
+    //                 transparent: true,
+    //                 opacity: 0.5,
+    //                  color: 0xffffff
+    //             });
+    //             astHitBox3 = new THREE.Mesh(hitGeometry, colSphereMaterial3);
+    //             astHitBox3.position.set(astOriginal3.position.x,astOriginal3.position.y,astOriginal3.position.z);
+    //             astHitBox3.scale.x = astHitBox3.scale.y = astHitBox3.scale.z = 1;
+    //           //astHitBox.geometry.applyMatrix(astOriginal.matrix);
+    //  asteroids.push(astOriginal3);
+    //  asteroidHitBoxes.push(astHitBox3);
+    //  scene.add(astOriginal3);
+    //  scene.add(astHitBox3);
+
+
+  for( countAst = 0; countAst < 100; countAst++){
+
+     rndSpeedX = Math.random()* 20 - 14;
+     rndSpeedY = Math.random()* 20 - 14;
+     rndSpeedZ = Math.random()* 20 - 14;
      rotSpeed = Math.random () * 0.05 - 0.01;
      rndScale = Math.random() * 70 - 40;
 
@@ -91,7 +169,6 @@ function createAsteroids(){
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
-     scene.add(astHitBox);
   }
 
 
@@ -147,17 +224,57 @@ function updateAsteroids(){
 
 
 //Function to trigger if asteroids collide
-function collideAsteroids(ast1, ast2){
+function asteroidCollision(ast1Index, ast2Index){
 
+    console.log("asteroidCollision");
 
-    ast1.position.x = getMeshDirection(ast1).x* -1;
-    ast1.position.y = getMeshDirection(ast1).y* -1;
-    ast1.position.z = getMeshDirection(ast1).z* -1;
+    var ast1 = asteroids[ast1Index];
+    var ast2 = asteroids[ast2Index];
+    var ast1Dir = asteroidSpeedVecs[ast1Index];
+    var ast2Dir = asteroidSpeedVecs[ast2Index];
 
-    ast2.position.x = getMeshDirection(ast2).x* -1;
-    ast2.position.y = getMeshDirection(ast2).y* -1;
-    ast2.position.z = getMeshDirection(ast2).z* -1;
+    var axis = ast2.position.clone();
+    axis.sub(ast1.position);
 
+    var negAxis = ast1.position.clone();
+    negAxis.sub(ast2.position);
+
+    axis.normalize();
+    negAxis.normalize();
+
+    ast1Dir = ast1Dir.sub(axis.multiplyScalar(2*ast1Dir.dot(axis)));
+    ast2Dir = ast2Dir.sub(negAxis.multiplyScalar(2*ast2Dir.dot(negAxis)));
+
+    asteroidSpeedVecs[ast1Index] = ast1Dir;
+    asteroidSpeedVecs[ast2Index] = ast2Dir;
+
+    asteroidHitBoxes[ast1Index].material = new THREE.MeshBasicMaterial({color:0XFF0000});
+    asteroidHitBoxes[ast2Index].material = new THREE.MeshBasicMaterial({color:0XFF0000});
+
+}
+
+function reflect(thisAst, otherAst) {
+    // Reflektiert Asteroiden this und other
+    var factor;
+
+    // "Normale" der Reflektion (zeigt von this nach other -> "Normale fuer this")
+    var axis = MATH.clone(otherAst.position);
+    axis.sub(thisAst.position);
+    axis.normalize();
+
+    var negAxis = MATH.negated(axis);
+
+    // Reflektion fuer Asteroid a
+    var axisA = MATH.clone(axis);
+    factor = 2 * Math.dot(axisA,thisAst.direction);
+    thisAst.direction.negate();
+    thisAst.direction.add(axis.multiplyScalar(factor));
+
+    // Reflektion fuer Asteroid b
+    var axisB = MATH.clone(negAxis);
+    factor = 2 * Math.dot(axisB,other.direction);
+    other.direction.negate();
+    other.direction.add(negAxis.multiplyScalar(factor));
 }
 
 

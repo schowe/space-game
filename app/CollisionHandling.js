@@ -1,23 +1,25 @@
 function handleAsteroids() {
 
+    console.log("handleAsteroids");
 
-    // for (var i = 0; i <= asteroids.length - 2; i++) {
+
+    for (var i = 0; i <= asteroids.length - 2; i++) {
 
         // Asteroidenkollision
-        // for (var j = i+1; j <= asteroidHitBoxes.length - 1; j++) {
-        //     if (Collision.intersectSphereOther(asteroidHitBoxes[i],
-        //             asteroidHitBoxes[j])) {
-        //         asteroidCollision(asteroids[i], asteroids[j]);
-        //     }
-        // }
+        for (var j = i+1; j <= asteroids.length - 1; j++) {
+            if (collision.intersectSphereOther(asteroidHitBoxes[i],
+                    asteroidHitBoxes[j])) {
+                asteroidCollision(i, j);
+            }
+        }
 
         // // Kollision mit Player
         // var playerHitboxes = getPlayerHitboxes();
         // for (var j = 0; j <= playerHitboxes.length; j++) {
-        //     if (Collision.intersectSphereBox(getAsteroidHitbox(asteroids[i]),
+        //     if (collision.intersectSphereBox(asteroidHitBoxes[i],
         //             playerHitboxes[j])) {
-        //         asteroidHitBySpaceship(asteroids[i]);
-        //         playerHitByAsteroid(asteroids[i]);
+        //         asteroidHitBySpaceship(i);
+        //         playerHitByAsteroid();
         //     }
         // }
 
@@ -26,14 +28,15 @@ function handleAsteroids() {
         // for (var j = 0; j < enemies.length - 1; j++) {
         //     var enemyHitboxes = getEnemyHitboxes(enemies[j]);
         //     for (var k = 0; i <= enemyHitboxes.length - 1; k++) {
-        //         if (intersectSphereBox(asteroids[i], enemyHitboxes[k])) {
+        //         if (collision.intersectSphereBox(asteroids[i], enemyHitboxes[k])) {
         //             asteroidHitBySpaceship(asteroids[i]);
         //             enemyHitbyAsteroid(enemies[j]);
         //         }
         //     }
         // }
 
-    // }
+    }
+
 }
 
 
@@ -187,7 +190,7 @@ function handleEnemyEnemyCollision() {
 
 function handleCollision() {
 
-    //handleAsteroids();
+    handleAsteroids();
     handleProjectiles();
     //handlePlayerEnemyCollision();
     //handleEnemyEnemyCollision();
