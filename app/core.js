@@ -6,6 +6,7 @@ var fileLoader;
 var interface;
 var ship;
 var player;
+var movement;
 var frames = 0;
 var collision;
 //var projectileList = [];
@@ -89,7 +90,7 @@ function init() {
 
     createAsteroids();
 
-    var movement = Movement();
+    movement = Movement();
     movement.init();    
     interfaceInit();
 
