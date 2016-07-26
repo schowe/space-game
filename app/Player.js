@@ -35,7 +35,7 @@ function Player() {
             cross.scale.set(3.0, 3.0, 1.0);
             ship.add(cross);
         },
-        update: function () {
+        updateParticleValues: function () {
             var pos = ship.position;
 
             //Default Front-Facing

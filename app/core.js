@@ -185,6 +185,7 @@ function render() {
         updateAsteroids();
     }
     
+    player.updateParticleValues();
     camera.update();
 
     renderer.render(scene, camera);
