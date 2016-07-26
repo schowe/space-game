@@ -27,11 +27,42 @@ var Interface = function() {
     }
 };
 
+var costUpgrade1 = 1000;
+var buyable1 = false;
+
+var costUpgrade2 = 5000;
+var buyable2 = false;
+
 var $menuShop = $("#shop");
 function showShop(){
 	$istEgal.hide();
 	$menuShop.show();
+
+	var cost1 = document.getElementById('costUpgrade1');
+	cost1.innerHTML = parseInt(costUpgrade1);
+
+	var cost2 = document.getElementById('costUpgrade2');
+	cost2.innerHTML = parseInt(costUpgrade2);
+
+	var shopTr1 = document.getElementById('shopItem1');
+	var shopTr2 = document.getElementById('shopItem2');
+
+	if(currentMoney<costUpgrade1){
+
+
+		shopTr1.style.opacity = '0.5';
+	}else{
+		shopTr1.style.opacity="1";
+	}
+
+	if(currentMoney<costUpgrade2){
+
+		shopTr2.style.opacity = '0.5';
+	}else{
+		shopTr2.style.opacity="1";
+	}
 }
+
 
 var $istEgal = $("#test41234");
 function showHighscore(){
@@ -45,7 +76,7 @@ function interfaceInit(){
 	setMaxHP(100);
 	setHP(100);
 
-
+	setMoney(2000);
 	//setLevelTimer(61);
 	//startLevelTimer();
 	//displayLevel(1);
@@ -90,24 +121,24 @@ function getScore() {
  * FUNCTIONS FOR MONEY	
  */
 
-var money = 0;
+var currentMoney = 0;
 var moneyReference = document.getElementById('money'); 
 
-/* Changes the amount of money by @value */
+/* Changes the amount of currentMoney by @value */
 function changeMoney(value) {   
-	money +=parseInt(value + 0.5);
-    moneyReference.innerHTML = money
+	currentMoney +=parseInt(value + 0.5);
+    moneyReference.innerHTML = currentMoney
 }
 
-/* Sets the current amount of money to @value */
+/* Sets the current amount of currentMoney to @value */
 function setMoney(value) {
-	money = parseInt(value + 0.5);
-    moneyReference.innerHTML = money;
+	currentMoney = parseInt(value + 0.5);
+    moneyReference.innerHTML = currentMoney;
 }
 
-/* Returns the current amount of money */
+/* Returns the current amount of currentMoney */
 function getMoney() {
-	return parseInt(money);
+	return parseInt(currentMoney);
 }
 
 /**
