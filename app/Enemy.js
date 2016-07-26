@@ -59,6 +59,8 @@ function Enemy(location, speed, level, typ) {
     this.isAlive    = true;
     this.shootAble  = false;
     this.onBezier   = false;
+    // Initialen Ausrichtungsvektor
+    this.lookAt     = playerPosition;
 }
 
 Enemy.prototype.constructor = Asteroid;
@@ -523,7 +525,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     this.position.add(direction.multiplyScalar(delta * this.speed);
 
     // 7. Schritt: rotieren mit lookAt
-    // TODO:
+    var viewDir = MATH.clone(this.position);
+    this.lookAt(viewDir.add(direction.multiplyScalar(this.speed)));
 }
 
 // @return optimale Richtung nach Bezierflugbahn
