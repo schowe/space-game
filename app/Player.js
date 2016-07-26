@@ -6,7 +6,6 @@ directionVector = new THREE.Vector3(0, 0, 0);
 
 function Player() {
 
-
     var startVector = new THREE.Vector3(0, 0, 0);
     var endVector = new THREE.Vector3(0, 0, 0);
     var particleRay = new RayParticleRenderer(
@@ -34,6 +33,14 @@ function Player() {
             cross.position.set(0, 0, -20);
             cross.scale.set(3.0, 3.0, 1.0);
             ship.add(cross);
+
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(20,20,100);
+            var hitBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+            var hitBoxCenter = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+
+            ship.add(hitBoxCenter);
+            scen.add(hitBoxCenter);
+
         },
         updateParticleValues: function () {
             var pos = ship.position;
@@ -62,11 +69,3 @@ function Player() {
     }
 
 };
-
-
-
-
-
-
-
-
