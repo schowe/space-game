@@ -1,20 +1,18 @@
-function RayParticleRenderer(particleColor, nParticles, particleTexture, startVector, endVector) {
+function RayParticleRenderer(particleColor, nParticles, particleTexture, startVector, endVector, randomness) {
+    
+    if (randomness == undefined) randomness = 1;
 
-    // TODO: Partikel anzahl begrenzen! sonst aua für den computer
-    // TODO: camera position verwenden als endVector ?
-
-    this.rayRadius = 1; // TODO: evtl konfigurierbar machen?
     this.startVector = startVector;
     this.endVector = endVector;
     this.particleCount = nParticles;
     this.particles = new THREE.Geometry();
     
     // Material erstellen
-    this.material = new THREE.PointCloudMaterial(
+    this.material = new THREE.PointsMaterial(
         {
             color: particleColor,
             size: 1,
-            map: THREE.ImageUtils.loadTexture(particleTexture), // TODO: Fileloader benutzen
+            map: particleTexture,
             blending: THREE.AdditiveBlending,
             transparent: true
         }    
@@ -30,9 +28,9 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
     // Particles initial erstellen (am Startvektor) mit Velocity (zum Endvektor)
     for (var p = 0; p < this.particleCount; p++) {
         var particle = new THREE.Vector3(
-            this.startVector.x+(Math.random()-0.5),
-            this.startVector.y+(Math.random()-0.5),
-            this.startVector.z+(Math.random()-0.5)
+            this.startVector.x+(Math.random()-0.5)*0.1,
+            this.startVector.y+(Math.random()-0.5)*0.1,
+            this.startVector.z+(Math.random()-0.5)*0.1
         );
 
         particle.x += this.directionVector.x * Math.random() * 0.001;
@@ -46,7 +44,7 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
         );
         this.particles.vertices.push(particle);
     }
-    this.particleSystem = new THREE.PointCloud(this.particles, this.material);
+    this.particleSystem = new THREE.Points(this.particles, this.material);
     
     // zur Szene hinzufügen
     scene.add(this.particleSystem);
@@ -57,7 +55,11 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
         this.startVector = startVector;
         this.endVector = endVector;
     };
-    
+
+    this.reset = function() {
+        scene.remove(this.particleSystem);
+    };
+
     this.update = function() {
         var pCount = this.particleCount;
         while (pCount--) {
@@ -82,13 +84,13 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
             distanceFromEndVector.y *= scaling;
             distanceFromEndVector.z *= scaling;
 
-            if (distance < this.rayRadius) {
+            if (distance < 1) {
 
                 // Particle hat den Endpunkt erreicht => zurücksetzen!
                 particle = new THREE.Vector3(
-                    this.startVector.x+(Math.random()-0.5)*0.1,
-                    this.startVector.y+(Math.random()-0.5)*0.1,
-                    this.startVector.z+(Math.random()-0.5)*0.1
+                    this.startVector.x+(Math.random()-0.5)*0.1*randomness*randomness,
+                    this.startVector.y+(Math.random()-0.5)*0.1*randomness*randomness,
+                    this.startVector.z+(Math.random()-0.5)*0.1*randomness*randomness
                 );
 
                 particle.x += distanceFromEndVector.x * Math.random() * 0.01;
@@ -102,9 +104,9 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
 
                 // Particles auf Flugbahn weiterbewegen
                 var r = Math.random();
-                particle.velocity.x = distanceFromEndVector.x * r * 0.1 + (Math.random()-0.5) * 0.1;
-                particle.velocity.y = distanceFromEndVector.y * r * 0.1 + (Math.random()-0.5) * 0.1;
-                particle.velocity.z = distanceFromEndVector.z * r * 0.1 + (Math.random()-0.5) * 0.1;
+                particle.velocity.x = distanceFromEndVector.x * r * 0.1 + (Math.random()-0.5)*randomness;
+                particle.velocity.y = distanceFromEndVector.y * r * 0.1 + (Math.random()-0.5)*randomness;
+                particle.velocity.z = distanceFromEndVector.z * r * 0.1 + (Math.random()-0.5)*randomness;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;

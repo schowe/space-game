@@ -160,8 +160,7 @@ var delta;
 
 function animate() {
     // dont touch!    
-
-        requestAnimationFrame( animate );
+    requestAnimationFrame( animate );
     now = Date.now();
     delta = now - then;
     if(delta > interval){
