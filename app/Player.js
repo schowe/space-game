@@ -19,7 +19,6 @@ function Player() {
     cross = new THREE.Sprite(materialA);
     cross.position.set(0, 10, -40);
     cross.scale.set(3.0, 3.0, 1.0);
-    ship.add(cross);
 
 
     return {
@@ -70,11 +69,3 @@ function Player() {
     }
 
 };
-
-
-
-
-
-
-
-

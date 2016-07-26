@@ -89,7 +89,8 @@ function init() {
     createStars();
 
     // Asteroiden und Bots initialisieren
-    initAI(1);
+    var bot = Bot();
+    bot.initAI(1);
 
     var movement = Movement();
     movement.init();
@@ -183,7 +184,7 @@ function render() {
         renderWeapons();
         Movement().move(delta);
         updateStars();
-        updateAI(delta);
+        bot.updateAI(delta);
     }
 
     if (player !== undefined) {
