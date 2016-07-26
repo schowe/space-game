@@ -1,6 +1,9 @@
 //Audio-Variables
 var laserAudio;
 var rocketAudio;
+var explosionAudio;
+//var MGAudio;
+
 
 
 var FileLoader = function() {
@@ -14,6 +17,7 @@ var FileLoader = function() {
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
+        "../res/textures/RocketTexture.png",
 
 
         // Models
@@ -52,6 +56,7 @@ var FileLoader = function() {
         textureLoader.setCrossOrigin('anonymous');
         // load texture
         textureLoader.load(file, function (texture) {
+            console.log("got:"+name);
             loadedFiles[name] = texture;
             filesSuccessfullyLoaded += 1;
         });
@@ -93,6 +98,16 @@ var FileLoader = function() {
     var rocketAudioSource = document.createElement('source');
     rocketAudioSource.src = '../res/sounds/rocket.wav';
     rocketAudio.appendChild(rocketAudioSource);
+
+    explosionAudio = document.createElement('audio');
+    var explosionAudioSource = document.createElement('source');
+    explosionAudioSource.src = '../res/sounds/explosion.wav';
+    explosionAudio.appendChild(explosionAudioSource);
+
+    // MGAudio = document.createElement('audio');
+    // var MGAudioSource = document.createElement('source');
+    // MGAudioSource.src = 'mg.wav';
+    // MGAudio.appendChild(MGAudioSource);
 
 
 
