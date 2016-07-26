@@ -8,16 +8,16 @@ function Player() {
 
 
     var startVector = new THREE.Vector3(0, 0, 0);
-    var endVector = new THREE.Vector3(0, 0, 0);
-    var particleRay = new RayParticleRenderer(
-        0x2255ff, 100, "../res/textures/particle.png", startVector, endVector
-    );
+    var endVector = new THREE.Vector3(100, 0, 0);
+    var particleRay= new RayParticleRenderer(
+        0x2255ff, 1000, "../res/textures/particle.png", startVector, endVector
+    );;
 
     return {
         init: function() {
             var geometry = fileLoader.get("HeroShipV5");
             var texture = fileLoader.get("TextureHero");
-
+            
             ship = new THREE.Mesh(
                 geometry,
                 new THREE.MeshPhongMaterial({map:texture})
@@ -37,7 +37,9 @@ function Player() {
         update: function() {
             var pos = ship.position;
             var dirVector = getMeshDirection(ship);
-
+            particleRay = new RayParticleRenderer(
+        0x2255ff, 1000, "../res/textures/particle.png", startVector, endVector
+    );
             var startScale = 6;
             startVector = new THREE.Vector3(
                 pos.x+startScale*dirVector.x,
@@ -60,7 +62,7 @@ function Player() {
             //     console.log(startVector.distanceTo(endVector));
             // }
 
-            particleRay.updateStartAndEndpoint(startVector, endVector);
+            //particleRay.updateStartAndEndpoint(startVector, endVector);
             particleRay.update();
         }
     }

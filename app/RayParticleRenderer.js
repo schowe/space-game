@@ -59,6 +59,7 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
     };
     
     this.update = function() {
+       // console.log("Bin drin");
         var pCount = this.particleCount;
         while (pCount--) {
             var particle = this.particles.vertices[pCount];
@@ -94,7 +95,7 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
                 particle.x += distanceFromEndVector.x * Math.random() * 0.01;
                 particle.y += distanceFromEndVector.y * Math.random() * 0.01;
                 particle.z += distanceFromEndVector.z * Math.random() * 0.01;
-
+                
                 particle.velocity = new THREE.Vector3(0, 0, 0);
 
                 this.particles.vertices[pCount] = particle;
