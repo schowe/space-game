@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="../res/css/game.css" />
     <link rel="stylesheet" href="../res/css/gui.css" />
-	
+
 </head>
 <body scroll="no">
 
@@ -129,7 +129,6 @@
     </div>
 
     <div id="bg1">
-            
         <div id="hpBox">
             <div id="hpBoxValue"></div>
             <div id="hpTextBox">
@@ -144,6 +143,7 @@
         <div id="speedBox">
             <div id="speedValue">0</div>
         </div>
+		
             <!-- PLATZHALTER ICONS -->
 		<div id="powerUps"> 
 			<div id="powerUpIcons">
@@ -166,11 +166,10 @@
         <div id="speedBarValue"> </div>
     </div>
 
-    <div id="levelDisplay"> 
+    <div id="levelDisplay">
         <div id="levelText">Level</div>
         <div id="currentLevel">0</div>
     </div>
-
 
     <div id="block">
         <div id="splash">
@@ -200,15 +199,23 @@
     <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
     <script src="../res/js/lib/threejs/three.js"></script>
     <script src="../res/js/lib/TargetCamera.js"></script>
+    <script src="../res/js/lib/stats.min.js"></script>
 
 
-    <!-- custom -->
+
+   <!-- custom -->
     <script src="FileLoader.js"></script>
+    <script src="RayParticleRenderer.js"></script>
+    <script src="ExplosionParticleRenderer.js"></script>
+    <script src="Camera.js"></script>
     <script src="Interface.js"></script>
     <script src="Player.js"></script>
     <script src="World.js"></script>
     <script src="Movement.js"></script>
+    <script src="CollisionHandling.js"></script>
     <script src="core.js"></script>
+    <script src="Collision.js"></script>
+    <script src="CollisionHandling.js"></script>
     <script src="Weapon.js"></script>
 
 

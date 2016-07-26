@@ -1,9 +1,5 @@
 
 var targetPosition;
-
-
-var movementVector = new THREE.Vector4(0,0,0,1);
-var speedVector = new THREE.Vector4(0,0,0,1);
 var moveForward;
 var moveBackward;
 var moveLeft;
@@ -13,8 +9,9 @@ var moveDown;
 var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
+
 var directionVector = new THREE.Vector4(0,0,0,1);
-var Pause = false;
+var Pause = true;
 var PauseScreen = false;
 
 var Sensitivity = 0.2;
@@ -34,15 +31,13 @@ var theta = 0;
 
 
 function Movement() {
-    
+
     return {
-
-
 
         init:function() {
 
 
-
+            setMaxSpeed(14);
             var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
             var blocker = document.getElementById('block');
             var instructions = document.getElementById('splash');
@@ -57,20 +52,25 @@ function Movement() {
 
                         blocker.style.display = 'none';
                         document.addEventListener('mousemove', moveCallback, false);
+                       //
                         Pause = false;
+                        Camera().endOrbit();
 
                     } else {
                         if(PauseScreen == true){
-
+                            Camera().doOrbit();
                         }else{
                             blocker.style.display = '-webkit-box';
                             blocker.style.display = '-moz-box';
                             blocker.style.display = 'box';
                             instructions.style.display = '';
+                            window.removeEventListener('keydown', kdown);
+                            window.removeEventListener('keyup', kup);
                         }
                         Pause = true;
-
+                        Camera().doOrbit();
                         document.removeEventListener('mousemove', moveCallback, false);
+
 
 
                     }
@@ -110,9 +110,6 @@ function Movement() {
                                 document.removeEventListener('fullscreenchange', fullscreenchange);
                                 document.removeEventListener('mozfullscreenchange', fullscreenchange);
                                 document.removeEventListener('mousemove', moveCallback, false);
-
-
-
                                 element.requestPointerLock();
                             }
 
@@ -121,6 +118,8 @@ function Movement() {
                         document.addEventListener('fullscreenchange', fullscreenchange, false);
                         document.addEventListener('mozfullscreenchange', fullscreenchange, false);
                         document.addEventListener('mousemove', moveCallback, false);
+                        window.addEventListener('keydown', kdown);
+                        window.addEventListener('keyup', kup);
                         console.log("Added Event Listener");
 
                         element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
@@ -140,8 +139,7 @@ function Movement() {
                 instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 
             }
-
-            window.addEventListener('keydown', function (event) {
+            var kdown = function(event){
                 switch(event.keyCode){
                     case 38:
                     case 87:
@@ -169,8 +167,9 @@ function Movement() {
 
 
 
-            });
-            window.addEventListener('keyup', function (event) {
+            };
+
+            var kup = function(event){
                 switch(event.keyCode){
                     case 38:
                     case 87:
@@ -199,24 +198,42 @@ function Movement() {
                         break;
                     case 88:
                         stop();
+                        break;
+                    case 80:
+                        if(Pause){
+                            PauseScreen = false;
+                            interface.toggleMenuOverlay();
+                            Movement().lockPointer();
+
+                        }else{
+
+                            interface.toggleMenuOverlay();
+                            Movement().unlockPointer();
+                            PauseScreen = true;
+                        }
+
                 }
 
+            };
+
+           window.addEventListener('keydown', kdown);
+           window.addEventListener('keyup', kup);
 
 
-            });
 
 
         },
-     
+
 
 
         move:function(delta) {
-            setMaxSpeed(14);
+            //console.log(delta);
+
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
                 setSpeed(-yAxis);
             }
-            if (moveBackward == true && yAxis < maxVel) {
+            if (moveBackward == true && yAxis < -2) {
                 yAxis++;
                 setSpeed(-yAxis);
 
@@ -227,29 +244,18 @@ function Movement() {
             if (moveRight == true && zAxis > -maxDrift) {
                 zAxis--;
             }
-            if (moveUp == true && xAxis < maxDrift) {
-                xAxis--;
-            }
-            if (moveDown == true && xAxis > -maxDrift) {
-                xAxis++;
-            }
-            if (xAxis > 0) {
-                xAxis -= 0.5;
-            } else if (xAxis < 0) {
-                xAxis += 0.5;
-            }
             if (zAxis > 0) {
                 zAxis -= 0.5;
             } else if (zAxis < 0) {
                 zAxis += 0.5;
             }
             ship.translateZ(yAxis);
-            ship.translateY(-xAxis);
+            
             ship.translateX(-zAxis);
 
             sphere.position.set(ship.position.x,ship.position.y,ship.position.z);
             biggerSphere.position.set(ship.position.x,ship.position.y,ship.position.z);
-            
+
 
             mouseX *= Sensitivity;
             mouseY *= Sensitivity;
@@ -267,8 +273,6 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
-            directionVector = position - targetPosition;
-
         },
 
         unlockPointer:function(){
@@ -276,16 +280,16 @@ function Movement() {
             var element = document.body;
             if(document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
                 document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
-                document.exitPointerLock();                
-            }            
+                document.exitPointerLock();
+            }
         },
 
         lockPointer:function(){
-            var element = document.body;     
-            
+            var element = document.body;
+
             element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
             element.requestPointerLock();
-            
+
 
         }
     }
@@ -308,10 +312,9 @@ function changeCam(){
 
 function stop(){
     xAxis = 0.0;
-    yAxis = 0.0;
+    yAxis = -2.0;
     zAxis = 0.0;
     setSpeed(0.0);
     mouseX = 0.0;
     mouseY = 0.0;
 }
-
