@@ -4,13 +4,13 @@ var guardingRadius      = 50;
 var minDistanceToPlayer = 10;
 var maxShipAngle        = 70 * (Math.PI / 360);
 
-var ENEMY.BOSS1  = 1;
-var ENEMY.BOSS2  = 2;
-var ENEMY.SMALL1 = 3;
-var ENEMY.SMALL2 = 4;
+var BOSS1  = 1;
+var BOSS2  = 2;
+var SMALL1 = 3;
+var SMALL2 = 4;
 
 var asteroids, enemies, enemy, asteroid, playerPosition,
-    radius, i, bezierPoints, geometry;
+    radius, i, bezierPoints, geometryB, textureB;
 
 // Enemyklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
@@ -21,36 +21,39 @@ function Enemy(location, speed, level, typ) {
     // Waffe setzen und Groesse aendern
     // TODO: weaponguard
     switch(typ) {
-        case ENEMY.BOSS1:
-            geometry = fileLoader.get("EnemyMiniShipV1");
+        case BOSS1:
+            geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
             this.scale.set(1,1,1);
             break;
-        case ENEMY.BOSS2:
-            geometry = fileLoader.get("EnemyMiniShipV1");
+        case BOSS2:
+            geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
             this.scale.set(1,1,1);
             break;
-        case ENEMY.SMALL1:
-            geometry = fileLoader.get("EnemyMiniShipV1");
+        case SMALL1:
+            geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
             this.scale.set(1,1,1);
             break;
-        case ENEMY.SMALL2:
-            geometry = fileLoader.get("EnemyMiniShipV1");
+        case SMALL2:
+            geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
             this.scale.set(1,1,1);
             break;
         default:
-            geometry = fileLoader.get("EnemyMiniShipV1");
+            geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
             this.scale.set(1,1,1);
     }
 
+    var textureB  = fileLoader.get("metall");
+
+
 
     // Mesh setzen
-    THREE.Mesh.call(this, geometry,
-        new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+    THREE.Mesh.call(this, geometryB,
+                    new THREE.MeshPhongMaterial({map: textureB}));
 
 
     this.speed      = speed;
@@ -522,7 +525,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     direction.normalize();
 
     // 6. Schritt:
-    this.position.add(direction.multiplyScalar(delta * this.speed);
+    this.position.add(direction.multiplyScalar(delta * this.speed));
 
     // 7. Schritt: rotieren mit lookAt
     var viewDir = MATH.clone(this.position);
@@ -565,7 +568,7 @@ Enemy.prototype.onCollisionDetect = function(other, typ) {
     // TODO:
     // falls Schiff getroffen:
     if(other instanceof Enemy) {
-        this = bot.createEnemy(level);
+ //       this = bot.createEnemy(level);
     }
     // Asteroid, Schiff, Schuss von Gegner ? -> neu setzen
     // Schuss vom Spieler ? -> explodieren

@@ -2,7 +2,7 @@
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
 // (Ausnahme: Collision soll onCollisionDetect aufrufen)
 
-var geometry;
+var geometryA, textureA;
 
 var despawnDistance = 5000; // aus core.js (Backplane der Camera)
 
@@ -10,16 +10,21 @@ function Asteroid(location,radius, direction, speed, level, small) {
 	this.small	= small || false;
 
 	if(small) {
-    	geometry = fileLoader.get("Asteroid V2");
+    	geometryA = fileLoader.get("Asteroid V2");
+        textureA  = fileLoader.get("metall");
 	} else {
-		geometry = fileLoader.get("Asteroid V2");
+		geometryA = fileLoader.get("Asteroid V2");
+        textureA  = fileLoader.get("metall");
+
 	}
 
     // Mesh setzen
-    THREE.Mesh.call(this, geometry,
-        new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+    THREE.Mesh.call(this, geometryA,
+                        new THREE.MeshPhongMaterial({map: textureA}));
+;
 
-    this.direction 	= direction.normalize();
+    this.direction 	= direction;
+    this.direction.normalize();
     this.speed 		= speed;
     this.radius 	= radius;
     this.position 	= location;
@@ -42,7 +47,7 @@ Asteroid.prototype.move = function(delta) {
 
 }
 
-Asteroid.prototype.onCollisionDetect(other, typ) {
+Asteroid.prototype.onCollisionDetect = function(other, typ) {
 	// TODO:
     // falls Asteroid getroffen:
     // Asteroid ? -> abstossen und verkleinern

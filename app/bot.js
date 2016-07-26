@@ -13,9 +13,9 @@ var maxShipSize     = 20;
 var maxAsteroidSize = 30;
 var guardingRadius  = 50;
 
-var BOT.SHOT     = 1;
-var BOT.ASTEROID = 2;
-var BOT.SHIP     = 3;
+var SHOT     = 1;
+var ASTEROID = 2;
+var SHIP     = 3;
 
 var asteroids = [], enemies = [], enemy, asteroid, playerPosition,
     worldRadius, radius, i;
@@ -93,7 +93,7 @@ function createAsteroid(level) {
     direction = new THREE.Vector3(
                         playerPosition.x - asteroidPosition.x,
                         playerPosition.y - asteroidPosition.y,
-                        playerPosition.z - asteroidPosition.z)
+                        playerPosition.z - asteroidPosition.z);
     var randomDir = new THREE.Vector3(
                         Math.random(), Math.random(), Math.random());
     randomDir.normalize();
@@ -101,7 +101,7 @@ function createAsteroid(level) {
                      Math.random() * 0.839); // tan(40°)
     direction.add(randomDir);
 
-    asteroid = new Bots.Asteroid(asteroidPosition, direction, speed, level);
+    asteroid = new Asteroid(asteroidPosition, 100, direction, speed, level, false);
 
     return asteroid;
 }
@@ -137,7 +137,7 @@ function createEnemy(level) {
         default: typ = 4; // hardest weapon
     }
 
-    enemy = new Bots.Enemy(enemyPosition, speed, level, typ);
+    enemy = new Enemy(enemyPosition, speed, level, typ);
 
     return enemy;
 }
@@ -174,7 +174,7 @@ function updateLocation(delta) {
 }
 
 // update-Methode, aufzurufen in jedem Durchlauf des Renderers
-function Bot.update(delta) {
+function updateAI(delta) {
     // Spielerposition updaten
     playerPosition = ship.position;
     // Gegner und Asteroiden updaten
@@ -192,10 +192,10 @@ function Bot.update(delta) {
 
 
 // Initialisierer der Bots je Level
-function Bot.init(level) {
+function initAI(level) {
     // setzen unserer externen Faktoren
     playerPosition = ship.position;
-    worldRadius = World.getRadius();
+    worldRadius = 5000;
 
     // erstelle Asteroiden
     if(level == 1) {
