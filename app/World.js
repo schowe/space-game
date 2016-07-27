@@ -59,6 +59,7 @@ function createAsteroids(){
      rndSpeedZ = Math.random()* 20 - 14;
      rotSpeed = Math.random () * 0.05 - 0.01;
      rndScale = Math.random() * 70 - 40;
+     //rndScale = Math.random() * 70 - 40;
 
      var vecSpeed = new THREE.Vector3 (rndSpeedX ,rndSpeedY, rndSpeedZ);
      var vecRot = new THREE.Vector3 (rotSpeed *(Math.random () * (2-0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0 ), rotSpeed * (Math.random() *2 -0));
@@ -172,7 +173,7 @@ function asteroidCollision(ast1Index, ast2Index){
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber){
     
-    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc);
+    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc,asteroids[asteroidNumber].rndScale);
     
     
     var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
