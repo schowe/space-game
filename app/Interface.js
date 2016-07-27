@@ -540,6 +540,8 @@ function buyUpgrade(value){
 			var cost = costUpgrade3;
 			if(abrechnung(cost)){
 				clearInterval(addHPID);
+
+				costUpgrade3 = parseInt(costUpgrade3*costUpgrade3Faktor);
 				addHPID = setInterval(function() {
 					if(!Pause){
 						setHP(getHP()+1);

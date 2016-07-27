@@ -13,7 +13,29 @@ var FileLoader = function() {
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
+        "../res/textures/Crosshair1.png",
+        "../res/textures/Crosshair2.png",
+        "../res/textures/Crosshair3.png",
+        "../res/textures/Crosshair4.png",
+        "../res/textures/Crosshair5.png",
+        "../res/textures/Crosshair6.png",
+        "../res/textures/Crosshair7.png",
+        "../res/textures/Crosshair8.png",
+        "../res/textures/Crosshair9.png",
+        "../res/textures/Crosshair10.png",
+        "../res/textures/Crosshair11.png",
+        "../res/textures/Crosshair12.png",
+        "../res/textures/Crosshair13.png",
+        "../res/textures/Crosshair14.png",
+        "../res/textures/Crosshair15.png",
         "../res/textures/TextureHero.png",
+        "../res/textures/particle.png",
+        "../res/textures/particle_grey.png",
+        "../res/textures/Planet.png",
+        "../res/textures/lensflare1.png",
+        "../res/textures/lensflare2.png",
+        "../res/textures/lensflare3.png",
+
 
 
         // Models
@@ -101,8 +123,11 @@ var FileLoader = function() {
             return isReady() ? loadedFiles : undefined;
         },
         get: function(name) {
-
-            return isReady() ? loadedFiles[name] : undefined;
+            var result = isReady() ? loadedFiles[name] : undefined;
+            if (result == undefined) {
+                console.log("FileLoader could not find texture '"+name+"'");
+            }
+            return result;
         }
     }
 };

@@ -4,18 +4,23 @@ var camera, scene, renderer, clock, delta;
 
 var fileLoader;
 var interface;
+var crosshair;
 var ship;
 var player;
 var movement;
+var explosionParticleHandler;
+
 var frames = 0;
 var collision;
 //var projectileList = [];
 
 
 $(function() {
+
     fileLoader = FileLoader();
     LoadingScreen();
     interface = Interface();
+    explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
     setTimeout(function(){
         init();
@@ -65,6 +70,8 @@ function init() {
 
     camera.setTarget('Target');
 
+    crosshair = new Crosshairs();
+    crosshair.init();
 
     /********** Szene füllen **********/
 
@@ -94,7 +101,7 @@ function init() {
     createAsteroids();
 
     movement = Movement();
-    movement.init();    
+    movement.init();
     interfaceInit();
 
 
@@ -124,6 +131,7 @@ function init() {
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+
 
     clock = new THREE.Clock();
 
@@ -161,16 +169,15 @@ var delta;
 
 
 function animate() {
-    // dont touch!    
-
-        requestAnimationFrame( animate );
+    // dont touch!
+    requestAnimationFrame( animate );
     now = Date.now();
     delta = now - then;
     if(delta > interval){
         then = now - (delta % interval);
         render();
     }
-   
+
 }
 
 function render() {
@@ -185,13 +192,13 @@ function render() {
         movement.move(delta);
         updateStars();
         updateAsteroids();
-    }
-    
-    camera.update();
 
+        // update particle ray of the spaceship
+        player.updateParticleValues();
+        // update all explosions
+        explosionParticleHandler.update();
+    }
+
+    camera.update();
     renderer.render(scene, camera);
 }
-
-
-
-
