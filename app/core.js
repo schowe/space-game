@@ -8,6 +8,7 @@ var crosshair;
 var ship;
 var player;
 var movement;
+var explosionParticleHandler;
 
 var frames = 0;
 var collision;
@@ -18,6 +19,7 @@ $(function() {
     
     fileLoader = FileLoader();    
     interface = Interface();
+    explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
     setTimeout(function(){
         init();
@@ -188,9 +190,13 @@ function render() {
         movement.move(delta);
         updateStars();
         updateAsteroids();
+        
+        // update particle ray of the spaceship
+        player.updateParticleValues();
+        // update all explosions
+        explosionParticleHandler.update();
     }
     
-    player.updateParticleValues();
     camera.update();
 
     renderer.render(scene, camera);

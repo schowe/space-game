@@ -50,7 +50,7 @@ function createAsteroids(){
     var  materialAst, astHitBox, hitGeometry;
     var astTexture, astOriginal;
 
-    astTexture = fileLoader.get("Asteroid V2");
+    astTexture = fileLoader.get("AsteroidV2");
 
   for( countAst = 0; countAst < 100; countAst++){
 
@@ -171,11 +171,14 @@ function asteroidCollision(ast1Index, ast2Index){
 
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber){
-
-   var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-   var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-   var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-   var newScale = Math.random() * 70 - 40;
+    
+    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc);
+    
+    
+    var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
+    var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
+    var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
+    var newScale = Math.random() * 70 - 40;
 
     asteroids[asteroidNumber].position.x = ship.position.x + newRandomPosAstX;
     asteroids[asteroidNumber].position.y = ship.position.y + newRandomPosAstY;
