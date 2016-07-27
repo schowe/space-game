@@ -45,8 +45,11 @@ Asteroid.prototype.constructor = Asteroid;
 Asteroid.prototype = new THREE.Mesh;
 
 Asteroid.prototype.move = function(delta) {
-    this.position.add(direction.multiplyScalar(speed * delta));
-    direction.normalize();
+    this.direction.multiplyScalar(this.speed * delta);
+    this.position.x += this.direction.x;
+    this.position.y += this.direction.y;
+    this.position.z += this.direction.z;
+    this.direction.normalize();
 
     if(this.position.distanceTo(ship.position) > despawnDistance) {
     	isAlive = false;

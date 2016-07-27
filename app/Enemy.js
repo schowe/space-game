@@ -10,7 +10,7 @@ var SMALL1 = 3;
 var SMALL2 = 4;
 
 var asteroids, enemies, enemy, asteroid, playerPosition,
-    radius, i, bezierPoints, geometryB, textureB, MATH;
+    radius, i, bezierPoints, geometryB, textureB, MATH, bot;
 
 // Enemyklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
@@ -46,8 +46,10 @@ function Enemy(location, speed, level, typ) {
             this.weapon = 1;
             this.scale.set(1,1,1);
     }
+    geometryB = fileLoader.get("HeroShipV5");
+    this.scale.set(20,20,20);
 
-    var textureB  = fileLoader.get("metall");
+    var textureB  = fileLoader.get("TextureHero");
 
 
 
@@ -62,13 +64,19 @@ function Enemy(location, speed, level, typ) {
     this.level      = level;
     this.isAlive    = true;
     this.shootAble  = false;
-    this.onBezier   = false;
+    this.onPlayerAttack  = false;
     // Initialen Ausrichtungsvektor
     this.lookAt(playerPosition);
     // .. und direction
     this.direction  = MATH.clone(playerPosition);
     this.direction.sub(this.position);
     this.direction.normalize();
+
+
+    // Listen updaten
+    bot = Bot();
+    asteroids = bot.getAsteroids();
+    enemies   = bot.getEnemies();
 
 }
 
@@ -78,13 +86,17 @@ Enemy.prototype = new THREE.Mesh;
 // TODO: currentDir merken und einfließen lassen -> weniger hakelig (Traegheit)
 Enemy.prototype.move = function(delta, asteroids, enemies) {
     var avoidDir, d, distanceToShip, collision, translate,
-        possibleObstacle;
-    var onPlayerAttack = false;
+        possibleObstacle, dir, optimalDir;
     var avoidDirs = [];
     var collisions = [];
 
+    asteroids = bot.getAsteroids();
+    enemies   = bot.getEnemies();
+
+    playerPosition = ship.position;
+
     // 0. Schritt: Checke ob auf Bezierkurve oder nicht
-    if(onPlayerAttack) {
+    if(this.onPlayerAttack) {
         // Achte darauf, dass sich der Spieler nicht um mehr als 90° zur
         // urspruenglichen Richtung gedreht hat
         optimalDir = this.moveBezier();
@@ -99,7 +111,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         directionToPlayer.normalize();
 
         // TODO: Fuer Bezier Wechsel auf optimalDir
-        var optimalDir = MATH.clone(directionToPlayer);
+        optimalDir = MATH.clone(directionToPlayer);
 
         // 2. Schritt: Ueberpruefe, ob dem Spieler zu nahe geraten
         if(distanceToNext < minDistanceToPlayer){
@@ -112,6 +124,10 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             // TODO: Init Bezier-Kurve und gebe ersten Punkt vor
         }
     }
+
+    this.direction.x = optimalDir.x;
+    this.direction.y = optimalDir.y;
+    this.direction.z = optimalDir.z;
 
     // 3. Schritt: Ueberpruefe auf Hindernisse
     var obstacles = [];
@@ -126,9 +142,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     var shipDistance = distanceToNext + delta * this.speed;
 
     // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
-    for(var i = 0; i < asteroids.length; i++) { // Asteroiden schon geupdatet
-        asteroid = asteroids[i];
-        d = Math.abs(shipDistance - asteroid.position.distance(playerPosition));
+    for(asteroid of asteroids) { // Asteroiden schon geupdatet
+        d = Math.abs(shipDistance - asteroid.position.distanceTo(playerPosition));
 
         // Teste, ob im richtigen Ring um den Spieler
         // possibleObstacle um die Sortierung zu nutzen -> Doppelter switch
@@ -149,7 +164,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         d =  enemy.position.distanceTo(playerPosition) - shipDistance;
         if(d <= 0 && d <= minObstacleDistance) { // nahe und vor einem
             distanceToShip = enemy.position.distanceTo(shipPosition);
-            if(distanceToShip <= minObstacleDistance) { // nahe an this
+            if(distanceToShip <= minObstacleDistance && enemy!=this) { // nahe an this
                 obstacles.push(enemy);
             }
         } else if(possibleObstacle && d > minObstacleDistance) {
@@ -163,7 +178,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     // 4. Schritt: ausweichen
     // naechstgelegenem Hindernis ausweichen, bis auf Weg kein Gegenstand
-
+    // ab hier TODO
     if(obstacles.length > 0) {
         // Unterscheide nach Faellen, da der Algorithmus fuer mehrere
         // Hindernisse rechenintensiv ist (rendert die Szene neu)
@@ -191,11 +206,15 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 //          sowie in createAsteroid()
                 var randomDir = new THREE.Vector3(Math.random(),
                                         Math.random(), Math.random());
+
+                dir = MATH.clone(optimalDir);
                 randomDir.normalize();
                 randomDir.multiplyScalar(
                         Math.pow(-1, Math.round(1000 * Math.random())) *
                         Math.random() * 0.176); // tan(10°)
-                direction.add(randomDir);
+                dir.add(randomDir);
+
+                console.log(dir.x, dir.y, dir.z);
 
                 // Gewichte die Laengen, um Kollision zu vermeiden
                 var bestImpact = this.position.distanceTo(obstacles[0].position);
@@ -203,10 +222,10 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
                 avoidDir.multiplyScalar(avoidImpact);
 
-                direction = MATH.clone(directionToPlayer);
-                direction.multiplyScalar(bestImpact);
+                dir = MATH.clone(directionToPlayer);
+                dir.multiplyScalar(bestImpact);
 
-                direction.add(avoidDir);
+                dir.add(avoidDir);
 
             } else {
             // sonst, weiche aus bzw. zerschiesse Asteroid wie aufs Zettel 1
@@ -237,17 +256,17 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             // 4.1 Suche bis zu fuenf Iterationen lang eine neue Richtung
 
             // 4.1.1 trivialer Versuch -> geht optimale Richtung?
-            collision = this.checkDirection(direction, obstacles);
+            collision = this.checkDirection(dir, obstacles);
             directionFound = (collision == 0);
 
             if(directionFound) {
-                direction = optimalDir;
                 // Falls bevorzugte Richtung geht, gehe in diese Richtung
                 // mit einem kleinen vom "Fehler" abhaengigen Unterschied
-                direction = new THREE.Vector3(
+                dir = new THREE.Vector3(
                                 Math.random(), Math.random(), Math.random());
                 //direction.addScalar(directionError);
-                direction.add(optimalDir.multiplyScalar(distanceToNext));
+               dir.add(optimalDir.multiplyScalar(distanceToNext));
+               optimalDir.normalize();
             } else {
                 // 4.1.2 wenn nicht, ueberpruefe schrittweise Umgebungs
                 // 4.1.3 alles in Umgebung (gleicher Abstand)
@@ -260,13 +279,13 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 V.multiplyScalar(checkingDistance);
 
                 for(i = 0; i < 4; i++) {
-                    avoidDir = MATH.clone(direction);
+                    avoidDir = MATH.clone(optimalDir);
                     switch(i) {
                         case 0: avoidDir = avoidDir.add(U).add(V); break;
                         case 1: avoidDir = avoidDir.add(U).sub(V); break;
                         case 2: avoidDir = avoidDir.sub(U).add(V); break;
                         case 3: avoidDir = avoidDir.sub(U).sub(V); break;
-                        default: avoidDir = optimalDir;
+                        default:avoidDir = optimalDir;
                     }
 
                     avoidDirs.push(avoidDir);
@@ -274,7 +293,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                     directionFound = (collisions[i] == 0);
 
                     if(directionFound) {
-                        direction = avoidDir;
+                        dir = avoidDir;
                         break;
                     }
                 }
@@ -283,7 +302,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 do {
                     // 4.1.4a Bestimme Richtung mit minimaler Kollisionsanzahl
                     if(!directionFound) {
-                        direction = avoidDirs[MATH.getMinIndex(collisions)];
+                        dir = avoidDirs[MATH.getMinIndex(collisions)];
                     }
 
                     // setze die Laengen von U und V neu, auf maximale Distanz
@@ -314,7 +333,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
                     // 4.1.4b Betrachte die Eckpunkte (Abstand ungleich) in der Umgebung
                     for(var i = 0; i < 4; i++) {
-                        avoidDir = MATH.clone(direction);
+                        avoidDir = MATH.clone(optimalDir);
                         avoidDir.add(translate);
 
                         // TODO: Verschiebe avoidDir ein Stückchen
@@ -330,7 +349,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                         directionFound = (collision == 0);
 
                         if(directionFound) {
-                            direction = avoidDir;
+                           dir = avoidDir;
                         }
                     }
 
@@ -363,7 +382,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                         }
 
                         for(var i = 0; i < 4; i++) {
-                            avoidDir = MATH.clone(direction);
+                            avoidDir = MATH.clone(this.direction);
                             avoidDir.add(translate);
                             switch(i) {
                                 case 0: avoidDir = avoidDir.add(U).add(V);break;
@@ -410,15 +429,15 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                         avoidDir.addScalar(Math.random() * distanceToNext);
 
                         if(i < 5) {
-                            direction = MATH.clone(optimalDir);
+                            dir = MATH.clone(optimalDir);
                         } else {
-                            direction = new THREE.Vector3(0,0,0);
+                            dir = new THREE.Vector3(0,0,0);
                         }
 
-                        direction.add(avoidDir);
+                        dir.add(avoidDir);
 
                         //  teste, ob diese geht
-                        collision = this.checkDirection(direction, obstacles);
+                        collision = this.checkDirection(dir, obstacles);
                         directionFound = (collision == 0);
 
                         if(directionFound) {
@@ -444,27 +463,27 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                     var j = 0;
                     while(!directionFound) {
 
-                        direction = MATH.clone(optimalDir);
+                        dir = MATH.clone(optimalDir);
 
                         switch(j) {
                             case 0:
-                                direction = direction.add(U).add(V);
+                                dir = direction.add(U).add(V);
                                 break;
                             case 1:
-                                direction = direction.add(U).sub(V);
+                                dir = direction.add(U).sub(V);
                                 break;
                             case 2:
-                                direction = direction.sub(U).add(V);
+                                dir = direction.sub(U).add(V);
                                 break;
                             case 3:
-                                direction = direction.sub(U).sub(V);
+                                dir = direction.sub(U).sub(V);
                                 break;
-                            default: direction = optimalDir;
+                            default: dir = optimalDir;
                         }
 
 
 
-                        collision = this.checkDirection(direction, obstacles);
+                        collision = this.checkDirection(dir, obstacles);
                         directionFound = (collision == 0);
                         j++;
                     }
@@ -474,30 +493,30 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                     if(!directionFound) {
                     // nur in diese Richtung nicht linearkominiert
                         for(var i = 0; i < 6; i++) {
-                            direction = MATH.clone(optimalDir);
+                            dir = MATH.clone(optimalDir);
                             switch(i) {
                                 case 0:
-                                    direction.cross(new THREE.Vector3(1,0,0));
+                                    dir.cross(new THREE.Vector3(1,0,0));
                                     break;
                                 case 1:
-                                    direction.cross(new THREE.Vector3(0,1,0));
+                                    dir.cross(new THREE.Vector3(0,1,0));
                                     break;
                                 case 2:
-                                    direction.cross(new THREE.Vector3(0,0,1));
+                                    dir.cross(new THREE.Vector3(0,0,1));
                                     break;
                                 case 3:
-                                    direction.cross(new THREE.Vector3(-1,0,0));
+                                    dir.cross(new THREE.Vector3(-1,0,0));
                                     break;
                                 case 4:
-                                    direction.cross(new THREE.Vector3(0,-1,0));
+                                    dir.cross(new THREE.Vector3(0,-1,0));
                                     break;
                                 case 5:
-                                    direction.cross(new THREE.Vector3(0,0,-1));
+                                    dir.cross(new THREE.Vector3(0,0,-1));
                                     break;
                                 default: break;
                             }
 
-                            collision = this.checkDirection(direction, obstacles);
+                            collision = this.checkDirection(dir, obstacles);
                             directionFound = (collision == 0);
 
                             if(directionFound) {
@@ -508,7 +527,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
                         if(!directionFound) {
                             // Falls alles versperrt, bleibe stehen und schiesse
-                            direction = new THREE.Vector3(0,0,0);
+                            dir = new THREE.Vector3(0,0,0);
                             this.shootAble = true;
                         }
                     }
@@ -517,33 +536,48 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         }
 
     } else {
-        direction = directionToPlayer;
+        dir = MATH.clone(optimalDir);
         // "wackel" an Richtung um bis zu +-10° bzgl. jeder Richtung
         //          sowie in createAsteroid()
         var randomDir = new THREE.Vector3(Math.random(),
-                                Math.random(), Math.random());
+                                Math.random(), Math.random()); // TODO: aendern
         randomDir.normalize();
         randomDir.multiplyScalar(
                 Math.pow(-1, Math.round(1000 * Math.random())) *
                 Math.random() * 0.176); // tan(10°)
-        direction.add(randomDir);
+        //dir.add(randomDir);
         shootAble = true;
     }
 
     // 5. Schritt: normalisiere, um Geschwindigkeit nur von speed
     //                              abhaengig zu machen
-    direction.normalize();
-    this.direction = direction;
+    dir.normalize();
+    //this.direction = MATH.clone(dir);
+
     
     // 6. Schritt:
     console.log("Position enemy before: ("+this.position.x+","+this.position.y+","+this.position.z+")");
-    this.position.add(direction.multiplyScalar(delta * this.speed));
+    console.log("Direction: ("+dir.x+","+dir.y+","+dir.z+")");
+
+    dir.multiplyScalar(delta * this.speed);
+    // this.position.x += dir.x;
+    // this.position.y += dir.y;
+    // this.position.z += dir.z;
+    this.position.x += this.direction.x;
+    this.position.y += this.direction.y;
+    this.position.z += this.direction.z;
     console.log("Position enemy after: ("+this.position.x+","+this.position.y+","+this.position.z+")");
+    console.log("Direction at init: ("+this.direction.x+","+this.direction.y+","+this.direction.z+")");
+
+
 
 
     // 7. Schritt: rotieren mit lookAt
+    dir.normalize();
     var viewDir = MATH.clone(this.position);
-    this.lookAt(viewDir.add(direction.multiplyScalar(this.speed)));
+    viewDir.add(dir.multiplyScalar(this.speed));
+    this.lookAt(viewDir.negate());
+
 }
 
 // @return optimale Richtung nach Bezierflugbahn

@@ -20,8 +20,6 @@ function Bot() {
     var ASTEROID = 2;
     var SHIP     = 3;
 
-    var radius, i;
-
 
     // Sortierfunktion fuer Bots (Enemies und Asteroids)
     // je naeher am Schiff, desto niedriger der Indize
@@ -71,9 +69,10 @@ function Bot() {
 
     // Erschaffe Asteroiden
     function createAsteroid(level) {
+        var direction, alpha, beta, asteroidPosition, radius;
 	console.log("Enter Create Asteroid");
         // Welt als Kugel -> Setze an den aeusseren 3/4 Rand
-        positionRadius = worldRadius/4 * (1+3*Math.random());
+        var positionRadius = worldRadius/4 * (1+3*Math.random());
 
 
         // zufaellig an den Rand positionieren
@@ -91,8 +90,9 @@ function Bot() {
         } while(!farAway(asteroidPosition, radius));
 
         // TODO: speed abhaengig von Level, ! asteroid.speed < min(enemy.speed)
-        speed = level > 15 ? 15 : level;
+        var speed = level > 15 ? 15 : level;
         speed = speed/3 * (2 * Math.random() + 1);
+        speed = 50;
 
         // Richtung:
         direction = new THREE.Vector3(
@@ -114,8 +114,9 @@ function Bot() {
 
     // Erschaffe Enemy
     function createEnemy(level) {
-        var weapon;
-	console.log("Enter Create Enemy");
+        var direction, alpha, beta, enemyPosition, radius,
+            typ;
+	    console.log("Enter Create Enemy");
         // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
         radius = worldRadius/6 * (5+Math.random());
 
@@ -132,7 +133,7 @@ function Bot() {
         } while(!farAway(enemyPosition, maxShipSize));
 
         // TODO: speed abhaengig von Level
-        speed = 20;
+        var speed = 200;
 
         // TODO: weapon
         switch(Math.round(level * Math.random())) {
@@ -214,7 +215,7 @@ function Bot() {
             }
 
             // TODO: Levelabhaengigkeit klaeren
-            for(var i = 0; i < 50 * level; i++) {
+            for(var i = 0; i < 50; i++) {
                 asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
 		        console.log(asteroids.length);
@@ -226,13 +227,20 @@ function Bot() {
                 enemies = [];
             }
 
-            for(var i =0 ; i < 5 * level; i++) {
+            for(var i = 0 ; i < 5 * level; i++) {
                 enemy = createEnemy(level);
                 enemies.push(enemy);
  		        console.log(enemies.length);
                 scene.add(enemy);
-                i = 5;
             }
+        },
+
+        getAsteroids: function() {
+            return asteroids;
+        },
+
+        getEnemies: function() {
+            return enemies;
         }
     }
 }
