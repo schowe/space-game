@@ -255,6 +255,7 @@ var Collision = function() {
         return hitBox;
     }
 
+    // Checks if one of the ShipHitboxes intersects a sphere
     function intersectSphereShipHitBox(sphere, box) {
       // get box closest point to sphere center by clamping
         var x = Math.max(minXship(box), Math.min(sphere.position.x, maxXship(box)));
@@ -266,8 +267,8 @@ var Collision = function() {
                            (y - sphere.position.y) * (y - sphere.position.y) +
                            (z - sphere.position.z) * (z - sphere.position.z));
 
-        console.log(distance);
-        console.log(sphere.geometry.parameters.radius);
+        // console.log(distance);
+        // console.log(sphere.geometry.parameters.radius);
 
 
         // if the distance is smaller than the radius of the sphere there is an intersection

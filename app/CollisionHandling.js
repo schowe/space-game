@@ -58,7 +58,7 @@ function handleProjectiles() {
                 }
             }
 
-            else if (projectiles[i].name === "Rocket") {
+            else if (projectiles[i].name === "RocketHitBox") {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
                     // successRocket(projectiles[i]);
