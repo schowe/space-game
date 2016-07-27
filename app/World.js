@@ -192,7 +192,7 @@ function destroyAsteroid(asteroidNumber){
     asteroids[asteroidNumber].scale.x = asteroids[asteroidNumber].scale.y = asteroids[asteroidNumber].scale.z = newScale;
     asteroidHitBoxes[asteroidNumber].scale.x = asteroidHitBoxes[asteroidNumber].scale.y = asteroidHitBoxes[asteroidNumber].scale.z = newScale;
 
-    asteroidHitBox.parameters.radius = 4 * newScale;
+    asteroidHitBoxes[asteroidNumber].geometry.parameters.radius = 4 * newScale;
 }
 
 
