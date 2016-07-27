@@ -1,7 +1,15 @@
+// HTML Container
 var container;
 
+// THREE.js & Grafik
 var camera, scene, renderer, clock, delta;
+var frames = 0;
+var fps =  30;
+var now;
+var then = Date.now();
+var interval = 1000 / fps;
 
+// Module
 var fileLoader;
 var interface;
 var crosshair;
@@ -9,23 +17,34 @@ var ship;
 var player;
 var movement;
 var explosionParticleHandler;
-
-var frames = 0;
 var collision;
-//var projectileList = [];
+var stats;
 
+// Postprocessing
+var composer, glitchPass, glitchPassEnabled;
 
+// Document Ready Function
 $(function() {
+    // wird ausgeführt, wenn das Dokument geladen ist:
 
+    // Module initialisieren
     fileLoader = FileLoader();
     LoadingScreen();
     interface = Interface();
     explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
-    setTimeout(function(){
-        init();
-        cameraAnimate();
-    },1000)
+
+    // alle 50ms prüfen, ob alle Files geladen sind
+    var loadingLoop = setInterval(function() {
+        if (fileLoader.isReady()) {
+            clearInterval(loadingLoop);
+
+            // FileLoader ist fertig, Spiel starten
+            init();
+            cameraAnimate();
+        }
+    }, 50);
+
 });
 
 
@@ -41,9 +60,52 @@ function init() {
     //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
-    // Beispiel-Code ...
+    clock = new THREE.Clock();
+
+
+
+    /********** Szene füllen **********/
+
+    var light, object;
+
+    scene.add( new THREE.AmbientLight( 0x404040 ) );
+    light = new THREE.DirectionalLight( 0xffffff );
+    light.position.set( 0, 1, 0 );
+    scene.add( light );
+
+    object = new THREE.AxisHelper( 100 );
+    object.position.set( 0, 0, 0 );
+    scene.add( object );
+
+
+
+    /********** Module laden **********/
+
     player = Player();
     player.init();
+
+    var world = World();
+    world.init();
+
+    createStars();
+    createAsteroids();
+
+    movement = Movement();
+    movement.init();
+
+    interfaceInit();
+
+    crosshair = new Crosshairs();
+    crosshair.init();
+
+    initializeWeapons();
+
+    stats = new Stats();
+    container.appendChild( stats.dom );
+
+
+
+    /********** Camera **********/
 
     camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
 
@@ -67,62 +129,27 @@ function init() {
     var cam = Camera();
     cam.init();
 
-
     camera.setTarget('Target');
 
-    crosshair = new Crosshairs();
-    crosshair.init();
-
-    /********** Szene füllen **********/
 
 
-    var light, object;
-
-    scene.add( new THREE.AmbientLight( 0x404040 ) );
-    light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( 0, 1, 0 );
-    scene.add( light );
-
-    object = new THREE.AxisHelper( 100 );
-    object.position.set( 0, 0, 0 );
-
-    scene.add( object );
-
-
-
-
-    /********** Module laden **********/
-
-
-    var world = World();
-    world.init();
-    createStars();
-
-    createAsteroids();
-
-    movement = Movement();
-    movement.init();
-    interfaceInit();
-
-
-
-    object = new THREE.AxisHelper( 100 );
-    object.position.set( 0, 0, 0 );
-    scene.add( object );
-
-
-   /** object = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 0 ), 50 );
-    object.position.set( 400, 0, -200 );
-    scene.add( object ); */
-
+    /********** Renderer & Post Processing **********/
 
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
 
-    stats = new Stats();
-    container.appendChild( stats.dom );
+    composer = new THREE.EffectComposer(renderer);
+    composer.addPass(new THREE.RenderPass(scene, camera));
+
+    glitchPass = new THREE.GlitchPass();
+    glitchPass.renderToScreen = true;
+    // glitchPass.goWild = true;
+    composer.addPass(glitchPass);
+
+    glitchPassEnabled = false;
+
 
 
     /********** Input **********/
@@ -132,11 +159,6 @@ function init() {
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
 
-
-    clock = new THREE.Clock();
-
-
-    initializeWeapons();
 }
 
 function onWindowResize() {
@@ -156,16 +178,18 @@ function cameraAnimate(){
     }
     //
     delta = clock.getDelta();
-    Movement().move(delta);
+    movement.move(delta);
     camera.update();
     renderer.render(scene, camera);
 }
 
-var fps =  30;
-var now;
-var then = Date.now();
-var interval = 1000 / fps;
-var delta;
+
+function glitchScreen(duration) {
+    glitchPassEnabled = true;
+    setTimeout(function() {
+        glitchPassEnabled = false;
+    }, duration);
+}
 
 
 function animate() {
@@ -181,24 +205,30 @@ function animate() {
 }
 
 function render() {
-
-    // TODO: animation code goes here
-
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
+        // animation code goes here
+
         handleCollision();
         renderWeapons();
         movement.move(delta);
         updateStars();
         updateAsteroids();
+
         updatePowerUps();
-        // update particle ray of the spaceship
+        
+        // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
-        // update all explosions
+        // Explosionen updaten
         explosionParticleHandler.update();
     }
 
     camera.update();
-    renderer.render(scene, camera);
+
+    if (glitchPassEnabled) {
+        composer.render();
+    } else {
+        renderer.render(scene, camera);
+    }
 }

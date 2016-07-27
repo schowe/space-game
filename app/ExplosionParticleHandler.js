@@ -20,6 +20,6 @@ var ExplosionParticleHandler = function() {
                 }
             }
         }
-    }
+    };
     
 };
