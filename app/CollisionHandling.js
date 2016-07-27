@@ -9,16 +9,20 @@ function handleAsteroids() {
                 asteroidCollision(i, j);
             }
         }
+        // Kollision mit Player
+        for (var j = 0; j <= playerHitBoxes.length - 1; j++) {
 
-        // // Kollision mit Player
-        // var playerHitboxes = getPlayerHitboxes();
-        // for (var j = 0; j <= playerHitboxes.length; j++) {
-        //     if (collision.intersectSphereBox(asteroidHitBoxes[i],
-        //             playerHitboxes[j])) {
-        //         asteroidHitBySpaceship(i);
-        //         playerHitByAsteroid();
-        //     }
-        // }
+            // playerHitBoxes[j].applyMatrix(ship.matrix);
+
+            if (collision.intersectSphereShipHitBox(asteroidHitBoxes[i],
+                    playerHitBoxes[j])) {
+
+                console.log("playerHitByAsteroid");
+                destroyAsteroid(i);
+                // asteroidHitBySpaceship(i);
+                // playerHitByAsteroid();
+            }
+        }
 
 
         // Kollision mit Gegner
@@ -54,7 +58,7 @@ function handleProjectiles() {
                 }
             }
 
-            else if (projectiles[i].name === "Rocket") {
+            else if (projectiles[i].name === "RocketHitBox") {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
                     // successRocket(projectiles[i]);

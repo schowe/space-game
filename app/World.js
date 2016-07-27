@@ -52,14 +52,14 @@ function createAsteroids(){
 
     astTexture = fileLoader.get("AsteroidV2");
 
-  for( countAst = 0; countAst < 100; countAst++){
+  for( countAst = 0 ; countAst < 100; countAst++){
 
      rndSpeedX = Math.random()* 20 - 14;
      rndSpeedY = Math.random()* 20 - 14;
      rndSpeedZ = Math.random()* 20 - 14;
      rotSpeed = Math.random () * 0.05 - 0.01;
      rndScale = Math.random() * 70 - 40;
-     //rndScale = Math.random() * 70 - 40;
+ 
 
      var vecSpeed = new THREE.Vector3 (rndSpeedX ,rndSpeedY, rndSpeedZ);
      var vecRot = new THREE.Vector3 (rotSpeed *(Math.random () * (2-0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0 ), rotSpeed * (Math.random() *2 -0));
@@ -74,7 +74,9 @@ function createAsteroids(){
 
      astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
 
-     hitGeometry =  new THREE.SphereGeometry(4, 32, 32);
+     hitGeometry =  new THREE.SphereGeometry(4 * rndScale, 32, 32);
+
+     // console.log("4*rndScale " + 4*rndScale);
 
       var colSphereMaterial = new THREE.MeshBasicMaterial({
                     transparent: true,
@@ -180,6 +182,7 @@ function destroyAsteroid(asteroidNumber){
     var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
     var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
     var newScale = Math.random() * 70 - 40;
+
 
     asteroids[asteroidNumber].position.x = ship.position.x + newRandomPosAstX;
     asteroids[asteroidNumber].position.y = ship.position.y + newRandomPosAstY;
