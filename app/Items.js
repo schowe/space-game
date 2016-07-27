@@ -1,20 +1,20 @@
 
-var powerUps = []; 
-var types  = []; 
-var itemHitBoxes = []; 
+var powerUps = [];
+var types  = [];
+var itemHitBoxes = [];
 
 
 function spawnPowerUp(x, y, z, type) {
 
-	var healthTex, rocketTex, rocket2Tex, shieldTex, itemGeometry; 
-    var item; 
-    var itemHitBox; 
+	var healthTex, rocketTex, rocket2Tex, shieldTex, itemGeometry;
+    var item;
+    var itemHitBox;
 
 
 	if(type == undefined){
-		var rndCase; 
+		var rndCase;
 
-		rndCase = Math.random(); 
+		rndCase = Math.random();
 
 		if(rndCase <= 0.25){
 
@@ -45,7 +45,7 @@ function spawnPowerUp(x, y, z, type) {
 		}
 
 	}
-	
+
 
 
 	 collectGeometry =  new THREE.BoxGeometry(3.4 *10, 3.4 *10, 1*10);
@@ -59,15 +59,17 @@ function spawnPowerUp(x, y, z, type) {
                 itemHitBox = new THREE.Mesh(collectGeometry, colBoxMaterial);
                 itemHitBox.position.set(x,y,z);
 
-	item.position.set(x, y, z); 
+	item.position.set(x, y, z);
 
 	item.scale.x = item.scale.y = item.scale.z = 10;
 
-	powerUps.push(item); 
-	itemHitBoxes.push(itemHitBox); 
+	powerUps.push(item);
+	itemHitBoxes.push(itemHitBox);
 
-	scene.add(item); 
-	
+	scene.add(item)
+
+    itemHitBox.visible = false;
+    scene.add(itemHitBox);
 
 }
 
@@ -83,16 +85,18 @@ function updatePowerUps (){
 
 function collected(itemNumber){
 
+
 	var tmpItem =  types[itemNumber]; 
+
 
 	switch (tmpItem){
 
-		case "HEALTH": 
+		case "HEALTH":
 
-			powerUpAudio.play(); 
-			changeHP(50); 
+			powerUpAudio.play();
+			changeHP(50);
 
-		break; 
+		break;
 
 
 

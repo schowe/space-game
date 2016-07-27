@@ -1,4 +1,7 @@
 var ship, frontVector, backVector, directionVector;
+var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
+var playerHitBoxes = [];
+var cross;
 
 frontVector = new THREE.Vector3(0, 0, 0);
 
@@ -7,7 +10,6 @@ directionVector = new THREE.Vector3(0, 0, 0);
 
 
 function Player() {
-
 
     var startVector = new THREE.Vector3(0, 0, 0);
     var endVector = new THREE.Vector3(0, 0, 0);
@@ -28,6 +30,10 @@ function Player() {
 
     return {
 
+        playerHitByAsteroid: function() {
+            changeHP(-20);
+        },
+
         init: function () {
             var geometry = fileLoader.get("HeroShipV5");
             var texture = fileLoader.get("TextureHero");
@@ -36,11 +42,39 @@ function Player() {
                 geometry,
                 new THREE.MeshPhongMaterial({map: texture})
             );
-            
+
             ship.position.set(0, 0, 0);
             scene.add(ship);
 
+            var mapA = fileLoader.get("Crosshair");
+            var materialA = new THREE.SpriteMaterial({map: mapA});
+
+            cross = new THREE.Sprite(materialA);
+            cross.position.set(0, 0, -20);
+            cross.scale.set(3.0, 3.0, 1.0);
+            ship.add(cross);
+
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(5,2,20);
+            var hitBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+            hitBoxCenter = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(10,2,5);
+            hitBoxLeftWing = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+            hitBoxLeftWing.position.x = -5;
+
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(10,2,5);
+            hitBoxRightWing = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+            hitBoxRightWing.position.x = 5;
+
+            playerHitBoxes.push(hitBoxCenter);
+            playerHitBoxes.push(hitBoxLeftWing);
+            playerHitBoxes.push(hitBoxRightWing);
+
+            // ship.add(hitBoxLeftWing);
+            // ship.add(hitBoxRightWing);
+            // ship.add(hitBoxCenter);
         },
+
         updateParticleValues: function () {
             particleRay.reset();
 
@@ -85,13 +119,7 @@ function Player() {
             createRay();
             particleRay.update();
         }
+
     };
 
-}
-
-
-
-
-
-
-
+};
