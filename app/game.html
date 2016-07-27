@@ -14,7 +14,7 @@
 
 	
 	<div id="loadingTexturesOverlay">
-        <div id="loadingTexturesHeader">Placeholder</div>
+        <div id="loadingTexturesHeader">Loading...</div>
 		<div id="loadingTexturesSplash"></div>
     </div>
 
@@ -22,17 +22,17 @@
     <div id="menu-overlay" hidden>
         <div id="menu-box">
             <div id="menuArea">
-
-        		<div id="menuBoxes">
+        		<div id="menuBoxes">            		
             		<div id="pauseBox" class="menuText shopBox" onClick="showShop()"> Shop </div>
 					<div id="pauseBox" class="menuText highscoreBox" onClick="showHighscore()"> Highscore </div>
 					<div id="pauseBox" class="menuText milestoneBox" onClick="showMilestones()"> Milestones </div>
-               		<div id="pauseBox" class="menuText optionsBox" onClick="showOptions()"> Options </div>
-                	<div id="pauseBox" class="menuText returnBox"> Let's a go! </div>
+					<div id="pauseBox" class="menuText optionsBox" onClick="showOptions()"> Options </div>
+					<div id="pauseBox" class="menuText returnBox" onClick="closeMenu()"> Let's a go! </div>
         	   </div>
-	
 	       </div>
+		   
         	<div id="rightMenu"> 
+            <!-- SHOP -->
                 <div id="shop" hidden>
                     <table id="shopTable">
 
@@ -88,43 +88,44 @@
                     </table>
                 </div>
 
-
                 <div id="highscore" hidden>
                     
                     <!-- HIGHSCORE -->
-	
-	<div id="headingHighscore"> Highscore </div>
 
-            <table id="menu-highscore-table" >
-                <thead>
-                    <tr>
-                        <th class="menu-highscore-table-nr">#</th>
-                        <th>Player</th>
-                        <th class="menu-highscore-table-points">Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-	
-                    <!-- Testdaten -->
+					<div id="headingHighscore"> Highscore </div>
 
-                    <tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">3</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">4</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">5</th><th class="menu-highscore-table-player">ein Mensch</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">6</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">7</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">8</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">9</th><th class="menu-highscore-table-player">niemand</th><th class="menu-highscore-table-points">100</th></tr>
-                    <tr><th class="menu-highscore-table-nr">10</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+					<table id="menu-highscore-table" >
+						<thead>
+							<tr>
+								<th class="menu-highscore-table-nr">#</th>
+								<th>Player</th>
+								<th class="menu-highscore-table-points">Points</th>
+							</tr>
+						</thead>
+						<tbody>
+			
+							<!-- Testdaten -->
 
+							<tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">3</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">4</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">5</th><th class="menu-highscore-table-player">ein Mensch</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">6</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">7</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">8</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">9</th><th class="menu-highscore-table-player">niemand</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">10</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
 
-                </tbody>
-            </table>
-<!-- Ende HIGHSCORE -->
-                    
+						</tbody>
+					</table>
+					
+					<!-- Ende HIGHSCORE -->
+					
                 </div>
-
+				
+			<div id="options" hidden>Test options unicorns rainbow</div>
+			
             </div>
         </div>
     </div>
@@ -134,7 +135,7 @@
     <div id="scoreBox">
         <div id="score">0</div>
         <div id ="moneyBox">
-            €<div id="money">0</div>
+			€<div id="money">0</div>
         </div>
     </div>
 
@@ -203,22 +204,19 @@
     <div id="gameOverBox">
         <div id="gameOverText1">Game Over</div>
         <div id="gameOverBox2">
-            <div id=gameOverText2>Score : </div><div id="gameOverText3"></div>
+            <div id="gameOverText2">Score:</div>
+			<div id="gameOverText3"></div>
         </div>
         <a href="../index.html">
-            <button type="Button" id="gameOverButton" value="back to menu" >back to menu</button>
+            <button type="Button" id="gameOverButton" value="back to menu">back to menu</button>
         </a>
     </div>
-	
-
 
     <!-- Libraries -->
     <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
     <script src="../res/js/lib/threejs/three.js"></script>
     <script src="../res/js/lib/TargetCamera.js"></script>
     <script src="../res/js/lib/stats.min.js"></script>
-
-
 
    <!-- custom -->
     <script src="FileLoader.js"></script>
@@ -234,8 +232,6 @@
     <script src="Collision.js"></script>
     <script src="CollisionHandling.js"></script>
     <script src="Weapon.js"></script>
-
-
 
 </body>
 </html>
