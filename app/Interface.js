@@ -34,8 +34,10 @@ function interfaceInit() {
 	setHP(100);
 	setMoney(20333300);
 	updateWeaponInterface();
+	
 	displayLevel(1);
-	setLevelTimer(200);
+	setLevelTimer(260);
+	startLevelTimer();
 }
 
 /**
@@ -472,7 +474,7 @@ var costUpgrade2 = 5000; //+ 1 maxSpeed
 var firstBuyUpgrade3 = true;
 var amountUpgrade3 = 1;
 var costUpgrade3Faktor = 1.2;
-var costUpgrade3 = 40000; //+ 1 maxSpeed
+var costUpgrade3 = 40000; //+ 1 hp alle anfangs 5 sec
 var upgrade3Time = 5000;
 
 
