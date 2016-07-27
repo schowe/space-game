@@ -187,6 +187,8 @@ function shootLaser(){
 	  	//rotate: HitBox would be pointing up otherwise
 	  	laserHitBox.rotateX(1.57);
 
+	  	laser.translateY(-40);
+	  	laserHitBox.translateY(-40);
 
 	  	//add bullet to scene
 	  	scene.add(laser);
