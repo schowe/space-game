@@ -192,7 +192,7 @@ function render() {
         movement.move(delta);
         updateStars();
         updateAsteroids();
-
+        updatePowerUps();
         // update particle ray of the spaceship
         player.updateParticleValues();
         // update all explosions
