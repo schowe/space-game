@@ -1,7 +1,3 @@
-//Variables
-var laserDamage = 2;
-var rocketDamage = 10;
-
 //Are the weapons active?
 var weaponsActive = false;
 
@@ -9,10 +5,6 @@ var weaponsActive = false;
 var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
-
-var laserDamage = 2;
-var rocketDamage = 10;
-var explostionDamage = 8;
 var MGAmmo = 0;
 var MaxMGAmmo = 100;
 
@@ -54,7 +46,7 @@ var rocketGeometry;
 var explosionGeometry;
 var MGGeometry;
 var hitBoxGeometry;
-//var rocketTexture;
+var rocketTexture;
 
 // Materials for Bullets etc.
 var shootMaterial;
@@ -73,9 +65,13 @@ function initializeWeapons(){
 	hitBoxGeometry = new THREE.CylinderGeometry(1,1,1000);
 
 	//initialize Materials
-	//rocketTexture = fileLoader.get("RocketTexture");
+	rocketTexture = fileLoader.get("TextureHero");
+	rocketMaterial= new THREE.MeshPhongMaterial({map: rocketTexture});
+
+
+
 	shootMaterial = new THREE.MeshBasicMaterial({ color:0xFF0000 });
-	rocketMaterial = new THREE.MeshPhongMaterial( { /*map:rocketTexture*/ color: 0x0000FF});
+	//rocketMaterial = new THREE.MeshPhongMaterial( { /*map:rocketTexture*/ color: 0x0000FF});
 	explosionMaterial = new THREE.MeshBasicMaterial({ color:0xFF2F05 });
 	hitBoxMaterial = new THREE.MeshBasicMaterial({ color:0x00FF00 });
 
@@ -207,6 +203,27 @@ function shootLaser(){
 	}
 }
 
+function successLaser(bul){
+
+	scene.remove(projectiles[bul]);
+	scene.remove(projectiles[bul-1]);
+	//remove Laser HitBox
+	projectiles.splice(bul,1);
+	//remove Laser
+	projectiles.splice((bul-1),1);
+}
+
+function successRocket(bul){
+	rocketExplode(projectiles[bul-1]);
+	scene.remove(projectiles[bul]);
+	scene.remove(projectiles[bul-1]);
+	//remove Laser HitBox
+	projectiles.splice(bul,1);
+	//remove Laser
+	projectiles.splice((bul-1),1);
+
+}
+
 //Shooting Rocket
 function shootRocket(){
 	//if for limiting rocket-shooting frequence
@@ -220,7 +237,7 @@ function shootRocket(){
 
 	  	var rocketHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
 
-	  	rocket.name = "Rocket"
+	  	rocket.name = "Rocket";
 
 	  	//set name for recocnition in render-function
   	 	rocketHitBox.name = "RocketHitBox";
@@ -279,7 +296,7 @@ function rocketExplode(rocket){
 
   //name for identification in rendering
   explosion.name = "Explosion";
-
+  explosion.visible = false;
   //add explosion to scene
   scene.add(explosion);
 
@@ -288,6 +305,10 @@ function rocketExplode(rocket){
 
   //add explision to projetiles list for rendering and collision
   projectiles.push(explosion);
+
+  explosionParticleHandler.addExplosion(explosion.position, 1, 0xFF3F00);
+  explosionParticleHandler.addExplosion(explosion.position, 2, 0xFFFF00);
+  explosionParticleHandler.addExplosion(explosion.position, 6, 0xFF0000);
 }
 
 //calculates the distance between an Object and the spaceship
