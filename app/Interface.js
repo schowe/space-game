@@ -632,3 +632,28 @@ function resetColors() {
     $('.returnBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)');
 	*/
 }
+
+var $open1 = false;
+function showFirst() {
+	if (!$open1) {
+		$('#first').show();
+		$open1 = true;
+	}
+	else {
+		$('#first').hide();
+		$open1 = false;
+	}
+
+}
+var $open2 = false;
+function showSecond() {
+	if (!$open2) {
+		$('#second').show();
+		$open2 = true;
+	}
+	else {
+		$('#second').hide();
+		$open2 = false;
+	}
+
+}
