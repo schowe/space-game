@@ -81,6 +81,44 @@ function handleProjectiles() {
         }
 
 
+        for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
+
+            if (projectiles[i].name === "LaserHitBox") {
+                if (collision.intersectBoxCylinder(itemHitBoxes[j],
+                        projectiles[i])) {
+                    // successLaser(projectiles[i]);
+                    console.log("Collision detected");
+                    collected(j);
+                }
+            }
+
+            else if (projectiles[i].name === "RocketHitBox") {
+                if (collision.intersectBoxCylinder(itemHitBoxes[j],
+                        projectiles[i])) {
+                    // successRocket(projectiles[i]);
+                    console.log("Collision detected");
+                    collected(j);
+                }
+            }
+
+            else if (projectiles[i].name === "Explosion") {
+                if (collision.intersectSphereBox(itemHitBoxes[j],
+                        projectiles[i])) {
+                    console.log("Collision detected");
+                    collected(j);
+                }
+            }
+
+            else if (projectiles[i].name === "MachineGun") {
+                if (collision.intersectSphereBox(itemHitBoxes[j],
+                        projectiles[i])) {
+                    // successMachineGunBullet(projectiles[i]);
+                    console.log("Collision detected");
+                    collected(j);
+                }
+            }
+
+        }
 
 
         // Gegner wird getroffen

@@ -100,7 +100,7 @@ function collected(itemNumber){
 
 	}
 
-    explosionParticleHandler.addExplosion(itemHitBoxes[itemNumber].position, 3, 0x6495ED);
+    explosionParticleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED);
 
     scene.remove(powerUps[itemNumber]);
     scene.remove(itemHitBoxes[itemNumber]);
