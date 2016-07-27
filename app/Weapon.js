@@ -1,12 +1,18 @@
 //Variables
+var laserDamage = 2;
+var rocketDamage = 10;
 
 //Are the weapons active?
 var weaponsActive = false;
 
-//Available ammunition, maximal ammunition 
+//Available ammunition, maximal ammunition
 var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
+
+var laserDamage = 2;
+var rocketDamage = 10;
+var explostionDamage = 8;
 var MGAmmo = 0;
 var MaxMGAmmo = 100;
 
@@ -84,15 +90,15 @@ function initializeWeapons(){
 function MGShoot(){
 	  //create bullet mesh
 	  var bullet1 = new THREE.Mesh(MGGeometry, shootMaterial);
-	  
+
 	  //rotation for traveling direction: laser needs to be turned; if bullet ist turned in the same angle they can be rendered together.
 	  bullet1.rotateZ(1.57);
-	  
+
 	  //translate bullet to Position of the spaceship. Then spread a little for MG-effect
 	  bullet1.position.x = ship.position.x+4;
 	  bullet1.position.y = ship.position.y+0.3;
 	  bullet1.position.z = ship.position.z+0.3;
-	  
+
 	  //add bullet to scene
 	  scene.add(bullet1);
 
@@ -135,7 +141,7 @@ function MGShoot(){
 	  projectiles.push(bullet5);
 }
 
-//called by EventListener when mouse clicked: leftclick: e.button == 0; rightclick e.button = 2 (ZWEI) 
+//called by EventListener when mouse clicked: leftclick: e.button == 0; rightclick e.button = 2 (ZWEI)
 function shoot(e){
 	if(e.button == 0){
 		shootLaser();
@@ -148,18 +154,18 @@ function shoot(e){
 //Firering main-laser
 function shootLaser(){
 	//if for limiting shooting frequency
-	if(timeSinceShoot > 0.4){ 
-		
+	if(timeSinceShoot > 0.4){
+
 		//play lazer-sound
 	  	laserAudio.play();
-	  	
+
 	  	//reset timer
 	  	timeSinceShoot = 0;
-		
+
 		//create mesh
 	 	var laser 		= new THREE.Mesh(shootGeometry,  shootMaterial);
 	 	var laserHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
-	 	
+
 	 	//set name for recognition in render-function
 	 	laser.name  = "Laser";
 	 	laserHitBox.name = "LaserHitBox";
@@ -168,7 +174,7 @@ function shootLaser(){
 	  	laser.position.x = ship.position.x;
 	  	laser.position.y = ship.position.y;
 	  	laser.position.z = ship.position.z;
-	  	
+
 	  	//translate HitBox to ship position
 	  	laserHitBox.position.x = ship.position.x;
 	  	laserHitBox.position.y = ship.position.y;
@@ -205,7 +211,7 @@ function shootLaser(){
 function shootRocket(){
 	//if for limiting rocket-shooting frequence
     if(timeSinceRocket>1.2){
-   		
+
    		//play rocket-sound
    		rocketAudio.play();
 
@@ -241,7 +247,7 @@ function shootRocket(){
 
   	 	//rotate: laser beam would be pointing up otherwise
 	  	rocketHitBox.rotateX(1.57);
-    	
+
     	//add rocket to scene
     	scene.add(rocket);
 
@@ -265,7 +271,7 @@ function rocketExplode(rocket){
 
   //the explosion is a big sphere (dummy)
   var explosion = new THREE.Mesh(explosionGeometry, explosionMaterial);
-  
+
   //set position at position of the exploding rocket
   explosion.position.x = rocket.position.x;
   explosion.position.y = rocket.position.y;
@@ -322,14 +328,14 @@ function renderWeapons(){
 
 		//calculate distance between projectile and spaceship
 		var dis = calculateDistanceToShip(projectiles[bul]);
-		
+
 		//check name and proceed accordingly
 
 		//if projectile is a laser-beam:
 		if(projectiles[bul].name == "Laser"){
 			//translate in mooving direction
 	    	projectiles[bul].translateY(-4000 * add);
-	    	//if more then 3000 away from ship delete 
+	    	//if more then 3000 away from ship delete
 	    	if (dis > biggerSphereRadius){
     			scene.remove(projectiles[bul]);
     			//delete projectiles[bul];
@@ -341,19 +347,19 @@ function renderWeapons(){
 		else if(projectiles[bul].name == "LaserHitBox"){
 			//translate in mooving direction
 	    	projectiles[bul].translateY(-4000 * add);
-	    	//if more then 3000 away from ship delete 
+	    	//if more then 3000 away from ship delete
 	    	if (dis > biggerSphereRadius){
     			//scene.remove(projectiles[bul]);
     			//delete projectiles[bul];
     			projectiles.splice(bul,1);
     		}
 	    }
-	    
+
 	    //if projectile is a rocket:
 	    else if(projectiles[bul].name == "Rocket"){
 	    	//translate in mooving direction (translateZ becouse of different orientation to laser)
 	    	projectiles[bul].translateZ(2000 * add);
-  			
+
 	    	//if more then 1000 away explode
   			if (dis > 1500){
   		   		rocketExplode(projectiles[bul]);
@@ -367,16 +373,16 @@ function renderWeapons(){
 	    else if(projectiles[bul].name == "RocketHitBox"){
 	    	//translate in mooving direction (translate becouse of different orientation to laser)
 	    	projectiles[bul].translateY(-2000 * add);
-  			
+
 	    	//if more then 1000 away explode
   			if (dis > 1500){
   		   		//scene.remove(projectiles[bul]);
   				projectiles.splice(bul, 1);
   		   	}
 	    }
-	    //if projectile is an Explosion: 
+	    //if projectile is an Explosion:
 	    else if(projectiles[bul].name == "Explosion"){
-	    	//Check if Explosion 
+	    	//Check if Explosion
 	    	if (explosionTime > 0.15){
         		scene.remove(projectiles[bul]);
         		projectiles.splice(bul, 1);

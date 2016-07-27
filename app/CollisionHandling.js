@@ -51,8 +51,8 @@ function handleProjectiles() {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
                     // successLaser(projectiles[i]);
-                    //hitAsteroid(j, "Laser");
-                    destroyAsteroid(j);
+                    hitAsteroid(j, "Laser");
+                    // destroyAsteroid(j);
                 }
             }
 
@@ -60,16 +60,16 @@ function handleProjectiles() {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
                     // successRocket(projectiles[i]);
-                    // hitAsteroid(j, "Rocket");
-                    destroyAsteroid(j);
+                    hitAsteroid(j, "Rocket");
+                    //destroyAsteroid(j);
                 }
             }
 
             else if (projectiles[i].name === "Explosion") {
                 if (collision.intersectSphereOther(asteroidHitBoxes[j],
                         projectiles[i])) {
-                    // hitAsteroid(j, "Explosion");
-                    destroyAsteroid(j);
+                    hitAsteroid(j, "Explosion");
+                    //destroyAsteroid(j);
                 }
             }
 

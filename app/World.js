@@ -1,8 +1,8 @@
 var sphere = new THREE.Object3D();
 var biggerSphere = new THREE.Object3D();
 var stars = [];
-
 var asteroids = [];
+var asteroidsHP = [];
 var asteroidSpeedVecs = [];
 var asteroidRotVecs = [];
 var asteroidHitBoxes = [];
@@ -87,7 +87,7 @@ function createAsteroids(){
                 astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
                 astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = rndScale;
 
-
+    asteroidsHP.push(10);
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
@@ -171,6 +171,46 @@ function asteroidCollision(ast1Index, ast2Index){
 }
 
 
+
+function hitAsteroid(asteroidNumber, collisionType){
+
+
+    switch (collisionType){
+
+
+      case "Laser" :
+
+          asteroidsHP[asteroidNumber] -= laserDamage;
+
+          break;
+
+      case "Rocket" :
+
+          asteroidsHP[asteroidNumber] -= rocketDamage;
+
+          break;
+
+      default:
+
+      break;
+
+
+    }
+
+
+    if(asteroidsHP[asteroidNumber] <= 0){
+
+
+      destroyAsteroid(asteroidNumber);
+
+    }
+
+
+
+
+}
+
+
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber){
 
@@ -193,6 +233,9 @@ function destroyAsteroid(asteroidNumber){
     asteroidHitBoxes[asteroidNumber].scale.x = asteroidHitBoxes[asteroidNumber].scale.y = asteroidHitBoxes[asteroidNumber].scale.z = newScale;
 
     asteroidHitBoxes[asteroidNumber].geometry.parameters.radius = 4 * newScale;
+
+    asteroidsHP[asteroidNumber] = 100;
+
 }
 
 
