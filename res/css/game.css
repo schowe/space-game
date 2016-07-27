@@ -59,6 +59,9 @@ canvas{
 
 /* HIGHSCORETABELLE */
 
+#highscore{
+}
+
 #headingHighscore {
 	font-size: 20px;
 	text-align:center;
@@ -129,29 +132,25 @@ canvas{
     margin-top: 12%;
     width: 50%;
     height: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
-   border: 2px solid white;
-   border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid white;
+    border-radius: 30px;
 
-   overflow:hidden;
-   /*position: relative;*/
+    overflow: hidden;
 }
 
 #menuArea {
     display: inline-block;
     width: 25%;
     height:50%;
-    //background-color: rgba(0, 0, 0, 0.6);
-    //background-color:rgba(255, 255, 255, 0.5);
     position: absolute; /* absolute bei Pascal */
     //vertical-align: center;
-    display:inline;
+    
 }
 
-#menuBoxes {
+#menuButtons {
 	width: 100%;
-	position: absolute;
-	top: 50%;
+	margin-top: 50%;
 	-webkit-transform: translateY(-50%);
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
@@ -171,7 +170,7 @@ canvas{
 } 
 */
 
-#pauseBox {
+#pauseButton {
 	//cursor: default;
     width: 90%;
     margin-left:5%;
@@ -193,14 +192,15 @@ canvas{
     //box-shadow: 4px 3px 71px -11px rgba(255,255,255,0.5);
 }
 
-#pauseBox:first-child {
-	margin-top:15%;
+#pauseButton:first-child {
+    margin-top: 3%;
+
 }
 
-#pauseBox:hover {
+#pauseButton:hover {
 	background-color: #cccccc;
 	border-color: rgba(255, 255, 255, 0.8);
-        transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
 }
 
 /* rechte Seite */
@@ -212,6 +212,8 @@ canvas{
 	margin-left:50%;
 	border-top-right-radius: 30px;
 	border-bottom-right-radius: 30px;
-	overflow: hidden;
+	
+    overflow-y: scroll;
+    
 	//position:absolute;
 }
