@@ -95,6 +95,9 @@ var Collision = function() {
                 (sphere.position.z - other.position.z) * (sphere.position.z - other.position.z));
         // if the distance between the centers is smaller the the sum of the
         // radii the spheres intersect
+
+    //console.log(sphere.parameters.radius);
+    // console.log(sphere.geometry.parameters.radius);
         return distance < (sphere.geometry.parameters.radius + other.geometry.parameters.radius);
     }
 
