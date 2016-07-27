@@ -645,3 +645,31 @@ function abrechnung(value) {
 		return false;
 	}
 }
+
+/**
+ * FUNCTIONS FOR MILESTONES
+ */
+
+var $open1 = false;
+function showFirst() {
+	if (!$open1) {
+		$('#first').show();
+		$open1 = true;
+	}
+	else {
+		$('#first').hide();
+		$open1 = false;
+	}
+
+}
+var $open2 = false;
+function showSecond() {
+	if (!$open2) {
+		$('#second').show();
+		$open2 = true;
+	}
+	else {
+		$('#second').hide();
+		$open2 = false;
+	}
+}
