@@ -5,6 +5,7 @@ var camera, scene, renderer, clock, delta;
 var fileLoader;
 var interface;
 var ship;
+var bot;
 var player;
 var frames = 0;
 var collision;
@@ -89,8 +90,8 @@ function init() {
     createStars();
 
     // Asteroiden und Bots initialisieren
-    var bot = Bot();
-    bot.initAI(1);
+   bot = Bot();
+   bot.initAI(1);
 
     var movement = Movement();
     movement.init();
@@ -186,6 +187,7 @@ function render() {
         updateStars();
         bot.updateAI(delta);
     }
+
 
     if (player !== undefined) {
         player.update();

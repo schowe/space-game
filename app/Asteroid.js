@@ -7,29 +7,38 @@ var geometryA, textureA;
 var despawnDistance = 5000; // aus core.js (Backplane der Camera)
 
 function Asteroid(location,radius, direction, speed, level, small) {
-	this.small	= small || false;
-
-	if(small) {
-    	geometryA = fileLoader.get("Asteroid V2");
-        textureA  = fileLoader.get("metall");
-	} else {
-		geometryA = fileLoader.get("Asteroid V2");
-        textureA  = fileLoader.get("metall");
-
-	}
-
+	console.log("Asteroid init");
     // Mesh setzen
+    if(small) {
+        geometryA = fileLoader.get("AsteroidV2");
+        textureA  = fileLoader.get("metall");
+    } else {
+        geometryA = fileLoader.get("AsteroidV2");
+        textureA  = fileLoader.get("metall");
+    }
+
     THREE.Mesh.call(this, geometryA,
                         new THREE.MeshPhongMaterial({map: textureA}));
-;
+
+    // setze Groesse
+    this.scale.set(radius,radius,radius);
 
     this.direction 	= direction;
     this.direction.normalize();
     this.speed 		= speed;
     this.radius 	= radius;
-    this.position 	= location;
+    
+    this.position.x = location.x;
+    this.position.y = location.y;
+    this.position.z = location.z;
+
     this.level 		= level;
     this.isAlive	= true;
+
+    // setze Rotation
+    this.rotation.set(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random(), 'XYZ');
+
+    this.rotateSpeed = new THREE.Vector3(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random());
 }
 
 Asteroid.prototype.constructor = Asteroid;
@@ -39,11 +48,17 @@ Asteroid.prototype.move = function(delta) {
     this.position.add(direction.multiplyScalar(speed * delta));
     direction.normalize();
 
-    if(this.position.distanceTo(playerPosition) > despawnDistance) {
+    if(this.position.distanceTo(ship.position) > despawnDistance) {
     	isAlive = false;
     }
 
-    // TODO: add rotation (this.rotation? <- von Object3D)
+    console.log("Position asteroid: ("+this.position.x+","+this.position.y+","+this.position.z+")");
+
+
+    this.rotation.x += this.rotateSpeed.x;
+    this.rotation.y += this.rotateSpeed.y;
+    this.rotation.z += this.rotateSpeed.z;
+    console.log("Rotation asteroid: ("+this.rotation.x+","+this.rotation.y+","+this.rotation.z+")");
 
 }
 
@@ -85,7 +100,7 @@ Asteroid.prototype.onCollisionDetect = function(other, typ) {
 }
 
 Asteroid.prototype.reflect = function(other) {
-	// Reflektiert Asteroiden this und other
+    // Reflektiert Asteroiden this und other
     var factor;
 
     // "Normale" der Reflektion (zeigt von this nach other -> "Normale fuer this")

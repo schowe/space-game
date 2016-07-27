@@ -7,7 +7,7 @@
 // Hier aufzurufen:
 // - init()
 // - update(delta)
-var asteroids = [], enemies = [], enemy, asteroid;
+var asteroids = [], enemies = [], enemy, asteroid, playerPosition, worldRadius;
 
 function Bot() {
 
@@ -20,15 +20,14 @@ function Bot() {
     var ASTEROID = 2;
     var SHIP     = 3;
 
-    var playerPosition,
-        worldRadius, radius, i;
+    var radius, i;
 
 
     // Sortierfunktion fuer Bots (Enemies und Asteroids)
     // je naeher am Schiff, desto niedriger der Indize
     function compare(a,b) {
-        var distanceA = a.location.distanceToSquared(playerPosition);
-        var distanceB = b.location.distanceToSquared(playerPosition)
+        var distanceA = a.position.distanceToSquared(playerPosition);
+        var distanceB = b.position.distanceToSquared(playerPosition)
 
         if(distanceA < distanceB) {
             return -1;
@@ -72,8 +71,10 @@ function Bot() {
 
     // Erschaffe Asteroiden
     function createAsteroid(level) {
+	console.log("Enter Create Asteroid");
         // Welt als Kugel -> Setze an den aeusseren 3/4 Rand
         positionRadius = worldRadius/4 * (1+3*Math.random());
+
 
         // zufaellig an den Rand positionieren
         do {
@@ -90,7 +91,8 @@ function Bot() {
         } while(!farAway(asteroidPosition, radius));
 
         // TODO: speed abhaengig von Level, ! asteroid.speed < min(enemy.speed)
-        speed = level;
+        speed = level > 15 ? 15 : level;
+        speed = speed/3 * (2 * Math.random() + 1);
 
         // Richtung:
         direction = new THREE.Vector3(
@@ -100,11 +102,12 @@ function Bot() {
         var randomDir = new THREE.Vector3(
                             Math.random(), Math.random(), Math.random());
         randomDir.normalize();
-        randomDir.multiplyScalar(Math.pow(-1,Math.round(1000 * Math.random())) *
-                         Math.random() * 0.839); // tan(40°)
+        randomDir.multiplyScalar(Math.random() * 0.839); // tan(40°)
+        randomDir.multiplyScalar(direction.length());
         direction.add(randomDir);
+	    console.log("Finally Create Asteroid");
 
-        asteroid = new Asteroid(asteroidPosition, 100, direction, speed, level, false);
+        asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level, false);
 
         return asteroid;
     }
@@ -112,7 +115,7 @@ function Bot() {
     // Erschaffe Enemy
     function createEnemy(level) {
         var weapon;
-
+	console.log("Enter Create Enemy");
         // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
         radius = worldRadius/6 * (5+Math.random());
 
@@ -129,7 +132,7 @@ function Bot() {
         } while(!farAway(enemyPosition, maxShipSize));
 
         // TODO: speed abhaengig von Level
-        speed = 2;
+        speed = 20;
 
         // TODO: weapon
         switch(Math.round(level * Math.random())) {
@@ -140,6 +143,7 @@ function Bot() {
             default: typ = 4; // hardest weapon
         }
 
+	console.log("Finally Create Enemy");
         enemy = new Enemy(enemyPosition, speed, level, typ);
 
         return enemy;
@@ -163,6 +167,7 @@ function Bot() {
         // Asteroiden: Bewegung updaten
         for(asteroid of asteroids) {
             asteroid.move(delta);
+            console.log("Asteroid wird bewegt")
         }
 
         asteroids.sort(compare);
@@ -172,6 +177,7 @@ function Bot() {
         // ab d_min auf jeden Fall ausweichen
         for(enemy of enemies) {
             enemy.move(delta, asteroid, enemies);
+            console.log("Enemy wird bewegt")
         }
 
     }
@@ -184,7 +190,6 @@ function Bot() {
             // Gegner und Asteroiden updaten
             updateLocation(delta);
             // Kollisionsueberpruefung -> zerstoerte Loeschen
-            enemies = checkCollisionAndAct(asteroids, enemies);
             // Schiessen
             for(enemy of enemies) {
                 if(enemy.shootAble) {
@@ -192,11 +197,13 @@ function Bot() {
                     enemy.shootAble = false;
                 }
             }
+            console.log("AI updated")
         },
 
 
         // Initialisierer der Bots je Level
         initAI: function(level) {
+		console.log("Start initAI");
             // setzen unserer externen Faktoren
             playerPosition = ship.position;
             worldRadius = 5000;
@@ -207,9 +214,10 @@ function Bot() {
             }
 
             // TODO: Levelabhaengigkeit klaeren
-            for(i = 0; i < 5 * level; i++) {
+            for(var i = 0; i < 50 * level; i++) {
                 asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
+		        console.log(asteroids.length);
                 scene.add(asteroid);
             }
 
@@ -218,10 +226,12 @@ function Bot() {
                 enemies = [];
             }
 
-            for(i =0 ; i < 3 * level; i++) {
+            for(var i =0 ; i < 5 * level; i++) {
                 enemy = createEnemy(level);
                 enemies.push(enemy);
+ 		        console.log(enemies.length);
                 scene.add(enemy);
+                i = 5;
             }
         }
     }
