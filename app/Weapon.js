@@ -1,11 +1,15 @@
 
-var asteroids = [];
+
 
 //Variables
 var weaponsActive = false;
 var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
+
+var laserDamage = 2; 
+var rocketDamage = 10; 
+var explostionDamage = 8; 
 var MGAmmo = 0;
 var MaxMGAmmo = 100;
 

@@ -90,8 +90,11 @@ function collected(itemNumber){
 		case "HEALTH": 
 
 			powerUpAudio.play(); 
+			changeHP(50); 
 
 		break; 
+
+
 
 
 
