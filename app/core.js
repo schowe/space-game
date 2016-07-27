@@ -18,6 +18,7 @@ var player;
 var movement;
 var explosionParticleHandler;
 var collision;
+var stats;
 
 // Postprocessing
 var composer, glitchPass, glitchPassEnabled;
@@ -144,7 +145,7 @@ function init() {
 
     glitchPass = new THREE.GlitchPass();
     glitchPass.renderToScreen = true;
-    glitchPass.goWild = true;
+    // glitchPass.goWild = true;
     composer.addPass(glitchPass);
 
     glitchPassEnabled = false;
@@ -177,7 +178,7 @@ function cameraAnimate(){
     }
     //
     delta = clock.getDelta();
-    Movement().move(delta);
+    movement.move(delta);
     camera.update();
     renderer.render(scene, camera);
 }
