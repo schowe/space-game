@@ -1,5 +1,5 @@
-function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector,speed) {
-
+function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector,speed,size) {
+    //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
     function rand() {
         return Math.random();
     }
@@ -17,7 +17,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
     this.material = new THREE.PointCloudMaterial(
         {
             color: particleColor,
-            size: 1,
+            size: size,
             map:particleTexture, // TODO: Fileloader benutzen
             blending: THREE.AdditiveBlending,
             transparent: true

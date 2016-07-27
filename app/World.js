@@ -154,9 +154,9 @@ function asteroidCollision(ast1Index, ast2Index){
     var ast2 = asteroids[ast2Index];
     var ast1Dir = asteroidSpeedVecs[ast1Index];
     var ast2Dir = asteroidSpeedVecs[ast2Index];
-    //console.log("war hier");
-    //console.log(asteroidHitBoxes[ast1Index].geometry.parameter.radius);
-    // if(asteroidHitBoxes[ast1Index]>55 && asteroidHitBoxes[ast2Index]>55){
+    
+    //console.log(asteroidHitBoxes[ast1Index].geometry.parameters.radius);
+  if(asteroidHitBoxes[ast1Index].geometry.parameters.radius>55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius>55){
     var axis = ast2.position.clone();
     axis.sub(ast1.position);
 
@@ -171,27 +171,28 @@ function asteroidCollision(ast1Index, ast2Index){
 
     asteroidSpeedVecs[ast1Index] = ast1Dir;
     asteroidSpeedVecs[ast2Index] = ast2Dir;
-  //  console.log("1 hat 2 die Hand geschüttelt");
-  //} 
-  //if(asteroidHitBoxes[ast1Index]<55 && asteroidHitBoxes[ast2Index]>55){
-
-   // destroyAsteroid(ast1Index);
-   // console.log("1 hat Bumm gemacht");
-
-  //} 
- // if(asteroidHitBoxes[ast1Index]>55 && asteroidHitBoxes[ast2Index]<55){
-
-  //  destroyAsteroid(ast2Index);
-  //  console.log("2 hat Bumm gemacht");
-
-  //} 
-  //if(asteroidHitBoxes[ast1Index]<55 && asteroidHitBoxes[ast2Index]<55){
-  //  destroyAsteroid(ast1Index);
-  // destroyAsteroid(ast2Index);
-  //  console.log("Das ist wohl ein draw");
- // }
+    console.log("Kaputt");
     
+  } else{
+    if(asteroidHitBoxes[ast1Index].geometry.parameters.radius<55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius>55){
+      console.log("Kaputt");
+      destroyAsteroid(ast1Index);
+      
+    } else{
+    if(asteroidHitBoxes[ast1Index].geometry.parameters.radius>55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius<55){
 
+      destroyAsteroid(ast2Index);
+      console.log("2 hat Bumm gemacht");
+
+    } else{
+    if(asteroidHitBoxes[ast1Index].geometry.parameters.radius<55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius<55){
+      destroyAsteroid(ast1Index);
+      destroyAsteroid(ast2Index);
+      console.log("Das ist wohl ein draw");
+    }
+  }
+}
+}
 }
 
 
@@ -237,8 +238,8 @@ function hitAsteroid(asteroidNumber, collisionType){
 
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber){
-    
-    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc,1);
+    //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
+    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc, 1, 1);
     
     
     var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
