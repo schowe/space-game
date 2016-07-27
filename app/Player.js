@@ -1,4 +1,6 @@
 var ship, frontVector, backVector, directionVector;
+var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
+var playerHitBoxes = [];
 var cross;
 frontVector = new THREE.Vector3(0, 0, 0);
 backVector = new THREE.Vector3(0, 0, 0);
@@ -37,12 +39,29 @@ function Player() {
             cross.scale.set(3.0, 3.0, 1.0);
             ship.add(cross);
 
-            var hitBoxCenterGeometry = new THREE.BoxGeometry(20,20,100);
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(5,2,20);
             var hitBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-            var hitBoxCenter = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+            hitBoxCenter = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
 
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(10,2,5);
+            hitBoxLeftWing = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+            hitBoxLeftWing.position.x = -5;
+
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(10,2,5);
+            hitBoxRightWing = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+            hitBoxRightWing.position.x = 5;
+
+            playerHitBoxes.push(hitBoxCenter);
+            playerHitBoxes.push(hitBoxLeftWing);
+            playerHitBoxes.push(hitBoxRightWing);
+
+            // scene.add(hitBoxCenter);
+            // scene.add(hitBoxLeftWing);
+            // scene.add(hitBoxRightWing);
+            ship.add(hitBoxLeftWing);
+            ship.add(hitBoxRightWing);
             ship.add(hitBoxCenter);
-            scen.add(hitBoxCenter);
+
 
         },
         updateParticleValues: function () {
@@ -71,7 +90,28 @@ function Player() {
 
             // particleRay.updateStartAndEndpoint(startVector, endVector);
             particleRay.update();
+        },
+
+        updatePlayerHitBoxes: function () {
+            for (var i = 0; i < playerHitBoxes.length; i++) {
+
+                // playerHitBoxes[i].position.x = ship.position.x;
+                // playerHitBoxes[i].position.y = ship.position.y;
+                // playerHitBoxes[i].position.z = ship.position.z;
+
+                // var matrix = new THREE.Matrix4();
+                // matrix.extractRotation(ship.matrix);
+
+                // var upVector = new THREE.Vector3(0,1,0);
+                // matrix.multiplyVector3(upVector);
+
+                // playerHitBoxes[i].applyMatrix(ship.matrix);
+
+                // playerHitBoxes[i].matrix = ship.matrix;
+
+            }
         }
+
     };
 
 };

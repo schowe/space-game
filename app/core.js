@@ -91,7 +91,7 @@ function init() {
     createAsteroids();
 
     movement = Movement();
-    movement.init();    
+    movement.init();
     interfaceInit();
 
 
@@ -159,7 +159,7 @@ var delta;
 
 
 function animate() {
-    // dont touch!    
+    // dont touch!
     requestAnimationFrame( animate );
     now = Date.now();
     delta = now - then;
@@ -167,7 +167,7 @@ function animate() {
         then = now - (delta % interval);
         render();
     }
-   
+
 }
 
 function render() {
@@ -183,13 +183,10 @@ function render() {
         updateStars();
         updateAsteroids();
     }
-    
+
     player.updateParticleValues();
+    player.updatePlayerHitBoxes();
     camera.update();
 
     renderer.render(scene, camera);
 }
-
-
-
-

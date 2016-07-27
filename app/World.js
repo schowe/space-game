@@ -50,9 +50,34 @@ function createAsteroids(){
     var  materialAst, astHitBox, hitGeometry;
     var astTexture, astOriginal;
 
-    astTexture = fileLoader.get("Asteroid V2");
+    astTexture = fileLoader.get("AsteroidV2");
 
-  for( countAst = 0; countAst < 100; countAst++){
+    var vecSpeed = new THREE.Vector3 (0 ,-1, 1);
+    var vecRot = new THREE.Vector3 (0, 0, 0);
+    asteroidSpeedVecs.push(vecSpeed);
+    asteroidRotVecs.push(vecRot);
+    astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+    astOriginal.position.x = -400;
+    astOriginal.position.y = 200;
+    astOriginal.position.z = -200;
+    astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = 10;
+    hitGeometry =  new THREE.SphereGeometry(66.18, 32, 32);
+
+    var colSphereMaterial = new THREE.MeshBasicMaterial({
+                    transparent: true,
+                    opacity: 0.5,
+                     color: 0xffffff
+                });
+                astHitBox = new THREE.Mesh(hitGeometry, colSphereMaterial);
+                astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
+                astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = 1;
+              //astHitBox.geometry.applyMatrix(astOriginal.matrix);
+     asteroids.push(astOriginal);
+     asteroidHitBoxes.push(astHitBox);
+     scene.add(astOriginal);
+     scene.add(astHitBox);
+
+  for( countAst = 1 ; countAst < 100; countAst++){
 
      rndSpeedX = Math.random()* 20 - 14;
      rndSpeedY = Math.random()* 20 - 14;
