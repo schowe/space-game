@@ -133,7 +133,7 @@ function Bot() {
         } while(!farAway(enemyPosition, maxShipSize));
 
         // TODO: speed abhaengig von Level
-        var speed = 200;
+        var speed = 2000;
 
         // TODO: weapon
         switch(Math.round(level * Math.random())) {

@@ -69,6 +69,7 @@ function Enemy(location, speed, level, typ) {
     this.lookAt(playerPosition);
     // .. und direction
     this.direction  = MATH.clone(playerPosition);
+    this.oldDir     = MATH.clone(playerPosition);
     this.direction.sub(this.position);
     this.direction.normalize();
 
@@ -99,7 +100,13 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     if(this.onPlayerAttack) {
         // Achte darauf, dass sich der Spieler nicht um mehr als 90° zur
         // urspruenglichen Richtung gedreht hat
-        optimalDir = this.moveBezier();
+        var renew = false;
+        // Falls Spieler umgedreht (im Vergleich zum initialisieren), neu machen
+        if(MATH.dot(this.oldDir,this.direction) < 0) {
+            renew = true;
+        }
+
+        optimalDir = this.moveBezier(renew, delta);
     } else {
 
         // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
@@ -122,6 +129,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             onPlayerAttack = true;
 
             // TODO: Init Bezier-Kurve und gebe ersten Punkt vor
+            optimalDir = this.moveBezier(true, delta);
         }
     }
 
@@ -230,7 +238,23 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             } else {
             // sonst, weiche aus bzw. zerschiesse Asteroid wie aufs Zettel 1
             // TODO: U,V nehmen -> orthogonal verschieben und schiesse zuvor
+            this.shoot();
+            var upVector = new THREE.Vector3(0,1,0);
+            //upVector.add(shipPosition);
+            // TODO: Ueberpruefe, ob Up richtig
+            var N = MATH.clone(optimalDir);
 
+            var U = MATH.clone(N);
+            U.cross(N);
+            U.cross(N);
+
+            var V = MATH.clone(N);
+            V.cross(U);
+
+            N.normalize();
+            U.normalize();
+            V.normalize();
+            // !!!! TODO
             }
         } else {
             directionFound = false;
@@ -581,8 +605,72 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 }
 
 // @return optimale Richtung nach Bezierflugbahn
-Enemy.prototype.moveBezier = function() {
-    return new THREE.Vector3(0,0,0);
+// TODO: In aufrufender Klasse Fallunterscheidung
+Enemy.prototype.moveBezier = function(renew, delta) {
+    var p1, p2;
+    var shipSize = 9;
+
+    this.points = [];
+
+    // Falls noch nicht erzeugt oder Spieler sich um mehr als 90° gedreht hat
+    if(renew) {
+        var distanceToPlayer = this.position.distanceTo(ship.position);
+        // Vektor zum Spieler
+        var N = MATH.clone(ship.position);
+        N.sub(this.position);
+
+        // orthogonale Vektoren, um Plane aufzuspannen
+        var U = MATH.clone(N);
+        U.cross(new THREE.Vector3(0,1,0));
+        var V = MATH.clone(U);
+        V.cross(N);
+
+        U.normalize();
+        V.normalize();
+
+        // vor dem Spieler
+        if(MATH.dot(this.direction,) < 0) {// !! TODO: Nachfragen player.direction
+            p1 = MATH.clone(ship.position);
+            p1.add(U.addScalar(shipSize + Math.random() * shipSize));
+            p1.add(V.addScalar(shipSize + Math.random() * shipSize));
+            U.normalize();
+            V.normalize();
+            p2 = MATH.clone(ship.position);
+            p2.add(N.addScalar(0.5));
+            p2.add(U.addScalar(Math.random() * (shipSize + Math.random() * shipSize)));
+            p2.add(V.addScalar(Math.random() * (shipSize + Math.random() * shipSize)));
+            U.normalize();
+            V.normalize();
+            N.addScalar(2);
+        } else { // hinter dem Spieler
+            p1 = MATH.clone(this.position);
+            p1.add(N.addScalar(2/3));
+            p1.add(U.addScalar(shipSize + Math.random() * shipSize));
+            p1.add(V.addScalar(shipSize + Math.random() * shipSize));
+            U.normalize();
+            V.normalize();
+            N.addScalar(3/2);
+
+            p2 = MATH.clone(this.position);
+            p2.add(N.addScalar(1/3));
+            p2.add(U.addScalar(shipSize + Math.random() * shipSize));
+            p2.add(V.addScalar(shipSize + Math.random() * shipSize));
+            U.normalize();
+            V.normalize();
+            N.addScalar(3);
+        }
+
+        var curve = new THREE.SplineCurve3([
+            this.position,
+            p1,
+            p2,
+            ship.position]);
+
+        this.points = curve.getPoints(5 / delta);
+    }
+    
+    // Punkte abarbeiten mit points.shift();
+    return points.shift();
 }
 
 // Ueberprueft die Richtung auf Hindernisse
