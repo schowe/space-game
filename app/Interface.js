@@ -79,11 +79,35 @@ function loadingEllipsis() {
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
 	var splashArray = [
-		'Lasers are being painted red', //1 or 2? //RGB?
-		//'Painting the lasers red',
-		'Teaching the AI', //Instructing?
+		'Lasers are being painted red',
+		'Teaching the AI',
 		'Selecting suitable spaceship',
-		'...'	
+		"Polishing Asteroids",
+		'Manipulating AI',
+		'Failing Turing-Test',
+		'Recruiting Enemy Pilots',
+		'Flattening Hero Ship',
+		'Reloading Minigun',
+		'Refueling with unstable plutonium',
+		'Forming the Universe',
+		'Catching the 671th Weedle',
+		'Gather unexploded Rockets',
+		'Conquering the Universe',
+		'Inviting Bosses',
+		'Setting up Distress Beacon',
+		'Finding Wheatley',
+		'Plz don\'t sue us WB',
+		'Tuning Lasers to high C',
+		'Can\'t decide on Crosshair...',
+		'Seeding Stars',
+		'Inflating Shop Prices',
+		'Manipulating the Leaderboard',
+		'Downloading VIRUS.bat',
+		'Gathering Intel',
+		'Achieving Consciousness',
+		'Removing easiest difficulty',
+		'Encounting Voyager',
+		'Joining the Dark Side'
 	];
 	
 	// Random number between 0 and splashArray.length - 1
@@ -337,11 +361,11 @@ function displayLevel(value) {
 	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
 
 	setTimeout(function() {
-    	$levelReference.animate({opacity: '1'}, 100);
-		$levelReference.animate({opacity: '0.3'}, 100);
-		$levelReference.animate({opacity: '1'}, 100);
-		$levelReference.animate({opacity: '0.3'}, 100);
-		$levelReference.animate({opacity: '1'}, 100);
+    	$(levelReference).animate({opacity: '1'}, 100);
+	$(levelReference).animate({opacity: '0.3'}, 100);
+	$(levelReference).animate({opacity: '1'}, 100);
+	$(levelReference).animate({opacity: '0.3'}, 100);
+	$(levelReference).animate({opacity: '1'}, 100);
 	}, 5000);
 	
 	setTimeout(function() {
