@@ -30,6 +30,10 @@ function Player() {
 
     return {
 
+        playerHitByAsteroid: function() {
+            changeHP(-20);
+        },
+
         init: function () {
             var geometry = fileLoader.get("HeroShipV5");
             var texture = fileLoader.get("TextureHero");

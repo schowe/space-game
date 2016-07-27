@@ -28,6 +28,7 @@ $(function() {
 
     // Module initialisieren
     fileLoader = FileLoader();
+    LoadingScreen();
     interface = Interface();
     explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
@@ -53,6 +54,8 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
+
+	
     //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
@@ -157,7 +160,6 @@ function init() {
 
 }
 
-
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -213,6 +215,8 @@ function render() {
         updateStars();
         updateAsteroids();
 
+        updatePowerUps();
+        
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
         // Explosionen updaten
