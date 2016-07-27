@@ -27,7 +27,7 @@ $(function() {
     // wird ausgeführt, wenn das Dokument geladen ist:
 
     // Module initialisieren
-    fileLoader = FileLoader();    
+    fileLoader = FileLoader();
     interface = Interface();
     explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
@@ -190,7 +190,7 @@ function glitchScreen(duration) {
 
 
 function animate() {
-    // dont touch!    
+    // dont touch!
     requestAnimationFrame( animate );
     now = Date.now();
     delta = now - then;
@@ -198,7 +198,7 @@ function animate() {
         then = now - (delta % interval);
         render();
     }
-   
+
 }
 
 function render() {
@@ -212,13 +212,13 @@ function render() {
         movement.move(delta);
         updateStars();
         updateAsteroids();
-        
+
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
         // Explosionen updaten
         explosionParticleHandler.update();
     }
-    
+
     camera.update();
 
     if (glitchPassEnabled) {
@@ -226,9 +226,4 @@ function render() {
     } else {
         renderer.render(scene, camera);
     }
-
 }
-
-
-
-
