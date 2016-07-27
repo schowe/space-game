@@ -18,6 +18,7 @@ var collision;
 $(function() {
 
     fileLoader = FileLoader();
+    LoadingScreen();
     interface = Interface();
     explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
@@ -35,6 +36,8 @@ function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
+
+	
     //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
@@ -135,7 +138,6 @@ function init() {
 
     initializeWeapons();
 }
-
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
