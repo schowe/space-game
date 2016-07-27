@@ -1,4 +1,4 @@
-function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector) {
+function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector,speed) {
 
     function rand() {
         return Math.random();
@@ -8,7 +8,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
     this.clock = new THREE.Clock();
     this.clock.start();
-
+    var speed=speed;
     this.startVector = startVector;
     this.particleCount = nParticles;
     this.particles = new THREE.Geometry();
@@ -50,12 +50,13 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
         if (this.running) {
             var pCount = this.particleCount;
+
             while (pCount--) {
                 var particle = this.particles.vertices[pCount];
 
-                particle.velocity.x += (rand()-0.5)*1.5;
-                particle.velocity.y += (rand()-0.5)*1.5;
-                particle.velocity.z += (rand()-0.5)*1.5;
+                particle.velocity.x += (rand()-0.5)*speed;
+                particle.velocity.y += (rand()-0.5)*speed;
+                particle.velocity.z += (rand()-0.5)*speed;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;

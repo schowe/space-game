@@ -47,7 +47,7 @@ function createStars(){
 function createAsteroids(){
 
     var rndSpeedX, rndSpeedY, rndSpeedZ, rotSpeed, rndScale;
-    var  materialAst, astHitBox, hitGeometry;
+    var materialAst, astHitBox, hitGeometry;
     var astTexture, astOriginal;
 
     astTexture = fileLoader.get("AsteroidV2");
@@ -60,7 +60,6 @@ function createAsteroids(){
      rotSpeed = Math.random () * 0.05 - 0.01;
      rndScale = Math.random() * 70 - 40;
  
-
      var vecSpeed = new THREE.Vector3 (rndSpeedX ,rndSpeedY, rndSpeedZ);
      var vecRot = new THREE.Vector3 (rotSpeed *(Math.random () * (2-0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0 ), rotSpeed * (Math.random() *2 -0));
      asteroidSpeedVecs.push(vecSpeed);
@@ -153,7 +152,9 @@ function asteroidCollision(ast1Index, ast2Index){
     var ast2 = asteroids[ast2Index];
     var ast1Dir = asteroidSpeedVecs[ast1Index];
     var ast2Dir = asteroidSpeedVecs[ast2Index];
-
+    //console.log("war hier");
+    //console.log(asteroidHitBoxes[ast1Index].geometry.parameter.radius);
+    // if(asteroidHitBoxes[ast1Index]>55 && asteroidHitBoxes[ast2Index]>55){
     var axis = ast2.position.clone();
     axis.sub(ast1.position);
 
@@ -168,6 +169,26 @@ function asteroidCollision(ast1Index, ast2Index){
 
     asteroidSpeedVecs[ast1Index] = ast1Dir;
     asteroidSpeedVecs[ast2Index] = ast2Dir;
+  //  console.log("1 hat 2 die Hand geschüttelt");
+  //} 
+  //if(asteroidHitBoxes[ast1Index]<55 && asteroidHitBoxes[ast2Index]>55){
+
+   // destroyAsteroid(ast1Index);
+   // console.log("1 hat Bumm gemacht");
+
+  //} 
+ // if(asteroidHitBoxes[ast1Index]>55 && asteroidHitBoxes[ast2Index]<55){
+
+  //  destroyAsteroid(ast2Index);
+  //  console.log("2 hat Bumm gemacht");
+
+  //} 
+  //if(asteroidHitBoxes[ast1Index]<55 && asteroidHitBoxes[ast2Index]<55){
+  //  destroyAsteroid(ast1Index);
+  // destroyAsteroid(ast2Index);
+  //  console.log("Das ist wohl ein draw");
+ // }
+    
 
 }
 
@@ -175,7 +196,7 @@ function asteroidCollision(ast1Index, ast2Index){
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber){
     
-    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc,asteroids[asteroidNumber].rndScale);
+    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc,1);
     
     
     var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);

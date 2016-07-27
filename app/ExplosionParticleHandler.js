@@ -3,8 +3,8 @@ var ExplosionParticleHandler = function() {
     var currentExplosions = [];
     
     return {
-        addExplosion: function(position, lifetime, color) {
-            var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime+2, position);
+        addExplosion: function(position, lifetime, color,speed) {
+            var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime+2, position, speed);
             for (var i = 0; i < 15; i++) {
                 explosion.update();
             }
