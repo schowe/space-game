@@ -102,7 +102,7 @@ function Bot() {
         var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
         randomDir.cross(new THREE.Vector3(0,1,0));
         randomDir.normalize();
-        randomDir.addScalar(5.67*direction.length()); // tan(80°) 
+        randomDir.multiplyScalar(5.67*direction.length()); // tan(80°) 
         direction.add(randomDir);
 
 	    console.log("Finally Create Asteroid");

@@ -288,7 +288,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                 // mit einem kleinen vom "Fehler" abhaengigen Unterschied
                 dir = new THREE.Vector3(
                                 Math.random(), Math.random(), Math.random());
-                //direction.addScalar(directionError);
+                //direction.multiplyScalar(directionError);
                dir.add(optimalDir.multiplyScalar(distanceToNext));
                optimalDir.normalize();
             } else {
@@ -444,13 +444,13 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                     for(var i = 0; i < 9; i++) {
                         // "rate" neue Richtung
                         avoidDir = MATH.clone(U);
-                        U.addScalar(2*Math.random() - 1);
-                        V.addScalar(2*Math.random() - 1);
+                        U.multiplyScalar(2*Math.random() - 1);
+                        V.multiplyScalar(2*Math.random() - 1);
                         avoidDir.add(V);
                         V.normalize();
                         avoidDir.normalize();
                         // Strecke, bleibe aber im Bereich
-                        avoidDir.addScalar(Math.random() * distanceToNext);
+                        avoidDir.multiplyScalar(Math.random() * distanceToNext);
 
                         if(i < 5) {
                             dir = MATH.clone(optimalDir);
@@ -628,33 +628,33 @@ Enemy.prototype.moveBezier = function(renew, delta) {
         // vor dem Spieler
         if(MATH.dot(this.direction,this.direction) <= 0) {// !! TODO: Nachfragen player.direction
             p1 = MATH.clone(ship.position);
-            p1.add(U.addScalar(shipSize + Math.random() * shipSize));
-            p1.add(V.addScalar(shipSize + Math.random() * shipSize));
+            p1.add(U.multiplyScalar(shipSize + Math.random() * shipSize));
+            p1.add(V.multiplyScalar(shipSize + Math.random() * shipSize));
             U.normalize();
             V.normalize();
             p2 = MATH.clone(ship.position);
-            p2.add(N.addScalar(0.5));
-            p2.add(U.addScalar(Math.random() * (shipSize + Math.random() * shipSize)));
-            p2.add(V.addScalar(Math.random() * (shipSize + Math.random() * shipSize)));
+            p2.add(N.multiplyScalar(0.5));
+            p2.add(U.multiplyScalar(Math.random() * (shipSize + Math.random() * shipSize)));
+            p2.add(V.multiplyScalar(Math.random() * (shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
-            N.addScalar(2);
+            N.multiplyScalar(2);
         } else { // hinter dem Spieler
             p1 = MATH.clone(this.position);
-            p1.add(N.addScalar(2/3));
-            p1.add(U.addScalar(shipSize + Math.random() * shipSize));
-            p1.add(V.addScalar(shipSize + Math.random() * shipSize));
+            p1.add(N.multiplyScalar(2/3));
+            p1.add(U.multiplyScalar(shipSize + Math.random() * shipSize));
+            p1.add(V.multiplyScalar(shipSize + Math.random() * shipSize));
             U.normalize();
             V.normalize();
-            N.addScalar(3/2);
+            N.multiplyScalar(3/2);
 
             p2 = MATH.clone(this.position);
-            p2.add(N.addScalar(1/3));
-            p2.add(U.addScalar(shipSize + Math.random() * shipSize));
-            p2.add(V.addScalar(shipSize + Math.random() * shipSize));
+            p2.add(N.multiplyScalar(1/3));
+            p2.add(U.multiplyScalar(shipSize + Math.random() * shipSize));
+            p2.add(V.multiplyScalar(shipSize + Math.random() * shipSize));
             U.normalize();
             V.normalize();
-            N.addScalar(3);
+            N.multiplyScalar(3);
         }
 
         var curve = new THREE.SplineCurve3([
