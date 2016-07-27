@@ -35,7 +35,10 @@ var FileLoader = function() {
         "../res/textures/lensflare1.png",
         "../res/textures/lensflare2.png",
         "../res/textures/lensflare3.png",
-
+        "../res/textures/AsteroidTex.jpg",
+        "../res/textures/PowerUpHealthTex.png",
+        "../res/textures/PowerUpShieldTex.png",
+        //"../res/textures/PowerUpRocketTex.png",
 
 
         // Models
@@ -49,7 +52,12 @@ var FileLoader = function() {
         "../res/meshes/AsteroidPart3.json",
         "../res/meshes/AsteroidComplete.json",
         "../res/meshes/RocketV1.json",
-        "../res/meshes/AsteroidV2.json"
+        "../res/meshes/AsteroidV2.json",
+        "../res/meshes/PowerUpHealth.json",
+        "../res/meshes/PowerUpRocket.json",
+        "../res/meshes/PowerUpRocket2.json",
+        "../res/meshes/PowerUpRocket4.json",
+        "../res/meshes/PowerUpShield.json"
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
@@ -74,14 +82,18 @@ var FileLoader = function() {
         textureLoader.setCrossOrigin('anonymous');
         // load texture
         textureLoader.load(file, function (texture) {
-            loadedFiles[name] = texture;
-            filesSuccessfullyLoaded += 1;
-        });
+                loadedFiles[name] = texture;
+                filesSuccessfullyLoaded += 1;
+            }
+        );
     }
     
     // alle gewünschten Files laden
     for (var i = 0; i < files.length; i++) {
         var file = files[i];
+
+        console.log("looking for:"+file);
+
         var h = file.split("/");
         var name = h[h.length-1].split(".")[0];
         var type = h[h.length-1].split(".")[1];
@@ -107,6 +119,12 @@ var FileLoader = function() {
     var laserAudioSource = document.createElement('source');
     laserAudioSource.src = '../res/sounds/gun.wav';
     laserAudio.appendChild(laserAudioSource);
+
+    var powerUpAudio = document.createElement('audio');
+    var powerUpAudioSource = document.createElement('source');
+    powerUpAudioSource.src = '../res/sounds/powerup.wav';
+    powerUpAudio.appendChild(powerUpAudioSource);
+
 
     console.log("FileLoader done.");
     

@@ -48,9 +48,10 @@ function createAsteroids(){
 
     var rndSpeedX, rndSpeedY, rndSpeedZ, rotSpeed, rndScale;
     var  materialAst, astHitBox, hitGeometry;
-    var astTexture, astOriginal;
+    var astTexture, astOriginal, astGeometry;
 
-    astTexture = fileLoader.get("AsteroidV2");
+    astGeometry = fileLoader.get("AsteroidV2");
+    astTexture  = fileLoader.get("AsteroidTex");
 
   for( countAst = 0 ; countAst < 100; countAst++){
 
@@ -65,7 +66,8 @@ function createAsteroids(){
      asteroidSpeedVecs.push(vecSpeed);
      asteroidRotVecs.push(vecRot);
 
-     astOriginal = new THREE.Mesh(astTexture, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide}));
+     astOriginal = new THREE.Mesh(astGeometry, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide,
+        map: astTexture}));
 
      astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
      astOriginal.position.y = ship.position.y + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
@@ -73,9 +75,7 @@ function createAsteroids(){
 
      astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
 
-     hitGeometry =  new THREE.SphereGeometry(4 * rndScale, 32, 32);
-
-     // console.log("4*rndScale " + 4*rndScale);
+     hitGeometry =  new THREE.SphereGeometry(4 *rndScale, 32, 32);
 
       var colSphereMaterial = new THREE.MeshBasicMaterial({
                     transparent: true,
@@ -179,6 +179,8 @@ function destroyAsteroid(asteroidNumber){
    var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
    var newScale = Math.random() * 30;
 
+
+    spawnPowerUp(asteroids[asteroidNumber].position.x,asteroids[asteroidNumber].position.y,asteroids[asteroidNumber].position.z);
     asteroids[asteroidNumber].position.x = ship.position.x + newRandomPosAstX;
     asteroids[asteroidNumber].position.y = ship.position.y + newRandomPosAstY;
     asteroids[asteroidNumber].position.z = ship.position.z + newRandomPosAstZ;
@@ -190,6 +192,7 @@ function destroyAsteroid(asteroidNumber){
     asteroids[asteroidNumber].scale.x = asteroids[asteroidNumber].scale.y = asteroids[asteroidNumber].scale.z = newScale;
     asteroidHitBoxes[asteroidNumber].scale.x = asteroidHitBoxes[asteroidNumber].scale.y = asteroidHitBoxes[asteroidNumber].scale.z = newScale;
 
+    asteroidHitBox.parameters.radius = 4 * newScale;
 }
 
 

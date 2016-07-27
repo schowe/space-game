@@ -16,11 +16,9 @@ function handleAsteroids() {
 
             if (collision.intersectSphereShipHitBox(asteroidHitBoxes[i],
                     playerHitBoxes[j])) {
-
-                console.log("playerHitByAsteroid");
                 destroyAsteroid(i);
                 // asteroidHitBySpaceship(i);
-                // playerHitByAsteroid();
+                player.playerHitByAsteroid();
             }
         }
 
@@ -52,7 +50,6 @@ function handleProjectiles() {
             if (projectiles[i].name === "Laser") {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
-                    // console.log("HIT!!");
                     // successLaser(projectiles[i]);
                     destroyAsteroid(j);
                 }
