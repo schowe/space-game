@@ -4,17 +4,22 @@ var camera, scene, renderer, clock, delta;
 
 var fileLoader;
 var interface;
+var crosshair;
 var ship;
 var player;
 var movement;
+var explosionParticleHandler;
+
 var frames = 0;
 var collision;
 //var projectileList = [];
 
 
 $(function() {
+
     fileLoader = FileLoader();
     interface = Interface();
+    explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
     setTimeout(function(){
         init();
@@ -62,6 +67,8 @@ function init() {
 
     camera.setTarget('Target');
 
+    crosshair = new Crosshairs();
+    crosshair.init();
 
     /********** Szene füllen **********/
 
@@ -121,6 +128,7 @@ function init() {
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+
 
     clock = new THREE.Clock();
 
@@ -182,11 +190,13 @@ function render() {
         movement.move(delta);
         updateStars();
         updateAsteroids();
+
+        // update particle ray of the spaceship
+        player.updateParticleValues();
+        // update all explosions
+        explosionParticleHandler.update();
     }
 
-    player.updateParticleValues();
-    player.updatePlayerHitBoxes();
     camera.update();
-
     renderer.render(scene, camera);
 }
