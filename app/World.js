@@ -174,10 +174,12 @@ function asteroidCollision(ast1Index, ast2Index){
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber){
 
-   var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-   var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-   var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-   var newScale = Math.random() * 30;
+    explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc);
+
+    var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
+    var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
+    var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
+    var newScale = Math.random() * 30;
 
     asteroids[asteroidNumber].position.x = ship.position.x + newRandomPosAstX;
     asteroids[asteroidNumber].position.y = ship.position.y + newRandomPosAstY;
@@ -224,7 +226,10 @@ function updateStars(){
 
 
         star = stars[i];
-        star.scale.x = star.scale.y = star.scale.z = Math.random() * 2 -0;
+
+        star.scale.multiplyScalar(Math.sin(clock.getElapsedTime()));
+
+        //star.scale.x = star.scale.y = star.scale.z = Math.random() * 2 -0;
         // and move it forward
 
         // star.position.z +=  0.3;hip.positi
