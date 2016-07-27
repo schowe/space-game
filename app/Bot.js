@@ -104,7 +104,7 @@ function Bot() {
         randomDir.normalize();
         randomDir.addScalar(5.67*direction.length()); // tan(80°) 
         direction.add(randomDir);
-    
+
 	    console.log("Finally Create Asteroid");
 
         asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level, false);

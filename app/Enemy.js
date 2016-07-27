@@ -103,6 +103,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         var renew = false;
         // Falls Spieler umgedreht (im Vergleich zum initialisieren), neu machen
         if(MATH.dot(this.oldDir,this.direction) < 0) {
+            console.log("please renew");
             renew = true;
         }
 
@@ -603,10 +604,12 @@ Enemy.prototype.moveBezier = function(renew, delta) {
     var p1, p2;
     var shipSize = 9;
 
-    this.points = [];
 
     // Falls noch nicht erzeugt oder Spieler sich um mehr als 90° gedreht hat
     if(renew) {
+        console.log("renews");
+        this.points = [];
+
         this.speed /= 10;
         var distanceToPlayer = this.position.distanceTo(ship.position);
         // Vektor zum Spieler
@@ -664,8 +667,14 @@ Enemy.prototype.moveBezier = function(renew, delta) {
     }
     
     // Punkte abarbeiten mit points.shift();
+    this.points.shift();
     var dir = this.points.shift();
+    console.log(dir.x,dir.y,dir.z);
     dir.sub(this.position);
+
+    //console.log(dir.x,dir.y,dir.z);
+    console.log(this.points.length);
+
     return dir;
 }
 
