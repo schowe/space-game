@@ -8,6 +8,8 @@ function Interface() {
 
     function showOverlay() {
         $overlay.show();
+        checkBuyable();
+        checkActiveCross();
         menuVisible = true;
     }
 
@@ -34,6 +36,8 @@ function interfaceInit() {
 	setMoney(20333300);
 	updateWeaponInterface();
 	
+	document.getElementById('invertedMouse').checked = true;
+
 	displayLevel(1);
 	setLevelTimer(260);
 	startLevelTimer();
@@ -348,7 +352,7 @@ function padHex(hex) {
 /* Initiates the gameOver sequences */
 function gameOver() {
 	document.getElementById('gameOverText3').innerHTML = getScore();
-	$('#gameOverBox').animate({top : '20%'}, 250);
+	$('#gameOverBox').animate({top : '20%'}, 500);
   	Pause = true;  
   	PauseScreen = true;     
     Movement().unlockPointer();
@@ -672,4 +676,31 @@ function showSecond() {
 		$('#second').hide();
 		$open2 = false;
 	}
+}
+
+/**
+ * FUNCTIONS FOR OPTIONS
+ */
+ 
+function checkActiveCross(){
+	//var bratwurst = document.getElementById('crossPic' + pos);
+
+	var temp = 'crossPic' + pos;
+	console.log(temp);
+
+	//$('.crossPic').css('border-style', 'none'); 
+	//$('.crossPic').css('border-color', 'rgba(255,255,255,0.5)'); 
+
+	//$('#'+temp).css('border-style', 'solid'); 
+	//$('#'+temp).css('border-color', 'rgba(255,255,255,0.5)'); 
+
+	//box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,0,0.5); 
+
+	$('.crossPic').css('border-color','rgba(0, 153, 204, 0.7)');
+	$('#'+temp).css('border-color', 'rgba(255, 170, 0, 0.9)');
+
+}
+
+function invertedMouseFunc(){
+	mouseInverted*=-1;
 }
