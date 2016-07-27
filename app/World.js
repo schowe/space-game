@@ -75,7 +75,7 @@ function createAsteroids(){
 
      astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
 
-     hitGeometry =  new THREE.SphereGeometry(4 *rndScale, 32, 32);
+     hitGeometry =  new THREE.SphereGeometry(3.5*rndScale, 32, 32);
 
       var colSphereMaterial = new THREE.MeshBasicMaterial({
                     transparent: true,
@@ -243,7 +243,7 @@ function destroyAsteroid(asteroidNumber, collisionType){
     asteroids[asteroidNumber].scale.x = asteroids[asteroidNumber].scale.y = asteroids[asteroidNumber].scale.z = newScale;
     asteroidHitBoxes[asteroidNumber].scale.x = asteroidHitBoxes[asteroidNumber].scale.y = asteroidHitBoxes[asteroidNumber].scale.z = newScale;
 
-    asteroidHitBoxes[asteroidNumber].geometry.parameters.radius = 4 * newScale;
+    asteroidHitBoxes[asteroidNumber].geometry.parameters.radius = 3.5 * newScale;
 
     asteroidsHP[asteroidNumber] = 100;
 

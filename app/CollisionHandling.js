@@ -80,7 +80,7 @@ function handleProjectiles() {
 
         }
 
-
+        // Collect items via projectiles
         for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
 
             if (projectiles[i].name === "LaserHitBox") {

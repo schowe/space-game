@@ -92,15 +92,19 @@ function collected(itemNumber){
 	switch (tmpItem){
 
 		case "HEALTH":
-
+            explosionParticleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
 			powerUpAudio.play();
 			changeHP(50);
 
 		break;
 
+        default:
+
+            explosionParticleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED);
+        break;
 	}
 
-    explosionParticleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED);
+
 
     scene.remove(powerUps[itemNumber]);
     scene.remove(itemHitBoxes[itemNumber]);
