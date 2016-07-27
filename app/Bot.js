@@ -99,12 +99,12 @@ function Bot() {
                             playerPosition.x - asteroidPosition.x,
                             playerPosition.y - asteroidPosition.y,
                             playerPosition.z - asteroidPosition.z);
-        var randomDir = new THREE.Vector3(
-                            Math.random(), Math.random(), Math.random());
+        var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
+        randomDir.cross(new THREE.Vector3(0,1,0));
         randomDir.normalize();
-        randomDir.multiplyScalar(Math.random() * 0.839); // tan(40°)
-        randomDir.multiplyScalar(direction.length());
+        randomDir.addScalar(5.67*direction.length()); // tan(80°) 
         direction.add(randomDir);
+    
 	    console.log("Finally Create Asteroid");
 
         asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level, false);
@@ -133,7 +133,7 @@ function Bot() {
         } while(!farAway(enemyPosition, maxShipSize));
 
         // TODO: speed abhaengig von Level
-        var speed = 2000;
+        var speed = 70;
 
         // TODO: weapon
         switch(Math.round(level * Math.random())) {
@@ -215,7 +215,7 @@ function Bot() {
             }
 
             // TODO: Levelabhaengigkeit klaeren
-            for(var i = 0; i < 50; i++) {
+            for(var i = 0; i < 200; i++) {
                 asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
 		        console.log(asteroids.length);
@@ -227,7 +227,7 @@ function Bot() {
                 enemies = [];
             }
 
-            for(var i = 0 ; i < 5 * level; i++) {
+            for(var i = 0 ; i < 15 * level; i++) {
                 enemy = createEnemy(level);
                 enemies.push(enemy);
  		        console.log(enemies.length);

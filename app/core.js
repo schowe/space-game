@@ -183,7 +183,7 @@ function render() {
     if (!Pause) {
         handleCollision();
         renderWeapons();
-        //Movement().move(delta);
+        Movement().move(delta);
         updateStars();
         bot.updateAI(delta);
     }

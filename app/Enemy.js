@@ -1,7 +1,7 @@
 var minObstacleDistance = 100;
 var maxAsteroidSize     = 30;
 var guardingRadius      = 50;
-var minDistanceToPlayer = 10;
+var minDistanceToPlayer = 200;
 var maxShipAngle        = 70 * (Math.PI / 360);
 
 var BOSS1  = 1;
@@ -69,10 +69,10 @@ function Enemy(location, speed, level, typ) {
     this.lookAt(playerPosition);
     // .. und direction
     this.direction  = MATH.clone(playerPosition);
-    this.oldDir     = MATH.clone(playerPosition);
     this.direction.sub(this.position);
     this.direction.normalize();
 
+    this.oldDir = MATH.clone(this.direction);
 
     // Listen updaten
     bot = Bot();
@@ -107,6 +107,13 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         }
 
         optimalDir = this.moveBezier(renew, delta);
+        optimalDir.normalize();
+
+        console.log("Points Bezier:_"+ this.points.length);
+        if(this.points.length == 0) {
+            this.onPlayerAttack = false;
+        }
+
     } else {
 
         // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
@@ -130,12 +137,15 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
             // TODO: Init Bezier-Kurve und gebe ersten Punkt vor
             optimalDir = this.moveBezier(true, delta);
+            optimalDir.normalize();
         }
     }
 
     this.direction.x = optimalDir.x;
     this.direction.y = optimalDir.y;
     this.direction.z = optimalDir.z;
+
+    dir = optimalDir;
 
     // 3. Schritt: Ueberpruefe auf Hindernisse
     var obstacles = [];
@@ -210,19 +220,6 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
                     this.position.z - obstacles[0].position.z);
                 avoidDir.normalize();
 
-                // rotiere avoidDir um bis zu +-10° bzgl. jeder Richtung
-                //          sowie in createAsteroid()
-                var randomDir = new THREE.Vector3(Math.random(),
-                                        Math.random(), Math.random());
-
-                dir = MATH.clone(optimalDir);
-                randomDir.normalize();
-                randomDir.multiplyScalar(
-                        Math.pow(-1, Math.round(1000 * Math.random())) *
-                        Math.random() * 0.176); // tan(10°)
-                dir.add(randomDir);
-
-                console.log(dir.x, dir.y, dir.z);
 
                 // Gewichte die Laengen, um Kollision zu vermeiden
                 var bestImpact = this.position.distanceTo(obstacles[0].position);
@@ -230,10 +227,12 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
                 avoidDir.multiplyScalar(avoidImpact);
 
-                dir = MATH.clone(directionToPlayer);
+                dir = MATH.clone(optimalDir);
                 dir.multiplyScalar(bestImpact);
-
                 dir.add(avoidDir);
+
+                console.log(dir.x, dir.y, dir.z);
+
 
             } else {
             // sonst, weiche aus bzw. zerschiesse Asteroid wie aufs Zettel 1
@@ -561,15 +560,6 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
     } else {
         dir = MATH.clone(optimalDir);
-        // "wackel" an Richtung um bis zu +-10° bzgl. jeder Richtung
-        //          sowie in createAsteroid()
-        var randomDir = new THREE.Vector3(Math.random(),
-                                Math.random(), Math.random()); // TODO: aendern
-        randomDir.normalize();
-        randomDir.multiplyScalar(
-                Math.pow(-1, Math.round(1000 * Math.random())) *
-                Math.random() * 0.176); // tan(10°)
-        //dir.add(randomDir);
         shootAble = true;
     }
 
@@ -584,12 +574,12 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     console.log("Direction: ("+dir.x+","+dir.y+","+dir.z+")");
 
     dir.multiplyScalar(delta * this.speed);
-    // this.position.x += dir.x;
-    // this.position.y += dir.y;
-    // this.position.z += dir.z;
-    this.position.x += this.direction.x;
-    this.position.y += this.direction.y;
-    this.position.z += this.direction.z;
+    this.position.x += dir.x;
+    this.position.y += dir.y;
+    this.position.z += dir.z;
+    // this.position.x += this.direction.x;
+    // this.position.y += this.direction.y;
+    // this.position.z += this.direction.z;
     console.log("Position enemy after: ("+this.position.x+","+this.position.y+","+this.position.z+")");
     console.log("Direction at init: ("+this.direction.x+","+this.direction.y+","+this.direction.z+")");
 
@@ -600,7 +590,10 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     dir.normalize();
     var viewDir = MATH.clone(this.position);
     viewDir.add(dir.multiplyScalar(this.speed));
-    this.lookAt(viewDir.negate());
+    this.lookAt(viewDir);
+
+    // 8. Schritt: Speichern
+    this.oldDir = MATH.clone(dir);
 
 }
 
@@ -614,6 +607,7 @@ Enemy.prototype.moveBezier = function(renew, delta) {
 
     // Falls noch nicht erzeugt oder Spieler sich um mehr als 90° gedreht hat
     if(renew) {
+        this.speed /= 10;
         var distanceToPlayer = this.position.distanceTo(ship.position);
         // Vektor zum Spieler
         var N = MATH.clone(ship.position);
@@ -629,7 +623,7 @@ Enemy.prototype.moveBezier = function(renew, delta) {
         V.normalize();
 
         // vor dem Spieler
-        if(MATH.dot(this.direction,) < 0) {// !! TODO: Nachfragen player.direction
+        if(MATH.dot(this.direction,this.direction) <= 0) {// !! TODO: Nachfragen player.direction
             p1 = MATH.clone(ship.position);
             p1.add(U.addScalar(shipSize + Math.random() * shipSize));
             p1.add(V.addScalar(shipSize + Math.random() * shipSize));
@@ -670,7 +664,9 @@ Enemy.prototype.moveBezier = function(renew, delta) {
     }
     
     // Punkte abarbeiten mit points.shift();
-    return points.shift();
+    var dir = this.points.shift();
+    dir.sub(this.position);
+    return dir;
 }
 
 // Ueberprueft die Richtung auf Hindernisse

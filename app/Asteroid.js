@@ -55,13 +55,13 @@ Asteroid.prototype.move = function(delta) {
     	isAlive = false;
     }
 
-    console.log("Position asteroid: ("+this.position.x+","+this.position.y+","+this.position.z+")");
+   // console.log("Position asteroid: ("+this.position.x+","+this.position.y+","+this.position.z+")");
 
 
     this.rotation.x += this.rotateSpeed.x;
     this.rotation.y += this.rotateSpeed.y;
     this.rotation.z += this.rotateSpeed.z;
-    console.log("Rotation asteroid: ("+this.rotation.x+","+this.rotation.y+","+this.rotation.z+")");
+   // console.log("Rotation asteroid: ("+this.rotation.x+","+this.rotation.y+","+this.rotation.z+")");
 
 }
 
