@@ -23,11 +23,11 @@
         <div id="menu-box">
             <div id="menuArea">
         		<div id="menuButtons">            		
-            		<div id="pauseButton" class="shopBox" onClick="showShop()"> Shop </div>
-					<div id="pauseButton" class="highscoreBox" onClick="showHighscore()"> Highscore </div>
-					<div id="pauseButton" class="milestoneBox" onClick="showMilestones()"> Milestones </div>
-					<div id="pauseButton" class="optionsBox" onClick="showOptions()"> Options </div>
-					<div id="pauseButton" class="returnBox" onClick="closeMenu()"> Let's a go! </div>
+            		<div class="pauseButton" id="shopBox" onClick="showShop()"> Shop </div>
+					<div class="pauseButton" id="highscoreBox" onClick="showHighscore()"> Highscore </div>
+					<div class="pauseButton" id="milestoneBox" onClick="showMilestones()"> Milestones </div>
+					<div class="pauseButton" id="optionsBox" onClick="showOptions()"> Options </div>
+					<div class="pauseButton" id="returnBox" onClick="closeMenu()"> Let's a go! </div>
         	   </div>
 	       </div>
 		   
@@ -104,8 +104,6 @@
 							</tr>
 						</thead>
 						<tbody>
-			
-							<!-- Testdaten -->
 
 							<tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
 							<tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
@@ -125,7 +123,42 @@
 					
                 </div>
 				
-			<div id="options" hidden>Test options unicorns rainbow</div>
+				<div id="options" hidden>
+					<div id=optionContainer>
+						<div id="optionsHeader">--- Game Options ---</div>
+						<div id="gameOptions">
+							Inverted Mouse <input type="checkbox" id="invertedMouse" onchange="invertedMouseFunc();" checked>
+						</div>
+						
+						<div id="optionsHeader">--- Sound Options ---</div>
+						<div id="soundOptions">
+							blabla
+						</div>
+						<div id="optionsHeader">--- Crosshair Options ---</div>
+						<div id="crossOptions">
+							<div id="crossContainer">
+								<img class="crossPic" id="crossPic0" src="../res/textures/Crosshair1.png" onClick="switchCross(0)">
+								<img class="crossPic" id="crossPic1" src="../res/textures/Crosshair2.png" onClick="switchCross(1)">
+								<img class="crossPic" id="crossPic2" src="../res/textures/Crosshair3.png" onClick="switchCross(2)">
+								<img class="crossPic" id="crossPic3" src="../res/textures/Crosshair4.png" onClick="switchCross(3)">
+								<img class="crossPic" id="crossPic4" src="../res/textures/Crosshair5.png" onClick="switchCross(4)">
+								<img class="crossPic" id="crossPic5" src="../res/textures/Crosshair6.png" onClick="switchCross(5)">
+								<img class="crossPic" id="crossPic6" src="../res/textures/Crosshair7.png" onClick="switchCross(6)">
+								<img class="crossPic" id="crossPic7" src="../res/textures/Crosshair8.png" onClick="switchCross(7)">
+								<img class="crossPic" id="crossPic8" src="../res/textures/Crosshair9.png" onClick="switchCross(8)">
+								<img class="crossPic" id="crossPic9" src="../res/textures/Crosshair10.png" onClick="switchCross(9)">
+								<img class="crossPic" id="crossPic10" src="../res/textures/Crosshair11.png" onClick="switchCross(10)">
+								<img class="crossPic" id="crossPic11" src="../res/textures/Crosshair12.png" onClick="switchCross(11)">
+								<img class="crossPic" id="crossPic12" src="../res/textures/Crosshair13.png" onClick="switchCross(12)">
+								<img class="crossPic" id="crossPic13" src="../res/textures/Crosshair14.png" onClick="switchCross(13)">
+								<img class="crossPic" id="crossPic14" src="../res/textures/Crosshair15.png" onClick="switchCross(14)">
+								<img class="crossPic" id="crossPic15" src="../res/textures/Crosshair.png" onClick="switchCross(15)">
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
 			
             </div>
         </div>

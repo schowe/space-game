@@ -150,35 +150,19 @@ canvas{
 
 #menuButtons {
 	width: 100%;
-	margin-top: 50%;
-	-webkit-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
+    margin-left: auto;
+	margin-top: 10%;
+	//-webkit-transform: translateY(-50%);
+	//-ms-transform: translateY(-50%);
+	//transform: translateY(-50%);
 }
 
-/*
-#rightMenu {
-    position: absolute;
-    overflow-y:auto;
-
-	background-color: transparent;
-	width:50%;
-	height:100%;
-	margin-left:50%;
-	border-top-right-radius: 30px;
-	border-bottom-right-radius: 30px;
-} 
-*/
-
-#pauseButton {
-	//cursor: default;
+.pauseButton {
     width: 90%;
     margin-left:5%;
     height: 8%;
     margin-bottom: 4%;
     background-color: rgba(230, 230, 230, 0.7);
-	//rgba(230, 230, 230, 0.6);
-	//rgba(204, 204, 204, 0.6);
     font-family: 'Sarpanch', sans-serif;
     font-size: 27px;
     padding: 4px 0px;
@@ -186,21 +170,16 @@ canvas{
     border: 4px ridge;
     border-color: rgba(0, 153, 204, 0.7);
     border-radius: 9px;
-    //transform: skewy(2deg);
-    //-webkit-box-shadow: 5px 2px 71px -11px rgba(255,255,255,0.4);
     box-shadow: inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7);
-    //box-shadow: 4px 3px 71px -11px rgba(255,255,255,0.5);
 }
 
-#pauseButton:first-child {
-    margin-top: 3%;
-
+.pauseButton:first-child {
 }
 
-#pauseButton:hover {
+.pauseButton:hover {
 	background-color: #cccccc;
 	border-color: rgba(255, 255, 255, 0.8);
-    transition: all 0.2s ease-out;
+    //transition: all 0.2s ease-out;
 }
 
 /* rechte Seite */

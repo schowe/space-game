@@ -8,6 +8,8 @@ function Interface() {
 
     function showOverlay() {
         $overlay.show();
+        checkBuyable();
+        checkActiveCross();
         menuVisible = true;
     }
 
@@ -34,6 +36,8 @@ function interfaceInit() {
 	setMoney(20333300);
 	updateWeaponInterface();
 	
+	document.getElementById('invertedMouse').checked = true;
+
 	displayLevel(1);
 	setLevelTimer(260);
 	startLevelTimer();
@@ -307,7 +311,7 @@ function hpUpdateColor() {
 /* Initiates the gameOver sequences */
 function gameOver() {
 	document.getElementById('gameOverText3').innerHTML = getScore();
-	$('#gameOverBox').animate({top : '20%'}, 250);
+	$('#gameOverBox').animate({top : '20%'}, 500);
   	Pause = true;  
   	PauseScreen = true;     
     Movement().unlockPointer();
@@ -329,11 +333,11 @@ function displayLevel(value) {
 	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
 
 	setTimeout(function() {
-    	$levelReference.animate({opacity: '1'}, 100);
-		$levelReference.animate({opacity: '0.3'}, 100);
-		$levelReference.animate({opacity: '1'}, 100);
-		$levelReference.animate({opacity: '0.3'}, 100);
-		$levelReference.animate({opacity: '1'}, 100);
+    	$(levelReference).animate({opacity: '1'}, 100);
+		$(levelReference).animate({opacity: '0.3'}, 100);
+		$(levelReference).animate({opacity: '1'}, 100);
+		$(levelReference).animate({opacity: '0.3'}, 100);
+		$(levelReference).animate({opacity: '1'}, 100);
 	}, 5000);
 	
 	setTimeout(function() {
@@ -574,10 +578,9 @@ function showShop() {
 	$menuOptions.hide();
 	$menuShop.show();
 	resetColors();
-	$('.shopBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.shopBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('.shopBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	checkBuyable();
+	$('#shopBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('#shopBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
+    $('#shopBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
 }
 
 function showHighscore() {
@@ -586,9 +589,9 @@ function showHighscore() {
 	$menuOptions.hide();
 	$menuHighscore.show();
 	resetColors();
-	$('.highscoreBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.highscoreBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('.highscoreBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	$('#highscoreBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('#highscoreBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
+    $('#highscoreBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
 }
 
 function showMilestones() {
@@ -597,9 +600,28 @@ function showMilestones() {
 	$menuOptions.hide();
 	$menuMilestones.show();
 	resetColors();
-	$('.milestoneBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.milestoneBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('.milestoneBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	$('#milestoneBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('#milestoneBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
+    $('#milestoneBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+}
+
+function checkActiveCross(){
+	//var bratwurst = document.getElementById('crossPic' + pos);
+
+	var temp = 'crossPic' + pos;
+	console.log(temp);
+
+	//$('.crossPic').css('border-style', 'none'); 
+	//$('.crossPic').css('border-color', 'rgba(255,255,255,0.5)'); 
+
+	//$('#'+temp).css('border-style', 'solid'); 
+	//$('#'+temp).css('border-color', 'rgba(255,255,255,0.5)'); 
+
+	//box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,0,0.5); 
+
+	$('.crossPic').css('border-color','rgba(0, 153, 204, 0.7)');
+	$('#'+temp).css('border-color', 'rgba(255, 170, 0, 0.9)');
+
 }
 
 function showOptions() {
@@ -608,31 +630,21 @@ function showOptions() {
 	$menuMilestones.hide();
 	$menuOptions.show();
 	resetColors();
-	$('.optionsBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.optionsBox').css('background-color', 'rgba(255, 255, 255, 0.8)');
-    $('.optionsBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	$('#optionsBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('#optionsBox').css('background-color', 'rgba(255, 255, 255, 0.8)');
+    $('#optionsBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+    indicateActiveCross();
 }
 
 function resetColors() {
 	// Reset shopBox
-	$('.shopBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.shopBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.shopBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	// Reset highscoreBox
-	$('.highscoreBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.highscoreBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.highscoreBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	// Reset milestoneBox
-	$('.milestoneBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.milestoneBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.milestoneBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	// Reset optionsBox
-	$('.optionsBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.optionsBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.optionsBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	/* Überflüssig?
-	$('.returnBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.returnBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.returnBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)');
-	*/
+	$('.pauseButton').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.pauseButton').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.pauseButton').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+
 }
+
+function invertedMouseFunc(){
+	mouseInverted*=-1;
+}
+
