@@ -231,6 +231,12 @@ function updateWeaponInterface() {
 
 /* Changes HP by @value */
 function changeHP(value) {
+
+    if (value < 0) {
+        // negative HP change: player lost HP => show visual effect
+        glitchScreen(500);
+    }
+
 	var i = 0;
 	var ticks = 200;
 	value = parseInt(value);
@@ -274,6 +280,8 @@ function changeHP(value) {
 
 /* Sets HP to @value */
 function setHP(value) {
+	updateHPDisplay();
+    
 	if(value<=maxHP){
 		currentHP = value;
 		displayedHP = value;
