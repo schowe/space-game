@@ -458,10 +458,10 @@ function padHex(hex) {
 	return hex;
 }
 
-var $menuShop = $("#shop");
-var $menuOptions = $("#options");
-var $menuMilestones = $("#milestones");
-var $menuHighscore = $("#highscore");
+var $menuShop = $('#shop');
+var $menuOptions = $('#options');
+var $menuMilestones = $('#milestones');
+var $menuHighscore = $('#highscore');
 
 function closeMenu() {
     PauseScreen = false;
@@ -481,18 +481,6 @@ var costUpgrade3Faktor = 1.2;
 var costUpgrade3 = 40000; //+ 1 maxSpeed
 var upgrade3Time = 5000;
 
-function showShop(){
-	$menuOptions.hide();
-	$menuMilestones.hide();
-	$menuHighscore.hide();
-	$menuShop.show();
-	resetColors();
-	$(".shopBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
-    $(".shopBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
-	$(".shopBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
-	checkBuyable();
-}
-
 function checkBuyable(){
 	//setzen der Preise
 	var cost1 = document.getElementById('costUpgrade1');
@@ -509,24 +497,23 @@ function checkBuyable(){
 	var shopTr2 = document.getElementById('shopItem2');
 	var shopTr3 = document.getElementById('shopItem3');
 
-	if(currentMoney<costUpgrade1){
+	if(currentMoney < costUpgrade1) {
 		shopTr1.style.opacity = '0.5';
-	}else{
-		shopTr1.style.opacity="1";
+	} else {
+		shopTr1.style.opacity= '1';
 	}
 
-	if(currentMoney<costUpgrade2){
+	if(currentMoney < costUpgrade2) {
 		shopTr2.style.opacity = '0.5';
-	}else{
-		shopTr2.style.opacity="1";
+	} else {
+		shopTr2.style.opacity= '1';
 	}    
 
-	if(currentMoney<costUpgrade3){
+	if(currentMoney < costUpgrade3) {
 		shopTr3.style.opacity = '0.5';
-	}else{
-		shopTr3.style.opacity="1";
+	} else {
+		shopTr3.style.opacity= '1';
 	} 
-
 }
 var addHPID;
 
@@ -564,7 +551,7 @@ function buyUpgrade(value){
 	checkBuyable();
 }
 
-function abrechnung(value){
+function abrechnung(value) {
 	if(currentMoney>=value){
 		changeMoney(-value);
 		return true;
@@ -573,55 +560,75 @@ function abrechnung(value){
 	}
 }
 
-function showOptions(){
-	$menuMilestones.hide();
-	$menuShop.hide();
+/**
+ * FUNCTIONS FOR MENU
+ */
+
+function showShop() {
 	$menuHighscore.hide();
-	$menuOptions.show();
+	$menuMilestones.hide();
+	$menuOptions.hide();
+	$menuShop.show();
 	resetColors();
-	$(".optionsBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
-        $(".optionsBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
-	$(".optionsBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
-    
+	$('.shopBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('.shopBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
+    $('.shopBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	checkBuyable();
 }
 
-function showHighscore(){
-	$menuOptions.hide();
-	$menuMilestones.hide();
+function showHighscore() {
 	$menuShop.hide();
+	$menuMilestones.hide();
+	$menuOptions.hide();
 	$menuHighscore.show();
 	resetColors();
-	$(".highscoreBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
-        $(".highscoreBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	   -11px rgba(255,255,255,0.7)"); 
-	$(".highscoreBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
+	$('.highscoreBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('.highscoreBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
+    $('.highscoreBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
 }
 
-function showMilestones(){
-	$menuOptions.hide();
-	$menuHighscore.hide();
+function showMilestones() {
 	$menuShop.hide();
+	$menuHighscore.hide();
+	$menuOptions.hide();
 	$menuMilestones.show();
 	resetColors();
-	$(".milestoneBox").css("border-color", "rgba(255, 170, 0, 0.9)"); 
-        $(".milestoneBox").css("box-shadow", "inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px 	-11px rgba(255,255,255,0.7)"); 
-	$(".milestoneBox").css("background-color", "rgba(255, 255, 255, 0.8)"); 
+	$('.milestoneBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('.milestoneBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
+    $('.milestoneBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+}
+
+function showOptions() {
+	$menuShop.hide();
+	$menuHighscore.hide();
+	$menuMilestones.hide();
+	$menuOptions.show();
+	resetColors();
+	$('.optionsBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('.optionsBox').css('background-color', 'rgba(255, 255, 255, 0.8)');
+    $('.optionsBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
 }
 
 function resetColors() {
-	$(".shopBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
-        $(".shopBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
-	$(".shopBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
-	$(".highscoreBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
-        $(".highscoreBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
-	$(".highscoreBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
-	$(".milestoneBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
-	$(".milestoneBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
-        $(".milestoneBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
-	$(".optionsBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
-	$(".optionsBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
-        $(".optionsBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
-	$(".returnBox").css("background-color", "rgba(230, 230, 230, 0.7)"); 
-	$(".returnBox").css("border-color", "rgba(0, 153, 204, 0.7)"); 
-        $(".returnBox").css("box-shadow", "inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)"); 
-
+	// Reset shopBox
+	$('.shopBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.shopBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.shopBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	// Reset highscoreBox
+	$('.highscoreBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.highscoreBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.highscoreBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	// Reset milestoneBox
+	$('.milestoneBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.milestoneBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.milestoneBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	// Reset optionsBox
+	$('.optionsBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.optionsBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.optionsBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+	/* Überflüssig?
+	$('.returnBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.returnBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.returnBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)');
+	*/
 }
