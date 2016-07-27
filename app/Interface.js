@@ -40,7 +40,7 @@ function interfaceInit(){
  */
 
 var scoreCounterID;
-var scoreReference = document.getElementById('score'); 
+var scoreReference = document.getElementById('score');
 
 /* Starts the passive score counter */
 function startScoreCounter() {
@@ -53,7 +53,7 @@ function stopScoreCounter() {
 }
 
 /* Changes the score by @value */
-function changeScore(value) {   
+function changeScore(value) {
     scoreReference.innerHTML = parseInt(scoreReference.innerHTML) + parseInt(value);
 }
 
@@ -68,18 +68,18 @@ function getScore() {
 }
 
 /**
- * FUNCTIONS FOR MONEY	
+ * FUNCTIONS FOR MONEY
  */
 
-var moneyReference = document.getElementById('money'); 
+var moneyReference = document.getElementById('money');
 
 /* Changes the amount of money by @value */
-function changeMoney(value) {   
+function changeMoney(value) {
     moneyReference.innerHTML = parseInt(moneyReference.innerHTML) + parseInt(value);
 }
 
 /* Sets the current amount of money to @value */
-function setMoney(value) {   
+function setMoney(value) {
     moneyReference.innerHTML = parseInt(value);
 }
 
@@ -91,7 +91,7 @@ function getMoney() {
 /**
  * FUNCTIONS FOR AMMO
  */
- 
+
 var currentAmmoLabel = document.getElementById('currentAmmo');
 var maxAmmoLabel = document.getElementById('maxAmmo');
 var currentWeapon = 0;
@@ -99,13 +99,13 @@ var currentAmmo = 0;
 var maxAmmo = 0;
 
 // Function for secondary weapon display missing
- 
+
 /* Updates the weapon interface of the secondary weapon*/
 function updateWeaponInterface() {
 	//currentWeapon = get current weapon
 	//correntAmmo = get current ammo
 	//maxAmmo = get max ammo
-	
+
 	currentAmmoLabel.innerHTML = currentAmmo;
 	maxAmmoLabel.innerHTML = maxAmmo;
 }
@@ -113,7 +113,7 @@ function updateWeaponInterface() {
 /**
  * FUNCTIONS FOR HP
  */
- 
+
  	var currentHP = 0;
 	var maxHP = 0;
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
@@ -126,18 +126,18 @@ function changeHP(value) {
 	// Amount of HP per tick
 	var hpTick = value / ticks;
 	var tempID = setInterval(frame, 1);
-	
+
 	function frame() {
-		
+
 		if(i < ticks) {
-			
+
 			if (currentHP > maxHP) {
 				clearInterval(tempID);
 				currentHP = maxHP;
 				updateHPDisplay();
 				return;
 			}
-			
+
 			if (currentHP <= 0) {
 				clearInterval(tempID);
 				var temp = document.getElementById('currentHP');
@@ -146,10 +146,10 @@ function changeHP(value) {
 				//gameOver();
 				return;
 			}
-			
+
 			currentHP += hpTick;
 			updateHPDisplay();
-			i++;			
+			i++;
 		} else {
 			clearInterval(tempID);
 		}
@@ -189,17 +189,17 @@ function updateHPDisplay() {
 	// Update the HP label
 	var temp = document.getElementById('currentHP');
 	temp.innerHTML = parseInt(currentHP + 0.5);
-	
+
 	// Update the HP width
 	hpBoxCurrent.style.width = currentHP / maxHP * 100 + '%';
-	
+
 	// Update the HP color
 	hpUpdateColor();
 }
 
 /* Sets the HP bar to a calculated color-gradient. */
 function hpUpdateColor() {
-	
+
 	if(currentHP <= (maxHP / 2)) {
 		// Color gradient in hex from 0% to 50%
 		var temp = parseInt((510 * currentHP / maxHP) + 0.5);
@@ -217,7 +217,7 @@ function hpUpdateColor() {
 
 /* Displays @value as the current level */
 function displayLevel (value) {
-	
+
 	var tempLevel = document.getElementById('currentLevel');
 	tempLevel.innerHTML = parseInt(value);
 	$('#levelDisplay').animate({opacity: "1", top: "50px"}, 1000);
@@ -230,7 +230,7 @@ function displayLevel (value) {
 		$('#currentLevel').animate({opacity: '0.3'}, 100);
 		$('#currentLevel').animate({opacity: '1'}, 100);
 	}
-	
+
 	setTimeout(hideLevel, 1500)
 	function hideLevel () {
     		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
@@ -240,18 +240,18 @@ function displayLevel (value) {
 /**
  * FUNCTIONS FOR SPEED
  */
- 
+
 var maxSpeed = 100;
 var speedFactor = 4.04;
 var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
 function setSpeed(newSpeed) {
-	
+
 	// Set the height of the speed bar
-	var speedBox = document.getElementById('speedBarValue');	
+	var speedBox = document.getElementById('speedBarValue');
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
-	
+
 	// Set the color of the speed bar
 	var temp = parseInt(255.5 - Number(newSpeed) / maxSpeed * 255);
 	speedBox.style.background = '#FF' + padHex(temp.toString(16)) + '00';
@@ -276,22 +276,22 @@ function setMaxSpeed(newMaxSpeed) {
 /**
  * FUNCTIONS FOR POWERUPS
  */
- 
+
 /* Changes the status of an addressed PowerUp */
 function setPowerUp(powerUp, removeOrAdd) {
 	var icon;
-	
+
 	switch(powerUp) {
 		case 1:
 			icon = document.getElementById('one');
-			break;	
+			break;
 		case 2:
 			icon = document.getElementById('two');
 			break;
 		case 3:
 			icon = document.getElementById('three');
 			break;
-		case 4: 
+		case 4:
 			icon = document.getElementById('four');
 			break;
 		default:
@@ -300,7 +300,7 @@ function setPowerUp(powerUp, removeOrAdd) {
 
 	if (removeOrAdd == 1)
 		icon.classList.remove('inactive');
-	
+
 	if (removeOrAdd == 0)
 		icon.classList.add('inactive');
 }
@@ -308,13 +308,13 @@ function setPowerUp(powerUp, removeOrAdd) {
 /**
  * MISC FUNCTIONS
  */
- 
+
 /* Pads @hex if it is shorter than 2 digits */
 function padHex(hex) {
-	
+
 	while(hex.length < 2) {
 		hex = '0' + hex;
 	}
-	
+
 	return hex;
 }

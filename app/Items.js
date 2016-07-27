@@ -1,4 +1,3 @@
-
 var powerUps = [];
 var types  = [];
 var itemHitBoxes = [];
@@ -74,18 +73,21 @@ function spawnPowerUp(x, y, z, type) {
 }
 
 
-function updatePowerUps (){
+//function updatePowerUps (){
 
 
 
 
 
-}
+//}
 
 
 function collected(itemNumber){
 
-	var tmpItem =  powerUps[itemNumber];
+    console.log("itemCollected");
+    changeScore(scoreValues["itemCollected"]);
+
+	var tmpItem =  types[itemNumber];
 
 	switch (tmpItem){
 
@@ -96,11 +98,18 @@ function collected(itemNumber){
 
 		break;
 
-
-
-
-
 	}
+
+    explosionParticleHandler.addExplosion(itemHitBoxes[itemNumber].position, 3, 0x6495ED);
+
+    scene.remove(powerUps[itemNumber]);
+    scene.remove(itemHitBoxes[itemNumber]);
+
+    itemHitBoxes.splice(itemNumber, 1);
+    powerUps.splice(itemNumber, 1);
+    types.splice(itemNumber, 1);
+
+
 
 
 

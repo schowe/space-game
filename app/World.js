@@ -201,7 +201,7 @@ function hitAsteroid(asteroidNumber, collisionType){
     if(asteroidsHP[asteroidNumber] <= 0){
 
 
-      destroyAsteroid(asteroidNumber);
+      destroyAsteroid(asteroidNumber, collisionType);
 
     }
 
@@ -212,7 +212,18 @@ function hitAsteroid(asteroidNumber, collisionType){
 
 
 //Function to trigger if Asteroid get destroyed
-function destroyAsteroid(asteroidNumber){
+function destroyAsteroid(asteroidNumber, collisionType){
+
+  // update Highscore
+  switch (collisionType) {
+
+      case "Laser" : case "Rocket" : case "Explosion" :
+          changeScore(scoreValues["asteroidDestroyed"]);
+          break;
+      default:
+      break;
+
+  }
 
    var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
    var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);

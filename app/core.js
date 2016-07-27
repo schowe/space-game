@@ -14,6 +14,11 @@ var frames = 0;
 var collision;
 //var projectileList = [];
 
+var scoreValues = {
+    "itemCollected" : 10,
+    "enemyDestroyed" : 50,
+    "asteroidDestroyed" : 20
+};
 
 $(function() {
 
@@ -190,7 +195,7 @@ function render() {
         movement.move(delta);
         updateStars();
         updateAsteroids();
-        updatePowerUps();
+        // updatePowerUps();
         // update particle ray of the spaceship
         player.updateParticleValues();
         // update all explosions
