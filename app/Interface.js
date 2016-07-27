@@ -33,8 +33,10 @@ function interfaceInit() {
 	setHP(100);
 	setMoney(20333300);
 	updateWeaponInterface();
+	
 	displayLevel(1);
-	setLevelTimer(200);
+	setLevelTimer(260);
+	startLevelTimer();
 }
 
 /**
@@ -72,7 +74,6 @@ function loadingEllipsis() {
 			break;
 	}
 }
-
 
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
@@ -171,8 +172,8 @@ var moneyReference = document.getElementById('money');
 
 /* Changes the amount of currentMoney by @value */
 function changeMoney(value) {   
-	currentMoney +=parseInt(value);
-    moneyReference.innerHTML = currentMoney
+	currentMoney += parseInt(value);
+    moneyReference.innerHTML = currentMoney;
 }
 
 /* Sets the current amount of currentMoney to @value */
@@ -321,6 +322,16 @@ function hpUpdateColor() {
 		hpBoxCurrent.style.background = '#' + padHex(temp.toString(16)) + 'FF00';
 	}
 }
+ 
+/* Pads @hex if it is shorter than 2 digits */
+function padHex(hex) {
+	
+	while(hex.length < 2) {
+		hex = '0' + hex;
+	}
+	
+	return hex;
+}
 
 /**
  * FUNCTIONS FOR GAME OVER
@@ -373,15 +384,14 @@ function setLevelTimer(seconds) {
 /* Starts the timer */
 function startLevelTimer() {
 	var levelTimer = setInterval(function() {
-		if(!Pause ) {
+		if(!Pause) {
 			if(sec == 0 && min > 0) {
 				min--;
 				sec = 59;
 			} else if(sec == 0 && min == 0) {
 				//next level
 				clearInterval(levelTimer);
-			}
-			else {
+			} else {
 				sec--;
 			}
 			displayTimer();
@@ -469,29 +479,71 @@ function setPowerUp(powerUp, removeOrAdd) {
 }
 
 /**
- * MISC FUNCTIONS
+ * FUNCTIONS FOR MENU
  */
- 
-/* Pads @hex if it is shorter than 2 digits */
-function padHex(hex) {
-	
-	while(hex.length < 2) {
-		hex = '0' + hex;
-	}
-	
-	return hex;
+
+var menuShop = $('#shop');
+var menuOptions = $('#options');
+var menuMilestones = $('#milestones');
+var menuHighscore = $('#highscore');
+
+function showShop() {
+	menuHideAll();
+	menuShop.show();
+	menuResetColors();
+	menuSetColor('shopBox');
+	checkBuyable();
 }
 
-var $menuShop = $('#shop');
-var $menuOptions = $('#options');
-var $menuMilestones = $('#milestones');
-var $menuHighscore = $('#highscore');
+function showHighscore() {
+	menuHideAll();
+	menuHighscore.show();
+	menuResetColors();
+	menuSetColor('highscoreBox');
+}
 
-function closeMenu() {
+function showMilestones() {
+	menuHideAll();
+	menuMilestones.show();
+	menuResetColors();
+	menuSetColor('milestoneBox');
+}
+
+function showOptions() {
+	menuHideAll();
+	menuOptions.show();
+	menuResetColors();
+	menuSetColor('optionsBox');
+}
+
+function menuResetColors() {
+	$('.pauseButton').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.pauseButton').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.pauseButton').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+}
+
+function menuSetColor(box) {
+	$('#' + box).css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('#' + box).css('background-color', 'rgba(255, 255, 255, 0.8)');
+    $('#' + box).css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+}
+
+function menuHideAll() {
+	menuShop.hide();
+	menuHighscore.hide();
+	menuMilestones.hide();
+	menuOptions.hide();
+}
+
+function menuClose() {
     PauseScreen = false;
     interface.toggleMenuOverlay();
     movement.lockPointer();
 }
+
+/**
+ * FUNCTIONS FOR SHOP
+ */
 
 var costUpgrade1Faktor = 1.2;
 var costUpgrade1 = 1000; //+ 25 maxHP
@@ -500,9 +552,9 @@ var costUpgrade2Faktor = 1.2;
 var costUpgrade2 = 5000; //+ 1 maxSpeed
 
 var firstBuyUpgrade3 = true;
-var amountUpgrade3 = 1;
+var amountUpgrade3 = 0;
 var costUpgrade3Faktor = 1.2;
-var costUpgrade3 = 40000; //+ 1 maxSpeed
+var costUpgrade3 = 40000; //+ 1 hp alle anfangs 5 sec
 var upgrade3Time = 5000;
 
 function checkBuyable(){
@@ -562,11 +614,13 @@ function buyUpgrade(value){
 			var cost = costUpgrade3;
 			if(abrechnung(cost)){
 				clearInterval(addHPID);
+
+				costUpgrade3 = parseInt(costUpgrade3*costUpgrade3Faktor);
 				addHPID = setInterval(function() {
-					if(!Pause){
-						setHP(getHP()+1);
+					if(!Pause) {
+						setHP(getHP() + 1);
 					}	
-				}, 5000 / amountUpgrade3++);
+				}, 5000 / ++amountUpgrade3);
 			}
 			break;
 		default:
@@ -582,77 +636,4 @@ function abrechnung(value) {
 	}else{
 		return false;
 	}
-}
-
-/**
- * FUNCTIONS FOR MENU
- */
-
-function showShop() {
-	$menuHighscore.hide();
-	$menuMilestones.hide();
-	$menuOptions.hide();
-	$menuShop.show();
-	resetColors();
-	$('.shopBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.shopBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('.shopBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	checkBuyable();
-}
-
-function showHighscore() {
-	$menuShop.hide();
-	$menuMilestones.hide();
-	$menuOptions.hide();
-	$menuHighscore.show();
-	resetColors();
-	$('.highscoreBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.highscoreBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('.highscoreBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-}
-
-function showMilestones() {
-	$menuShop.hide();
-	$menuHighscore.hide();
-	$menuOptions.hide();
-	$menuMilestones.show();
-	resetColors();
-	$('.milestoneBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.milestoneBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('.milestoneBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-}
-
-function showOptions() {
-	$menuShop.hide();
-	$menuHighscore.hide();
-	$menuMilestones.hide();
-	$menuOptions.show();
-	resetColors();
-	$('.optionsBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('.optionsBox').css('background-color', 'rgba(255, 255, 255, 0.8)');
-    $('.optionsBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-}
-
-function resetColors() {
-	// Reset shopBox
-	$('.shopBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.shopBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.shopBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	// Reset highscoreBox
-	$('.highscoreBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.highscoreBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.highscoreBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	// Reset milestoneBox
-	$('.milestoneBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.milestoneBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.milestoneBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	// Reset optionsBox
-	$('.optionsBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.optionsBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.optionsBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-	/* Überflüssig?
-	$('.returnBox').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.returnBox').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.returnBox').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)');
-	*/
 }
