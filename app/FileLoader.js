@@ -2,7 +2,11 @@
 var laserAudio;
 var rocketAudio;
 var explosionAudio;
+
 var powerUpAudioSource;
+
+var powerUpAudio;
+
 //var MGAudio;
 
 
@@ -45,7 +49,12 @@ var FileLoader = function() {
         "../res/textures/PowerUpHealthTex.png",
         "../res/textures/PowerUpShieldTex.png",
         //"../res/textures/PowerUpRocketTex.png",
-        "../res/textures/RocketTexture.png",
+        "../res/textures/PowerUpRocketTex.png",
+        "../res/textures/PowerUpRocket2Tex.png",
+        "../res/textures/PowerUpRocket4Tex.png",
+        "../res/textures/PowerUpRocket8Tex.png",
+        "../res/textures/GeldsackTex.jpg",
+        "../res/textures/GeldsackFacePalmTex.jpg",
 
         // Models
         //"../res/meshes/HeroShipV1.json",
@@ -63,7 +72,9 @@ var FileLoader = function() {
         "../res/meshes/PowerUpRocket.json",
         "../res/meshes/PowerUpRocket2.json",
         "../res/meshes/PowerUpRocket4.json",
-        "../res/meshes/PowerUpShield.json"
+        "../res/meshes/PowerUpRocket8.json",
+        "../res/meshes/PowerUpShield.json",
+        "../res/meshes/Geldsack.json"
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
@@ -97,7 +108,7 @@ var FileLoader = function() {
     for (var i = 0; i < files.length; i++) {
         var file = files[i];
 
-        console.log("looking for:"+file);
+        //console.log("looking for:"+file);
 
         var h = file.split("/");
         var name = h[h.length-1].split(".")[0];
@@ -125,10 +136,14 @@ var FileLoader = function() {
     laserAudio = document.createElement('audio');
     var laserAudioSource = document.createElement('source');
     laserAudioSource.src = '../res/sounds/gun.wav';
-    laserAudio.appendChild(laserAudioSource);
+    laserAudio.appendChild(laserAudioSource)
 
-    var powerUpAudio = document.createElement('audio');
+
+    powerUpAudio = document.createElement('audio');
     powerUpAudioSource = document.createElement('source');
+
+  
+  
     powerUpAudioSource.src = '../res/sounds/powerup.wav';
     powerUpAudio.appendChild(powerUpAudioSource);
 
@@ -149,6 +164,7 @@ var FileLoader = function() {
     // MGAudio.appendChild(MGAudioSource);
 
     console.log("FileLoader done.");
+
 
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden

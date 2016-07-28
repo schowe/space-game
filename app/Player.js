@@ -2,6 +2,7 @@ var ship, frontVector, backVector, directionVector;
 var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
 var playerHitBoxes = [];
 var cross;
+var shield, shieldGeometry, shieldMaterial; 
 
 frontVector = new THREE.Vector3(0, 0, 0);
 
@@ -118,6 +119,23 @@ function Player() {
             // Partikel updaten
             createRay();
             particleRay.update();
+        },
+
+
+        activateShield: function (){
+
+
+        	 shieldGeometry = new THREE.SphereGeometry(ship.scale.x, 32, 32);
+        	 var shieldMaterial = new THREE.MeshBasicMaterial({
+                    transparent: false,
+                    opacity: 0.8,
+                     color: 0x007fff
+                });
+
+        	 shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
+        	 shield.position.set(ship.position); 
+        	 scene.add(shield); 
+
         }
 
     };
