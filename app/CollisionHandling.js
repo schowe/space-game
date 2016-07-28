@@ -87,7 +87,6 @@ function handleProjectiles() {
                 if (collision.intersectBoxCylinder(itemHitBoxes[j],
                         projectiles[i])) {
                     // successLaser(projectiles[i]);
-                    console.log("Collision detected");
                     collected(j);
                 }
             }
@@ -96,7 +95,6 @@ function handleProjectiles() {
                 if (collision.intersectBoxCylinder(itemHitBoxes[j],
                         projectiles[i])) {
                     // successRocket(projectiles[i]);
-                    console.log("Collision detected");
                     collected(j);
                 }
             }
@@ -104,7 +102,6 @@ function handleProjectiles() {
             else if (projectiles[i].name === "Explosion") {
                 if (collision.intersectSphereBox(itemHitBoxes[j],
                         projectiles[i])) {
-                    console.log("Collision detected");
                     collected(j);
                 }
             }
@@ -113,7 +110,6 @@ function handleProjectiles() {
                 if (collision.intersectSphereBox(itemHitBoxes[j],
                         projectiles[i])) {
                     // successMachineGunBullet(projectiles[i]);
-                    console.log("Collision detected");
                     collected(j);
                 }
             }
@@ -232,7 +228,6 @@ function handlePlayerPopupCollision() {
         for (var j = 0; j < itemHitBoxes.length; j++) {
             if (collision.intersectShipHitBoxBox(playerHitBoxes[i],
                     itemHitBoxes[j])) {
-                console.log("Collision detected");
                 collected(j);
             }
         }

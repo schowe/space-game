@@ -270,7 +270,7 @@ var Collision = function() {
         // console.log(distance);
         // console.log(sphere.geometry.parameters.radius);
 
-
+        console.log(sphere.geometry.parameters.radius);
         // if the distance is smaller than the radius of the sphere there is an intersection
         return distance < sphere.geometry.parameters.radius;
     }
