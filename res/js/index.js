@@ -1,33 +1,230 @@
-$(function() {
-    // TODO: WebSQL ist eigentlich veraltet. Funktioniert für die App hier aber super. Ersatz finden?
+var camera, scene, renderer;
 
-    // open simple sql database for highscores
-    var db = openDatabase("spacegame", "1.0", "spacegame highscores", 2*1024*1024);
-    db.transaction(function (tx) {
-        // create highscore table
-        //tx.executeSql("DROP TABLE IF EXISTS highscore");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS highscore (id INTEGER PRIMARY KEY ASC, player TEXT, points INTEGER)");
+var spaceshipGroup, sphere, planet;
 
-        // ... testdaten
-        tx.executeSql("INSERT OR REPLACE INTO highscore VALUES (1, 'JP', 100)");
-        tx.executeSql("INSERT OR REPLACE INTO highscore VALUES (2, 'alle anderen', 1)");
+var rayParticleRenderer, rayStart, rayEnd;
 
-        // load highscores
-        tx.executeSql("SELECT * FROM highscore ORDER BY points DESC LIMIT 0,10", [], function(tx, results) {
-            for (var i = 0; i < results.rows.length; i++) {
-                var highscore = results.rows[i];
-                // add highscore to table
-                var row = '<tr><td>'+(i+1)+'</td><td>'+highscore["player"]+'</td><td>'+highscore["points"]+'</td></tr>';
-                $('#highscore > tbody:last-child').append(row);
-            }
+var fileLoader = FileLoader();
+
+$(function () {
+
+    var container;
+    var tick;
+    var clock = new THREE.Clock(true);
+
+    // start
+    var loadingLoop = setInterval(function() {
+        console.log("loading");
+        if (fileLoader.isReady()) {
+            console.log("done");
+            clearInterval(loadingLoop);
+            init();
+            fadeOutLoadingOverlay();
+            animate();
+
+        }
+    }, 500);
+
+
+
+    function init() {
+
+        // HTML-Container erzeugen
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        // Kamera und Szene erzeugen
+        scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.0009);
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+        camera.position.set(12, 15, -20);
+        camera.lookAt(scene.position);
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        // Licht
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(3, 6, 0);
+        scene.add(light);
+
+        // lens flares
+        var dirLight = new THREE.DirectionalLight( 0xffffff, 0.05 );
+        dirLight.position.set( 5, 5, 5 );
+        dirLight.color.setHSL( 0.1, 0.7, 0.5 );
+        scene.add( dirLight );
+
+        var textureLensflare1 = fileLoader.get("lensflare1");
+        var textureLensflare2 = fileLoader.get("lensflare2");
+        var textureLensflare3 = fileLoader.get("lensflare3");
+
+        var pointLight = new THREE.PointLight( 0xffffff, 1.5, 2000 );
+        pointLight.color.setHSL( 32/255, 1, 0.5 );
+        pointLight.position.set( 5, 5, 5 );
+        scene.add( pointLight );
+
+        var flareColor = new THREE.Color( 0xffffff );
+        flareColor.setHSL( 0.55, 0.9, 1);
+        var lensFlare = new THREE.LensFlare(textureLensflare1, 700, 0.0, THREE.AdditiveBlending, flareColor );
+
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+
+        lensFlare.add( textureLensflare3, 60, 0.6, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 0.7, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 120, 0.9, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 1.0, THREE.AdditiveBlending );
+
+        lensFlare.position.copy( pointLight.position );
+
+        scene.add( lensFlare );
+
+
+        // Skybox
+        var geometrySkysphere = new THREE.SphereGeometry(1000, 256, 256);
+        var materialSkysphere = new THREE.MeshBasicMaterial({
+            map: fileLoader.get("sky_sphere_map"),
+            side: THREE.DoubleSide
         });
-    });
+        sphere = new THREE.Mesh(geometrySkysphere, materialSkysphere);
+        scene.add(sphere);
 
-    $("#form").submit(function() {
-        var playerName = $("#player").val();
-        localStorage.setItem("player", playerName);
+        // Planet
+        var geometryPlanet = new THREE.SphereGeometry(100, 128, 128);
+        var materialPlanet = new THREE.MeshPhongMaterial({
+            map: fileLoader.get("Planet"),
+            side: THREE.DoubleSide
+        });
+        planet = new THREE.Mesh(geometryPlanet, materialPlanet);
+        planet.position.set(-500, -500, 300);
+        planet.rotateZ(0.5);
+        planet.castShadow = true;
+        scene.add(planet);
 
-        // => Spielername kann nun mit localStorage.getItem("player")
-        // aufgerufen werden auf der nächsten HTML Seite
-    });
+        // Spaceship Group (= space ship + particle ray)
+        var modelShip = fileLoader.get("HeroShipV5");
+        var textureShip = fileLoader.get("TextureHero");
+        var spaceship = new THREE.Mesh(modelShip, new THREE.MeshPhongMaterial({map:textureShip}));
+        spaceship.position.set(0, 0, 0);
+        spaceship.rotateY(-1.571);
+
+        var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+        var materialBasic =  new THREE.MeshBasicMaterial();
+
+        rayStart = new THREE.Mesh(sphereGeometry, materialBasic);
+        rayStart.translateX(-5);
+        rayStart.visible = false;
+
+        rayEnd = new THREE.Mesh(sphereGeometry, materialBasic);
+        rayEnd.translateX(-8);
+        rayEnd.visible = false;
+
+        spaceshipGroup = new THREE.Group();
+        spaceshipGroup.add(spaceship);
+        spaceshipGroup.add(rayStart);
+        spaceshipGroup.add(rayEnd);
+        scene.add(spaceshipGroup);
+
+        rayParticleRenderer = new RayParticleRenderer(
+            0x2255ff,1000, fileLoader.get("particle"), rayStart.position, rayEnd.position, 0.2
+        );
+
+
+        // Event-Listener für Resize
+        window.addEventListener("resize", onWindowResize, false);
+        window.addEventListener("mousemove", onMouseMove, false);
+
+    }
+
+
+
+
+
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onMouseMove(e) {
+        if (e.isTrusted) {
+            var x = Math.abs(e.clientX/window.innerWidth)-0.5;
+            var y = Math.abs(e.clientY/window.innerHeight)-0.5;
+            //console.log(x+"/"+y);
+
+            var scaling = 20;
+            $("#overlay-highscore").css("margin-right", 50+x*scaling+"px");
+            $("#overlay-highscore").css("padding-top", 50-y*scaling+"px");
+            $("#overlay-menu").css("margin-left", 50-x*scaling+"px");
+            $("#overlay-menu").css("padding-top", 50-y*scaling+"px");
+        }
+    }
+
+
+    function animate() {
+        requestAnimationFrame(animate);
+        render();
+
+        // animation goes here
+
+        moveSpaceship();
+    }
+
+
+    function render() {
+        // dont touch!
+        renderer.render(scene, camera);
+
+    }
+
+    function fadeOutLoadingOverlay() {
+        setTimeout(function() {
+            $("#loading-overlay").fadeOut();
+        }, 2000);
+    }
+
+    function moveSpaceship() {
+        if (spaceshipGroup !== undefined && rayParticleRenderer !== undefined) {
+
+            var time = new Date().getTime() * 0.0005;
+
+            spaceshipGroup.position.set(
+                -Math.sin(time) + Math.pow(Math.cos(time), 2),
+                -Math.pow(Math.abs(Math.cos(time)) * 0.5, 2),
+                Math.sin(time)
+            );
+
+            var angle = -Math.sin(time) * 0.0015;
+            spaceshipGroup.rotateX(angle);
+            spaceshipGroup.rotateZ(angle * 0.1);
+
+            var newStart = new THREE.Vector3(
+                spaceshipGroup.position.x+rayStart.position.x,
+                spaceshipGroup.position.y+rayStart.position.y,
+                spaceshipGroup.position.z+rayStart.position.z
+            );
+            var newEnd = new THREE.Vector3(
+                spaceshipGroup.position.x+rayEnd.position.x,
+                spaceshipGroup.position.y+rayEnd.position.y,
+                spaceshipGroup.position.z+rayEnd.position.z
+            );
+
+            
+            rayParticleRenderer.updateStartAndEndpoint(newStart, newEnd);
+            rayParticleRenderer.update();
+        }
+
+        if (planet !== undefined) {
+            planet.rotateX(0.0002);
+            planet.rotateY(0.0002);
+        }
+
+    }
+
+
 });

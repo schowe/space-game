@@ -9,15 +9,51 @@ Dieses Spiel wird in JavaScript mit three.js entwickelt. Teilweise wird auch mit
 
 # How To
 
+## Pull from git
+
+Normalerweise sollte mit `git pull upstream dev` der neueste Stand gepullt werden.
+
+Wollt ihr aber versuchen den Stand eines anderen bei euch einzupflegen, dann geht ihr folgendermaßen vor:
+
+`git checkout -b testStuff dev`
+
+-> Erstellt einen Branch mit dem Namen "testStuff" auf Basis eures dev-branches und wechselt in diesen.
+
+`git pull https://github.com/GITHUBLOGIN/space-game.git BRANCH`
+
+-> Pullt den Stand des anderen Nutzers mit dem Namen GITHUBLOGIN anhand dessen BRANCH-Branches in euren soeben erstellten Branch.
+
+Hier könnt ihr nun tun und lassen was ihr wollt, ohne eure Code-Basis (bzw. die eures Gegenparts) zu verändern.
+
+Seit ihr fertig, diese zu übernehmen und alles was ihr tun wolltet funktioniert nun, dann merged ihr die Veränderungen wieder in euren dev mit:
+
+`git checkout dev`
+
+`git merge testStuff`
+
+Um den nun überflüssigen anderen Branch wieder zu entfernen gebt ihr dann noch `git branch -D testStuff` ein.
+
+## Setting up a server
+
 Um das Spiel zu starten muss ein HTTP-Server laufen:
 
-1. im Basisordner des Projektes folgende Zeile in der Konsole ausführen: `python -m SimpleHTTPServer 8080`
+1. im Basisordner des Projektes folgende Zeile in der Konsole ausführen (Python 2.7, sonst siehe unten!): `python -m SimpleHTTPServer 8080`
 2. Webbrowser öffnen und folgende Adresse aufrufen: `http://localhost:8080`
 3. Läuft!
 4. Server beenden mit `Strg+C` in der Konsole
 
+Alternativ: Skript benutzen
 
-# Ordnerstruktur
+1. (einmalig) Ausführberechtigungen für das Skript: `chmod +x start_server`
+2. im Basisordner Skript ausführen mit `./start_server`
+3. ... wie oben
+
+Befehl für Python 3.x:
+
+`python3 -m http.server`
+
+
+## Use the repositories structure
 
 `app/` ist der **Hauptordner**, in dem sich das Spiel befindet
 
