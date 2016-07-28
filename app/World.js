@@ -54,7 +54,7 @@ function createAsteroids(){
     astGeometry = fileLoader.get("AsteroidV2");
     astTexture  = fileLoader.get("AsteroidTex");
 
-  for( countAst = 0 ; countAst < 200; countAst++){
+  for( countAst = 0 ; countAst < 100; countAst++){
 
      rndSpeedX = Math.random()* 20 - 14;
      rndSpeedY = Math.random()* 20 - 14;
@@ -90,7 +90,7 @@ function createAsteroids(){
                 astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
                 astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = rndScale;
 
-      asteroidsHP.push(10);
+      asteroidsHP.push(100);
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
@@ -255,21 +255,28 @@ function destroyAsteroid(asteroidNumber, collisionType){
 
   }
 
+
+   newVec = new THREE.Vector3(Math.random() , Math.random() , Math.random());
+   newVec.normalize();
+
+   var rnd1,rnd2, rnd3; 
+
+   rnd1 = Math.sign(Math.sign(Math.random()-0.5) + 0.1); 
+   rnd2 = Math.sign(Math.sign(Math.random()-0.5) + 0.1); 
+   rnd3 = Math.sign(Math.sign(Math.random()-0.5) + 0.1); 
+
   explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc);
 
-  var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-  var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
-  var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
   var newScale = Math.random() * 30;
 
   spawnPowerUp(asteroids[asteroidNumber].position.x,asteroids[asteroidNumber].position.y,asteroids[asteroidNumber].position.z);
-  asteroids[asteroidNumber].position.x = ship.position.x + newRandomPosAstX;
-  asteroids[asteroidNumber].position.y = ship.position.y + newRandomPosAstY;
-  asteroids[asteroidNumber].position.z = ship.position.z + newRandomPosAstZ;
+  asteroids[asteroidNumber].position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
+  asteroids[asteroidNumber].position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
+  asteroids[asteroidNumber].position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
 
-  asteroidHitBoxes[asteroidNumber].position.x = ship.position.x + newRandomPosAstX;
-  asteroidHitBoxes[asteroidNumber].position.y = ship.position.y + newRandomPosAstY;
-  asteroidHitBoxes[asteroidNumber].position.z = ship.position.z + newRandomPosAstZ;
+  asteroidHitBoxes[asteroidNumber].position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
+  asteroidHitBoxes[asteroidNumber].position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
+  asteroidHitBoxes[asteroidNumber].position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
 
   asteroids[asteroidNumber].scale.x = asteroids[asteroidNumber].scale.y = asteroids[asteroidNumber].scale.z = newScale;
   asteroidHitBoxes[asteroidNumber].scale.x = asteroidHitBoxes[asteroidNumber].scale.y = asteroidHitBoxes[asteroidNumber].scale.z = newScale;
