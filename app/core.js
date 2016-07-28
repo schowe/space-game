@@ -20,6 +20,13 @@ var explosionParticleHandler;
 var collision;
 var stats;
 
+// TODO: eigentlich in Interface
+var scoreValues = {
+    "itemCollected" : 10,
+    "enemyDestroyed" : 50,
+    "asteroidDestroyed" : 20
+};
+
 // Postprocessing
 var composer, glitchPass, glitchPassEnabled;
 
@@ -58,7 +65,7 @@ function init() {
     document.body.appendChild( container );
 
 
-	
+
     //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
@@ -218,9 +225,8 @@ function render() {
         movement.move(delta);
         updateStars();
         updateAsteroids();
-
         updatePowerUps();
-        
+
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
         // Explosionen updaten
