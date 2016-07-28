@@ -31,7 +31,7 @@ function handleAsteroids() {
         //             asteroidHitBySpaceship(asteroids[i]);
         //             enemyHitbyAsteroid(enemies[j]);
         //         }
-        //     }
+        //
         // }
 
     }

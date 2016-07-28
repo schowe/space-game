@@ -24,23 +24,24 @@ function spawnPowerUp(x, y, z, type) {
             types.push("HEALTH");
 		}else if (rndCase > 0.25 && rndCase<= 0.5){
 
-			itemGeometry  = fileLoader.get("PowerUpRocket");
-			rocketTex = fileLoader.get("PowerUpShieldTex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: rocketTex}));
-			types.push("SINGLEROCKET");
+			itemGeometry  = fileLoader.get("PowerUpShield");
+			shieldTex = fileLoader.get("PowerUpShieldTex");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: shieldTex}));
+			types.push("SHIELD");
 
 
 		}else if (rndCase > 0.5 && rndCase <= 0.75){
 
-			itemGeometry  = fileLoader.get("PowerUpRocket2");
+			itemGeometry  = fileLoader.get("PowerUpRocket");
+			rocketTex =fileLoader.get("RocketTexture");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: rocketTex}));
-			types.push("DOUBLEROCKET");
+			types.push("SINGLEROCKET");
 
 		} else{
 
-			itemGeometry  = fileLoader.get("PowerUpRocket4");
+			itemGeometry  = fileLoader.get("PowerUpRocket2");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: rocketTex}));
-			types.push("QUATROROCKET");
+			types.push("DOUBLEROCKET");
 
 		}
 

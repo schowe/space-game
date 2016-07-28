@@ -2,6 +2,7 @@
 var laserAudio;
 var rocketAudio;
 var explosionAudio;
+var powerUpAudioSource;
 //var MGAudio;
 
 
@@ -44,6 +45,7 @@ var FileLoader = function() {
         "../res/textures/PowerUpHealthTex.png",
         "../res/textures/PowerUpShieldTex.png",
         //"../res/textures/PowerUpRocketTex.png",
+        "../res/textures/RocketTexture.png",
 
         // Models
         //"../res/meshes/HeroShipV1.json",
@@ -127,7 +129,7 @@ var FileLoader = function() {
     laserAudio.appendChild(laserAudioSource);
 
     var powerUpAudio = document.createElement('audio');
-    var powerUpAudioSource = document.createElement('source');
+    powerUpAudioSource = document.createElement('source');
     powerUpAudioSource.src = '../res/sounds/powerup.wav';
     powerUpAudio.appendChild(powerUpAudioSource);
 
