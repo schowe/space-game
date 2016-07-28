@@ -125,6 +125,7 @@ var FileLoader = function() {
     laserAudioSource.src = '../res/sounds/gun.wav';
     laserAudio.appendChild(laserAudioSource);
 
+
     var powerUpAudio = document.createElement('audio');
     var powerUpAudioSource = document.createElement('source');
     powerUpAudioSource.src = '../res/sounds/powerup.wav';
@@ -147,6 +148,7 @@ var FileLoader = function() {
     // MGAudio.appendChild(MGAudioSource);
 
     console.log("FileLoader done.");
+
 
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden
