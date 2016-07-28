@@ -177,18 +177,12 @@ var currentMoney = 0;
 var moneyReference = document.getElementById('money');
 
 /* Changes the amount of currentMoney by @value */
-<<<<<<< HEAD
 function changeMoney(value) {   
 	currentMoney += parseInt(value);
     moneyReference.innerHTML = currentMoney;
     if (currentMoney > reachedMoney) {
     	reachedMoney = currentMoney;
     }
-=======
-function changeMoney(value) {
-	currentMoney +=parseInt(value);
-    moneyReference.innerHTML = currentMoney
->>>>>>> 7d427bd9be5cd8d23131fb48e1cedc6fa1791598
 }
 
 /* Sets the current amount of currentMoney to @value */
