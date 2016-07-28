@@ -1,14 +1,10 @@
-function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector,speed,size) {
-    //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
-    function rand() {
-        return Math.random();
-    }
-
+function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, speed, size) {
+    
     this.running = true;
 
     this.clock = new THREE.Clock();
     this.clock.start();
-    var speed=speed;
+    this.speed = speed;
     this.startVector = startVector;
     this.particleCount = nParticles;
     this.particles = new THREE.Geometry();
@@ -18,7 +14,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
         {
             color: particleColor,
             size: size,
-            map:particleTexture, // TODO: Fileloader benutzen
+            map:particleTexture,
             blending: THREE.AdditiveBlending,
             transparent: true
         }
@@ -32,9 +28,9 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
             this.startVector.z
         );
 
-        particle.x += rand()-0.5;
-        particle.y += rand()-0.5;
-        particle.z += rand()-0.5;
+        particle.x += Math.random()-0.5;
+        particle.y += Math.random()-0.5;
+        particle.z += Math.random()-0.5;
 
         particle.velocity = new THREE.Vector3(
             0, 0, 0 // TODO
@@ -54,14 +50,13 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
             while (pCount--) {
                 var particle = this.particles.vertices[pCount];
 
-                particle.velocity.x += (rand()-0.5)*speed;
-                particle.velocity.y += (rand()-0.5)*speed;
-                particle.velocity.z += (rand()-0.5)*speed;
+                particle.velocity.x += (Math.random()-0.5)*this.speed;
+                particle.velocity.y += (Math.random()-0.5)*this.speed;
+                particle.velocity.z += (Math.random()-0.5)*this.speed;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;
                 particle.z += particle.velocity.z;
-
 
                 this.particleSystem.geometry.__dirtyVertices = true;
             }

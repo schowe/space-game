@@ -67,8 +67,7 @@ function createAsteroids(){
      asteroidSpeedVecs.push(vecSpeed);
      asteroidRotVecs.push(vecRot);
 
-     astOriginal = new THREE.Mesh(astGeometry, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide,
-        map: astTexture}));
+     astOriginal = new THREE.Mesh(astGeometry, new THREE.MeshPhongMaterial({map: astTexture}));
 
      astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
      astOriginal.position.y = ship.position.y + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
@@ -91,11 +90,10 @@ function createAsteroids(){
                 astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
                 astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = rndScale;
 
-    asteroidsHP.push(10);
+      asteroidsHP.push(10);
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
-
 
   }
 
@@ -306,12 +304,10 @@ function updateStars(){
 
         star = stars[i];
 
-        star.scale.multiplyScalar(Math.sin(clock.getElapsedTime()));
+        var temp = Math.sin(clock.getElapsedTime());
+        temp = temp==0?0.00001:temp;
 
-        //star.scale.x = star.scale.y = star.scale.z = Math.random() * 2 -0;
-        // and move it forward
-
-        // star.position.z +=  0.3;hip.positi
+        star.scale.x = star.scale.y = star.scale.z = temp;
 
        if((star.position.x < sphere.position.x - smallSphereRadius || star.position.x > sphere.position.x + smallSphereRadius ||star.position.y < sphere.position.y - smallSphereRadius || star.position.y > sphere.position.y + smallSphereRadius || star.position.z < sphere.position.z - smallSphereRadius|| star.position.z > sphere.position.z + smallSphereRadius) ){
 

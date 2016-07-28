@@ -18,7 +18,6 @@ var FileLoader = function() {
     var files = [
         // Texturen
         "../res/textures/metall.jpg",
-        "../res/textures/test.jpg",
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
@@ -98,7 +97,7 @@ var FileLoader = function() {
         textureLoader.setCrossOrigin('anonymous');
         // load texture
         textureLoader.load(file, function (texture) {
-            console.log("got:"+name);
+            //console.log("got:"+name);
             loadedFiles[name] = texture;
             filesSuccessfullyLoaded += 1;
         });
