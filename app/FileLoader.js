@@ -88,6 +88,12 @@ var FileLoader = function() {
                 // on success:
                 loadedFiles[name] = geometry;
                 filesSuccessfullyLoaded += 1;
+            },
+            // on progress
+            function() {},
+            // on error
+            function() {
+                console.log("FileLoader couldn't find file "+file);
             }
         );
     }
@@ -96,11 +102,21 @@ var FileLoader = function() {
         var textureLoader = new THREE.TextureLoader();
         textureLoader.setCrossOrigin('anonymous');
         // load texture
-        textureLoader.load(file, function (texture) {
-            //console.log("got:"+name);
-            loadedFiles[name] = texture;
-            filesSuccessfullyLoaded += 1;
-        });
+        textureLoader.load(file,
+            // on load
+            function (texture) {
+                //console.log("got:"+name);
+                loadedFiles[name] = texture;
+                filesSuccessfullyLoaded += 1;
+            },
+            // on progress
+            function() {},
+            // on error
+            function() {
+                console.log("FileLoader couldn't find file "+file);
+            }
+
+        );
     }
 
     // alle gewünschten Files laden
