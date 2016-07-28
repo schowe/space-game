@@ -18,7 +18,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
         {
             color: particleColor,
             size: 1,
-            map:particleTexture, // TODO: Fileloader benutzen
+            map:particleTexture, 
             blending: THREE.AdditiveBlending,
             transparent: true
         }
@@ -60,7 +60,6 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;
                 particle.z += particle.velocity.z;
-
 
                 this.particleSystem.geometry.__dirtyVertices = true;
             }
