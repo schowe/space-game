@@ -73,13 +73,13 @@ function spawnPowerUp(x, y, z, type) {
 }
 
 
-//function updatePowerUps (){
+function updatePowerUps (){
 
 
 
 
 
-//}
+}
 
 
 function collected(itemNumber){
