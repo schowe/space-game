@@ -87,7 +87,7 @@ function updatePowerUps (){
 function collected(itemNumber){
 
 
-	var tmpItem =  types[itemNumber]; 
+	var tmpItem =  types[itemNumber];
 
 
 	switch (tmpItem){

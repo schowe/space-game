@@ -76,7 +76,6 @@ var FileLoader = function() {
         jsonLoader.load(file,
             function (geometry) {
                 // on success:
-                console.log("got:"+name);
                 loadedFiles[name] = geometry;
                 filesSuccessfullyLoaded += 1;
             }
