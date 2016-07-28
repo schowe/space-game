@@ -209,12 +209,12 @@ function shootLaser(){
 
 function successLaser(bul){
 
-	scene.remove(projectiles[bul]);
-	scene.remove(projectiles[bul-1]);
+	//scene.remove(projectiles[bul]);
+	//scene.remove(projectiles[bul-1]);
 	//remove Laser HitBox
-	projectiles.splice(bul,1);
+	//projectiles.splice(bul,1);
 	//remove Laser
-	projectiles.splice((bul-1),1);
+	//projectiles.splice((bul-1),1);
 }
 
 function successRocket(bul){
@@ -312,10 +312,10 @@ function rocketExplode(rocket){
 
   //add explision to projetiles list for rendering and collision
   projectiles.push(explosion);
-
-  explosionParticleHandler.addExplosion(explosion.position, 1, 0xFF3F00);
-  explosionParticleHandler.addExplosion(explosion.position, 2, 0xFFFF00);
-  explosionParticleHandler.addExplosion(explosion.position, 6, 0xFF0000);
+  //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
+  explosionParticleHandler.addExplosion(explosion.position, 1, 0xFF3F00, 1, 1);
+  explosionParticleHandler.addExplosion(explosion.position, 2, 0xFFFF00, 1, 1);
+  explosionParticleHandler.addExplosion(explosion.position, 6, 0xFF0000, 1, 1);
 }
 
 //calculates the distance between an Object and the spaceship
@@ -343,13 +343,13 @@ function renderWeapons(){
 	explosionTime +=add;
 
 	//function for limiting single shootings while MG-shooting
-	//if(mgCounter > 0){
-	//    if(timeSinceMG >0.05){
-	//    	timeSinceMG = 0;
-	//    	MGShoot();
-	//    	mgCounter -= 1;
-	//    }
-	//}
+	if(mgCounter > 0){
+	    if(timeSinceMG >0.05){
+	    	timeSinceMG = 0;
+	    	MGShoot();
+	    	mgCounter -= 1;
+	    }
+	}
 
 	//Translate all projectiles and check for end of existance
 	for( var bul in projectiles){
