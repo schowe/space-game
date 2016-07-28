@@ -4,8 +4,11 @@ var ExplosionParticleHandler = function() {
     
     return {
     	//Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
-        addExplosion: function(position, lifetime, color,speed, size) {
-            var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime+2, position, speed, size);
+        addExplosion: function(position, lifetime, color,speed, size, implosion) {
+            var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime+2, position, speed, size, implosion);
+            if(size==undefined) {size=1;}
+            if(speed==undefined) {speed=5;}
+            if(implosion==undefined) {implosion=false;}
             for (var i = 0; i < 15; i++) {
                 explosion.update();
             }

@@ -1,16 +1,16 @@
-function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector,speed,size) {
-    //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
+function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, speed, size, implosion) {
+    //Erzeugt eine Explosion(Farbe, Anzhal, Texture, Zeit, Position, Geschwindigkeit, Groesse, Implosion boolean)
     function rand() {
         return Math.random();
     }
 
     this.running = true;
-
+    var vertparticle=[];
     this.clock = new THREE.Clock();
     this.clock.start();
-    var speed=speed;
+    var speed = speed;
     this.startVector = startVector;
-    this.particleCount = nParticles;
+    this.particleCount = 10;
     this.particles = new THREE.Geometry();
 
     // Material erstellen
@@ -49,6 +49,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
     this.update = function() {
 
         if (this.running) {
+            
             var pCount = this.particleCount;
 
             while (pCount--) {
@@ -62,7 +63,6 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
                 particle.y += particle.velocity.y;
                 particle.z += particle.velocity.z;
 
-
                 this.particleSystem.geometry.__dirtyVertices = true;
             }
 
@@ -70,13 +70,21 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
             var time = this.clock.getElapsedTime();
 
-
-
             if (time > lifetime) {
                 // aufhören
+                if(implosion){
+                    var pCount = this.particleCount;
+                    while (pCount--) {
+                        var particle = this.particles.vertices[pCount];
+                        vertparticle.push(particle);
+                    }
+                        //zielvektor, dauer, vertparticle array
+                        ImplosionRenderer(startVector, 5, vertparticle);
+                }else{
                 scene.remove(this.particleSystem);
                 this.running = false;
                 return false;
+            }
             } else {
                 // weitermachen
                 return true;
@@ -89,4 +97,3 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
 }
 
-// particleExplosion: function (vector, maxRadius, duration, color) {
