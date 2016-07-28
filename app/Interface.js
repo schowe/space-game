@@ -37,7 +37,6 @@ function interfaceInit() {
 	setMoney(45000);
 	changeMoney(10);
 	updateWeaponInterface();
-	
 	document.getElementById('invertedMouse').checked = true;
 
 	displayLevel(1);
@@ -65,7 +64,7 @@ function LoadingScreen() {
 /* Adds an animated ellipsis to the loading screen */
 function loadingEllipsis() {
 	var loadingHeader = document.getElementById('loadingTexturesHeader');
-	
+
 	switch(loadingHeader.innerHTML.length) {
 		case 7:
 			loadingHeader.innerHTML = 'Loading.';
@@ -115,7 +114,7 @@ function loadingSplash() {
 		'Encounting Voyager',
 		'Joining the Dark Side'
 	];
-	
+
 	// Random number between 0 and splashArray.length - 1
 	var i = Math.floor(Math.random() * (splashArray.length));
 	var temp = document.getElementById('loadingTexturesSplash');
@@ -141,7 +140,7 @@ function loadingFadeOut() {
 
 var currentScore = 0;
 var scoreCounterID;
-var scoreReference = document.getElementById('score'); 
+var scoreReference = document.getElementById('score');
 
 /* Starts the passive score counter */
 function startScoreCounter() {
@@ -154,7 +153,7 @@ function stopScoreCounter() {
 }
 
 /* Changes the score by @value */
-function changeScore(value) {   
+function changeScore(value) {
 	currentScore += parseInt(value);
     scoreReference.innerHTML = currentScore;
 }
@@ -171,19 +170,25 @@ function getScore() {
 }
 
 /**
- * FUNCTIONS FOR MONEY	
+ * FUNCTIONS FOR MONEY
  */
 
 var currentMoney = 0;
-var moneyReference = document.getElementById('money'); 
+var moneyReference = document.getElementById('money');
 
 /* Changes the amount of currentMoney by @value */
+<<<<<<< HEAD
 function changeMoney(value) {   
 	currentMoney += parseInt(value);
     moneyReference.innerHTML = currentMoney;
     if (currentMoney > reachedMoney) {
     	reachedMoney = currentMoney;
     }
+=======
+function changeMoney(value) {
+	currentMoney +=parseInt(value);
+    moneyReference.innerHTML = currentMoney
+>>>>>>> 7d427bd9be5cd8d23131fb48e1cedc6fa1791598
 }
 
 /* Sets the current amount of currentMoney to @value */
@@ -200,22 +205,22 @@ function getMoney() {
 /**
  * FUNCTIONS FOR AMMO
  */
- 
+
 var currentAmmoLabel = document.getElementById('currentAmmo');
 var maxAmmoLabel = document.getElementById('maxAmmo');
 var currentAmmo = 0;
 var maxAmmo = 0;
 
 // Function for secondary weapon display missing
- 
+
 /* Updates the weapon interface of the secondary weapon*/
 function updateWeaponInterface() {
 	switch(activeSecWeapon) {
-		case 0: 
+		case 0:
 				currentAmmo = rocketAmmo;
 				maxAmmo = MaxRockedAmmo;
 				break;
-		case 1: 
+		case 1:
 				currentAmmo = MGAmmo;
 				maxAmmo = MaxMGAmmo;
 				break;
@@ -224,7 +229,7 @@ function updateWeaponInterface() {
 				maxAmmo = 42;
 				break;
 	}
-	
+
 	currentAmmoLabel.innerHTML = currentAmmo;
 	maxAmmoLabel.innerHTML = maxAmmo;
 }
@@ -232,7 +237,7 @@ function updateWeaponInterface() {
 /**
  * FUNCTIONS FOR HP
  */
- 
+
  	var currentHP = 0;
 	var maxHP = 0;
 	var displayedHP = 0;
@@ -257,19 +262,19 @@ function changeHP(value) {
 	// Amount of HP per tick
 	var hpTick = value / ticks;
 	var tempID = setInterval(frame, 1);
-	
+
 	function frame() {
 		if(i < ticks) {
 			if (!Pause) {
 				displayedHP += hpTick;
-			
+
 				if (displayedHP > maxHP) {
 					clearInterval(tempID);
 					displayedHP = maxHP;
 					updateHPDisplay();
 					return;
 				}
-			
+
 				if (displayedHP <= 0) {
 					clearInterval(tempID);
 					document.getElementById('currentHP').innerHTML = 0;
@@ -277,7 +282,7 @@ function changeHP(value) {
 					gameOver();
 					return;
 				}
-			
+
 				updateHPDisplay();
 				i++;
 			}
@@ -290,7 +295,7 @@ function changeHP(value) {
 /* Sets HP to @value */
 function setHP(value) {
 	updateHPDisplay();
-    
+
 	if(value<=maxHP){
 		currentHP = value;
 		displayedHP = value;
@@ -320,10 +325,10 @@ function updateHPDisplay() {
 	// Update the HP label
 	var temp = document.getElementById('currentHP');
 	temp.innerHTML = parseInt(displayedHP + 0.5);
-	
+
 	// Update the HP width
 	hpBoxCurrent.style.width = displayedHP / maxHP * 100 + '%';
-	
+
 	// Update the HP color
 	hpUpdateColor();
 }
@@ -354,13 +359,13 @@ function padHex(hex) {
 /**
  * FUNCTIONS FOR GAME OVER
  */
- 
+
 /* Initiates the gameOver sequences */
 function gameOver() {
 	document.getElementById('gameOverText3').innerHTML = getScore();
 	$('#gameOverBox').animate({top : '20%'}, 500);
-  	Pause = true;  
-  	PauseScreen = true;     
+  	Pause = true;
+  	PauseScreen = true;
     Movement().unlockPointer();
 }
 
@@ -374,7 +379,7 @@ var minHTML = document.getElementById('timerBoxMin');
 var secHTML = document.getElementById('timerBoxSec');
 
 /* Displays @value as the current level */
-function displayLevel(value) {	
+function displayLevel(value) {
 	var levelReference = document.getElementById('currentLevel');
 	levelReference.innerHTML = parseInt(value);
 	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
@@ -386,7 +391,7 @@ function displayLevel(value) {
 		$(levelReference).animate({opacity: '0.3'}, 100);
 		$(levelReference).animate({opacity: '1'}, 100);
 	}, 5000);
-	
+
 	setTimeout(function() {
 		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
 	}, 1500);
@@ -424,7 +429,7 @@ function displayTimer() {
 	else
 		secHTML.innerHTML = sec;
 
-	if(min < 10) 
+	if(min < 10)
 		minHTML.innerHTML = '0' + min;
 	else
 		minHTML.innerHTML = min;
@@ -444,9 +449,9 @@ function setSpeed(newSpeed) {
 	var speedFactor = 4.04;
 
 	// Set the height of the speed bar
-	var speedBox = document.getElementById('speedBarValue');	
+	var speedBox = document.getElementById('speedBarValue');
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
-	
+
 	// Set the color of the speed bar
 	var temp = parseInt(255.5 - Number(newSpeed) / maxSpeed * 255);
 	speedBox.style.background = '#FF' + padHex(temp.toString(16)) + '00';
@@ -480,22 +485,22 @@ function setMaxSpeed(newMaxSpeed) {
 /**
  * FUNCTIONS FOR POWERUPS
  */
- 
+
 /* Changes the status of an addressed PowerUp */
 function setPowerUp(powerUp, removeOrAdd) {
 	var icon;
-	
+
 	switch(powerUp) {
 		case 1:
 			icon = document.getElementById('powerUpOne');
-			break;	
+			break;
 		case 2:
 			icon = document.getElementById('powerUpTwo');
 			break;
 		case 3:
 			icon = document.getElementById('powerUpThree');
 			break;
-		case 4: 
+		case 4:
 			icon = document.getElementById('powerUpFour');
 			break;
 		default:
@@ -504,7 +509,7 @@ function setPowerUp(powerUp, removeOrAdd) {
 
 	if (removeOrAdd == 1)
 		icon.classList.remove('inactive');
-	
+
 	if (removeOrAdd == 0)
 		icon.classList.add('inactive');
 }
@@ -512,6 +517,7 @@ function setPowerUp(powerUp, removeOrAdd) {
 /**
  * FUNCTIONS FOR MENU
  */
+
 /*
 var menuShop = $('#shop');
 var menuOptions = $('#options');
@@ -674,13 +680,13 @@ function checkBuyable(){
 		shopTr2.style.opacity = '0.5';
 	} else {
 		shopTr2.style.opacity= '1';
-	}    
+	}
 
 	if(currentMoney < costUpgrade3) {
 		shopTr3.style.opacity = '0.5';
 	} else {
 		shopTr3.style.opacity= '1';
-	} 
+	}
 }
 var addHPID;
 
