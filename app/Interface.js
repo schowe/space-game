@@ -33,7 +33,9 @@ function Interface() {
 function interfaceInit() {
 	setMaxHP(100);
 	setHP(100);
-	setMoney(20333300);
+	//setMoney(20333300);
+	setMoney(45000);
+	changeMoney(10);
 	updateWeaponInterface();
 	
 	document.getElementById('invertedMouse').checked = true;
@@ -41,6 +43,7 @@ function interfaceInit() {
 	displayLevel(1);
 	setLevelTimer(260);
 	startLevelTimer();
+
 }
 
 /**
@@ -178,6 +181,9 @@ var moneyReference = document.getElementById('money');
 function changeMoney(value) {   
 	currentMoney += parseInt(value);
     moneyReference.innerHTML = currentMoney;
+    if (currentMoney > reachedMoney) {
+    	reachedMoney = currentMoney;
+    }
 }
 
 /* Sets the current amount of currentMoney to @value */
@@ -528,12 +534,26 @@ function showHighscore() {
 	menuSetColor('highscoreBox');
 }
 
+/** 
+ * milestone variables 
+ */
+var reachedMoney = 23;
+
 /* Opens the Milestones tab */
 function showMilestones() {
 	menuHideAll();
 	$('#milestones').show();
 	menuResetColors();
 	menuSetColor('milestoneBox');
+
+	/* UPDATE VALUES */
+
+	/* test */
+	changeProgress(2, 120, 100);
+	/* Money achievement */
+	//changeProgress(3, (reachedMoney/50000) * 100);
+	changeProgress(3, reachedMoney, 50000);
+
 }
 
 /* Opens the Options tab */
@@ -572,6 +592,45 @@ function menuClose() {
     interface.toggleMenuOverlay();
     movement.lockPointer();
 }
+
+/**
+ * FUNCTIONS FOR MILESTONES
+ */
+
+var openCloseValues = new Array(10);
+
+
+function showDescription(number) {
+	var $open = openCloseValues[number-1];
+	if (!$open) {
+		$('#description'+number).show();
+		openCloseValues[number-1] = true;
+	}
+	else {
+		$('#description'+number).hide();
+		openCloseValues[number-1] = false;
+	}
+}
+
+var percentage;
+function changeProgress (number, current, max) {
+	percentage = (current/max) * 100;
+	if (percentage > 100) {
+		percentage = 100;
+		setFinished(number);
+	}
+	$('#progressbar' + number).css('width', percentage + '%'); 
+	$('#currentAchievementProgress' + number).html(current);
+}
+
+/* ??? */
+function setFinished(number) {
+	/* Ideen?? */
+	$('#progressbar' + number).css('background-color', 'rgba(255, 170, 0, 0.6)'); 
+	$('#progressbar' + number).css('border-color', 'rgba(255, 255, 255, 0.8)'); 
+	$('#progressbar' + number).css('box-shadow', 'none'); 
+}
+
 
 /**
  * FUNCTIONS FOR SHOP
@@ -672,34 +731,6 @@ function abrechnung(value) {
 }
 
 /**
- * FUNCTIONS FOR MILESTONES
- */
-
-var $open1 = false;
-function showFirst() {
-	if (!$open1) {
-		$('#first').show();
-		$open1 = true;
-	}
-	else {
-		$('#first').hide();
-		$open1 = false;
-	}
-
-}
-var $open2 = false;
-function showSecond() {
-	if (!$open2) {
-		$('#second').show();
-		$open2 = true;
-	}
-	else {
-		$('#second').hide();
-		$open2 = false;
-	}
-}
-
-/**
  * FUNCTIONS FOR OPTIONS
  */
  
@@ -719,7 +750,6 @@ function checkActiveCross(){
 
 	$('.crossPic').css('border-color','rgba(0, 153, 204, 0.7)');
 	$('#'+temp).css('border-color', 'rgba(255, 170, 0, 0.9)');
-
 }
 
 function invertedMouseFunc() {

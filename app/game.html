@@ -187,83 +187,89 @@
 
 				<div id="milestones" hidden>
 					<div id="milestonesHeading"> Achievements </div>
+					
+					<div class="achievementBlock"  onClick="showDescription(1)">
+						<table class="achievement">
+							<tr> 
+								<td class="icon" rowspan="2"> 
+									<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
+								 </td> 
+								<td class="type"> 
+									<div class="achievementType"> rattle the stars </div>
+								</td>       
+							</tr>
+							<tr>  
+								<td class="bar"> 
+									<div class="achievementProgressBar">  
+									   <div class="currentProgress" id="progressbar1"> </div>
+									</div>     
+								</td>
+							</tr>
+						</table>
 
-						<div class="achievementBlock">
-							<table class="achievement" onClick="showFirst()">
-								<tr> 
-									<td class="icon" rowspan="2"> 
-										<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
-									 </td> 
-									<td class="type"> 
-										<div class="achievementType"> rattle the stars </div>
-									</td>       
-								</tr>
-								<tr>  
-									<td class="bar"> 
-										<div class="achievementProgressBar">  
-										   <div class="bar2"> &nbsp; </div>
-										</div>     
-									</td>
-								</tr>
-							</table>
-
-							<div class="unlockDescription" id="first">
-									Bla description unlock when bla <br />
-									This needs to be longer so here's some text  <br />
-									I like strawberries
-							</div>
+						<div class="unlockDescription" id="description1">
+							Bla description unlock when bla <br>
+							This needs to be longer so here's some text  <br>
+							I like strawberries <br>
+                            <span> ---  </span>
+                            <span id="currentAchievementProgress1"> 0 </span> 
+                            <span> / bla --- </span>
 						</div>
+					</div>
 
-						<div class="achievementBlock">
-							<table class="achievement" onClick="showFirst()">
-								<tr> 
-									<td class="icon" rowspan="2"> 
-										<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
-									 </td> 
-									<td class="type"> 
-										<div class="achievementType" > rattle the stars </div>
-									</td>       
-								</tr>
-								<tr>  
-									<td class="bar"> 
-										<div class="achievementProgressBar">  
-										   <div class="bar2"> &nbsp; </div>
-										</div>     
-									</td>
-								</tr>
-							</table>
+					<div class="achievementBlock"  onClick="showDescription(2)">
+						<table class="achievement">
+							<tr> 
+								<td class="icon" rowspan="2"> 
+									<img src="../res/img/achievement2.png" class="achievementIcon">
+								 </td> 
+								<td class="type"> 
+									<div class="achievementType"> PowerUp Collector </div>
+								</td>       
+							</tr>
+							<tr>  
+								<td class="bar"> 
+									<div class="achievementProgressBar">  
+										<div class="currentProgress" id="progressbar2"> </div>
+									</div>     
+								</td>
+							</tr>
+						</table>
 
-							<div class="unlockDescription" id="second">
-									Bla description unlock when bla <br />
-									This needs to be longer so here's some text  <br />
-									I like strawberries
-							</div>
+						<div class="unlockDescription" id="description2">
+							Collect /I don't know yet/ powerUps to unlock this achievement. <br>
+                            <span> ---  </span>
+                            <span id="currentAchievementProgress2"> 0 </span> 
+                            <span> / I don't know yet  --- </span>
 						</div>
+					</div>
 
-						<div class="achievementBlock">
-							<table class="achievement" onClick="showFirst()">
-								<tr> 
-									<td class="icon" rowspan="2"> 
-										<img src="../res/img/speedShopItem.png" class="achievementIcon">
-									 </td> 
-									<td class="type"> 
-										<div class="achievementType" > Speedjunkie </div>
-									</td>       
-								</tr>
-								<tr>  
-									<td class="bar"> 
-										<div class="achievementProgressBar">  
-										   <div class="bar2"> &nbsp; </div>
-										</div>     
-									</td>
-								</tr>
-							</table>
+                    <div class="achievementBlock" onClick="showDescription(3)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/img/placeholderAchievement.png" class="achievementIcon">
+                                </td> 
+                                <td class="type"> 
+                                    <div class="achievementType"> rich bla </div>
+                                </td>       
+                            </tr>
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar3">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
 
-							<div class="unlockDescription" id="second">
-									Reach a speed of 2000 <br>
-									<div id="actualReachedSpeed">0</div>/<div id="neededSpeed"></div>
-							</div>
-						</div>
+                        <div class="unlockDescription" id="description3">
+                            50.000 € to unlock this achievement bla <br>
+                            <span> ---  </span>
+                            <span id="currentAchievementProgress3"> 0 </span> 
+                            <span> / 50.000€  --- </span>
+                        </div>
+                    </div>
 				</div>
 
 				<div id="options" hidden>
