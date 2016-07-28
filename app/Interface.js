@@ -58,7 +58,7 @@ function LoadingScreen() {
 	loadingSplash();
 	loadingEllipsisID = setInterval(loadingEllipsis, 1000);
 	loadingSplashID = setInterval(loadingSplash, 1500);
-	hideTextureLoading();
+	loadingFadeOut();
 }
 
 /* Adds an animated ellipsis to the loading screen */
@@ -122,7 +122,7 @@ function loadingSplash() {
 }
 
 /* Hides the overlay and stops its functions */
-function hideTextureLoading() {
+function loadingFadeOut() {
 	// Set an Interval to check if textures have loaded
 	var loadingID = setInterval(function() {
 		if(fileLoader.isReady()) {
