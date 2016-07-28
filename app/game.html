@@ -223,57 +223,85 @@
 						</div>
 					-->
 
-						<div class="achievementBlock">
+						<div class="achievementBlock"  onClick="showDescription(1)">
 							<table class="achievement">
 								<tr> 
 									<td class="icon" rowspan="2"> 
 										<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
 									 </td> 
 									<td class="type"> 
-										<div class="achievementType" onClick="showFirst()"> rattle the stars </div>
+										<div class="achievementType"> rattle the stars </div>
 									</td>       
 								</tr>
 								<tr>  
 									<td class="bar"> 
 										<div class="achievementProgressBar">  
-										   <div class="bar2"> &nbsp; </div>
+										   <div class="currentProgress" id="progress3"> &nbsp; </div>
 										</div>     
 									</td>
 								</tr>
 							</table>
 
-							<div class="unlockDescription" id="first">
+							<div class="unlockDescription" id="description1">
 									Bla description unlock when bla <br />
 									This needs to be longer so here's some text  <br />
 									I like strawberries
 							</div>
 						</div>
 
-						<div class="achievementBlock">
+						<div class="achievementBlock"  onClick="showDescription(2)">
 							<table class="achievement">
 								<tr> 
 									<td class="icon" rowspan="2"> 
 										<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
 									 </td> 
 									<td class="type"> 
-										<div class="achievementType" onClick="showSecond()"> rattle the stars </div>
+										<div class="achievementType"> rattle the stars </div>
 									</td>       
 								</tr>
 								<tr>  
 									<td class="bar"> 
 										<div class="achievementProgressBar">  
-										   <div class="bar2"> &nbsp; </div>
+										   <div class="currentProgress" id="progress2"> &nbsp; </div>
 										</div>     
 									</td>
 								</tr>
 							</table>
 
-							<div class="unlockDescription" id="second">
+							<div class="unlockDescription" id="description2">
 									Bla description unlock when bla <br />
 									This needs to be longer so here's some text  <br />
 									I like strawberries
 							</div>
 						</div>
+
+                        <div class="achievementBlock" onClick="showDescription(3)">
+                            <table class="achievement">
+                                <tr> 
+                                    <td class="icon" rowspan="2"> 
+                                        <img src="../res/img/placeholderAchievement.png" class="achievementIcon">
+                                     </td> 
+                                    <td class="type"> 
+                                        <div class="achievementType"> rattle the stars </div>
+                                    </td>       
+                                </tr>
+                                <tr>  
+                                    <td class="bar"> 
+                                        <div class="achievementProgressBar">  
+                                           <div class="currentProgress" id="progress3"> &nbsp; </div>
+                                        </div>     
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="unlockDescription" id="description3">
+                                    Bla description unlock when bla <br />
+                                    This needs to be longer so here's some text  <br />
+                                    I like strawberries
+                            </div>
+                        </div>
+
+
 				</div>
 
 				<div id="options" hidden>

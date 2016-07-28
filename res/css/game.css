@@ -46,7 +46,6 @@ canvas {
     text-align: center;
 
     cursor: pointer;
-
 }
 
 #menu-overlay {   
@@ -237,14 +236,14 @@ canvas {
 
 .achievementProgressBar {
     position: relative;
-    border: 1px solid purple;
+    //border: 1px solid purple;
     border-radius: 10px;
     width: 100%;
     background-color: #FFF;
     font-size: 6px;
 }
 
-.bar2 {
+.currentProgress {
     width:70%;
     background-color: purple;
     position: relative;

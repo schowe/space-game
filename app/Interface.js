@@ -41,6 +41,8 @@ function interfaceInit() {
 	displayLevel(1);
 	setLevelTimer(260);
 	startLevelTimer();
+
+	changeProgress(2, 25);
 }
 
 /**
@@ -654,29 +656,26 @@ function abrechnung(value) {
  * FUNCTIONS FOR MILESTONES
  */
 
-var $open1 = false;
-function showFirst() {
-	if (!$open1) {
-		$('#first').show();
-		$open1 = true;
-	}
-	else {
-		$('#first').hide();
-		$open1 = false;
-	}
+var openCloseValues = new Array(10);
 
-}
-var $open2 = false;
-function showSecond() {
-	if (!$open2) {
-		$('#second').show();
-		$open2 = true;
+
+function showDescription(number) {
+	var $open = openCloseValues[number-1];
+	if (!$open) {
+		$('#description'+number).show();
+		openCloseValues[number-1] = true;
 	}
 	else {
-		$('#second').hide();
-		$open2 = false;
+		$('#description'+number).hide();
+		openCloseValues[number-1] = false;
 	}
 }
+
+function changeProgress (number, percentage) {
+	$('#progress'+number).css('width', percentage + '%'); 
+}
+
+
 
 /**
  * FUNCTIONS FOR OPTIONS
