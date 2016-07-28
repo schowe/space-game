@@ -228,8 +228,11 @@ var Collision = function() {
         // approximate the cylinder as a box
         var hitBox = cylinderAsBox(cylinder);
 
+        scene.add(hitBox);
         // check intersection
         var isIntersect = intersectBoxBox(box, hitBox);
+
+        scene.remove(hitBox);
         hitBox = undefined;
 
         return isIntersect;
@@ -246,7 +249,7 @@ var Collision = function() {
 
         // initialize box
         var boxGeometry = new THREE.BoxGeometry(x,y,z);
-        var boxMaterial = new THREE.MeshBasicMaterial({ color:0x00FF00 });
+        var boxMaterial = new THREE.MeshBasicMaterial({ color:0xFFFF00 });
         var hitBox = new THREE.Mesh(boxGeometry, boxMaterial);
 
         // transform box to the position of the cylinder

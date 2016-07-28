@@ -191,7 +191,7 @@ function shootLaser(){
 	  	//add bullet to scene
 	  	scene.add(laser);
 
-	    laserHitBox.visible = false;
+	    //laserHitBox.visible = false;
 
 	  	scene.add(laserHitBox);
 
@@ -370,7 +370,7 @@ function renderWeapons(){
 	    	projectiles[bul].translateY(-4000 * add);
 	    	//if more then 3000 away from ship delete
 	    	if (dis > biggerSphereRadius){
-    			//scene.remove(projectiles[bul]);
+    			scene.remove(projectiles[bul]);
     			//delete projectiles[bul];
     			projectiles.splice(bul,1);
     		}

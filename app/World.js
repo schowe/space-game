@@ -76,7 +76,8 @@ function createAsteroids(){
     astOriginal.position.z = ship.position.z + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
 
     astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
-    hitGeometry =  new THREE.SphereGeometry(asteroidRadius, 32, 32);
+    console.log(astOriginal.scale);
+    hitGeometry =  new THREE.SphereGeometry(asteroidRadius * rndScale, 32, 32);
 
     console.log(asteroidRadius*rndScale);
 
@@ -261,8 +262,8 @@ function destroyAsteroid(asteroidNumber, collisionType){
   asteroidHitBoxes[asteroidNumber].position.y = ship.position.y + newRandomPosAstY;
   asteroidHitBoxes[asteroidNumber].position.z = ship.position.z + newRandomPosAstZ;
 
-  asteroids[asteroidNumber].scale.x = asteroids[asteroidNumber].scale.y = asteroids[asteroidNumber].scale.z = newScale;
-  asteroidHitBoxes[asteroidNumber].geometry.parameters.radius = asteroidRadius;
+  // asteroids[asteroidNumber].scale.x = asteroids[asteroidNumber].scale.y = asteroids[asteroidNumber].scale.z = newScale;
+  // asteroidHitBoxes[asteroidNumber].geometry.parameters.radius = asteroidRadius * newScale;
 
   asteroidsHP[asteroidNumber] = asteroidDefaultHP;
 
