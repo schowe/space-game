@@ -46,7 +46,6 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
 
 
     this.update = function () {
-
         this.particleSystem.rotateX(0.5);
         this.particleSystem.rotateY(0.5);
         this.particleSystem.rotateZ(0.5);
@@ -64,7 +63,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             }
 
             if (this.currentMovement > -1) {
-                this.currentMovement -= 0.1;
+                this.currentMovement -= 0.005;
             } else if (this.currentMovement <= -1) {
                 this.running = false;
             }
