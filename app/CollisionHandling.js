@@ -47,7 +47,7 @@ function handleProjectiles() {
             if (projectiles[i].name === "LaserHitBox") {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
-                    successLaser(projectiles[i]);
+                    // successLaser(projectiles[i]);
                     hitAsteroid(j, "Laser");
                 }
             }
@@ -77,8 +77,8 @@ function handleProjectiles() {
 
         }
 
-        // // Collect items via projectiles
-        // for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
+        // Collect items via projectiles
+        for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
 
             if (projectiles[i].name === "LaserHitBox") {
                 if (collision.intersectBoxCylinder(itemHitBoxes[j],
@@ -110,6 +110,7 @@ function handleProjectiles() {
                     collected(j);
                 }
             }
+        }
 
         //     if (projectiles[i].name === "LaserHitBox") {
         //         if (collision.intersectBoxCylinder(itemHitBoxes[j],

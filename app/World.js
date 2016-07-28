@@ -142,8 +142,6 @@ function updateAsteroids(){
             tmpHitBox.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
             tmpHitBox.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
 
-             console.log("new VEK : " + tmpAsteroid.position.x + " " + tmpAsteroid.position.y + " " + tmpAsteroid.position.z );
-
        }
 
 
