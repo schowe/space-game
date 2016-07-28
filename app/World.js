@@ -89,11 +89,10 @@ function createAsteroids(){
                 astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
                 astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = rndScale;
 
-    asteroidsHP.push(10);
+      asteroidsHP.push(10);
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
-     scene.add(hitGeometry);
   }
 
 
