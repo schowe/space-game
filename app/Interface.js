@@ -427,13 +427,16 @@ function displayTimer() {
 /**
  * FUNCTIONS FOR SPEED
  */
- 
+
+var reachedMaxSpeed = 0;
 var maxSpeed = 100;
-var speedFactor = 4.04;
 var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
 function setSpeed(newSpeed) {
+	var currentSpeed = 0;
+	var speedFactor = 4.04;
+
 	// Set the height of the speed bar
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
@@ -442,15 +445,25 @@ function setSpeed(newSpeed) {
 	var temp = parseInt(255.5 - Number(newSpeed) / maxSpeed * 255);
 	speedBox.style.background = '#FF' + padHex(temp.toString(16)) + '00';
 
+	var randomNum = parseInt(Math.random() * 10);
+
 	// Set the displayed speed value
 	var temp = document.getElementById('speedValue');
-	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + parseInt(Math.random() * 10);
+	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + randomNum;
+	currentSpeed = parseInt(newSpeed * speedFactor) + '' + randomNum;
 
-	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - 10)
+	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - randomNum) {
 		temp.innerHTML = parseInt(maxSpeed * speedFactor * 10);
+		currentSpeed = parseInt(maxSpeed * speedFactor * 10);
+	}
 
-	if(parseInt(temp.innerHTML) < 10)
+	if(currentSpeed>reachedMaxSpeed){
+		reachedMaxSpeed = currentSpeed;
+	}
+
+	if(parseInt(temp.innerHTML) < 10){
 		temp.innerHTML = 0;
+	}
 }
 
 /* Sets maxSpeed to @newMaxSpeed */
@@ -701,6 +714,8 @@ function checkActiveCross(){
 
 }
 
+
 function invertedMouseFunc(){
 	mouseInverted*=-1;
 }
+
