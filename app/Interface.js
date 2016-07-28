@@ -506,60 +506,67 @@ function setPowerUp(powerUp, removeOrAdd) {
 /**
  * FUNCTIONS FOR MENU
  */
-
+/*
 var menuShop = $('#shop');
 var menuOptions = $('#options');
 var menuMilestones = $('#milestones');
-var menuHighscore = $('#highscore');
+var menuHighscore = $('#highscore');*/
 
+/* Opens the Shop tab */
 function showShop() {
 	menuHideAll();
-	menuShop.show();
+	$('#shop').show();
 	menuResetColors();
 	menuSetColor('shopBox');
-	checkBuyable();
 }
 
+/* Opens the Highscore tab */
 function showHighscore() {
 	menuHideAll();
-	menuHighscore.show();
+	$('#highscore').show();
 	menuResetColors();
 	menuSetColor('highscoreBox');
 }
 
+/* Opens the Milestones tab */
 function showMilestones() {
 	menuHideAll();
-	menuMilestones.show();
+	$('#milestones').show();
 	menuResetColors();
 	menuSetColor('milestoneBox');
 }
 
+/* Opens the Options tab */
 function showOptions() {
 	menuHideAll();
-	menuOptions.show();
+	$('#options').show();
 	menuResetColors();
 	menuSetColor('optionsBox');
 }
 
+/* Resets previously highlighted tabs */
 function menuResetColors() {
 	$('.pauseButton').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
 	$('.pauseButton').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
     $('.pauseButton').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
 }
 
+/* Highlights the current tab */
 function menuSetColor(box) {
 	$('#' + box).css('border-color', 'rgba(255, 170, 0, 0.9)'); 
 	$('#' + box).css('background-color', 'rgba(255, 255, 255, 0.8)');
     $('#' + box).css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
 }
 
+/* Closes previously openend tabs */
 function menuHideAll() {
-	menuShop.hide();
-	menuHighscore.hide();
-	menuMilestones.hide();
-	menuOptions.hide();
+	$('#shop').hide();
+	$('#highscore').hide();
+	$('#milestones').hide();
+	$('#options').hide();
 }
 
+/* Closes the menu */
 function menuClose() {
     PauseScreen = false;
     interface.toggleMenuOverlay();
@@ -632,6 +639,7 @@ function buyUpgrade(value){
 			if(abrechnung(cost)){
 				maxVel++;
 				setMaxSpeed(maxVel);
+				setSpeed(-yAxis);
 				costUpgrade2 = parseInt(costUpgrade2*costUpgrade2Faktor);
 			}
 			break;
@@ -714,8 +722,17 @@ function checkActiveCross(){
 
 }
 
-
-function invertedMouseFunc(){
+function invertedMouseFunc() {
 	mouseInverted*=-1;
 }
 
+function hideScrollbar() {
+	switch($('.innerScrollbar').css('margin-right')) {
+		case '-16px':
+			$('.innerScrollbar').css('margin-right', 'auto');
+			break;
+		default:
+			$('.innerScrollbar').css('margin-right', '-16px');
+			break;
+	}
+}

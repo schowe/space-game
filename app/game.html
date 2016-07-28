@@ -18,7 +18,7 @@
 
 
     <div id="menu-overlay" hidden>
-        <div id="menu-box">
+        <div id="menu-box" class="outerScrollbar">
             <div id="menuLeft">
         		<div id="menuButtons">            		
             		<div id="shopBox" class="pauseButton" onClick="showShop()"> Shop </div>
@@ -27,9 +27,9 @@
 					<div id="optionsBox" class="pauseButton" onClick="showOptions()"> Options </div>
 					<div id="returnBox" class="pauseButton" onClick="menuClose()"> Let's a go! </div>
         	   </div>
-	       </div>
+	        </div>
 		   
-        	<div id="menuRight"> 
+        	<div id="menuRight" class="innerScrollbar"> 
             <!-- SHOP -->
                 <div id="shop" hidden>
                     <table id="shopTable">
@@ -81,7 +81,70 @@
                                 <div>
                             </td>
                         </tr>
-                         
+
+						<tr id="shopItem3">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Slowly recharge your HP</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade3" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+
+						<tr id="shopItem3">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Slowly recharge your HP</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade3" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+
+						<tr id="shopItem3">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Slowly recharge your HP</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade3" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+
+						<tr id="shopItem3">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Slowly recharge your HP</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade3" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
 
 
                         
@@ -208,6 +271,7 @@
 						<div id="optionsHeader">--- Game Options ---</div>
 						<div id="gameOptions">
 							Inverted Mouse <input type="checkbox" id="invertedMouse" onchange="invertedMouseFunc();" checked>
+							blabla <input type="checkbox" id="hideScrollbar" onchange="hideScrollbar();" checked>
 						</div>
 						
 						<div id="optionsHeader">--- Sound Options ---</div>
