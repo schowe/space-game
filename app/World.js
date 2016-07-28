@@ -8,7 +8,7 @@ var asteroidRotVecs = [];
 var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
 var biggerSphereRadius = 5000;
-
+var defaultAsteroidHP = 10; 
 //starStuff
 function createStars(){
 
@@ -90,7 +90,7 @@ function createAsteroids(){
                 astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
                 astHitBox.scale.x = astHitBox.scale.y = astHitBox.scale.z = rndScale;
 
-      asteroidsHP.push(100);
+      asteroidsHP.push(defaultAsteroidHP);
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
@@ -281,7 +281,7 @@ function destroyAsteroid(asteroidNumber, collisionType){
   asteroids[asteroidNumber].scale.x = asteroids[asteroidNumber].scale.y = asteroids[asteroidNumber].scale.z = newScale;
   asteroidHitBoxes[asteroidNumber].scale.x = asteroidHitBoxes[asteroidNumber].scale.y = asteroidHitBoxes[asteroidNumber].scale.z = newScale;
 
-  asteroidsHP[asteroidNumber] = 100;
+  asteroidsHP[asteroidNumber] = defaultAsteroidHP;
 
 }
 
