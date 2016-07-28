@@ -83,11 +83,35 @@ function loadingEllipsis() {
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
 	var splashArray = [
-		'Lasers are being painted red', //1 or 2? //RGB?
-		//'Painting the lasers red',
-		'Teaching the AI', //Instructing?
+		'Lasers are being painted red',
+		'Teaching the AI',
 		'Selecting suitable spaceship',
-		'...'	
+		"Polishing Asteroids",
+		'Manipulating AI',
+		'Failing Turing-Test',
+		'Recruiting Enemy Pilots',
+		'Flattening Hero Ship',
+		'Reloading Minigun',
+		'Refueling with unstable plutonium',
+		'Forming the Universe',
+		'Catching the 671th Weedle',
+		'Gather unexploded Rockets',
+		'Conquering the Universe',
+		'Inviting Bosses',
+		'Setting up Distress Beacon',
+		'Finding Wheatley',
+		'Plz don\'t sue us WB',
+		'Tuning Lasers to high C',
+		'Can\'t decide on Crosshair...',
+		'Seeding Stars',
+		'Inflating Shop Prices',
+		'Manipulating the Leaderboard',
+		'Downloading VIRUS.bat',
+		'Gathering Intel',
+		'Achieving Consciousness',
+		'Removing easiest difficulty',
+		'Encounting Voyager',
+		'Joining the Dark Side'
 	];
 	
 	// Random number between 0 and splashArray.length - 1
@@ -211,6 +235,12 @@ function updateWeaponInterface() {
 
 /* Changes HP by @value */
 function changeHP(value) {
+
+    if (value < 0) {
+        // negative HP change: player lost HP => show visual effect
+        glitchScreen(500);
+    }
+
 	var i = 0;
 	var ticks = 200;
 	value = parseInt(value);
@@ -254,6 +284,8 @@ function changeHP(value) {
 
 /* Sets HP to @value */
 function setHP(value) {
+	updateHPDisplay();
+    
 	if(value<=maxHP){
 		currentHP = value;
 		displayedHP = value;
@@ -338,6 +370,7 @@ function displayLevel(value) {
 		$(levelReference).animate({opacity: '1'}, 100);
 		$(levelReference).animate({opacity: '0.3'}, 100);
 		$(levelReference).animate({opacity: '1'}, 100);
+
 	}, 5000);
 	
 	setTimeout(function() {
@@ -638,6 +671,7 @@ function showOptions() {
 
 function resetColors() {
 	// Reset shopBox
+
 	$('.pauseButton').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
 	$('.pauseButton').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
     $('.pauseButton').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
@@ -647,4 +681,5 @@ function resetColors() {
 function invertedMouseFunc(){
 	mouseInverted*=-1;
 }
+
 
