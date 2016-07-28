@@ -244,7 +244,7 @@ function destroyAsteroid(asteroidNumber, collisionType){
 
   }
 
-  explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc);
+  particleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc);
 
   var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
   var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
