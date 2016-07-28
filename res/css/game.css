@@ -187,10 +187,13 @@ canvas {
 /* MILESTONES */
 
 #milestonesHeading {
-    font-size: 25px;
-    text-align: center;
+    font-size: 20px;
+    text-align:center;
+    margin-bottom: 5%;
+    margin-top: 3%;
+    font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+    font-weight:bold;
     text-shadow: 1px 1px rgba(255,255,255, 0.2);
-    margin-bottom:5%;
 }
 
 .achievementBlock {
@@ -239,16 +242,20 @@ canvas {
     //border: 1px solid purple;
     border-radius: 10px;
     width: 100%;
-    background-color: #FFF;
-    font-size: 6px;
+    background-color: rgba(255,255,255,0.8);
+    //font-size: 6px;
+    height:7px;
 }
 
 .currentProgress {
     width:70%;
-    background-color: purple;
+    //background-color: purple;
+    background-color:rgba(0, 153, 204, 0.7);
+    box-shadow: inset 3px 3px 6px -2px #00ace6, inset 5px 5px 10px -6px #cccccc;
     position: relative;
     border-radius: 10px;
-    font-size: 6px;
+    //font-size: 6px;
+    height: 7px;
 }
 
 .unlockDescription {

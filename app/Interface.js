@@ -42,7 +42,6 @@ function interfaceInit() {
 	setLevelTimer(260);
 	startLevelTimer();
 
-	changeProgress(2, 25);
 }
 
 /**
@@ -521,6 +520,11 @@ function showMilestones() {
 	menuMilestones.show();
 	menuResetColors();
 	menuSetColor('milestoneBox');
+
+	/* UPDATE VALUES */
+
+	changeProgress(2, 25);
+
 }
 
 function showOptions() {
@@ -554,6 +558,30 @@ function menuClose() {
     interface.toggleMenuOverlay();
     movement.lockPointer();
 }
+
+/**
+ * FUNCTIONS FOR MILESTONES
+ */
+
+var openCloseValues = new Array(10);
+
+
+function showDescription(number) {
+	var $open = openCloseValues[number-1];
+	if (!$open) {
+		$('#description'+number).show();
+		openCloseValues[number-1] = true;
+	}
+	else {
+		$('#description'+number).hide();
+		openCloseValues[number-1] = false;
+	}
+}
+
+function changeProgress (number, percentage) {
+	$('#progress'+number).css('width', percentage + '%'); 
+}
+
 
 /**
  * FUNCTIONS FOR SHOP
@@ -650,29 +678,6 @@ function abrechnung(value) {
 	}else{
 		return false;
 	}
-}
-
-/**
- * FUNCTIONS FOR MILESTONES
- */
-
-var openCloseValues = new Array(10);
-
-
-function showDescription(number) {
-	var $open = openCloseValues[number-1];
-	if (!$open) {
-		$('#description'+number).show();
-		openCloseValues[number-1] = true;
-	}
-	else {
-		$('#description'+number).hide();
-		openCloseValues[number-1] = false;
-	}
-}
-
-function changeProgress (number, percentage) {
-	$('#progress'+number).css('width', percentage + '%'); 
 }
 
 
