@@ -475,7 +475,7 @@ function setSpeed(newSpeed) {
 	console.log('current1 ' +currentSpeed);
 	console.log('max1 ' + reachedMaxSpeed);
 
-	if(parseInt(currentSpeed)>=parseInt(reachedMaxSpeed)){
+	if(!reachedMilestone4&&parseInt(currentSpeed)>=parseInt(reachedMaxSpeed)){
 		console.log('geht rein');
 		this.reachedMaxSpeed = currentSpeed;
 	}
@@ -609,6 +609,18 @@ function menuClose() {
 /**
  * FUNCTIONS FOR MILESTONES
  */
+
+var reachedMilestone = [
+	false,
+	false,
+	false,
+	false
+	]
+
+var reachedMilestone1 = false;
+var reachedMilestone2 = false;
+var reachedMilestone3 = false;
+var reachedMilestone4 = false;
 
 var openCloseValues = new Array(10);
 
