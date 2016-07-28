@@ -8,7 +8,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
     this.clock = new THREE.Clock();
     this.clock.start();
-    var speed=speed;
+    this.speed=speed;
     this.startVector = startVector;
     this.particleCount = nParticles;
     this.particles = new THREE.Geometry();
@@ -18,7 +18,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
         {
             color: particleColor,
             size: size,
-            map:particleTexture, // TODO: Fileloader benutzen
+            map:particleTexture,
             blending: THREE.AdditiveBlending,
             transparent: true
         }
@@ -54,14 +54,13 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
             while (pCount--) {
                 var particle = this.particles.vertices[pCount];
 
-                particle.velocity.x += (rand()-0.5)*speed;
-                particle.velocity.y += (rand()-0.5)*speed;
-                particle.velocity.z += (rand()-0.5)*speed;
+                particle.velocity.x += (rand()-0.5)*this.speed;
+                particle.velocity.y += (rand()-0.5)*this.speed;
+                particle.velocity.z += (rand()-0.5)*this.speed;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;
                 particle.z += particle.velocity.z;
-
 
                 this.particleSystem.geometry.__dirtyVertices = true;
             }

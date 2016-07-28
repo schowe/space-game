@@ -184,9 +184,6 @@ var Collision = function() {
                 (sphere.position.z - other.position.z) * (sphere.position.z - other.position.z));
         // if the distance between the centers is smaller the the sum of the
         // radii the spheres intersect
-
-    //console.log(sphere.parameters.radius);
-    // console.log(sphere.geometry.parameters.radius);
         return distance < (sphere.geometry.parameters.radius + other.geometry.parameters.radius);
     }
 
@@ -229,11 +226,12 @@ var Collision = function() {
         var hitBox = cylinderAsBox(cylinder);
 
         scene.add(hitBox);
+        //hitBox.visible = false;
         // check intersection
         var isIntersect = intersectBoxBox(box, hitBox);
 
-        scene.remove(hitBox);
-        hitBox = undefined;
+        //scene.remove(hitBox);
+        //hitBox = undefined;
 
         return isIntersect;
 
@@ -270,10 +268,6 @@ var Collision = function() {
                            (y - sphere.position.y) * (y - sphere.position.y) +
                            (z - sphere.position.z) * (z - sphere.position.z));
 
-        // console.log(distance);
-        // console.log(sphere.geometry.parameters.radius);
-
-        console.log(sphere.geometry.parameters.radius);
         // if the distance is smaller than the radius of the sphere there is an intersection
         return distance < sphere.geometry.parameters.radius;
     }

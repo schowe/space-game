@@ -30,6 +30,7 @@ var scoreValues = {
 // Postprocessing
 var composer, glitchPass, glitchPassEnabled;
 
+
 // Document Ready Function
 $(function() {
     // wird ausgeführt, wenn das Dokument geladen ist:
@@ -38,8 +39,9 @@ $(function() {
     fileLoader = FileLoader();
     LoadingScreen();
     interface = Interface();
-    explosionParticleHandler = ExplosionParticleHandler();
     collision = Collision();
+    explosionParticleHandler = ExplosionParticleHandler();
+
 
     // alle 50ms prüfen, ob alle Files geladen sind
     var loadingLoop = setInterval(function() {
@@ -165,6 +167,7 @@ function init() {
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+    
 
 }
 

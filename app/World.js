@@ -76,10 +76,7 @@ function createAsteroids(){
     astOriginal.position.z = ship.position.z + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
 
     astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
-    console.log(astOriginal.scale);
     hitGeometry =  new THREE.SphereGeometry(asteroidRadius * rndScale, 32, 32);
-
-    console.log(asteroidRadius*rndScale);
 
     var colSphereMaterial = new THREE.MeshBasicMaterial({
                     transparent: true,
@@ -95,8 +92,8 @@ function createAsteroids(){
     asteroidHitBoxes.push(astHitBox);
     scene.add(astOriginal);
     scene.add(astHitBox);
-  }
 
+  }
 
 }
 
@@ -143,8 +140,8 @@ function updateAsteroids(){
 
        }
 
-  }
 
+  }
 
 }
 
