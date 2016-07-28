@@ -771,3 +771,15 @@ function checkActiveCross(){
 function invertedMouseFunc(){
 	mouseInverted*=-1;
 }
+
+
+function hideScrollbar() {
+	switch($('.innerScrollbar').css('margin-right')) {
+		-16px:
+			$('.innerScrollbar').css('margin-right', 'auto');
+			break;
+		default:
+			$('.innerScrollbar').css('margin-right', '-16px');
+			break;
+	}
+}
