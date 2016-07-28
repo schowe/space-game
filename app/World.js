@@ -54,7 +54,7 @@ function createAsteroids(){
     astGeometry = fileLoader.get("AsteroidV2");
     astTexture  = fileLoader.get("AsteroidTex");
 
-  for( countAst = 0 ; countAst < 100; countAst++){
+  for( countAst = 0 ; countAst < 200; countAst++){
 
      rndSpeedX = Math.random()* 20 - 14;
      rndSpeedY = Math.random()* 20 - 14;
@@ -143,9 +143,9 @@ function updateAsteroids(){
             tmpAsteroid.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
             tmpAsteroid.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
 
-            tmpHitBox.position.x = ship.position.x + biggerSphereRadius * newVec.x;
-            tmpHitBox.position.y = ship.position.y + biggerSphereRadius * newVec.y;
-            tmpHitBox.position.z = ship.position.z + biggerSphereRadius * newVec.z;
+            tmpHitBox.position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
+            tmpHitBox.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
+            tmpHitBox.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
 
              console.log("new VEK : " + tmpAsteroid.position.x + " " + tmpAsteroid.position.y + " " + tmpAsteroid.position.z );
 
