@@ -47,7 +47,6 @@ canvas {
     text-align: center;
 
     cursor: pointer;
-
 }
 
 #menu-overlay {   
@@ -189,16 +188,22 @@ canvas {
 /* MILESTONES */
 
 #milestonesHeading {
-    font-size: 25px;
-    text-align: center;
+    font-size: 20px;
+    text-align:center;
+    margin-bottom: 5%;
+    margin-top: 3%;
+    font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+    font-weight:bold;
     text-shadow: 1px 1px rgba(255,255,255, 0.2);
-    margin-bottom:5%;
 }
 
 .achievementBlock {
+    border-style: ridge 4px;
+    border-radius: 5px;
+    padding: 5px;
     width: 70%;
     height: 12%;
-    //background-color: rgba(255,0,0,0.4);
+    background-color: rgba(124,124,124,0.4);
     margin-left:15%;
     margin-bottom: 5%;
 }
@@ -209,6 +214,7 @@ canvas {
 }
 
 .achievement .icon {
+    padding:auto;
     width: 20%;
 }
 
@@ -238,19 +244,23 @@ canvas {
 
 .achievementProgressBar {
     position: relative;
-    border: 1px solid purple;
+    //border: 1px solid purple;
     border-radius: 10px;
     width: 100%;
-    background-color: #FFF;
-    font-size: 6px;
+    background-color: rgba(255,255,255,0.8);
+    //font-size: 6px;
+    height:7px;
 }
 
-.bar2 {
-    width:70%;
-    background-color: purple;
+.currentProgress {
+    width:20%;
+    //background-color: purple;
+    background-color:rgba(0, 153, 204, 0.7);
+    box-shadow: inset 3px 3px 6px -2px #00ace6, inset 5px 5px 10px -6px #cccccc;
     position: relative;
     border-radius: 10px;
-    font-size: 6px;
+    //font-size: 6px;
+    height: 7px;
 }
 
 .unlockDescription {
@@ -259,83 +269,3 @@ canvas {
     font-size:10px;
     display:none;
 }
-
-/* ?? 1 */
-
-/*
-#achievementBlock {
-    width: 80%;
-    height: 12%;
-    //background-color: rgba(255,0,0,0.4);
-    margin-left:10%;
-}
-
-#achievementIcon {
-    //height: 100%;
-    position: relative;
-    //background-color: rgba(0, 255, 0, 0.8);
-    display: inline-block;
-    width: 14%;
-    border-radius:30px;
-}
-
-#achievementInfo {
-    position: relative;
-    display: inline;
-}
-
-#achievementType {
-    display: inline-block;
-    font-size: 12px;
-    margin-left: 2%;
-    position: absolute;
-}
-
-#achievementProgressBar {
-    position: relative;
-    display: inline-block;
-    border: 1px solid purple;
-    border-radius: 10px;
-    width: 70%;
-    background-color: #FFF;
-    margin-left: 10%;
-    font-size: 7px;
-    bottom: 15px;
-}
-
-#bar2 {
-    position:absolute;
-    width: 60%;
-    background-color:purple;
-    border-right-radius: 10px;
-}
-
-*/
-/* ??  2 */
-
-/*
-#achievementType {
-    position: absolute;
-    font-size: 11px;
-    display: inline-block;
-    margin-left: 12%;
-}
-
-#achievementProgressBar {
-    position: relative;
-    display: inline-block;
-    border: 1px solid #800080;
-    border-radius: 10px;
-    width: 70%;
-    background-color: #FFF;
-    margin-left: 10%;
-    font-size: 7px;
-    bottom: 15px;
-}
-
-#bar2 {
-    position:absolute;
-    width: 60%;
-    background-color:purple;
-    border-right-radius: 10px;
-}*/

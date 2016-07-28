@@ -8,6 +8,7 @@ function Interface() {
         $overlay.show();
         checkBuyable();
         checkActiveCross();
+        checkMilestones();
         menuVisible = true;
     }
 
@@ -31,7 +32,9 @@ function Interface() {
 function interfaceInit() {
 	setMaxHP(100);
 	setHP(100);
-	setMoney(20333300);
+	//setMoney(20333300);
+	setMoney(450033300);
+	changeMoney(10);
 	updateWeaponInterface();
 	
 	document.getElementById('invertedMouse').checked = true;
@@ -40,6 +43,7 @@ function interfaceInit() {
 	displayLevel(1);
 	setLevelTimer(260);
 	startLevelTimer();
+
 }
 
 /**
@@ -55,7 +59,7 @@ function LoadingScreen() {
 	loadingSplash();
 	loadingEllipsisID = setInterval(loadingEllipsis, 1000);
 	loadingSplashID = setInterval(loadingSplash, 1500);
-	hideTextureLoading();
+	loadingFadeOut();
 }
 
 /* Adds an animated ellipsis to the loading screen */
@@ -119,7 +123,7 @@ function loadingSplash() {
 }
 
 /* Hides the overlay and stops its functions */
-function hideTextureLoading() {
+function loadingFadeOut() {
 	// Set an Interval to check if textures have loaded
 	var loadingID = setInterval(function() {
 		if(fileLoader.isReady()) {
@@ -179,6 +183,9 @@ function changeMoney(value) {
 	currentMoney += parseInt(value);
     moneyReference.innerHTML = currentMoney;
 
+    if (currentMoney > reachedMoney) {
+    	reachedMoney = currentMoney;
+    }
 }
 
 /* Sets the current amount of currentMoney to @value */
@@ -465,12 +472,18 @@ function setSpeed(newSpeed) {
 		currentSpeed = parseInt(maxSpeed * speedFactor * 10);
 	}
 
-	if(currentSpeed>reachedMaxSpeed){
-		reachedMaxSpeed = currentSpeed;
+	console.log('current1 ' +currentSpeed);
+	console.log('max1 ' + reachedMaxSpeed);
+
+	if(parseInt(currentSpeed)>=parseInt(reachedMaxSpeed)){
+		console.log('geht rein');
+		this.reachedMaxSpeed = currentSpeed;
 	}
 
-	if(parseInt(temp.innerHTML) < 10){
-		temp.innerHTML = 0;
+	console.log('max2 ' + reachedMaxSpeed);
+
+	if(parseInt(temp.innerHTML) < 90){
+		temp.innerHTML = 80;
 	}
 }
 
@@ -536,11 +549,27 @@ function showHighscore() {
 	menuSetColor('highscoreBox');
 }
 
+/* 
+milestone variables 
+*/
+var reachedMoney = 23;
+
 function showMilestones() {
 	menuHideAll();
 	menuMilestones.show();
 	menuResetColors();
 	menuSetColor('milestoneBox');
+	checkMilestones();
+	/* UPDATE VALUES */
+}
+
+function checkMilestones(){
+	changeMilestoneProgress(2, 120, 100);
+
+	changeMilestoneProgress(3, reachedMoney, 50000);
+
+	console.log(reachedMaxSpeed);
+	changeMilestoneProgress(4, reachedMaxSpeed, 2000);
 }
 
 
@@ -576,6 +605,45 @@ function menuClose() {
     interface.toggleMenuOverlay();
     movement.lockPointer();
 }
+
+/**
+ * FUNCTIONS FOR MILESTONES
+ */
+
+var openCloseValues = new Array(10);
+
+
+function showDescription(number) {
+	var $open = openCloseValues[number-1];
+	if (!$open) {
+		$('#description'+number).show();
+		openCloseValues[number-1] = true;
+	}
+	else {
+		$('#description'+number).hide();
+		openCloseValues[number-1] = false;
+	}
+}
+
+var percentage;
+function changeMilestoneProgress (number, current, max) {
+	percentage = (current/max) * 100;
+	if (percentage > 100) {
+		percentage = 100;
+		setFinished(number);
+	}
+	$('#progressbar' + number).css('width', percentage + '%'); 
+	$('#currentAchievementProgress' + number).html(current);
+}
+
+/* ??? */
+function setFinished(number) {
+	/* Ideen?? */
+	$('#progressbar' + number).css('background-color', 'rgba(255, 170, 0, 0.6)'); 
+	$('#progressbar' + number).css('border-color', 'rgba(255, 255, 255, 0.8)'); 
+	$('#progressbar' + number).css('box-shadow', 'none'); 
+}
+
 
 /**
  * FUNCTIONS FOR SHOP
@@ -717,34 +785,6 @@ function abrechnung(value) {
 	}
 }
 
-/**
- * FUNCTIONS FOR MILESTONES
- */
-
-
-var $open1 = false;
-function showFirst() {
-	if (!$open1) {
-		$('#first').show();
-		$open1 = true;
-	}
-	else {
-		$('#first').hide();
-		$open1 = false;
-	}
-
-}
-var $open2 = false;
-function showSecond() {
-	if (!$open2) {
-		$('#second').show();
-		$open2 = true;
-	}
-	else {
-		$('#second').hide();
-		$open2 = false;
-	}
-}
 
 /**
  * FUNCTIONS FOR OPTIONS
