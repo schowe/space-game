@@ -11,13 +11,10 @@
 </head>
 <body scroll="no">
 
-
-	
 	<div id="loadingTexturesOverlay">
         <div id="loadingTexturesHeader">Loading..</div>
 		<div id="loadingTexturesSplash"></div>
     </div>
-
 
     <div id="menu-overlay" hidden>
         <div id="menu-box">
@@ -83,9 +80,39 @@
                                 <div>
                             </td>
                         </tr>
+
+                        <tr id="shopItem4">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(4)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increases your maximum rocket ammo by ENTER AMMOUNT HERE </div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade4" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+
+                         <tr id="shopItem5">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(5)">
+                                <!--
+                                //<div class="buyButton">Buy</div>
+                                -->
+                            </td>
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increases your maximum minigun ammo by ENTER AMMOUNT HERE</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade5" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
                          
-
-
                         
                     </table>
                 </div>
@@ -209,12 +236,30 @@
 					<div id=optionContainer>
 						<div id="optionsHeader">--- Game Options ---</div>
 						<div id="gameOptions">
-							Inverted Mouse <input type="checkbox" id="invertedMouse" onchange="invertedMouseFunc();" checked>
+							<table>
+								<tr>
+									<td>Inverted Mouse </td>
+									<td><input type="checkbox" id="invertedMouse" onchange="invertedMouseFunc();" checked></td>
+								</tr>
+								<tr>
+									<td>Hide Scrollbar</td>
+									<td><input type="checkbox" id="hideScrollbar" onchange="hideScrollbar();" checked></td>
+								</tr>
+							</table>
 						</div>
 						
 						<div id="optionsHeader">--- Sound Options ---</div>
 						<div id="soundOptions">
-							blabla
+							<table>
+								<tr>
+									<td>Volume</td>
+									<td>
+										<div id="volumeBar">
+											<div id=volumeSlider></div>
+										</div>
+									</td>
+								</tr>
+							</table>
 						</div>
 						<div id="optionsHeader">--- Crosshair Options ---</div>
 						<div id="crossOptions">

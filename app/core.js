@@ -50,12 +50,13 @@ $(function() {
 
 function init() {
 
+    /********** THREE.js initialisieren **********/
+
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
 
-
-	
+    
     //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
@@ -154,9 +155,10 @@ function init() {
     /********** Input **********/
 
     // Szene in DOM einsetzen
-    //container.appendChild( renderer.domElement );
+    container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
+
 }
 
 function onWindowResize() {
@@ -203,9 +205,6 @@ function animate() {
 }
 
 function render() {
-
-    //renderer.render( scene, camera );
-
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
