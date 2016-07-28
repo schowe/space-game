@@ -41,7 +41,6 @@ function createStars(){
 }
 
 
-
 //AsteroidStuff
 
 function createAsteroids(){
@@ -171,24 +170,21 @@ function asteroidCollision(ast1Index, ast2Index){
 
     asteroidSpeedVecs[ast1Index] = ast1Dir;
     asteroidSpeedVecs[ast2Index] = ast2Dir;
-    console.log("Kaputt");
-    
+       
   } else{
     if(asteroidHitBoxes[ast1Index].geometry.parameters.radius<55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius>55){
-      console.log("Kaputt");
+      
       destroyAsteroid(ast1Index);
       
     } else{
     if(asteroidHitBoxes[ast1Index].geometry.parameters.radius>55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius<55){
 
       destroyAsteroid(ast2Index);
-      console.log("2 hat Bumm gemacht");
-
+      
     } else{
     if(asteroidHitBoxes[ast1Index].geometry.parameters.radius<55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius<55){
       destroyAsteroid(ast1Index);
       destroyAsteroid(ast2Index);
-      console.log("Das ist wohl ein draw");
     }
   }
 }
@@ -219,12 +215,10 @@ function hitAsteroid(asteroidNumber, collisionType){
 
       break;
 
-
     }
 
 
     if(asteroidsHP[asteroidNumber] <= 0){
-
 
       destroyAsteroid(asteroidNumber);
 
@@ -240,8 +234,7 @@ function hitAsteroid(asteroidNumber, collisionType){
 function destroyAsteroid(asteroidNumber){
     //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
     explosionParticleHandler.addExplosion(asteroids[asteroidNumber].position, 10, 0xcccccc, 1, 1);
-    
-    
+      
     var newRandomPosAstX = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
     var newRandomPosAstY = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
     var newRandomPosAstZ = Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
@@ -264,7 +257,6 @@ function destroyAsteroid(asteroidNumber){
     asteroidsHP[asteroidNumber] = 100;
 
 }
-
 
 //Function to create the Spheres around the player
 function World(){
