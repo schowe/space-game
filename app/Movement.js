@@ -40,6 +40,7 @@ function Movement() {
 
 
             setMaxSpeed(14);
+			setSpeed(2.0);
             var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
             var blocker = document.getElementById('block');
             var instructions = document.getElementById('splash');
@@ -327,7 +328,7 @@ function stop(){
     xAxis = 0.0;
     yAxis = -2.0;
     zAxis = 0.0;
-    setSpeed(0.0);
+    setSpeed(2.0);
     mouseX = 0.0;
     mouseY = 0.0;
 }

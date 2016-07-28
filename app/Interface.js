@@ -55,7 +55,7 @@ function LoadingScreen() {
 	loadingEllipsis();
 	loadingSplash();
 	loadingEllipsisID = setInterval(loadingEllipsis, 1000);
-	loadingSplashID = setInterval(loadingSplash, 2500);
+	loadingSplashID = setInterval(loadingSplash, 1500);
 	hideTextureLoading();
 }
 
@@ -78,7 +78,6 @@ function loadingEllipsis() {
 			break;
 	}
 }
-
 
 /* Randomly selects a splash text from an array */
 function loadingSplash() {
@@ -177,8 +176,8 @@ var moneyReference = document.getElementById('money');
 
 /* Changes the amount of currentMoney by @value */
 function changeMoney(value) {   
-	currentMoney +=parseInt(value);
-    moneyReference.innerHTML = currentMoney
+	currentMoney += parseInt(value);
+    moneyReference.innerHTML = currentMoney;
 }
 
 /* Sets the current amount of currentMoney to @value */
@@ -335,6 +334,16 @@ function hpUpdateColor() {
 		hpBoxCurrent.style.background = '#' + padHex(temp.toString(16)) + 'FF00';
 	}
 }
+ 
+/* Pads @hex if it is shorter than 2 digits */
+function padHex(hex) {
+	
+	while(hex.length < 2) {
+		hex = '0' + hex;
+	}
+	
+	return hex;
+}
 
 /**
  * FUNCTIONS FOR GAME OVER
@@ -370,7 +379,6 @@ function displayLevel(value) {
 		$(levelReference).animate({opacity: '1'}, 100);
 		$(levelReference).animate({opacity: '0.3'}, 100);
 		$(levelReference).animate({opacity: '1'}, 100);
-
 	}, 5000);
 	
 	setTimeout(function() {
@@ -388,15 +396,14 @@ function setLevelTimer(seconds) {
 /* Starts the timer */
 function startLevelTimer() {
 	var levelTimer = setInterval(function() {
-		if(!Pause ) {
+		if(!Pause) {
 			if(sec == 0 && min > 0) {
 				min--;
 				sec = 59;
 			} else if(sec == 0 && min == 0) {
 				//next level
 				clearInterval(levelTimer);
-			}
-			else {
+			} else {
 				sec--;
 			}
 			displayTimer();
@@ -420,13 +427,16 @@ function displayTimer() {
 /**
  * FUNCTIONS FOR SPEED
  */
- 
+
+var reachedMaxSpeed = 0;
 var maxSpeed = 100;
-var speedFactor = 4.04;
 var maxBoost = 1.0;
 
 /* Sets the displayed speed value and bar to @newSpeed */
 function setSpeed(newSpeed) {
+	var currentSpeed = 0;
+	var speedFactor = 4.04;
+
 	// Set the height of the speed bar
 	var speedBox = document.getElementById('speedBarValue');	
 	speedBox.style.height = Number(newSpeed) / maxSpeed * 100 + '%';
@@ -435,15 +445,25 @@ function setSpeed(newSpeed) {
 	var temp = parseInt(255.5 - Number(newSpeed) / maxSpeed * 255);
 	speedBox.style.background = '#FF' + padHex(temp.toString(16)) + '00';
 
+	var randomNum = parseInt(Math.random() * 10);
+
 	// Set the displayed speed value
 	var temp = document.getElementById('speedValue');
-	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + parseInt(Math.random() * 10);
+	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + randomNum;
+	currentSpeed = parseInt(newSpeed * speedFactor) + '' + randomNum;
 
-	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - 10)
+	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - randomNum) {
 		temp.innerHTML = parseInt(maxSpeed * speedFactor * 10);
+		currentSpeed = parseInt(maxSpeed * speedFactor * 10);
+	}
 
-	if(parseInt(temp.innerHTML) < 10)
+	if(currentSpeed>reachedMaxSpeed){
+		reachedMaxSpeed = currentSpeed;
+	}
+
+	if(parseInt(temp.innerHTML) < 10){
 		temp.innerHTML = 0;
+	}
 }
 
 /* Sets maxSpeed to @newMaxSpeed */
@@ -484,29 +504,71 @@ function setPowerUp(powerUp, removeOrAdd) {
 }
 
 /**
- * MISC FUNCTIONS
+ * FUNCTIONS FOR MENU
  */
- 
-/* Pads @hex if it is shorter than 2 digits */
-function padHex(hex) {
-	
-	while(hex.length < 2) {
-		hex = '0' + hex;
-	}
-	
-	return hex;
+
+var menuShop = $('#shop');
+var menuOptions = $('#options');
+var menuMilestones = $('#milestones');
+var menuHighscore = $('#highscore');
+
+function showShop() {
+	menuHideAll();
+	menuShop.show();
+	menuResetColors();
+	menuSetColor('shopBox');
+	checkBuyable();
 }
 
-var $menuShop = $('#shop');
-var $menuOptions = $('#options');
-var $menuMilestones = $('#milestones');
-var $menuHighscore = $('#highscore');
+function showHighscore() {
+	menuHideAll();
+	menuHighscore.show();
+	menuResetColors();
+	menuSetColor('highscoreBox');
+}
 
-function closeMenu() {
+function showMilestones() {
+	menuHideAll();
+	menuMilestones.show();
+	menuResetColors();
+	menuSetColor('milestoneBox');
+}
+
+function showOptions() {
+	menuHideAll();
+	menuOptions.show();
+	menuResetColors();
+	menuSetColor('optionsBox');
+}
+
+function menuResetColors() {
+	$('.pauseButton').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
+	$('.pauseButton').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
+    $('.pauseButton').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+}
+
+function menuSetColor(box) {
+	$('#' + box).css('border-color', 'rgba(255, 170, 0, 0.9)'); 
+	$('#' + box).css('background-color', 'rgba(255, 255, 255, 0.8)');
+    $('#' + box).css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+}
+
+function menuHideAll() {
+	menuShop.hide();
+	menuHighscore.hide();
+	menuMilestones.hide();
+	menuOptions.hide();
+}
+
+function menuClose() {
     PauseScreen = false;
     interface.toggleMenuOverlay();
     movement.lockPointer();
 }
+
+/**
+ * FUNCTIONS FOR SHOP
+ */
 
 var costUpgrade1Faktor = 1.2;
 var costUpgrade1 = 1000; //+ 25 maxHP
@@ -515,7 +577,7 @@ var costUpgrade2Faktor = 1.2;
 var costUpgrade2 = 5000; //+ 1 maxSpeed
 
 var firstBuyUpgrade3 = true;
-var amountUpgrade3 = 1;
+var amountUpgrade3 = 0;
 var costUpgrade3Faktor = 1.2;
 var costUpgrade3 = 40000; //+ 1 hp alle anfangs 5 sec
 var upgrade3Time = 5000;
@@ -580,10 +642,10 @@ function buyUpgrade(value){
 
 				costUpgrade3 = parseInt(costUpgrade3*costUpgrade3Faktor);
 				addHPID = setInterval(function() {
-					if(!Pause){
-						setHP(getHP()+1);
+					if(!Pause) {
+						setHP(getHP() + 1);
 					}	
-				}, 5000 / amountUpgrade3++);
+				}, 5000 / ++amountUpgrade3);
 			}
 			break;
 		default:
@@ -602,42 +664,37 @@ function abrechnung(value) {
 }
 
 /**
- * FUNCTIONS FOR MENU
+ * FUNCTIONS FOR MILESTONES
  */
 
-function showShop() {
-	$menuHighscore.hide();
-	$menuMilestones.hide();
-	$menuOptions.hide();
-	$menuShop.show();
-	resetColors();
-	$('#shopBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('#shopBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('#shopBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
+var $open1 = false;
+function showFirst() {
+	if (!$open1) {
+		$('#first').show();
+		$open1 = true;
+	}
+	else {
+		$('#first').hide();
+		$open1 = false;
+	}
+
+}
+var $open2 = false;
+function showSecond() {
+	if (!$open2) {
+		$('#second').show();
+		$open2 = true;
+	}
+	else {
+		$('#second').hide();
+		$open2 = false;
+	}
 }
 
-function showHighscore() {
-	$menuShop.hide();
-	$menuMilestones.hide();
-	$menuOptions.hide();
-	$menuHighscore.show();
-	resetColors();
-	$('#highscoreBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('#highscoreBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('#highscoreBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-}
-
-function showMilestones() {
-	$menuShop.hide();
-	$menuHighscore.hide();
-	$menuOptions.hide();
-	$menuMilestones.show();
-	resetColors();
-	$('#milestoneBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('#milestoneBox').css('background-color', 'rgba(255, 255, 255, 0.8)'); 
-    $('#milestoneBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-}
-
+/**
+ * FUNCTIONS FOR OPTIONS
+ */
+ 
 function checkActiveCross(){
 	//var bratwurst = document.getElementById('crossPic' + pos);
 
@@ -657,29 +714,8 @@ function checkActiveCross(){
 
 }
 
-function showOptions() {
-	$menuShop.hide();
-	$menuHighscore.hide();
-	$menuMilestones.hide();
-	$menuOptions.show();
-	resetColors();
-	$('#optionsBox').css('border-color', 'rgba(255, 170, 0, 0.9)'); 
-	$('#optionsBox').css('background-color', 'rgba(255, 255, 255, 0.8)');
-    $('#optionsBox').css('box-shadow', 'inset 1px 1px 8px -5px #ffaa00, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-    indicateActiveCross();
-}
-
-function resetColors() {
-	// Reset shopBox
-
-	$('.pauseButton').css('border-color', 'rgba(0, 153, 204, 0.7)'); 
-	$('.pauseButton').css('background-color', 'rgba(230, 230, 230, 0.7)'); 
-    $('.pauseButton').css('box-shadow', 'inset 1px 1px 6px -2px #00ace6, inset 4px 4px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.7)'); 
-
-}
 
 function invertedMouseFunc(){
 	mouseInverted*=-1;
 }
-
 

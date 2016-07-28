@@ -14,24 +14,24 @@
 
 	
 	<div id="loadingTexturesOverlay">
-        <div id="loadingTexturesHeader">Loading...</div>
+        <div id="loadingTexturesHeader">Loading..</div>
 		<div id="loadingTexturesSplash"></div>
     </div>
 
 
     <div id="menu-overlay" hidden>
         <div id="menu-box">
-            <div id="menuArea">
+            <div id="menuLeft">
         		<div id="menuButtons">            		
-            		<div class="pauseButton" id="shopBox" onClick="showShop()"> Shop </div>
-					<div class="pauseButton" id="highscoreBox" onClick="showHighscore()"> Highscore </div>
-					<div class="pauseButton" id="milestoneBox" onClick="showMilestones()"> Milestones </div>
-					<div class="pauseButton" id="optionsBox" onClick="showOptions()"> Options </div>
-					<div class="pauseButton" id="returnBox" onClick="closeMenu()"> Let's a go! </div>
+            		<div id="shopBox" class="pauseButton" onClick="showShop()"> Shop </div>
+					<div id="highscoreBox" class="pauseButton" onClick="showHighscore()"> Highscore </div>
+					<div id="milestoneBox" class="pauseButton" onClick="showMilestones()"> Milestones </div>
+					<div id="optionsBox" class="pauseButton" onClick="showOptions()"> Options </div>
+					<div id="returnBox" class="pauseButton" onClick="menuClose()"> Let's a go! </div>
         	   </div>
 	       </div>
 		   
-        	<div id="rightMenu"> 
+        	<div id="menuRight"> 
             <!-- SHOP -->
                 <div id="shop" hidden>
                     <table id="shopTable">
@@ -85,6 +85,7 @@
                         </tr>
                          
 
+
                         
                     </table>
                 </div>
@@ -122,7 +123,88 @@
 					<!-- Ende HIGHSCORE -->
 					
                 </div>
-				
+
+				<div id="milestones" hidden>
+					<div id="milestonesHeading"> Achievements </div>
+
+						<div class="achievementBlock">
+							<table class="achievement" onClick="showFirst()">
+								<tr> 
+									<td class="icon" rowspan="2"> 
+										<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
+									 </td> 
+									<td class="type"> 
+										<div class="achievementType"> rattle the stars </div>
+									</td>       
+								</tr>
+								<tr>  
+									<td class="bar"> 
+										<div class="achievementProgressBar">  
+										   <div class="bar2"> &nbsp; </div>
+										</div>     
+									</td>
+								</tr>
+							</table>
+
+							<div class="unlockDescription" id="first">
+									Bla description unlock when bla <br />
+									This needs to be longer so here's some text  <br />
+									I like strawberries
+							</div>
+						</div>
+
+						<div class="achievementBlock">
+							<table class="achievement" onClick="showFirst()">
+								<tr> 
+									<td class="icon" rowspan="2"> 
+										<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
+									 </td> 
+									<td class="type"> 
+										<div class="achievementType" > rattle the stars </div>
+									</td>       
+								</tr>
+								<tr>  
+									<td class="bar"> 
+										<div class="achievementProgressBar">  
+										   <div class="bar2"> &nbsp; </div>
+										</div>     
+									</td>
+								</tr>
+							</table>
+
+							<div class="unlockDescription" id="second">
+									Bla description unlock when bla <br />
+									This needs to be longer so here's some text  <br />
+									I like strawberries
+							</div>
+						</div>
+
+						<div class="achievementBlock">
+							<table class="achievement" onClick="showFirst()">
+								<tr> 
+									<td class="icon" rowspan="2"> 
+										<img src="../res/img/speedShopItem.png" class="achievementIcon">
+									 </td> 
+									<td class="type"> 
+										<div class="achievementType" > Speedjunkie </div>
+									</td>       
+								</tr>
+								<tr>  
+									<td class="bar"> 
+										<div class="achievementProgressBar">  
+										   <div class="bar2"> &nbsp; </div>
+										</div>     
+									</td>
+								</tr>
+							</table>
+
+							<div class="unlockDescription" id="second">
+									Reach a speed of 2000 <br>
+									<div id="actualReachedSpeed">0</div>/<div id="neededSpeed"></div>
+							</div>
+						</div>
+				</div>
+
 				<div id="options" hidden>
 					<div id=optionContainer>
 						<div id="optionsHeader">--- Game Options ---</div>
@@ -155,11 +237,8 @@
 								<img class="crossPic" id="crossPic15" src="../res/textures/Crosshair.png" onClick="switchCross(15)">
 							</div>
 						</div>
-
-						
 					</div>
 				</div>
-			
             </div>
         </div>
     </div>
