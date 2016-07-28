@@ -205,12 +205,12 @@ function shootLaser(){
 
 function successLaser(bul){
 
-	scene.remove(projectiles[bul]);
-	scene.remove(projectiles[bul-1]);
+	//scene.remove(projectiles[bul]);
+	//scene.remove(projectiles[bul-1]);
 	//remove Laser HitBox
-	projectiles.splice(bul,1);
+	//projectiles.splice(bul,1);
 	//remove Laser
-	projectiles.splice((bul-1),1);
+	//projectiles.splice((bul-1),1);
 }
 
 function successRocket(bul){
@@ -336,13 +336,13 @@ function renderWeapons(){
 	explosionTime +=add;
 
 	//function for limiting single shootings while MG-shooting
-	//if(mgCounter > 0){
-	//    if(timeSinceMG >0.05){
-	//    	timeSinceMG = 0;
-	//    	MGShoot();
-	//    	mgCounter -= 1;
-	//    }
-	//}
+	if(mgCounter > 0){
+	    if(timeSinceMG >0.05){
+	    	timeSinceMG = 0;
+	    	MGShoot();
+	    	mgCounter -= 1;
+	    }
+	}
 
 	//Translate all projectiles and check for end of existance
 	for( var bul in projectiles){
