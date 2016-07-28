@@ -549,6 +549,7 @@ function showOptions() {
 	menuOptions.show();
 	menuResetColors();
 	menuSetColor('optionsBox');
+
 }
 
 function menuResetColors() {
@@ -750,36 +751,26 @@ function showSecond() {
  */
  
 function checkActiveCross(){
-	//var bratwurst = document.getElementById('crossPic' + pos);
 
 	var temp = 'crossPic' + pos;
-
-	//$('.crossPic').css('border-style', 'none'); 
-	//$('.crossPic').css('border-color', 'rgba(255,255,255,0.5)'); 
-
-	//$('#'+temp).css('border-style', 'solid'); 
-	//$('#'+temp).css('border-color', 'rgba(255,255,255,0.5)'); 
-
-	//box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,0,0.5); 
-
 	$('.crossPic').css('border-color','rgba(0, 153, 204, 0.7)');
 	$('#'+temp).css('border-color', 'rgba(255, 170, 0, 0.9)');
 
 }
 
 
+
 function invertedMouseFunc(){
 	mouseInverted*=-1;
 }
 
-
+var sichtbar = 0;
 function hideScrollbar() {
-	switch($('.innerScrollbar').css('margin-right')) {
-		-16px:
-			$('.innerScrollbar').css('margin-right', 'auto');
-			break;
-		default:
-			$('.innerScrollbar').css('margin-right', '-16px');
-			break;
+	if(sichtbar==1){
+		$('.innerScrollbar').css('margin-right', 'auto');	
+		sichtbar = 0;
+	}else{
+		$('.innerScrollbar').css('margin-right', '-16px');
+		sichtbar = 1;
 	}
 }
