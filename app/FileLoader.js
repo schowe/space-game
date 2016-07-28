@@ -21,7 +21,7 @@ var FileLoader = function() {
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
-        "../res/textures/RocketTexture.png",
+        "../res/textures/RocketV2Tex.png",
         "../res/textures/Crosshair1.png",
         "../res/textures/Crosshair2.png",
         "../res/textures/Crosshair3.png",
