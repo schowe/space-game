@@ -67,8 +67,7 @@ function createAsteroids(){
      asteroidSpeedVecs.push(vecSpeed);
      asteroidRotVecs.push(vecRot);
 
-     astOriginal = new THREE.Mesh(astGeometry, new THREE.MeshPhongMaterial({culling: THREE.DoubleSide,
-        map: astTexture}));
+     astOriginal = new THREE.Mesh(astGeometry, new THREE.MeshPhongMaterial({map: astTexture}));
 
      astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
      astOriginal.position.y = ship.position.y + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius );
