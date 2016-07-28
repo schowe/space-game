@@ -219,14 +219,19 @@ function successLaser(projectileIndex){
     projectiles.splice(projectileIndex,1);
 }
 
-function successRocket(bul){
-	// rocketExplode(projectiles[bul-1]);
-	// scene.remove(projectiles[bul]);
-	// scene.remove(projectiles[bul-1]);
-	// //remove Laser HitBox
-	// projectiles.splice(bul,1);
-	// //remove Laser
-	// projectiles.splice((bul-1),1);
+function successRocket(projectileIndex){
+	//get to hitbox belonging rocket
+	var rocket = projectiles[projectileIndex].userData;
+
+	//start explosion
+	rocketExplode(rocket);
+  	
+	//remove Hitbox and rocket from scene
+	scene.remove(projectiles[projectileIndex]);
+    scene.remove(rocket);
+    
+    //remove Hitbox from projectiles
+    projectiles.splice(projectileIndex,1);
 
 }
 
@@ -236,8 +241,6 @@ function shootRocket(){
     if(timeSinceRocket>1.2 && rocketAmmo>0){
     	rocketAmmo -= 1;
     	updateWeaponInterface();
-
-    	//console.log("rocketAmmo:"+rocketAmmo);
    		
    		//play rocket-sound
    		rocketAudio.play();
@@ -246,8 +249,6 @@ function shootRocket(){
 	  	var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
 
 	  	var rocketHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
-
-	  	rocket.name = "Rocket";
 
 	  	//set name for recocnition in render-function
   	 	rocketHitBox.name = "RocketHitBox";
@@ -272,17 +273,20 @@ function shootRocket(){
   	 	//rotate rocket; rocket would fly backwards otherwise
   	 	rocket.rotateY(3.1415);
 
-  	 	//rotate: laser beam would be pointing up otherwise
+  	 	//rotate: rocket would be pointing up otherwise (rocket has initially a different orientation then the rocket)
 	  	rocketHitBox.rotateX(1.57);
 
     	//add rocket to scene
     	scene.add(rocket);
 
+    	//hitbox should be invisible
     	rocketHitBox.visible = false;
+
     	scene.add(rocketHitBox);
 
-    	//add rocket to list for rendering and collision
-    	projectiles.push(rocket);
+    	rocketHitBox.userData = rocket;
+
+    	//add hitbox to list for rendering and collision. rocket is rendered via hitbox (see renderWeapons())
     	projectiles.push(rocketHitBox);
 
     	//reset timer
@@ -377,30 +381,19 @@ function renderWeapons(){
     		}
 	    }
 
-	    //if projectile is a rocket:
-	    else if(projectiles[bul].name == "Rocket"){
-	    	//translate in mooving direction (translateZ becouse of different orientation to laser)
-	    	projectiles[bul].translateZ(2000 * add);
-
-	    	//if more then 1000 away explode
-  			if (dis > 1500){
-  		   		rocketExplode(projectiles[bul]);
-  		   		scene.remove(projectiles[bul]);
-  				projectiles.splice(bul, 1);
-  		   	}
-  		}
-
-
   		//if projectile is a rocket Hitbox:
 	    else if(projectiles[bul].name == "RocketHitBox"){
-	    	//translate in mooving direction (translate becouse of different orientation to laser)
-	    	projectiles[bul].translateY(-2000 * add);
+			//translate in mooving direction (translateZ becouse of different orientation then laser)
+	    	projectiles[bul].translateZ(2000 * add);
 
-	    	//if more then 1000 away explode
-  			if (dis > 1500){
-  		   		//scene.remove(projectiles[bul]);
-  				projectiles.splice(bul, 1);
-  		   	}
+	    	//translate to hitbox belonging rocket 
+	    	var rkt = projectiles[bul].userData;
+	    	rkt.translateZ(2000 * add);
+	    	console.log(rkt);
+
+	    	if (dis > 1500){
+    			successRocket(bul);
+    		}
 	    }
 	    //if projectile is an Explosion:
 	    else if(projectiles[bul].name == "Explosion"){
