@@ -184,7 +184,7 @@ function render() {
         handleCollision();
         renderWeapons();
         Movement().move(delta);
-        updateStars();
+        //updateStars();
         bot.updateAI(delta);
     }
 

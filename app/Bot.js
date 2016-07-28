@@ -78,7 +78,7 @@ function Bot() {
         // zufaellig an den Rand positionieren
         do {
             alpha = 2 * Math.PI * Math.random();
-            beta = Math.PI * Math.random();
+            beta = 2 * Math.PI * Math.random();
             asteroidPosition = new THREE.Vector3(
                 Math.sin(beta) * Math.sin(alpha),
                 Math.sin(beta) * Math.cos(alpha),
@@ -99,11 +99,14 @@ function Bot() {
                             playerPosition.x - asteroidPosition.x,
                             playerPosition.y - asteroidPosition.y,
                             playerPosition.z - asteroidPosition.z);
+        // bilde orthogonalen Vektor
         var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
-        randomDir.cross(new THREE.Vector3(0,1,0));
+        randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
         randomDir.normalize();
-        randomDir.multiplyScalar(5.67*direction.length()); // tan(80°) 
+        randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°) 
         direction.add(randomDir);
+
+       // direction = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() -0.5);
 
 	    console.log("Finally Create Asteroid");
 
@@ -123,7 +126,7 @@ function Bot() {
         // zufaellig an den Rand positionieren
         do {
             alpha = 2 * Math.PI * Math.random();
-            beta = Math.PI * Math.random();
+            beta = 2 * Math.PI * Math.random();
             enemyPosition = new THREE.Vector3(
                 Math.sin(beta) * Math.sin(alpha),
                 Math.sin(beta) * Math.cos(alpha),
@@ -144,7 +147,7 @@ function Bot() {
             default: typ = 4; // hardest weapon
         }
 
-	console.log("Finally Create Enemy");
+	    console.log("Finally Create Enemy");
         enemy = new Enemy(enemyPosition, speed, level, typ);
 
         return enemy;
@@ -191,6 +194,11 @@ function Bot() {
             // Gegner und Asteroiden updaten
             updateLocation(delta);
             // Kollisionsueberpruefung -> zerstoerte Loeschen
+            for(asteroid of asteroids) {
+                if(!asteroid.isAlive) {
+
+                }
+            }
             // Schiessen
             for(enemy of enemies) {
                 if(enemy.shootAble) {
