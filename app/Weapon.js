@@ -2,8 +2,8 @@
 var weaponsActive = false;
 
 //Available ammunition, maximal ammunition
-var rocketAmmo = 100;
-var MaxRockedAmmo =100;
+var rocketAmmo = 2;
+var MaxRockedAmmo = 10;
 
 var MGAmmo = 0;
 var MaxMGAmmo = 100;
@@ -162,7 +162,7 @@ function shootLaser(){
 	 	var laser 		= new THREE.Mesh(shootGeometry,  shootMaterial);
 	 	var laserHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
 
-	 	laserHitBox.add(laser);
+	 	//laserHitBox.add(laser);
 
 	 	//set name for recognition in render-function
 	 	laser.name  = "Laser";
@@ -195,13 +195,15 @@ function shootLaser(){
 	  	//add bullet to scene
 	  	scene.add(laser);
 
-	    //laserHitBox.visible = false;
+	    laserHitBox.visible = false;
 
-	  	// scene.add(laserHitBox);
+	  	scene.add(laserHitBox);
+
+	  	laserHitBox.userData = laser;
 
 
 	  	//add bullet to bullet list so it will be moved
-	  	//projectiles.push(laser);
+	  	projectiles.push(laser);
 
 	  	projectiles.push(laserHitBox);
 	}
@@ -218,13 +220,13 @@ function successLaser(bul){
 }
 
 function successRocket(bul){
-	rocketExplode(projectiles[bul-1]);
-	scene.remove(projectiles[bul]);
-	scene.remove(projectiles[bul-1]);
-	//remove Laser HitBox
-	projectiles.splice(bul,1);
-	//remove Laser
-	projectiles.splice((bul-1),1);
+	// rocketExplode(projectiles[bul-1]);
+	// scene.remove(projectiles[bul]);
+	// scene.remove(projectiles[bul-1]);
+	// //remove Laser HitBox
+	// projectiles.splice(bul,1);
+	// //remove Laser
+	// projectiles.splice((bul-1),1);
 
 }
 
@@ -234,7 +236,7 @@ function shootRocket(){
     if(timeSinceRocket>1.2 && rocketAmmo>0){
     	rocketAmmo -= 1;
 
-    	console.log("rocketAmmo:"+rocketAmmo);
+    	//console.log("rocketAmmo:"+rocketAmmo);
 
    		//play rocket-sound
    		rocketAudio.play();
@@ -275,7 +277,7 @@ function shootRocket(){
     	//add rocket to scene
     	scene.add(rocket);
 
-    	//rocketHitBox.visible = false;
+    	rocketHitBox.visible = false;
     	scene.add(rocketHitBox);
 
     	//add rocket to list for rendering and collision
@@ -360,28 +362,23 @@ function renderWeapons(){
 		//check name and proceed accordingly
 
 		//if projectile is a laser-beam:
-		// if(projectiles[bul].name == "Laser"){
-		// 	//translate in mooving direction
-	 //    	projectiles[bul].translateY(-4000 * add);
-	 //    	//if more then 3000 away from ship delete
-	 //    	if (dis > biggerSphereRadius){
-  //   			scene.remove(projectiles[bul]);
-  //   			//delete projectiles[bul];
-  //   			projectiles.splice(bul,1);
-  //   		}
-	 //    }
+		if(projectiles[bul].name == "Laser"){
+		 	//translate in mooving direction
+	        projectiles[bul].translateY(-4000 * add);
+	    }
 
 	   	//if projectile is a laser-beam:
-		/*else*/ if(projectiles[bul].name == "LaserHitBox"){
+		else if(projectiles[bul].name == "LaserHitBox"){
 			//translate in mooving direction
 	    	projectiles[bul].translateY(-4000 * add);
-	    	//projectiles[bul].children[0].translateY(-4000 * add);
 
-	    	//if more then 3000 away from ship delete
 	    	if (dis > biggerSphereRadius){
+                var index = projectiles.indexOf(projectiles[bul].userData);
     			scene.remove(projectiles[bul]);
+    			scene.remove(projectiles[index]);
     			//delete projectiles[bul];
     			projectiles.splice(bul,1);
+    			projectiles.splice(index,1);
     		}
 	    }
 

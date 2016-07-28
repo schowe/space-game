@@ -47,7 +47,7 @@ function handleProjectiles() {
             if (projectiles[i].name === "LaserHitBox") {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                         projectiles[i])) {
-                    // successLaser(projectiles[i]);
+                    //successLaser(projectiles[i]);
                     hitAsteroid(j, "Laser");
                 }
             }

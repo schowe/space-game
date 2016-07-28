@@ -1,20 +1,16 @@
-function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector,speed,size) {
-    //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
-    function rand() {
-        return Math.random();
-    }
-
+function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, speed, size) {
+    
     this.running = true;
 
     this.clock = new THREE.Clock();
     this.clock.start();
-    this.speed=speed;
+    this.speed = speed;
     this.startVector = startVector;
     this.particleCount = nParticles;
     this.particles = new THREE.Geometry();
 
     // Material erstellen
-    this.material = new THREE.PointCloudMaterial(
+    this.material = new THREE.PointsMaterial(
         {
             color: particleColor,
             size: size,
@@ -32,16 +28,16 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
             this.startVector.z
         );
 
-        particle.x += rand()-0.5;
-        particle.y += rand()-0.5;
-        particle.z += rand()-0.5;
+        particle.x += Math.random()-0.5;
+        particle.y += Math.random()-0.5;
+        particle.z += Math.random()-0.5;
 
         particle.velocity = new THREE.Vector3(
             0, 0, 0 // TODO
         );
         this.particles.vertices.push(particle);
     }
-    this.particleSystem = new THREE.PointCloud(this.particles, this.material);
+    this.particleSystem = new THREE.Points(this.particles, this.material);
 
     // zur Szene hinzufügen
     scene.add(this.particleSystem);
@@ -54,9 +50,9 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
             while (pCount--) {
                 var particle = this.particles.vertices[pCount];
 
-                particle.velocity.x += (rand()-0.5)*this.speed;
-                particle.velocity.y += (rand()-0.5)*this.speed;
-                particle.velocity.z += (rand()-0.5)*this.speed;
+                particle.velocity.x += (Math.random()-0.5)*this.speed;
+                particle.velocity.y += (Math.random()-0.5)*this.speed;
+                particle.velocity.z += (Math.random()-0.5)*this.speed;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;

@@ -14,7 +14,6 @@ var FileLoader = function() {
     var files = [
         // Texturen
         "../res/textures/metall.jpg",
-        "../res/textures/test.jpg",
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
