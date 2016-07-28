@@ -125,7 +125,7 @@ function Player() {
         activateShield: function (){
 
 
-        	 shieldGeometry = new THREE.SphereGeometry(ship.scale.x, 32, 32);
+        	 shieldGeometry = new THREE.SphereGeometry(20, 32, 32);
         	 var shieldMaterial = new THREE.MeshBasicMaterial({
                     transparent: false,
                     opacity: 0.8,
@@ -133,8 +133,8 @@ function Player() {
                 });
 
         	 shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
-        	 shield.position.set(ship.position); 
-        	 scene.add(shield); 
+        	 shield.position.set(ship.position.x,ship.position.y,ship.position.z); 
+        	 //scene.add(shield); 
 
         }
 

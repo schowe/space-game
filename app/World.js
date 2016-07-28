@@ -14,7 +14,7 @@ function createStars(){
 
     var star, material, alpha;
 
-    for (var count =0; count < 150; count++){
+    for (var count =0; count < 300; count++){
 
         material = new THREE.MeshBasicMaterial( {
 
@@ -54,7 +54,7 @@ function createAsteroids(){
     astGeometry = fileLoader.get("AsteroidV2");
     astTexture  = fileLoader.get("AsteroidTex");
 
-  for( countAst = 0 ; countAst < 50; countAst++){
+  for( countAst = 0 ; countAst < 100; countAst++){
 
      rndSpeedX = Math.random()* 20 - 14;
      rndSpeedY = Math.random()* 20 - 14;
@@ -129,19 +129,25 @@ function updateAsteroids(){
 
     if((tmpAsteroid.position.x < biggerSphere.position.x - biggerSphereRadius || tmpAsteroid.position.x > biggerSphere.position.x + biggerSphereRadius ||tmpAsteroid.position.y < biggerSphere.position.y - biggerSphereRadius || tmpAsteroid.position.y > biggerSphere.position.y + biggerSphereRadius || tmpAsteroid.position.z < biggerSphere.position.z - biggerSphereRadius|| tmpAsteroid.position.z > biggerSphere.position.z + biggerSphereRadius) ){
 
-            newVec = new THREE.Vector3(Math.random() *6, Math.random() *6, Math.random()*6);
+            newVec = new THREE.Vector3(Math.random() , Math.random() , Math.random());
             newVec.normalize();
 
+            var rnd1,rnd2, rnd3; 
+
+            rnd1 = Math.sign(Math.sign(Math.random()-0.5) + 0.1); 
+            rnd2 = Math.sign(Math.sign(Math.random()-0.5) + 0.1); 
+            rnd3 = Math.sign(Math.sign(Math.random()-0.5) + 0.1); 
+
             //console.log("new VEC : " + newVec.x + " " + newVec.y + " " + newVec.z );
-            tmpAsteroid.position.x = ship.position.x + biggerSphereRadius * newVec.x;
-            tmpAsteroid.position.y = ship.position.y + biggerSphereRadius * newVec.y;
-            tmpAsteroid.position.z = ship.position.z + biggerSphereRadius * newVec.z;
+            tmpAsteroid.position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
+            tmpAsteroid.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
+            tmpAsteroid.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
 
             tmpHitBox.position.x = ship.position.x + biggerSphereRadius * newVec.x;
             tmpHitBox.position.y = ship.position.y + biggerSphereRadius * newVec.y;
             tmpHitBox.position.z = ship.position.z + biggerSphereRadius * newVec.z;
 
-             console.log("new VEC : " + tmpAsteroid.position.x + " " + tmpAsteroid.position.y + " " + tmpAsteroid.position.z );
+             console.log("new VEK : " + tmpAsteroid.position.x + " " + tmpAsteroid.position.y + " " + tmpAsteroid.position.z );
 
        }
 
