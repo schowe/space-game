@@ -372,10 +372,10 @@ function renderWeapons(){
 	 //    }
 
 	   	//if projectile is a laser-beam:
-		else if(projectiles[bul].name == "LaserHitBox"){
+		/*else*/ if(projectiles[bul].name == "LaserHitBox"){
 			//translate in mooving direction
 	    	projectiles[bul].translateY(-4000 * add);
-	    	//projectiles[bul].children[0].translateY(-4000 * add);
+	    	projectiles[bul].children[0].translateY(-4000 * add);
 
 	    	//if more then 3000 away from ship delete
 	    	if (dis > biggerSphereRadius){
