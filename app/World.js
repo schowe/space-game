@@ -75,7 +75,8 @@ function createAsteroids(){
 
      astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
 
-     hitGeometry =  new THREE.SphereGeometry(4 *rndScale, 32, 32);
+     hitGeometry =  new THREE.SphereGeometry(4, 32, 32);
+      hitGeometry.scale.x = hitGeometry.scale.y = hitGeometry.scale.z = rndScale;
 
       var colSphereMaterial = new THREE.MeshBasicMaterial({
                     transparent: true,
@@ -91,6 +92,7 @@ function createAsteroids(){
      asteroids.push(astOriginal);
      asteroidHitBoxes.push(astHitBox);
      scene.add(astOriginal);
+     scene.add(astHitBox);
   }
 
 
