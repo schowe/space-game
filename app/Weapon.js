@@ -305,10 +305,10 @@ function rocketExplode(rocket){
 
   //add explision to projetiles list for rendering and collision
   projectiles.push(explosion);
-
-  explosionParticleHandler.addExplosion(explosion.position, 1, 0xFF3F00);
-  explosionParticleHandler.addExplosion(explosion.position, 2, 0xFFFF00);
-  explosionParticleHandler.addExplosion(explosion.position, 6, 0xFF0000);
+  //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
+  explosionParticleHandler.addExplosion(explosion.position, 1, 0xFF3F00, 1, 1);
+  explosionParticleHandler.addExplosion(explosion.position, 2, 0xFFFF00, 1, 1);
+  explosionParticleHandler.addExplosion(explosion.position, 6, 0xFF0000, 1, 1);
 }
 
 //calculates the distance between an Object and the spaceship

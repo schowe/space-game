@@ -149,6 +149,7 @@ var FileLoader = function() {
 
     console.log("FileLoader done.");
 
+
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden
         return (filesSuccessfullyLoaded == files.length);
