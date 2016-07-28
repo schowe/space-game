@@ -248,7 +248,7 @@ canvas {
 }
 
 .currentProgress {
-    width:70%;
+    width:20%;
     //background-color: purple;
     background-color:rgba(0, 153, 204, 0.7);
     box-shadow: inset 3px 3px 6px -2px #00ace6, inset 5px 5px 10px -6px #cccccc;

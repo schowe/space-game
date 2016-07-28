@@ -33,7 +33,9 @@ function Interface() {
 function interfaceInit() {
 	setMaxHP(100);
 	setHP(100);
-	setMoney(20333300);
+	//setMoney(20333300);
+	setMoney(45000);
+	changeMoney(10);
 	updateWeaponInterface();
 	
 	document.getElementById('invertedMouse').checked = true;
@@ -179,6 +181,9 @@ var moneyReference = document.getElementById('money');
 function changeMoney(value) {   
 	currentMoney += parseInt(value);
     moneyReference.innerHTML = currentMoney;
+    if (currentMoney > reachedMoney) {
+    	reachedMoney = currentMoney;
+    }
 }
 
 /* Sets the current amount of currentMoney to @value */
@@ -515,6 +520,11 @@ function showHighscore() {
 	menuSetColor('highscoreBox');
 }
 
+/* 
+milestone variables 
+*/
+var reachedMoney = 23;
+
 function showMilestones() {
 	menuHideAll();
 	menuMilestones.show();
@@ -523,7 +533,11 @@ function showMilestones() {
 
 	/* UPDATE VALUES */
 
-	changeProgress(2, 25);
+	/* test */
+	changeProgress(2, 120, 100);
+	/* Money achievement */
+	//changeProgress(3, (reachedMoney/50000) * 100);
+	changeProgress(3, reachedMoney, 50000);
 
 }
 
@@ -578,8 +592,23 @@ function showDescription(number) {
 	}
 }
 
-function changeProgress (number, percentage) {
-	$('#progress'+number).css('width', percentage + '%'); 
+var percentage;
+function changeProgress (number, current, max) {
+	percentage = (current/max) * 100;
+	if (percentage > 100) {
+		percentage = 100;
+		setFinished(number);
+	}
+	$('#progressbar' + number).css('width', percentage + '%'); 
+	$('#currentAchievementProgress' + number).html(current);
+}
+
+/* ??? */
+function setFinished(number) {
+	/* Ideen?? */
+	$('#progressbar' + number).css('background-color', 'rgba(255, 170, 0, 0.6)'); 
+	$('#progressbar' + number).css('border-color', 'rgba(255, 255, 255, 0.8)'); 
+	$('#progressbar' + number).css('box-shadow', 'none'); 
 }
 
 
