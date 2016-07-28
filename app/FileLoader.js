@@ -2,6 +2,7 @@
 var laserAudio;
 var rocketAudio;
 var explosionAudio;
+var powerUpAudio;
 //var MGAudio;
 
 
@@ -125,7 +126,7 @@ var FileLoader = function() {
     laserAudioSource.src = '../res/sounds/gun.wav';
     laserAudio.appendChild(laserAudioSource);
 
-    var powerUpAudio = document.createElement('audio');
+    powerUpAudio = document.createElement('audio');
     var powerUpAudioSource = document.createElement('source');
     powerUpAudioSource.src = '../res/sounds/powerup.wav';
     powerUpAudio.appendChild(powerUpAudioSource);
