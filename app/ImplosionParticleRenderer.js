@@ -46,7 +46,11 @@ function ImplosionParticleRenderer() {
 
 
     this.update = function () {
-        
+
+        this.particleSystem.rotateX(0.5);
+        this.particleSystem.rotateY(0.5);
+        this.particleSystem.rotateZ(0.5);
+
         if (this.running) {
             
             var pCount = this.particleCount;

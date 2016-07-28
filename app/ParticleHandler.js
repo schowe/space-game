@@ -15,15 +15,18 @@ var ParticleHandler = function() {
         }
         currentExplosions.push(explosion);
     }
-    
+
+    function addImplosion (position) {
+        var implosion = new ImplosionParticleRenderer();
+        currentImplosions.push(implosion);
+
+    }
+
     return {
-    	//Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
         addExplosion: addExplosion,
-        addImplosion: function (position) {
-            var implosion = new ImplosionParticleRenderer();
-            currentImplosions.push(implosion);
-                
-        },
+
+        addImplosion: addImplosion,
+
         update: function() {
             for (var i = 0; i < currentExplosions.length; i++) {
                 var explosion = currentExplosions[i];
