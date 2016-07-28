@@ -154,7 +154,7 @@ function collected(itemNumber){
 		case "MONEY" : 
 
 				changeMoney(20); 
-				 explosionParticleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
+				 particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
 			break; 
 
 		case "FACEPALM":
