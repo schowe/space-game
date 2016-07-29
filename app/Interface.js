@@ -235,13 +235,6 @@ function updateWeaponInterface() {
 
 /* Changes HP by @value */
 function changeHP(value) {
-
-	/* Von wem ist das? Code funktioniert an dieser Stelle nicht
-    if (value < 0) {
-        // negative HP change: player lost HP => show visual effect
-        glitchScreen(500);
-    }*/
-
 	var i = 0;
 	var ticks = 200;
 	value = parseInt(value);
@@ -252,14 +245,18 @@ function changeHP(value) {
 
 	// Amount of HP per tick
 	var hpTick = value / ticks;
+	
+	//if (value < 0)
+		//subShield(value, hpTick);
+	
 	var tempID = setInterval(frame, 1);
 
 	function frame() {
 		if(i < ticks) {
 			if (!Pause) {
 				displayedHP += hpTick;
-
 				if (displayedHP > maxHP) {
+
 					clearInterval(tempID);
 					displayedHP = maxHP;
 					updateHPDisplay();
@@ -283,18 +280,65 @@ function changeHP(value) {
 	}
 }
 
+var currentShield = 0;
+var maxShield = 0;
+var displayedShield = 0;
+
+//return: restValue, restTicks, restOfTick
+
+
+
+function subShield(value, hpTick) {
+	var i = 1;
+	var restValue = 0;
+	currentShield += value;
+	
+	if (currentShield < 0) {
+		restValue = currentShield;
+		currentShield = 0;
+	}
+	
+	var tempID = setInterval(frame, 1);
+	
+	function frame() {
+		if(i <= ticks) {
+			if(Pause)
+				return;
+				
+			displayedShield += hpTick;
+
+			if (displayedShield <= 0) {
+				clearInterval(tempID);
+				var restOfTick = displayedShield;
+				displayedShield = 0;
+				//HTML fehlt noch; updateShieldDisplay?
+				document.getElementById('currentShield').innerHTML = '' + 0;
+				shieldBoxCurrent.style.width = 0;
+				return [restValue, (ticks - i), restOfTick];
+			}
+			
+			updateShieldDisplay();
+			i++;			
+		} else {
+			clearInterval(tempID);
+		}
+	}
+}
+
 /* Sets HP to @value */
 function setHP(value) {
+	
+	//TODO: Invalide Einträge
 	currentHP = parseInt(value + 0.5);
 	displayedHP = parseInt(value + 0.5);
 	updateHPDisplay();
 
-	/* Woher kommen diese Edits o.O
+
 	if(value<=maxHP){
 		currentHP = value;
 		displayedHP = value;
 		updateHPDisplay();
-	}*/
+	}
 }
 
 /* Returns HP */
@@ -326,6 +370,34 @@ function updateHPDisplay() {
 	// Update the HP color
 	hpUpdateColor();
 }
+
+/* Updates the displayed Shield */
+function updateShieldDisplay() {
+	// Update the HP label
+	var temp = document.getElementById('currentShield');
+	temp.innerHTML = parseInt(displayedShield + 0.5);
+
+	// Update the HP width
+	shieldBoxCurrent.style.width = displayedShield / maxShield * 100 + '%';
+
+	// Update the HP color
+	//shieldUpdateColor();
+}
+
+/* Sets the HP bar to a calculated color-gradient. 
+function hpUpdateColor() {
+    var temp;
+    
+	if(displayedHP <= (maxHP / 2)) {
+		// Color gradient in hex from 0% to 50%
+		temp = parseInt((510 * displayedHP / maxHP) + 0.5);
+		hpBoxCurrent.style.background = '#FF' + padHex(temp.toString(16)) + '00';
+	} else {
+		// Color gradient in hex from 50% to 100%
+		temp = parseInt(255.5 - 255 * (2 * displayedHP / maxHP - 1));
+		hpBoxCurrent.style.background = '#' + padHex(temp.toString(16)) + 'FF00';
+	}
+}*/
 
 /* Sets the HP bar to a calculated color-gradient. */
 function hpUpdateColor() {
@@ -641,17 +713,22 @@ var amountUpgrade3 = 0;
 var costUpgrade3Faktor = 1.2;
 var costUpgrade3 = 40000; //+ 1 hp alle anfangs 5 sec
 
+var costUpgrade4Faktor = 1.2;
+var costUpgrade4 = 2000; //+ 1 rocketDamage
+
 function checkBuyable(){
 
 	//setzen der Preise
     document.getElementById('costUpgrade1').innerHTML = '' + costUpgrade1;
     document.getElementById('costUpgrade2').innerHTML = '' + costUpgrade2;
     document.getElementById('costUpgrade3').innerHTML = '' + costUpgrade3;
+    document.getElementById('costUpgrade4').innerHTML = '' + costUpgrade4;
 
 	//Opacity setzen (Display ob kaufbar oder nicht)
 	var shopTr1 = document.getElementById('shopItem1');
 	var shopTr2 = document.getElementById('shopItem2');
 	var shopTr3 = document.getElementById('shopItem3');
+	var shopTr4 = document.getElementById('shopItem4');
 
 	if(currentMoney < costUpgrade1) {
 		shopTr1.style.opacity = '0.5';
@@ -669,6 +746,12 @@ function checkBuyable(){
 		shopTr3.style.opacity = '0.5';
 	} else {
 		shopTr3.style.opacity = '1';
+	}
+	
+	if(currentMoney < costUpgrade4) {
+		shopTr4.style.opacity = '0.5';
+	} else {
+		shopTr4.style.opacity = '1';
 	}
 }
 var addHPID;
@@ -701,6 +784,13 @@ function buyUpgrade(value){
 				}, 5000 / ++amountUpgrade3);
 			}
 			break;
+		case 4:
+			console.log(rocketDamage);
+			if(abrechnung(costUpgrade4)) {
+				costUpgrade4 = parseInt(costUpgrade4*costUpgrade4Faktor);
+				rocketDamage++;
+			}
+			console.log(rocketDamage);
 		default:
 			break;
 	}
