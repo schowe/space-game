@@ -8,6 +8,7 @@ var MaxRockedAmmo =10;
 var MGAmmo = 0;
 var MaxMGAmmo = 100;
 
+var rocketMaxDistance = 1500;
 
 //Damage of the Weapons
 
@@ -59,7 +60,7 @@ function initializeWeapons(){
 
 	//initialize Geometrys
 	shootGeometry = new THREE.CylinderGeometry(1,1,500);
-	rocketGeometry = fileLoader.get("RocketV1");
+	rocketGeometry = fileLoader.get("RocketV2");
 	explosionGeometry = new THREE.SphereGeometry(600,32,32);
 	MGGeometry = new THREE.SphereGeometry(0.1,16,16);
 	hitBoxGeometry = new THREE.CylinderGeometry(1,1,1000);
@@ -304,6 +305,10 @@ function rocketExplode(rocket){
   explosion.position.y = rocket.position.y;
   explosion.position.z = rocket.position.z;
 
+    var particleAnimationPosition = new THREE.Vector3(explosion.position.x,
+        explosion.position.y,
+        explosion.position.z);
+
   //name for identification in rendering
   explosion.name = "Explosion";
   explosion.visible = false;
@@ -316,9 +321,14 @@ function rocketExplode(rocket){
   //add explision to projetiles list for rendering and collision
   projectiles.push(explosion);
   //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
-  //explosionParticleHandler.addExplosion(explosion.position, 1, 0xFF3F00, 1, 1);
-  explosionParticleHandler.addExplosion(explosion.position, 2, 0xFFFF00, 1, 1,true);
-  //explosionParticleHandler.addExplosion(explosion.position, 6, 0xFF0000, 1, 1);
+
+  // particleHandler.addExplosion(explosion.position, 1, 0xFF3F00, 1, 1);
+  // particleHandler.addExplosion(explosion.position, 2, 0xFFFF00, 1, 1);
+  // particleHandler.addExplosion(explosion.position, 6, 0xFF0000, 1, 1);
+
+	// starte Particle: Implosion -> Explosion -> Halo
+  particleHandler.addImplosion(particleAnimationPosition);
+
 }
 
 //calculates the distance between an Object and the spaceship
@@ -383,7 +393,7 @@ function renderWeapons(){
 	    	projectiles[bul].translateZ(2000 * add);
 
 	    	//if more then 1000 away explode
-  			if (dis > 1500){
+  			if (dis > rocketMaxDistance){
   		   		rocketExplode(projectiles[bul]);
   		   		scene.remove(projectiles[bul]);
   				projectiles.splice(bul, 1);
@@ -397,7 +407,7 @@ function renderWeapons(){
 	    	projectiles[bul].translateY(-2000 * add);
 
 	    	//if more then 1000 away explode
-  			if (dis > 1500){
+  			if (dis > rocketMaxDistance){
   		   		//scene.remove(projectiles[bul]);
   				projectiles.splice(bul, 1);
   		   	}
