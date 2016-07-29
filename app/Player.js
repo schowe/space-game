@@ -1,8 +1,10 @@
 var ship, frontVector, backVector, directionVector;
 var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
 var playerHitBoxes = [];
+
 var cross;
 var shield, shieldGeometry, shieldMaterial; 
+
 
 frontVector = new THREE.Vector3(0, 0, 0);
 
