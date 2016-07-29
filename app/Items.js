@@ -103,7 +103,10 @@ function spawnPowerUp(x, y, z, type) {
 
 		} else{
 
-
+			itemGeometry = fileLoader.get("Coin"); 
+			coinTex = fileLoader.get("Coin_Texture");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: coinTex}));
+			types.push("COIN");
 
 
 		}
