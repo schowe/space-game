@@ -1,3 +1,8 @@
+var scoreValues = {
+	"asteroidDestroyed" : 20,
+	"enemyDestroyed" : 50,
+	"itemCollected" : 10
+}
 
 function Interface() {
     var $overlay = $('#menu-overlay');
@@ -471,7 +476,7 @@ function setSpeed(newSpeed) {
 	var tempRef = document.getElementById('speedValue');
 	tempRef.innerHTML = parseInt(newSpeed * speedFactor) + '' + randomNum;
 
-	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - randomNum) {
+	if(parseInt(tempRef.innerHTML) >= maxSpeed * speedFactor * 10 - randomNum) {
 		tempRef.innerHTML = parseInt(maxSpeed * speedFactor * 10);
 	}
 
@@ -479,8 +484,8 @@ function setSpeed(newSpeed) {
 		this.reachedMaxSpeed = currentSpeed;
 	}
 
-	if(parseInt(temp.innerHTML) < 90){
-		temp.innerHTML = 80;
+	if(parseInt(tempRef.innerHTML) < 90){
+		tempRef.innerHTML = 80;
 
 	}
 }
@@ -610,6 +615,23 @@ function menuClose() {
 /**
  * FUNCTIONS FOR MILESTONES
  */
+function displayMilestoneNote(value) {
+	var levelReference = document.getElementById('currentLevel');
+	levelReference.innerHTML = parseInt(value);
+	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
+
+	setTimeout(function() {
+    	$(levelReference).animate({opacity: '1'}, 100);
+		$(levelReference).animate({opacity: '0.3'}, 100);
+		$(levelReference).animate({opacity: '1'}, 100);
+		$(levelReference).animate({opacity: '0.3'}, 100);
+		$(levelReference).animate({opacity: '1'}, 100);
+	}, 5000);
+
+	setTimeout(function() {
+		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
+	}, 1500);
+}
 
 var reachedMilestone = [
 	false,
