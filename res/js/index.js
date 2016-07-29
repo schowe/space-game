@@ -6,6 +6,8 @@ var rayParticleRenderer, rayStart, rayEnd;
 
 var fileLoader = FileLoader();
 
+
+
 $(function () {
 
     var container;
@@ -21,9 +23,8 @@ $(function () {
             init();
             fadeOutLoadingOverlay();
             animate();
-
         }
-    }, 500);
+    }, 50);
 
 
 
@@ -138,11 +139,11 @@ $(function () {
         window.addEventListener("resize", onWindowResize, false);
         window.addEventListener("mousemove", onMouseMove, false);
 
+
+
+
     }
-
-
-
-
+    
 
 
     function onWindowResize() {
@@ -171,7 +172,6 @@ $(function () {
         render();
 
         // animation goes here
-
         moveSpaceship();
     }
 
@@ -185,7 +185,7 @@ $(function () {
     function fadeOutLoadingOverlay() {
         setTimeout(function() {
             $("#loading-overlay").fadeOut();
-        }, 2000);
+        }, 1000);
     }
 
     function moveSpaceship() {
