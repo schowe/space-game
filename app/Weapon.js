@@ -309,22 +309,23 @@ function rocketExplode(rocket){
         explosion.position.y,
         explosion.position.z);
 
+  //particleHandler.addExplosion(particleAnimationPosition, 5, 0xcccccc, 1, 1);
   //name for identification in rendering
-  explosion.name = "Explosion";
-  explosion.visible = false;
+ // explosion.name = "Explosion";
+  //explosion.visible = true;
   //add explosion to scene
-  scene.add(explosion);
+  //scene.add(explosion);
 
   //reset explosion timer for ending explosion after specific time
-  explosionTime = 0;
+  //explosionTime = 5;
 
   //add explision to projetiles list for rendering and collision
-  projectiles.push(explosion);
+  //projectiles.push(explosion);
   //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
 
   // particleHandler.addExplosion(explosion.position, 1, 0xFF3F00, 1, 1);
   // particleHandler.addExplosion(explosion.position, 2, 0xFFFF00, 1, 1);
-  // particleHandler.addExplosion(explosion.position, 6, 0xFF0000, 1, 1);
+   particleHandler.addExplosion(explosion.position, 6, 0xFF0000, 1, 1);
 
 	// starte Particle: Implosion -> Explosion -> Halo
   particleHandler.addImplosion(particleAnimationPosition);

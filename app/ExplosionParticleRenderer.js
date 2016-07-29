@@ -2,14 +2,13 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
     
 
     this.running = true;
-    var vertparticle=[];
     this.clock = new THREE.Clock();
     this.clock.start();
 
     this.speed = speed;
 
     this.startVector = startVector;
-    this.particleCount = 10;
+    this.particleCount = nParticles;
     this.particles = new THREE.Geometry();
 
     // Material erstellen

@@ -232,7 +232,7 @@ function handlePlayerPopupCollision() {
         for (var j = 0; j < itemHitBoxes.length; j++) {
             if (collision.intersectShipHitBoxBox(playerHitBoxes[i],
                     itemHitBoxes[j])) {
-                console.log("Collision detected");
+                //console.log("Collision detected");
                 collected(j);
             }
         }

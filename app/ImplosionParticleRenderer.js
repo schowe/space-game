@@ -82,7 +82,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             return true; // weitermachen
             
         } else {
-            
+            //console.log("Ich sollte weg sein >.>");
             scene.remove(this.particleSystem);
             return false; //aufhören
             
