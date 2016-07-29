@@ -20,7 +20,6 @@ var FileLoader = function() {
         "../res/textures/metall.jpg",
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
-        "../res/textures/Crosshair.png",
         "../res/textures/RocketV2Tex.png",
         "../res/textures/Crosshair1.png",
         "../res/textures/Crosshair2.png",

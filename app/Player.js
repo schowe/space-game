@@ -47,24 +47,15 @@ function Player() {
             ship.position.set(0, 0, 0);
             scene.add(ship);
 
-            var mapA = fileLoader.get("Crosshair");
-            var materialA = new THREE.SpriteMaterial({map: mapA});
-
-            cross = new THREE.Sprite(materialA);
-            cross.position.set(0, 0, -20);
-            cross.scale.set(3.0, 3.0, 1.0);
-            ship.add(cross);
-
             var hitBoxCenterGeometry = new THREE.BoxGeometry(5,2,20);
             var hitBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
             hitBoxCenter = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
 
-            var hitBoxCenterGeometry = new THREE.BoxGeometry(10,2,5);
-            hitBoxLeftWing = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+            var hitBoxWingGeometry = new THREE.BoxGeometry(10,2,5);
+            hitBoxLeftWing = new THREE.Mesh(hitBoxWingGeometry, hitBoxMaterial);
             hitBoxLeftWing.position.x = -5;
 
-            var hitBoxCenterGeometry = new THREE.BoxGeometry(10,2,5);
-            hitBoxRightWing = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
+            hitBoxRightWing = new THREE.Mesh(hitBoxWingGeometry, hitBoxMaterial);
             hitBoxRightWing.position.x = 5;
 
             playerHitBoxes.push(hitBoxCenter);
