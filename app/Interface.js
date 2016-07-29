@@ -33,7 +33,7 @@ function interfaceInit() {
 	setMaxHP(100);
 	setHP(100);
 
-	setMoney(45000);
+	setMoney(34298034982093);
 	changeMoney(10);
 	updateWeaponInterface();
 	document.getElementById('invertedMouse').checked = true;
