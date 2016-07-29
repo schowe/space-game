@@ -280,6 +280,16 @@ var Collision = function() {
             (minZship(a) <= maxZ(b) && maxZship(a) >= minZ(b)))
     }
 
+    function intersectPointSphere(point, sphere) {
+
+        var globalPoint = new THREE.Vector(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
+        var distance = Math.sqrt((globalPoint.x - sphere.position.x) * (globalPoint.x - sphere.position.x) +
+                           (globalPoint.y - sphere.position.y) * (globalPoint.y - sphere.position.y) +
+                           (globalPoint.z - sphere.position.z) * (globalPoint.z - sphere.position.z));
+        // if the distance is smaller than the radius of the sphere there is an intersection
+        return distance < sphere.geometry.parameters.radius;
+    }
+
 
 
     return {
