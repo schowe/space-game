@@ -38,10 +38,15 @@ function handleAsteroids() {
 
 function handleProjectiles() {
     // for every projectile
+
+    // var endForProjectiles = projectiles.length;
+
     for (var i = 0; i <= projectiles.length - 1; i++) {
 
-        // Asteroidentreffer
+        console.log(i);
+        console.log(projectiles[i].name);
 
+        // Asteroidentreffer
         for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
 
             if (projectiles[i].name === "LaserHitBox") {
