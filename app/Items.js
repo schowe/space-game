@@ -5,15 +5,17 @@ var shieldActive = false;
 
 function spawnPowerUp(x, y, z, type) {
 
-	var healthTex, rocketTex, rocket2Tex, shieldTex,moneyTex, itemGeometry;
+	var healthTex, rocketTex, rocket2Tex, shieldTex,moneyTex, itemGeometry, minigunTex, coinTex;
     var item;
     var itemHitBox;
-
+    
+    /*Wahrscheinlichkeiten für die Powerups, wenn kein bestimmtes gefordert.*/
 
 	if(type == undefined){
 		var rndCase;
-
+		var rndBadorGood; 
 		rndCase = Math.random();
+		rndBadorGood = Math.random(); 
 
 		if(rndCase <= 0.125){
 
@@ -21,29 +23,31 @@ function spawnPowerUp(x, y, z, type) {
 			healthTex = fileLoader.get("PowerUpHealthTex");
             item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: healthTex}));
             types.push("HEALTH");
-		}else if (rndCase > 0.125 && rndCase<= 0.375){
+		} else if (rndCase > 0.125 && rndCase<= 0.375){
 
-			itemGeometry  = fileLoader.get("PowerUpShield");
-			shieldTex = fileLoader.get("PowerUpShieldTex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: shieldTex}));
-			types.push("SHIELD");
-
-
-		}else if (rndCase > 0.375 && rndCase <= 0.5){
 
 			itemGeometry  = fileLoader.get("PowerUpRocket");
 			rocketTex =fileLoader.get("PowerUpRocketTex");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: rocketTex}));
 			types.push("SINGLEROCKET");
 
-		} else if(rndCase > 0.5 && rndCase <= 0.625){
+
+
+		} else if (rndCase > 0.375 && rndCase <= 0.5){
+
+			itemGeometry = fileLoader.get("Coin"); 
+			coinTex = fileLoader.get("Coin_Texture");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: coinTex}));
+			types.push("COIN"); 
+
+		} else if(rndCase > 0.5 && rndCase <= 0.5625){
 
 			itemGeometry  = fileLoader.get("PowerUpRocket2");
 			rocketTex = fileLoader.get("PowerUpRocket2Tex");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: rocketTex}));
 			types.push("DOUBLEROCKET");
 
-		} else if(rndCase > 0.625 && rndCase <= 0.75){
+		} else if(rndCase > 0.5625 && rndCase <= 0.625){
 
 			itemGeometry  = fileLoader.get("PowerUpRocket4");
 			rocketTex = fileLoader.get("PowerUpRocket4Tex");
@@ -51,7 +55,7 @@ function spawnPowerUp(x, y, z, type) {
 			types.push("QUATROROCKET");
 
 
-		} else if(rndCase > 0.75 && rndCase <= 0.875){
+		} else if(rndCase > 0.625 && rndCase <= 0.6875){
 
 			itemGeometry  = fileLoader.get("Geldsack");
 			moneyTex = fileLoader.get("GeldsackTex");
@@ -59,13 +63,46 @@ function spawnPowerUp(x, y, z, type) {
 			types.push("MONEY");
 
 
-		} else {
+		} else if(rndCase >0.6875 && rndCase <= 0.75) {
 
 
 			itemGeometry  = fileLoader.get("Geldsack");
 			moneyTex = fileLoader.get("GeldsackFacePalmTex");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: moneyTex}));
 			types.push("FACEPALM");
+
+
+
+		} else if (rndCase > 0.75 && rndCase < 0.8125){
+
+
+			itemGeometry = fileLoader.get("PowerUpMinigun");
+			minigunTex = fileLoader.get ("PowerUpMiniGunTex")
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: minigunTex}));
+			types.push("MINIGUN"); 
+
+		} else if(rndCase > 0.8125 && rndCase < 0.875){
+
+
+			itemGeometry  = fileLoader.get("PowerUpShield");
+			shieldTex = fileLoader.get("PowerUpShieldTex");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({map: shieldTex}));
+			types.push("SHIELD");
+
+
+		} else if(rndCase > 0.875 && rndCase < 0.9375) {
+
+
+			itemGeometry  = fileLoader.get("PowerUp_Laser");
+			
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial());
+
+			types.push("LASERUP");
+
+
+
+		} else{
+
 
 
 
@@ -154,13 +191,28 @@ function collected(itemNumber){
 		case "MONEY" : 
 
 				changeMoney(20); 
-				 particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
+				particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
 			break; 
 
 		case "FACEPALM":
 
 
-			break;  
+			break; 
+		case "COIN":
+
+			changeMoney(2); 
+			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
+			break;
+
+		case "MINIGUN":
+
+
+			break;
+
+		case "LASERUP":
+
+
+			break; 
 
         default:
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED);
@@ -168,7 +220,12 @@ function collected(itemNumber){
 	}
 
 
+	if(rocketAmmo > MaxRocketAmmo){
 
+		rocketAmmo = maxRocketAmmo; 
+
+	}
+	
 	updateWeaponInterface();
     scene.remove(powerUps[itemNumber]);
     scene.remove(itemHitBoxes[itemNumber]);

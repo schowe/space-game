@@ -204,7 +204,7 @@ function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
 				currentAmmo = rocketAmmo;
-				maxAmmo = MaxRockedAmmo;
+				maxAmmo = MaxRocketAmmo;
 				break;
 		case 1:
 				currentAmmo = MGAmmo;

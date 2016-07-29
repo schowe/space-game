@@ -16,6 +16,7 @@ function handleAsteroids() {
 
             if (collision.intersectSphereShipHitBox(asteroidHitBoxes[i],
                     playerHitBoxes[j])) {
+                //console.log("COLLIDE");
                 destroyAsteroid(i);
                 // asteroidHitBySpaceship(i);
                 player.playerHitByAsteroid();

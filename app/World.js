@@ -61,7 +61,7 @@ function createAsteroids() {
         rndSpeedY = Math.random() * 20 - 14;
         rndSpeedZ = Math.random() * 20 - 14;
         rotSpeed = Math.random() * 0.05 - 0.01;
-        rndScale = Math.random() * 70 - 40;
+        rndScale = Math.random() * 70 ;
 
         var vecSpeed = new THREE.Vector3(rndSpeedX, rndSpeedY, rndSpeedZ);
         var vecRot = new THREE.Vector3(rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0 ), rotSpeed * (Math.random() * 2 - 0));
@@ -76,7 +76,7 @@ function createAsteroids() {
 
         astOriginal.scale.x = astOriginal.scale.y = astOriginal.scale.z = rndScale;
 
-        hitGeometry = new THREE.SphereGeometry(4, 32, 32);
+        hitGeometry = new THREE.SphereGeometry(4  , 32, 32);
 
         hitGeometry.scale.x = hitGeometry.scale.y = hitGeometry.scale.z = rndScale;
 
@@ -95,6 +95,7 @@ function createAsteroids() {
         asteroids.push(astOriginal);
         asteroidHitBoxes.push(astHitBox);
         scene.add(astOriginal);
+        
 
     }
 

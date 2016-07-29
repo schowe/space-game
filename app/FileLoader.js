@@ -54,7 +54,9 @@ var FileLoader = function() {
         "../res/textures/PowerUpRocket8Tex.png",
         "../res/textures/GeldsackTex.jpg",
         "../res/textures/GeldsackFacePalmTex.jpg",
-
+        "../res/textures/PowerUpMinigunGunTex.png",
+        "../res/textures/Coin_Texture.jpg",
+        "../res/textures/KugelschildTex.png",
         // Models
         //"../res/meshes/HeroShipV1.json",
         //"../res/meshes/HeroShipV2.json",
@@ -65,7 +67,7 @@ var FileLoader = function() {
         "../res/meshes/AsteroidPart2.json",
         "../res/meshes/AsteroidPart3.json",
         "../res/meshes/AsteroidComplete.json",
-        "../res/meshes/RocketV1.json",
+        "../res/meshes/RocketV2.json",
         "../res/meshes/AsteroidV2.json",
         "../res/meshes/PowerUpHealth.json",
         "../res/meshes/PowerUpRocket.json",
@@ -73,7 +75,12 @@ var FileLoader = function() {
         "../res/meshes/PowerUpRocket4.json",
         "../res/meshes/PowerUpRocket8.json",
         "../res/meshes/PowerUpShield.json",
-        "../res/meshes/Geldsack.json"
+        "../res/meshes/Geldsack.json",
+        "../res/meshes/PowerUpMinigun.json",
+        "../res/meshes/PowerUp_Laser.json",
+        "../res/meshes/Coin.json",
+        "../res/meshes/Kugelschild.json"
+
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};

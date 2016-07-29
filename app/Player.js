@@ -2,7 +2,7 @@ var ship, frontVector, backVector, directionVector;
 var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
 var playerHitBoxes = [];
 var cross;
-var shield, shieldGeometry, shieldMaterial; 
+var shield, shieldGeometry,shieldTex, shieldMaterial; 
 
 frontVector = new THREE.Vector3(0, 0, 0);
 
@@ -123,18 +123,15 @@ function Player() {
 
 
         activateShield: function (){
+        	 
+        	 console.log("SCHILD AKTIVIERT!");
+        	 shieldGeometry = fileLoader.get("Kugelschild");
+        	 shieldTex = fileLoader.get ("KugelschildTex");
 
-
-        	 shieldGeometry = new THREE.SphereGeometry(20, 32, 32);
-        	 var shieldMaterial = new THREE.MeshBasicMaterial({
-                    transparent: false,
-                    opacity: 0.8,
-                     color: 0x007fff
-                });
-
-        	 shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
+        	 shield = new THREE.Mesh(shieldGeometry, shieldTex);
+        	 shield.scale.x = shield.scale.y = shield.scale.z = 10; 
         	 shield.position.set(ship.position.x,ship.position.y,ship.position.z); 
-        	 //scene.add(shield); 
+        	 scene.add(shield); 
 
         }
 

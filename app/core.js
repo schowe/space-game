@@ -220,12 +220,13 @@ function render() {
     if (!Pause) {
         // animation code goes here
 
-        handleCollision();
         renderWeapons();
         movement.move(delta);
         updateStars();
         updateAsteroids();
         updatePowerUps();
+        
+        handleCollision();
 
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();

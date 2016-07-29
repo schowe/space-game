@@ -267,8 +267,8 @@ var Collision = function() {
                            (y - sphere.position.y) * (y - sphere.position.y) +
                            (z - sphere.position.z) * (z - sphere.position.z));
 
-        // console.log(distance);
-        // console.log(sphere.geometry.parameters.radius);
+        //console.log(distance);
+         //console.log(sphere.geometry.parameters.radius);
 
 
         // if the distance is smaller than the radius of the sphere there is an intersection
