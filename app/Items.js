@@ -1,7 +1,7 @@
 var powerUps = [];
 var types  = [];
 var itemHitBoxes = [];
-var shieldActive = false; 
+var shieldActive = false;
 
 function spawnPowerUp(x, y, z, type) {
 
@@ -112,6 +112,7 @@ function collected(itemNumber){
 
 
    // console.log("itemCollected");
+
     changeScore(scoreValues["itemCollected"]);
 
 	var tmpItem =  types[itemNumber];
@@ -127,38 +128,44 @@ function collected(itemNumber){
 		break;
 		case "SINGLEROCKET":
 
-			rocketAmmo +=1; 
-			
-			break; 
-
-		case "DOUBLEROCKET": 
-
-			rocketAmmo +=2; 
-			
-			break; 
-		case "QUATROROCKET":
-
-			rocketAmmo += 4; 
-			
+			rocketAmmo +=1;
 
 			break;
 
-		case "SHIELD": 
+		case "DOUBLEROCKET":
 
-			shieldActive = true; 
-			player.activateShield(); 
-			break; 
+			rocketAmmo +=2;
 
-		case "MONEY" : 
+			break;
+		case "QUATROROCKET":
 
+			rocketAmmo += 4;
+
+
+			break;
+
+		case "SHIELD":
+
+			shieldActive = true;
+			player.activateShield();
+			break;
+
+		case "MONEY" :
+
+<<<<<<< HEAD
 				changeMoney(20); 
 				 particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
 			break; 
+=======
+			changeMoney(20);
+			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
+			break;
+>>>>>>> 4eb417c829a6b5b96c211b33721735286f1d562a
 
 		case "FACEPALM":
 
 
-			break;  
+			break;
 
         default:
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED, 1, 1);
