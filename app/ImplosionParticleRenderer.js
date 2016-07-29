@@ -37,26 +37,29 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
         this.particles.vertices.push(particle);
     }
 
-    this.particleSystem = new THREE.Points(this.particles, this.material);
+    this.particleimploSystem = new THREE.Points(this.particles, this.material);
 
     this.currentMovement = 1;
 
     // zur Szene hinzufügen
-    scene.add(this.particleSystem);
+    scene.add(this.particleimploSystem);
 
 
 
     this.update = function () {
+
         // this.particleSystem.rotateX(0.5);
         // this.particleSystem.rotateY(0.5);
         // this.particleSystem.rotateZ(0.5);
+
 
         if (this.running) {
 
             var pCount = this.particleCount;
 
             while (pCount--) {
-                var particle = this.particles.vertices[pCount];
+                var particleimplo = this.particles.vertices[pCount];
+
 
 
                 particle.x += particle.velocity.x*this.currentMovement*0.5;
@@ -65,7 +68,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
 
                 // particle.addScaledVector(particle.velocity, this.currentMovement*0.2);
 
-                this.particleSystem.geometry.__dirtyVertices = true;
+                this.particleimploSystem.geometry.__dirtyVertices = true;
             }
 
             if (this.currentMovement > -1) {
@@ -79,7 +82,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             return true; // weitermachen
             
         } else {
-            
+            //console.log("Ich sollte weg sein >.>");
             scene.remove(this.particleSystem);
             return false; //aufhören
             
