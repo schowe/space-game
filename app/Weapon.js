@@ -2,7 +2,7 @@
 var weaponsActive = false;
 
 //Available ammunition, maximal ammunition
-var rocketAmmo = 2;
+var rocketAmmo = 200;
 var MaxRockedAmmo =10;
 
 var MGAmmo = 0;
@@ -275,16 +275,16 @@ function shootRocket(){
         rocketHitBox.lookAt(targetPosition);
 
         //rotate rocket; rocket would fly backwards otherwise
-        rocket.rotateY(3.1415);
+        rocket.rotateY(Math.PI);
 
   	 	//rotate: rocket would be pointing up otherwise (rocket has initially a different orientation then the rocket)
-	  	rocketHitBox.rotateX(1.57);
+	  	rocketHitBox.rotateX(Math.PI/2);
 
         //add rocket to scene
         scene.add(rocket);
 
     	//hitbox should be invisible
-    	//rocketHitBox.visible = false;
+    	rocketHitBox.visible = false;
 
     	scene.add(rocketHitBox);
 
@@ -307,6 +307,8 @@ function rocketExplode(rocket){
   //the explosion is a big sphere (dummy)
   var explosion = new THREE.Mesh(explosionGeometry, explosionMaterial);
 
+  //set rocket back for realistic detonation point
+  rocket.translateZ(100);
   //set position at position of the exploding rocket
   explosion.position.x = rocket.position.x;
   explosion.position.y = rocket.position.y;
@@ -327,10 +329,6 @@ function rocketExplode(rocket){
 
   //add explision to projetiles list for rendering and collision
   projectiles.push(explosion);
-  //Erzeugt eine Explosion(position, Lebenszeit, Farbe, Geschwindigkeit, Groeße)
-  // particleHandler.addExplosion(explosion.position, 1, 0xFF3F00, 1, 1);
-  // particleHandler.addExplosion(explosion.position, 2, 0xFFFF00, 1, 1);
-  // particleHandler.addExplosion(explosion.position, 6, 0xFF0000, 1, 1);
 
     // starte Particle: Implosion -> Explosion -> Halo
   particleHandler.addImplosion(particleAnimationPosition);
@@ -396,7 +394,7 @@ function renderWeapons(){
   		//if projectile is a rocket Hitbox:
 	    else if(projectiles[bul].name == "RocketHitBox"){
 			//translate in mooving direction (translateZ becouse of different orientation then laser)
-	    	projectiles[bul].translateZ(2000 * add);
+	    	projectiles[bul].translateY(-2000 * add);
 
 	    	//translate to hitbox belonging rocket
 	    	var rkt = projectiles[bul].userData;
