@@ -37,6 +37,7 @@ function Asteroid(location,radius, direction, speed, level, small) {
 
     this.level      = level;
     this.isAlive    = true;
+    this.isSmall 	= small;
 
     // setze Rotation
     this.rotation.set(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random(), 'XYZ');
@@ -69,6 +70,8 @@ Asteroid.prototype.move = function(delta) {
 }
 
 Asteroid.prototype.onCollisionDetect = function(other, typ) {
+	// siehe World und Zettel 2 -> HP fuer Asteroid?
+
     // TODO:
     // falls Asteroid getroffen:
     // Asteroid ? -> abstossen und verkleinern
@@ -79,6 +82,7 @@ Asteroid.prototype.onCollisionDetect = function(other, typ) {
             this.isAlive = false;
         } else {
             // verkleiner und erzeuge neuen
+            this.isSmall = true;
         }
 
         if(other.small) {

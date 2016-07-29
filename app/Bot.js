@@ -166,7 +166,9 @@ function Bot() {
             typ;
         console.log("Enter Create Enemy");
         // Welt als Kugel -> Setze an den aeusseren 1/2 Rand
-        radius = worldRadius/2 * (1+Math.random());
+        // TODO: spawnRadius setzen
+        var spawnRadius = 700;
+        radius = spawnRadius/2 * (1+Math.random());
 
         // zufaellig an den Rand positionieren
         do {

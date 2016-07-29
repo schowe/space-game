@@ -217,6 +217,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
 // @return optimale Richtung nach Bezierflugbahn
 // TODO: In aufrufender Klasse Fallunterscheidung
+
+// TODO: anpassen an neuer Geschwindigkeit (15 statt 70)
 Enemy.prototype.moveCurve = function(renew, delta) {
     var p1, p2;
     var shipSize = 50;
@@ -285,7 +287,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         curveLength += p1.distanceTo(p2);
         curveLength += p2.distanceTo(ship.position);
 
-        this.points = curve.getPoints(Math.round(5 * this.speed / (delta * curveLength)));
+        this.points = curve.getPoints(Math.round(20 * this.speed / (delta * curveLength)));
         console.log(this.points.length);
         this.points.shift();
     }
