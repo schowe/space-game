@@ -302,10 +302,6 @@ body {
 
 #gameOverButton:hover {
   background: #d1d1d1;
-  background-image: -webkit-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -moz-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -ms-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -o-linear-gradient(top, #d1d1d1, #b0b0b0);
   background-image: linear-gradient(to bottom, #d1d1d1, #b0b0b0);
   text-decoration: none;
 }
@@ -340,7 +336,8 @@ body {
 
 #shopTable{
 	width: 90%;
-	margin-top: 5%;
+	margin-top: 4%;
+	margin-bottom: 4%;
 	margin-left: 5%;
 	margin-right: 5%;
 }

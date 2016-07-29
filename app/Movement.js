@@ -265,13 +265,14 @@ function Movement() {
             sphere.position.set(ship.position.x,ship.position.y,ship.position.z);
             biggerSphere.position.set(ship.position.x,ship.position.y,ship.position.z);
 
-
+			
             if(shieldActive)
-            shield.position.set(ship.position.x,ship.position.y,ship.position.z);
+				shield.position.set(ship.position.x,ship.position.y,ship.position.z);
+
 
             mouseY *= mouseInverted;
             mouseX *= Sensitivity;
-            mouseY *= Sensitivity;
+            mouseY *= Sensitivity * mouseInverted;
             lon += mouseX;
             lat -= mouseY;
 
