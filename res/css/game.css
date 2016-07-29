@@ -1,3 +1,4 @@
+
 body {
 	cursor: default;
     padding: 0;
@@ -195,9 +196,12 @@ canvas {
 }
 
 .achievementBlock {
+    border-style: ridge 4px;
+    border-radius: 5px;
+    padding: 5px;
     width: 70%;
     height: 12%;
-    //background-color: rgba(255,0,0,0.4);
+    background-color: rgba(124,124,124,0.4);
     margin-left:15%;
     margin-bottom: 5%;
 }
@@ -208,6 +212,7 @@ canvas {
 }
 
 .achievement .icon {
+    padding:auto;
     width: 20%;
 }
 

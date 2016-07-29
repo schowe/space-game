@@ -17,7 +17,7 @@ var FileLoader = function() {
     // Pfad zu allen Dateien
     var files = [
         // Texturen
-        "../res/textures/metall.jpg",
+        "../res/textures/GUImetall.jpg",
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
