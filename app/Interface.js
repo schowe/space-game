@@ -45,6 +45,7 @@ function interfaceInit() {
 	document.getElementById('invertedMouse').checked = true;
 	document.getElementById('hideScrollbar').checked = true;
 
+	displayMilestoneNote(3);
 	displayLevel(1);
 	setLevelTimer(260);
 	startLevelTimer();
@@ -243,14 +244,12 @@ function updateWeaponInterface() {
 	var displayedHP = 0;
 	var hpBoxCurrent = document.getElementById('hpBoxValue');
 
+	var currentSchield = 0;
+	var maxSchield = 100;
+
+
 /* Changes HP by @value */
 function changeHP(value) {
-
-	/* Von wem ist das? Code funktioniert an dieser Stelle nicht
-    if (value < 0) {
-        // negative HP change: player lost HP => show visual effect
-        glitchScreen(500);
-    }*/
 
 	var i = 0;
 	var ticks = 200;
@@ -295,16 +294,20 @@ function changeHP(value) {
 
 /* Sets HP to @value */
 function setHP(value) {
+	if(value>maxHP){
+		currentHP = maxHP;
+		displayedHP = maxHP;
+	}
+
+	if(value<=0){
+		gameOver();
+	}
+
 	currentHP = parseInt(value + 0.5);
 	displayedHP = parseInt(value + 0.5);
 	updateHPDisplay();
 
-	/* Woher kommen diese Edits o.O
-	if(value<=maxHP){
-		currentHP = value;
-		displayedHP = value;
-		updateHPDisplay();
-	}*/
+	
 }
 
 /* Returns HP */
@@ -474,13 +477,18 @@ function setSpeed(newSpeed) {
 
 	// Set the displayed speed value
 	var tempRef = document.getElementById('speedValue');
-	tempRef.innerHTML = parseInt(newSpeed * speedFactor) + '' + randomNum;
 
-	if(parseInt(tempRef.innerHTML) >= maxSpeed * speedFactor * 10 - randomNum) {
-		tempRef.innerHTML = parseInt(maxSpeed * speedFactor * 10);
+	if(!Pause){
+		tempRef.innerHTML = parseInt(newSpeed * speedFactor) + '' + randomNum;
+		currentSpeed = parseInt(newSpeed * speedFactor) + '' + randomNum;
 	}
 
-	if(!reachedMilestone[3]&&parseInt(currentSpeed)>=parseInt(reachedMaxSpeed)){
+	if(parseInt(currentSpeed) >= maxSpeed * speedFactor * 10 - randomNum) {
+		tempRef.innerHTML = parseInt(maxSpeed * speedFactor * 10);
+		currentSpeed = parseInt(maxSpeed * speedFactor * 10);
+	}
+
+	if(parseInt(currentSpeed)>=parseInt(reachedMaxSpeed)){
 		this.reachedMaxSpeed = currentSpeed;
 	}
 
@@ -616,29 +624,44 @@ function menuClose() {
  * FUNCTIONS FOR MILESTONES
  */
 function displayMilestoneNote(value) {
-	var levelReference = document.getElementById('currentLevel');
-	levelReference.innerHTML = parseInt(value);
-	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
+	var textRef = document.getElementById('milestoneNote');
+	textRef.innerHTML = value;
+
+	var displayRef = document.getElementById('milestoneDisplay');
+	displayRef.innerHTML = "You habe unlocked : " + milestonesName[value-1];
+
+	//var picRef = document.getElementById('milestonePic');
+	$('#picRef').css('background-image', 'url(../textures/GUIachievement2.png)');
+
+
+
+	$('#milestoneDisplay').animate({opacity: '1', right: '10px'}, 1000);
 
 	setTimeout(function() {
-    	$(levelReference).animate({opacity: '1'}, 100);
-		$(levelReference).animate({opacity: '0.3'}, 100);
-		$(levelReference).animate({opacity: '1'}, 100);
-		$(levelReference).animate({opacity: '0.3'}, 100);
-		$(levelReference).animate({opacity: '1'}, 100);
-	}, 5000);
-
-	setTimeout(function() {
-		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
-	}, 1500);
+		$('#milestoneDisplay').animate({opacity: '0', right: '-110px'}, 1000);
+	}, 4000);
 }
 
-var reachedMilestone = [
-	false,
+var milestonesHighscore =[
+	1000,
+	1000,
+	1000,
+	1000
+]
+
+var milestonesName = [
+	"Rattle the Stars",
+	"PowerUp Collector",
+	"Dagobert Duck",
+	"Speed Junkie"
+]
+
+var milestonesReached = [
+	false, //
 	false,
 	false,
 	false
-	]
+]
 
 var openCloseValues = new Array(10);
 

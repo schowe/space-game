@@ -199,11 +199,11 @@ body {
 	line-height: 26.4px;
 }
 
-#milestonesDisplay{
+#milestoneDisplay{
 	position: fixed;
 
 	top :100px;
-	right :10px;
+	right :-110px;
 	width: 150px;
 	height: 100px;
 
@@ -218,11 +218,17 @@ body {
 
 #milestoneNote{
 	color: yellow;
-	width: auto;
-	margin-bottom: 36px;
-	font-size: 28px;
+	margin: auto;
+	font-size: 16px;
 	line-height: 26.4px;
+}
 
+#milestonePic{
+	position: relative;
+	height: 40px;
+	width: 40px;
+	margin-left: auto;
+	background-image: url(../textures/GUIachievement2.png);
 }
 
 #currentLevel {
@@ -495,4 +501,23 @@ body {
 
 }
 
+#schieldBox{
+	position: fixed;
 
+	left: 20px;
+	bottom: 50px;
+
+	width: 30%;
+	height: 20px;
+
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+#schieldBoxValue{
+	background-color: rgb(0, 0, 255);
+	height: 100%;
+	width: 0%;
+	border-radius: 10px;
+}
