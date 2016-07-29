@@ -360,15 +360,10 @@ function padHex(hex) {
 /* Initiates the gameOver sequences */
 function gameOver() {
 	document.getElementById('gameOverText3').innerHTML = getScore();
-<<<<<<< HEAD
-	$('#gameOverBox').animate({top : '20%'}, 500);
-  	Pause = true;  
-  	PauseScreen = true;     
-=======
+
 	$('#gameOverBox').animate({top: '20%'}, 500);
   	Pause = true;
   	PauseScreen = true;
->>>>>>> 7709afc604ffeb91fc6190d9fa610d2371f3bde2
     Movement().unlockPointer();
 }
 
@@ -518,15 +513,10 @@ function setPowerUp(powerUp, removeOrAdd) {
  * FUNCTIONS FOR MENU
  */
 
-<<<<<<< HEAD
-var menuShop = $('#shop');
-var menuOptions = $('#options');
-var menuMilestones = $('#milestones');
-var menuHighscore = $('#highscore');
 
-=======
+
 /* Opens the Shop tab */
->>>>>>> 7709afc604ffeb91fc6190d9fa610d2371f3bde2
+
 function showShop() {
 	menuHideAll();
 	$('#shop').show();
@@ -751,10 +741,7 @@ function checkActiveCross(){
 
 	$('.crossPic').css('border-color','rgba(0, 153, 204, 0.7)');
 	$('#'+temp).css('border-color', 'rgba(255, 170, 0, 0.9)');
-<<<<<<< HEAD
 
-=======
->>>>>>> 7709afc604ffeb91fc6190d9fa610d2371f3bde2
 }
 
 function invertedMouseFunc() {
