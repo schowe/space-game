@@ -200,6 +200,7 @@ function asteroidCollision(ast1Index, ast2Index) {
 
 function hitAsteroid(asteroidNumber, collisionType) {
 
+
     switch (collisionType) {
 
         case "Laser" :
@@ -233,6 +234,9 @@ function hitAsteroid(asteroidNumber, collisionType) {
 
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber, collisionType) {
+
+    
+    asteroidAudio.play();
 
     // update Highscore
     switch (collisionType) {

@@ -328,6 +328,7 @@ function handleCollision() {
     if(toDestroy !==undefined && collisionTimer > 1){
         hitAsteroid(toDestroy, "Rocket");
         toDestroy = undefined;
+        asteroidAudio.play();
     }
 
 }

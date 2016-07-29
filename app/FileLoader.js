@@ -6,6 +6,7 @@ var explosionAudio;
 var powerUpAudioSource;
 
 var powerUpAudio;
+var asteroidAudio;
 
 //var MGAudio;
 
@@ -150,7 +151,13 @@ var FileLoader = function() {
     laserAudio = document.createElement('audio');
     var laserAudioSource = document.createElement('source');
     laserAudioSource.src = '../res/sounds/gun.wav';
-    laserAudio.appendChild(laserAudioSource)
+    laserAudio.appendChild(laserAudioSource);
+
+    //asteroid destruction audio
+    asteroidAudio = document.createElement('audio');
+    var asteroidAudioSource = document.createElement('source');
+    asteroidAudioSource.src = '../res/sounds/asteroid.wav';
+    asteroidAudio.appendChild(asteroidAudioSource);
 
 
     powerUpAudio = document.createElement('audio');
