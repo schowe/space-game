@@ -2,7 +2,7 @@
 var weaponsActive = false;
 
 //Available ammunition, maximal ammunition
-var rocketAmmo = 200;
+var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
 var MGAmmo = 0;
