@@ -184,16 +184,16 @@ function asteroidCollision(ast1Index, ast2Index) {
     else if (asteroidHitBoxes[ast1Index].geometry.parameters.radius < 55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius > 55) {
 
             destroyAsteroid(ast1Index, "AsteroidAsteroidCollision");
-
+            
     } else if (asteroidHitBoxes[ast1Index].geometry.parameters.radius > 55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius < 55) {
 
             destroyAsteroid(ast2Index, "AsteroidAsteroidCollision");
-
+            
     } else if(asteroidHitBoxes[ast1Index].geometry.parameters.radius < 55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius < 55) {
 
             destroyAsteroid(ast1Index, "AsteroidAsteroidCollision");
             destroyAsteroid(ast2Index, "AsteroidAsteroidCollision");
-
+            
     }
 }
 
@@ -256,7 +256,7 @@ function destroyAsteroid(asteroidNumber, collisionType) {
     rnd2 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
     rnd3 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
     
-    particleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius/10);
+    particleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius/45);
 
     var newScale = Math.random() * 30;
 
