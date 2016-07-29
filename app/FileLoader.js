@@ -54,7 +54,7 @@ var FileLoader = function() {
         "../res/textures/PowerUpRocket8Tex.png",
         "../res/textures/GeldsackTex.jpg",
         "../res/textures/GeldsackFacePalmTex.jpg",
-        "../res/textures/PowerUpMinigunGunTex.png",
+        "../res/textures/PowerUpMinigunTex.png",
         "../res/textures/Coin_Texture.jpg",
         "../res/textures/KugelschildTex.png",
         // Models
