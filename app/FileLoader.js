@@ -65,7 +65,7 @@ var FileLoader = function() {
         "../res/meshes/AsteroidPart2.json",
         "../res/meshes/AsteroidPart3.json",
         "../res/meshes/AsteroidComplete.json",
-        "../res/meshes/RocketV1.json",
+        "../res/meshes/RocketV2.json",
         "../res/meshes/AsteroidV2.json",
         "../res/meshes/PowerUpHealth.json",
         "../res/meshes/PowerUpRocket.json",

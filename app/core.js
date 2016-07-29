@@ -167,7 +167,7 @@ function init() {
     container.appendChild( renderer.domElement );
     // Event-Listener
     window.addEventListener( 'resize', onWindowResize, false );
-    
+
 
 }
 

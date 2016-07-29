@@ -10,6 +10,9 @@ var MaxMGAmmo = 100;
 
 var rocketMaxDistance = 1500;
 
+var laserReloadTime = 0.4;
+var rocketReloadTime = 1;
+
 //Damage of the Weapons
 
 var rocketDamage = 10;
@@ -150,8 +153,8 @@ function shoot(e){
 
 //Firering main-laser
 function shootLaser(){
-    //if for limiting shooting frequency
-    if(timeSinceShoot > 0.4){
+	//if for limiting shooting frequency
+	if(timeSinceShoot > laserReloadTime){
 
         //play lazer-sound
         laserAudio.play();
@@ -220,38 +223,39 @@ function successLaser(projectileIndex){
     projectiles.splice(projectileIndex,1);
 }
 
-function successRocket(bul){
-    // rocketExplode(projectiles[bul-1]);
-    // scene.remove(projectiles[bul]);
-    // scene.remove(projectiles[bul-1]);
-    // //remove Laser HitBox
-    // projectiles.splice(bul,1);
-    // //remove Laser
-    // projectiles.splice((bul-1),1);
+function successRocket(projectileIndex){
+	//get to hitbox belonging rocket
+	var rocket = projectiles[projectileIndex].userData;
 
+	//start explosion
+	rocketExplode(rocket);
+
+	//remove Hitbox and rocket from scene
+	scene.remove(projectiles[projectileIndex]);
+    scene.remove(rocket);
+
+    //remove Hitbox from projectiles
+    projectiles.splice(projectileIndex,1);
 }
 
 //Shooting Rocket
 function shootRocket(){
-    //if for limiting rocket-shooting frequence
-    if(timeSinceRocket>1.2 && rocketAmmo>0){
-        rocketAmmo -= 1;
-        updateWeaponInterface();
 
-        //console.log("rocketAmmo:"+rocketAmmo);
+	//if for limiting rocket-shooting frequence
+    if(timeSinceRocket>rocketReloadTime && rocketAmmo>0){
+    	rocketAmmo -= 1;
+    	updateWeaponInterface();
 
-        //play rocket-sound
-        rocketAudio.play();
+   		//play rocket-sound
+   		rocketAudio.play();
 
         // create rocket
         var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
 
         var rocketHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
 
-        rocket.name = "Rocket";
-
-        //set name for recocnition in render-function
-        rocketHitBox.name = "RocketHitBox";
+	  	//set name for recocnition in render-function
+  	 	rocketHitBox.name = "RocketHitBox";
 
         //scaling the rocket
         rocket.scale.x = rocket.scale.y = rocket.scale.z = 5;
@@ -273,18 +277,21 @@ function shootRocket(){
         //rotate rocket; rocket would fly backwards otherwise
         rocket.rotateY(3.1415);
 
-        //rotate: laser beam would be pointing up otherwise
-        rocketHitBox.rotateX(1.57);
+  	 	//rotate: rocket would be pointing up otherwise (rocket has initially a different orientation then the rocket)
+	  	rocketHitBox.rotateX(1.57);
 
         //add rocket to scene
         scene.add(rocket);
 
-        rocketHitBox.visible = false;
-        scene.add(rocketHitBox);
+    	//hitbox should be invisible
+    	//rocketHitBox.visible = false;
 
-        //add rocket to list for rendering and collision
-        projectiles.push(rocket);
-        projectiles.push(rocketHitBox);
+    	scene.add(rocketHitBox);
+
+    	rocketHitBox.userData = rocket;
+
+    	//add hitbox to list for rendering and collision. rocket is rendered via hitbox (see renderWeapons())
+    	projectiles.push(rocketHitBox);
 
         //reset timer
         timeSinceRocket = 0;
@@ -343,81 +350,71 @@ function calculateDistanceToShip( obj)
 //funtion for mooving weapons and destruction of rocket/explosion
 function renderWeapons(){
 
-    //Variable for adding the past time since last call to all Weapon-Time-Counters
-    var add = weaponClock.getDelta();
 
-    //increment time counters for limiting shooting frequence
-    timeSinceShoot  += add;
-    timeSinceMG     += add;
-    timeSinceRocket += add
-    //variable for limiting explosion lifespan
-    explosionTime +=add;
+	//Variable for adding the past time since last call to all Weapon-Time-Counters
+	var add = weaponClock.getDelta();
 
-    //function for limiting single shootings while MG-shooting
-    if(mgCounter > 0){
-        if(timeSinceMG >0.05){
-            timeSinceMG = 0;
-            MGShoot();
-            mgCounter -= 1;
-        }
-    }
+	//increment time counters for limiting shooting frequence
+	timeSinceShoot  += add;
+	timeSinceMG     += add;
+	timeSinceRocket += add
+	//variable for limiting explosion lifespan
+	explosionTime +=add;
 
-    //Translate all projectiles and check for end of existance
-    for( var bul in projectiles){
+	//function for limiting single shootings while MG-shooting
+	if(mgCounter > 0){
+	    if(timeSinceMG >0.05){
+	    	timeSinceMG = 0;
+	    	MGShoot();
+	    	mgCounter -= 1;
+	    }
+	}
 
-        //calculate distance between projectile and spaceship
-        var dis = calculateDistanceToShip(projectiles[bul]);
+	//Translate all projectiles and check for end of existance
+	for( var bul in projectiles){
 
-        //check name and proceed accordingly
+		//calculate distance between projectile and spaceship
+		var dis = calculateDistanceToShip(projectiles[bul]);
 
-        //if projectile is a laser hitbox:
-        if(projectiles[bul].name == "LaserHitBox"){
+		//check name and proceed accordingly
 
-            //translate in mooving direction
-            projectiles[bul].translateY(-4000 * add);
+	   	//if projectile is a laser hitbox:
+		if(projectiles[bul].name == "LaserHitBox"){
 
-            //translate to hitbox belonging laser-beam
-            var laser = projectiles[bul].userData;
-            laser.translateY(-4000 * add);
+			//translate in mooving direction
+	    	projectiles[bul].translateY(-4000 * add);
 
-            if (dis > biggerSphereRadius){
-                successLaser(bul);
-            }
-        }
+	    	//translate to hitbox belonging laser-beam
+	    	var laser = projectiles[bul].userData;
+	    	laser.translateY(-4000 * add);
 
-        //if projectile is a rocket:
-        else if(projectiles[bul].name == "Rocket"){
-            //translate in mooving direction (translateZ becouse of different orientation to laser)
-            projectiles[bul].translateZ(2000 * add);
+	    	if (dis > biggerSphereRadius){
+    			successLaser(bul);
+    		}
+	    }
 
-            //if more then 1000 away explode
-            if (dis > rocketMaxDistance){
-                rocketExplode(projectiles[bul]);
-                scene.remove(projectiles[bul]);
-                projectiles.splice(bul, 1);
-            }
-        }
+  		//if projectile is a rocket Hitbox:
+	    else if(projectiles[bul].name == "RocketHitBox"){
+			//translate in mooving direction (translateZ becouse of different orientation then laser)
+	    	projectiles[bul].translateZ(2000 * add);
 
+	    	//translate to hitbox belonging rocket
+	    	var rkt = projectiles[bul].userData;
+	    	rkt.translateZ(2000 * add);
+	    	//console.log(rkt);
 
-        //if projectile is a rocket Hitbox:
-        else if(projectiles[bul].name == "RocketHitBox"){
-            //translate in mooving direction (translate becouse of different orientation to laser)
-            projectiles[bul].translateY(-2000 * add);
-
-            //if more then 1000 away explode
-            if (dis > rocketMaxDistance){
-                //scene.remove(projectiles[bul]);
-                projectiles.splice(bul, 1);
-            }
-        }
-        //if projectile is an Explosion:
-        else if(projectiles[bul].name == "Explosion"){
-            //Check if Explosion
-            if (explosionTime > 0.15){
-                scene.remove(projectiles[bul]);
-                projectiles.splice(bul, 1);
-            }
-        }
+	    	if (dis > 1500){
+    			successRocket(bul);
+    		}
+	    }
+	    //if projectile is an Explosion:
+	    else if(projectiles[bul].name == "Explosion"){
+	    	//Check if Explosion
+	    	if (explosionTime > 0.15){
+        		scene.remove(projectiles[bul]);
+        		projectiles.splice(bul, 1);
+    		}
+	    }
     }
 }
 
