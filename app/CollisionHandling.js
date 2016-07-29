@@ -1,3 +1,10 @@
+var toDestroy = undefined;
+//clock and timer for destruction delay for explosion
+var collisionClock = new THREE.Clock();
+var collisionTimer = 1;
+
+
+
 function handleAsteroids() {
 
     for (var i = 0; i <= asteroids.length - 2; i++) {
@@ -63,7 +70,10 @@ function handleProjectiles() {
                         projectiles[i])) {
                     console.log("hit");
                     successRocket(i);
-                    hitAsteroid(j, "Rocket");
+                    //destruction implementet in handleCollision()
+                    toDestroy = j;
+                    collisionTimer = 0;
+                    //hitAsteroid(j, "Rocket");
                     projectileSucceded = true;
                     break;
                 }
@@ -306,11 +316,18 @@ function handlePlayerPopupCollision() {
 
 function handleCollision() {
 
+    collisionTimer += collisionClock.getDelta();
     handlePlayerPopupCollision();
     handleAsteroids();
     handleProjectiles();
     /** NICHT LÖSCHEN **/
     //handlePlayerEnemyCollision();
     //handleEnemyEnemyCollision();
+
+    //check if Asteroid needs to be destroyed. Delay between hit and destruction implemented to give explosion time to develop 
+    if(toDestroy !==undefined && collisionTimer > 1){
+        hitAsteroid(toDestroy, "Rocket");
+        toDestroy = undefined;
+    }
 
 }
