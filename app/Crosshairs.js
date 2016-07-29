@@ -1,4 +1,4 @@
-var cross1,cross2,cross3,cross4,cross5,cross6,cross7,cross8,cross9,cross10,cross11,cross12,cross13,cross14,cross15,crossretro;
+var cross1,cross2,cross3,cross4,cross5,cross6,cross7,cross8,cross9,cross10,cross11,cross12,cross13,cross14,cross15;
 var crosses = [];
 var pos = 0;
 var old = 0;
@@ -164,8 +164,8 @@ function Crosshairs() {
         },
 
         switch:function(){
-            if(pos == crosses.length){
-                old = crosses.length;
+            if(pos == crosses.length-1){
+                old = crosses.length-1;
                 pos = 0;
             }
             else{

@@ -113,7 +113,7 @@ function updatePowerUps (){
 function collected(itemNumber){
 
 
-    console.log("itemCollected");
+    //console.log("itemCollected");
     changeScore(scoreValues["itemCollected"]);
 
 	var tmpItem =  types[itemNumber];
