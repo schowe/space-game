@@ -472,15 +472,9 @@ function setSpeed(newSpeed) {
 		currentSpeed = parseInt(maxSpeed * speedFactor * 10);
 	}
 
-	console.log('current1 ' +currentSpeed);
-	console.log('max1 ' + reachedMaxSpeed);
-
-	if(!reachedMilestone4&&parseInt(currentSpeed)>=parseInt(reachedMaxSpeed)){
-		console.log('geht rein');
+	if(!reachedMilestone[3]&&parseInt(currentSpeed)>=parseInt(reachedMaxSpeed)){
 		this.reachedMaxSpeed = currentSpeed;
 	}
-
-	console.log('max2 ' + reachedMaxSpeed);
 
 	if(parseInt(temp.innerHTML) < 90){
 		temp.innerHTML = 80;
@@ -564,11 +558,10 @@ function showMilestones() {
 }
 
 function checkMilestones(){
-	changeMilestoneProgress(2, 120, 100);
+	changeMilestoneProgress(2, 80, 100);
 
 	changeMilestoneProgress(3, reachedMoney, 50000);
 
-	console.log(reachedMaxSpeed);
 	changeMilestoneProgress(4, reachedMaxSpeed, 2000);
 }
 
@@ -617,11 +610,6 @@ var reachedMilestone = [
 	false
 	]
 
-var reachedMilestone1 = false;
-var reachedMilestone2 = false;
-var reachedMilestone3 = false;
-var reachedMilestone4 = false;
-
 var openCloseValues = new Array(10);
 
 
@@ -654,6 +642,7 @@ function setFinished(number) {
 	$('#progressbar' + number).css('background-color', 'rgba(255, 170, 0, 0.6)'); 
 	$('#progressbar' + number).css('border-color', 'rgba(255, 255, 255, 0.8)'); 
 	$('#progressbar' + number).css('box-shadow', 'none'); 
+	reachedMilestone[number-1] = true;
 }
 
 
