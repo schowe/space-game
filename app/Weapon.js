@@ -10,6 +10,9 @@ var MaxMGAmmo = 100;
 
 var rocketMaxDistance = 1500;
 
+var laserReloadTime = 0.4;
+var rocketReloadTime = 1;
+
 //Damage of the Weapons
 
 var rocketDamage = 10;
