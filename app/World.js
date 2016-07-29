@@ -58,18 +58,22 @@ function createAsteroids() {
 
     for (countAst = 0; countAst < 100; countAst++) {
 
+
     rndSpeedX = Math.random()* 20 - 14;
     rndSpeedY = Math.random()* 20 - 14;
     rndSpeedZ = Math.random()* 20 - 14;
     rotSpeed = Math.random () * 0.05 - 0.01;
     rndScale = Math.random() * 30;
 
+
     var vecSpeed = new THREE.Vector3 (rndSpeedX ,rndSpeedY, rndSpeedZ);
     var vecRot = new THREE.Vector3 (rotSpeed *(Math.random () * (2-0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0 ), rotSpeed * (Math.random() *2 -0));
     asteroidSpeedVecs.push(vecSpeed);
     asteroidRotVecs.push(vecRot);
 
+
     astOriginal = new THREE.Mesh(astGeometry, new THREE.MeshPhongMaterial({map: astTexture}));
+
 
 
     astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) -biggerSphereRadius);
@@ -85,8 +89,8 @@ function createAsteroids() {
                     color: 0xffffff
                 });
 
-                astHitBox = new THREE.Mesh(hitGeometry, colSphereMaterial);
-                astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
+    astHitBox = new THREE.Mesh(hitGeometry, colSphereMaterial);
+    astHitBox.position.set(astOriginal.position.x,astOriginal.position.y,astOriginal.position.z);
 
     asteroidsHP.push(defaultAsteroidHP);
     asteroids.push(astOriginal);
@@ -142,9 +146,6 @@ function updateAsteroids() {
             tmpHitBox.position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
             tmpHitBox.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
             tmpHitBox.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
-
-
-             //console.log("new VEK : " + tmpAsteroid.position.x + " " + tmpAsteroid.position.y + " " + tmpAsteroid.position.z );
 
 
         }
