@@ -25,30 +25,24 @@ function Enemy(location, speed, level, typ) {
         case BOSS1:
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
             break;
         case BOSS2:
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
             break;
         case SMALL1:
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
             break;
         case SMALL2:
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
             break;
         default:
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
     }
 
-    this.scale.set(20,20,20);
 
     var textureB  = fileLoader.get("TextureEnemyShipOne");
 
@@ -61,7 +55,8 @@ function Enemy(location, speed, level, typ) {
     MATH = MATHX();
 
     this.speed      = speed;
-    this.position.set(location.x,location.y,location.z);    
+    this.position.set(location.x,location.y,location.z); 
+    this.scale.set(10,10,10);   
     this.level      = level;
     this.isAlive    = true;
     this.onPlayerAttack  = false;
