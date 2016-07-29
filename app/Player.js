@@ -116,16 +116,18 @@ function Player() {
         activateShield: function (){
 
 
-        	 shieldGeometry = new THREE.SphereGeometry(20, 32, 32);
-        	 var shieldMaterial = new THREE.MeshBasicMaterial({
+
+             shieldGeometry = new THREE.SphereGeometry(20, 32, 32);
+             var shieldMaterial = new THREE.MeshBasicMaterial({
                     transparent: false,
                     opacity: 0.8,
                      color: 0x007fff
                 });
 
-        	 shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
-        	 shield.position.set(ship.position.x,ship.position.y,ship.position.z); 
-        	 //scene.add(shield); 
+             shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
+             shield.position.set(ship.position.x,ship.position.y,ship.position.z); 
+             //scene.add(shield); 
+
 
         }
 

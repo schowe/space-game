@@ -15,6 +15,7 @@ var interface;
 var crosshair;
 var ship;
 var player;
+var bot;
 var movement;
 var particleHandler;
 var collision;
@@ -97,7 +98,10 @@ function init() {
     world.init();
 
     createStars();
-    createAsteroids();
+    //createAsteroids();
+
+    bot = Bot();
+    bot.initAI(1);
 
     movement = Movement();
     movement.init();
@@ -220,11 +224,12 @@ function render() {
     if (!Pause) {
         // animation code goes here
 
-        handleCollision();
+        //handleCollision();
         renderWeapons();
         movement.move(delta);
         updateStars();
-        updateAsteroids();
+        //updateAsteroids();
+        bot.updateAI(delta);
         updatePowerUps();
 
         // Partikeleffekte am Raumschiff updaten
