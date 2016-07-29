@@ -201,7 +201,7 @@ function hitAsteroid(asteroidNumber, collisionType) {
     switch (collisionType) {
 
         case "Laser" :
-            console.log("LASERHIT");
+            //console.log("LASERHIT");
             asteroidsHP[asteroidNumber] -= laserDamage;
 
             break;
