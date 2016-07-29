@@ -36,31 +36,31 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
         this.particles.vertices.push(particle);
     }
 
-    this.particleSystem = new THREE.Points(this.particles, this.material);
+    this.particleimploSystem = new THREE.Points(this.particles, this.material);
 
     this.currentMovement = 1;
 
     // zur Szene hinzufügen
-    scene.add(this.particleSystem);
+    scene.add(this.particleimploSystem);
 
 
 
     this.update = function () {
 
-        this.particleSystem.rotateX(0.5);
-        this.particleSystem.rotateY(0.5);
-        this.particleSystem.rotateZ(0.5);
+        this.particleimploSystem.rotateX(0.5);
+        this.particleimploSystem.rotateY(0.5);
+        this.particleimploSystem.rotateZ(0.5);
 
         if (this.running) {
             
             var pCount = this.particleCount;
 
             while (pCount--) {
-                var particle = this.particles.vertices[pCount];
+                var particleimplo = this.particles.vertices[pCount];
 
-                particle.addScaledVector(particle.velocity, this.currentMovement*0.5);
+                particleimplo.addScaledVector(particle.velocity, this.currentMovement*0.5);
 
-                this.particleSystem.geometry.__dirtyVertices = true;
+                this.particleimploSystem.geometry.__dirtyVertices = true;
             }
 
             if (this.currentMovement > -1) {

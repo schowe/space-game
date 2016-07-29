@@ -71,15 +71,6 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
             if (time > lifetime) {
                 // aufhören
-                if(implosion){
-                    var pCount = this.particleCount;
-                    while (pCount--) {
-                        var particle = this.particles.vertices[pCount];
-                        vertparticle.push(particle);
-                    }
-                        //zielvektor, dauer, vertparticle array
-                        ImplosionRenderer(startVector, 5, vertparticle);
-                }else{
                 scene.remove(this.particleSystem);
                 this.running = false;
                 return false;
