@@ -146,8 +146,11 @@ function shoot(e){
     if(e.button == 0){
         shootLaser();
     }
-    else{
+    else if(activeSecWeapon ==0){
         shootRocket();
+    }
+    else{
+    	//MGShoot();
     }
 }
 

@@ -217,6 +217,10 @@ function Movement() {
                         break;
                     case 86:
                         crosshair.switch();
+                        break;
+                    case 81:
+                        weaponSwitch();
+
 
 
                 }
@@ -329,4 +333,14 @@ function stop(){
     setSpeed(0.0);
     mouseX = 0.0;
     mouseY = 0.0;
+}
+
+
+function weaponSwitch(){
+    if(activeSecWeapon == 0){
+        activeSecWeapon = 1;
+    }
+    else{
+        activeSecWeapon = 0;
+    }
 }
