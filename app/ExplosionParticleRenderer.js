@@ -74,7 +74,6 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
                 scene.remove(this.particleSystem);
                 this.running = false;
                 return false;
-            }
             } else {
                 // weitermachen
                 return true;
