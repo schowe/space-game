@@ -158,24 +158,14 @@ function Crosshairs() {
             cross15.visible = false;
             crosses.push(cross15);
 
-            mapA = fileLoader.get("Crosshair");
-
-            materialA = new THREE.SpriteMaterial({map: mapA});
-
-            crossretro = new THREE.Sprite(materialA);
-            crossretro.position.set(0, 10, -40);
-            crossretro.scale.set(6.0, 6.0, 1.0);
-            crossretro.visible = false;
-            crosses.push(crossretro);
-
             cross1.visible = true;
             ship.add(cross1);
 
         },
 
         switch:function(){
-            if(pos == 15){
-                old = 15;
+            if(pos == crosses.length){
+                old = crosses.length;
                 pos = 0;
             }
             else{
