@@ -6,6 +6,9 @@ var ParticleHandler = function() {
     
     function addExplosion(position, lifetime, color, speed, size) {
 
+        if(speed==undefined) speed=1;
+        if(size==undefined) size=1;
+        
         // explosion 15 bewegungsschritte laufen lassen
         
         var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime+2, position, speed, size);
