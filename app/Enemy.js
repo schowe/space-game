@@ -10,7 +10,7 @@ var BOSS2  = 2;
 var SMALL1 = 3;
 var SMALL2 = 4;
 
-var asteroids, enemies, enemy, asteroid, playerPosition,
+var asteroids, enemies, enemy, asteroid,
     radius, i, bezierPoints, geometryB, textureB, MATH, bot;
 
 // Enemyklasse
@@ -64,14 +64,13 @@ function Enemy(location, speed, level, typ) {
     this.position.set(location.x,location.y,location.z);    
     this.level      = level;
     this.isAlive    = true;
-    this.shootAble  = false;
     this.onPlayerAttack  = false;
     this.delta      = 0;
 
     // Initialen Ausrichtungsvektor
-    this.lookAt(playerPosition);
+    this.lookAt(ship.position);
     // .. und direction
-    this.direction  = MATH.clone(playerPosition);
+    this.direction  = MATH.clone(ship.position);
     this.direction.sub(this.position);
     this.direction.normalize();
 
@@ -98,9 +97,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     var distanceToShip, dir, optimalDir;
     var obstacles = [];
 
-    // update delta und playerPosition
+    // update delta
     this.delta = delta;
-    playerPosition = MATH.clone(ship.position);
 
     this.updatePlayerDirection();
 
@@ -127,7 +125,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     } else {
 
         // 1. Schritt: Gehe in Richtung Spieler (Idealrichtung)
-        var directionToPlayer = MATH.clone(playerPosition);
+        var directionToPlayer = MATH.clone(ship.position);
         directionToPlayer.sub(this.position);
 
         var distanceToNext = directionToPlayer.length();
@@ -207,7 +205,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     // 7. Schritt: rotieren mit lookAt
     dir.normalize();
     var viewDir = MATH.clone(this.position);
-    viewDir.add(dir.multiplyScalar(this.speed));
+    viewDir.add(dir.multiplyScalar(5 * this.speed));
     this.lookAt(viewDir);
 
     // 8. Schritt: Speichern
@@ -304,6 +302,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
 }
 
 // Sammel Hindernisse auf
+// TODO: ab gewissem Level (15) auch Projektilen ausweichen
 Enemy.prototype.collectObstacles = function(optimalDir, delta) {
     var d;
     var possibleObstacle = false;
@@ -330,7 +329,7 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
 
     // Kontrolliere, ob sich im guardingRadius andere Gegenstaende befinden
     for(asteroid of asteroids) { // Asteroiden schon geupdatet
-        d = Math.abs(shipDistance - asteroid.position.distanceTo(playerPosition));
+        d = Math.abs(shipDistance - asteroid.position.distanceTo(ship.position));
 
         // Teste, ob im richtigen Ring um den Spieler
         // possibleObstacle um die Sortierung zu nutzen -> Doppelter switch
@@ -348,7 +347,7 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
     }
 
     for(enemy of enemies) {
-        d =  enemy.position.distanceTo(playerPosition) - shipDistance;
+        d =  enemy.position.distanceTo(ship.position) - shipDistance;
         if(d <= 0 && d <= minObstacleDistance) { // nahe und vor einem
             distanceToShip = enemy.position.distanceTo(shipPosition);
             if(distanceToShip <= minObstacleDistance && enemy!=this) { // nahe an this
@@ -378,16 +377,25 @@ Enemy.prototype.checkDirection = function(direction, objects) {
 
 
 Enemy.prototype.shoot = function(aimPosition) {
+    var projectileSpeed = 100;
     // Schießt von position mit weapon in direction
     // TODO: Je naeher desto haeufiger
+    var distanceEnemyPlayer = this.position.distanceTo(ship.position);
+    distanceEnemyPlayer = distanceEnemyPlayer / projectileSpeed;
 
-    // shootable setzen
+    var futurePosition = MATH.clone(ship.position);
+    this.playerDirection.multiplyScalar(distanceEnemyPlayer);
+    futurePosition.add(this.playerDirection);
+    this.playerDirection.normalize();
 
-    if(this.shootable) {
-        // Schuss mit name="enemieshot"? versehen
+    var error = new THREE.Vector3(Math.random(),Math.random(),Math.random());
+    error.multiplyScalar(shootAccuracy);
 
-        this.shootAble = false;
-    }
+    futurePosition.add(error);
+
+    // TODO: Shoot von Weapon aufrufen von this.position nach futurePosition
+
+    
 }
 
 
@@ -818,6 +826,7 @@ Enemy.prototype.getUVN = function(dir) {
 Enemy.prototype.updatePlayerDirection = function() {
     var dir = MATH.clone(ship.position);
     dir.sub(this.oldPlayerLocation);
+    dir.normalize();
 
     this.playerDirection = dir;
     this.oldPlayerLocation = ship.position;

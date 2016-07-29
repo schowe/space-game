@@ -101,7 +101,7 @@ function init() {
     //createAsteroids();
 
     bot = Bot();
-    bot.initAI();
+    bot.initAI(1);
 
     movement = Movement();
     movement.init();

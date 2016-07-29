@@ -8,7 +8,8 @@
 // Hier aufzurufen:
 // - init()
 // - update(delta)
-var asteroids = [], enemies = [], enemy, asteroid, playerPosition, worldRadius;
+var asteroids = [], enemies = [], enemy, asteroid, 
+    worldRadius, gameLevel;
 
 function Bot() {
 
@@ -25,8 +26,8 @@ function Bot() {
     // Sortierfunktion fuer Bots (Enemies und Asteroids)
     // je naeher am Schiff, desto niedriger der Indize
     function compare(a,b) {
-        var distanceA = a.position.distanceToSquared(playerPosition);
-        var distanceB = b.position.distanceToSquared(playerPosition)
+        var distanceA = a.position.distanceToSquared(ship.position);
+        var distanceB = b.position.distanceToSquared(ship.position)
 
         if(distanceA < distanceB) {
             return -1;
@@ -75,14 +76,36 @@ function Bot() {
             asteroid = asteroids[i];
             if(!asteroid.isAlive) {
                 level = asteroid.level;
-                // altes Loeschen
-                scene.remove(asteroid);
-                asteroids.splice(i,1);
+                if(level = gameLevel) {
+                    // altes Loeschen
+                    scene.remove(asteroid);
+                    asteroids.splice(i,1);
 
-                asteroid = createAsteroid(level);
-                asteroids.push(asteroid);
-                console.log("Respawned: " + asteroids.length);
-                scene.add(asteroid);
+                    asteroid = createAsteroid(level);
+                    asteroids.push(asteroid);
+                    console.log("Respawned: " + asteroids.length);
+                    scene.add(asteroid);
+                }
+            }
+        }
+    }
+
+    // Respawn der Enemies
+    function respawnEnemies() {
+        var level, enemy;
+        // rueckwaerts, um beim Loeschen nicht ein Element zu ueberspringen
+        for(var i = enemies.length - 1; i >= 0; i--) {
+            enemy = enemies[i];
+            if(!enemy.isAlive) {
+                level = enemy.level;
+                // altes Loeschen
+                scene.remove(enemy);
+                enemies.splice(i,1);
+
+                enemy = createEnemy(level);
+                enemies.push(enemy);
+                console.log("Respawned: " + enemies.length);
+                scene.add(enemy);
             }
         }
     }
@@ -105,7 +128,7 @@ function Bot() {
                 Math.sin(beta) * Math.cos(alpha),
                 Math.cos(beta));
             asteroidPosition.multiplyScalar(positionRadius);
-            asteroidPosition.add(playerPosition);
+            asteroidPosition.add(ship.position);
             // Radius zufaellig, aber mindestens so gross wie Schiff
             radius = minShipSize + Math.random * (maxAsteroidSize - minShipSize);
         } while(!farAway(asteroidPosition, radius));
@@ -113,13 +136,14 @@ function Bot() {
         // speed abhaengig von Level, ! asteroid.speed < 65 < min(enemy.speed)
         var speed = (level > 15) ? 15 : level; 
         speed += 35 + 15 * Math.random();
+        //speed = 50;
 
 
         // Richtung:
         direction = new THREE.Vector3(
-                            playerPosition.x - asteroidPosition.x,
-                            playerPosition.y - asteroidPosition.y,
-                            playerPosition.z - asteroidPosition.z);
+                            ship.position.x - asteroidPosition.x,
+                            ship.position.y - asteroidPosition.y,
+                            ship.position.z - asteroidPosition.z);
         // bilde orthogonalen Vektor
         var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
         randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
@@ -153,11 +177,11 @@ function Bot() {
                 Math.sin(beta) * Math.cos(alpha),
                 Math.cos(beta));
             enemyPosition.multiplyScalar(radius);
-            enemyPosition.add(playerPosition);
+            enemyPosition.add(ship.position);
         } while(!farAway(enemyPosition, maxShipSize));
 
         // TODO: speed abhaengig von Level
-        var speed = 70;
+        var speed = 15;
 
         // TODO: weapon
         switch(Math.round(level * Math.random())) {
@@ -210,8 +234,6 @@ function Bot() {
     return {
         // update-Methode, aufzurufen in jedem Durchlauf des Renderers
         updateAI: function(delta) {
-            // Spielerposition updaten
-            playerPosition = ship.position;
             // Gegner und Asteroiden updaten
             updateLocation(delta);
             // Kollisionsueberpruefung -> zerstoerte Loeschen
@@ -228,12 +250,12 @@ function Bot() {
 
         // Initialisierer der Bots je Level
         initAI: function(level) {
-        console.log("Start initAI");
+            console.log("Start initAI");
             // setzen unserer externen Faktoren
-            playerPosition = ship.position;
             worldRadius = 5000;
 
             // erstelle Asteroiden
+            // TODO: asteroiden wie loeschen
             if(level == 1) {
                 asteroids = [];
             }
@@ -245,13 +267,14 @@ function Bot() {
                 console.log(asteroids.length);
                 scene.add(asteroid);
             }
-
+            console.log(level);
             // erstelle Gegner
             if(level == 1) {
                 enemies = [];
             }
 
             for(var i = 0 ; i < 15 * level; i++) {
+                console.log("Hello");
                 enemy = createEnemy(level);
                 enemies.push(enemy);
                 console.log(enemies.length);
