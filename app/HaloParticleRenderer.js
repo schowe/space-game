@@ -1,7 +1,7 @@
-function HaloParticleRenderer() {
+function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, size, initialRadius) {
 
-    this.startVector = new THREE.Vector3(0, 0, 0);
-    this.particleCount = 1000;
+    this.startVector = startVector;
+    this.particleCount = nParticles;
 
 
     this.running = true;
@@ -10,11 +10,11 @@ function HaloParticleRenderer() {
 
     this.particles = new THREE.Geometry();
 
-    this.material = new THREE.PointCloudMaterial(
+    this.material = new THREE.PointsMaterial(
         {
-            color: 0xffffff,
-            size: 1,
-            map: fileLoader.get("particle_grey"),
+            color: particleColor,
+            size: size,
+            map: particleTexture,
             blending: THREE.AdditiveBlending,
             transparent: true
         }
@@ -27,18 +27,20 @@ function HaloParticleRenderer() {
             this.startVector.z
         );
 
-        particle.x += Math.random()-0.5;
-        particle.y += Math.random()-0.5;
-        particle.z += Math.random()-0.5;
 
-        particle.velocity = particle.sub(this.startVector);
+        var radius = initialRadius;
+        var angle = Math.random()*Math.PI*2;
+        particle.x += Math.cos(angle)*radius;
+        particle.z += Math.sin(angle)*radius;
+
+
+        particle.velocity = particle.clone().sub(this.startVector.clone());
 
         this.particles.vertices.push(particle);
     }
 
-    this.particleSystem = new THREE.PointCloud(this.particles, this.material);
+    this.particleSystem = new THREE.Points(this.particles, this.material);
 
-    this.currentMovement = 1;
 
     // zur Szene hinzufügen
     scene.add(this.particleSystem);
@@ -46,10 +48,39 @@ function HaloParticleRenderer() {
 
 
     this.update = function () {
+        
+        var time = this.clock.getElapsedTime();
+        
+        if (this.running) {
+            // this.particleSystem.rotateY(0.01);
+
+
+            for (var i = 0; i < this.particles.vertices.length; i++) {
+                var particle = this.particles.vertices[i];
+
+                particle.x += particle.velocity.x*0.1 + (Math.random()-0.5)*0.1;
+                particle.y += particle.velocity.y*0.1 + (Math.random()-0.5)*0.1;
+                particle.z += particle.velocity.z*0.1 + (Math.random()-0.5)*0.1;
+
+                this.particleSystem.geometry.__dirtyVertices = true;
+            }
+
+            this.particles.verticesNeedUpdate = true;
+            
+            if (time > lifetime) {
+                // aufhören
+                scene.remove(this.particleSystem);
+                this.running = false;
+                return false;
+            } else {
+                // weitermachen
+                return true;    
+            }
+            
+                
+        }
 
     };
-
-
 
 
 }

@@ -18,7 +18,7 @@
 
 
     <div id="menu-overlay" hidden>
-        <div id="menu-box">
+        <div id="menu-box" class="outerScrollbar">
             <div id="menuLeft">
         		<div id="menuButtons">            		
             		<div id="shopBox" class="pauseButton" onClick="showShop()"> Shop </div>
@@ -27,9 +27,9 @@
 					<div id="optionsBox" class="pauseButton" onClick="showOptions()"> Options </div>
 					<div id="returnBox" class="pauseButton" onClick="menuClose()"> Let's a go! </div>
         	   </div>
-	       </div>
+	        </div>
 		   
-        	<div id="menuRight"> 
+        	<div id="menuRight" class="innerScrollbar"> 
             <!-- SHOP -->
                 <div id="shop" hidden>
                     <table id="shopTable">
@@ -81,9 +81,8 @@
                                 <div>
                             </td>
                         </tr>
-                         
 
-<tr id="shopItem3">
+						<tr id="shopItem3">
                             <td class="shopTableTd1">
                                 <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
                                 <!--
@@ -99,7 +98,7 @@
                             </td>
                         </tr>
 
-<tr id="shopItem3">
+						<tr id="shopItem3">
                             <td class="shopTableTd1">
                                 <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
                                 <!--
@@ -114,7 +113,8 @@
                                 <div>
                             </td>
                         </tr>
-<tr id="shopItem3">
+
+						<tr id="shopItem3">
                             <td class="shopTableTd1">
                                 <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
                                 <!--
@@ -129,7 +129,8 @@
                                 <div>
                             </td>
                         </tr>
-<tr id="shopItem3">
+
+						<tr id="shopItem3">
                             <td class="shopTableTd1">
                                 <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
                                 <!--
@@ -144,21 +145,7 @@
                                 <div>
                             </td>
                         </tr>
-<tr id="shopItem3">
-                            <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
-                                <!--
-                                //<div class="buyButton">Buy</div>
-                                -->
-                            </td>
-                            <td>
-                                <div id="shopItemDesc" >
-                                	<div>Slowly recharge your HP</div>
-                                	<div id="costSign" class="costUpgrade">€</div>
-                             		<div id="costUpgrade3" class="costUpgrade">0</div>
-                                <div>
-                            </td>
-                        </tr>
+
 
                         
                     </table>
@@ -200,94 +187,90 @@
 
 				<div id="milestones" hidden>
 					<div id="milestonesHeading"> Achievements </div>
+					
+					<div class="achievementBlock"  onClick="showDescription(1)">
+						<table class="achievement">
+							<tr> 
+								<td class="icon" rowspan="2"> 
+									<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
+								 </td> 
+								<td class="type"> 
+									<div class="achievementType"> rattle the stars </div>
+								</td>       
+							</tr>
+							<tr>  
+								<td class="bar"> 
+									<div class="achievementProgressBar">  
+									   <div class="currentProgress" id="progressbar1"> </div>
+									</div>     
+								</td>
+							</tr>
+						</table>
 
-
-						<div class="achievementBlock"  onClick="showDescription(1)">
-							<table class="achievement">
-								<tr> 
-									<td class="icon" rowspan="2"> 
-										<img src="../res/img/placeholderAchievement.png" class="achievementIcon">
-									 </td> 
-									<td class="type"> 
-										<div class="achievementType"> rattle the stars </div>
-									</td>       
-								</tr>
-								<tr>  
-									<td class="bar"> 
-										<div class="achievementProgressBar">  
-										   <div class="currentProgress" id="progressbar1"> </div>
-										</div>     
-									</td>
-								</tr>
-							</table>
-
-							<div class="unlockDescription" id="description1">
-									Bla description unlock when bla <br />
-									This needs to be longer so here's some text  <br />
-									I like strawberries <br>
-                                    <span> ---  </span>
-                                    <span id="currentAchievementProgress1"> 0 </span> 
-                                    <span> / bla --- </span>
-							</div>
+						<div class="unlockDescription" id="description1">
+							Bla description unlock when bla <br>
+							This needs to be longer so here's some text  <br>
+							I like strawberries <br>
+                            <span> ---  </span>
+                            <span id="currentAchievementProgress1"> 0 </span> 
+                            <span> / bla --- </span>
 						</div>
+					</div>
 
+					<div class="achievementBlock"  onClick="showDescription(2)">
+						<table class="achievement">
+							<tr> 
+								<td class="icon" rowspan="2"> 
+									<img src="../res/img/achievement2.png" class="achievementIcon">
+								 </td> 
+								<td class="type"> 
+									<div class="achievementType"> PowerUp Collector </div>
+								</td>       
+							</tr>
+							<tr>  
+								<td class="bar"> 
+									<div class="achievementProgressBar">  
+										<div class="currentProgress" id="progressbar2"> </div>
+									</div>     
+								</td>
+							</tr>
+						</table>
 
-
-						<div class="achievementBlock"  onClick="showDescription(2)">
-							<table class="achievement">
-								<tr> 
-									<td class="icon" rowspan="2"> 
-										<img src="../res/img/achievement2.png" class="achievementIcon">
-									 </td> 
-									<td class="type"> 
-										<div class="achievementType"> PowerUp Collector </div>
-									</td>       
-								</tr>
-								<tr>  
-									<td class="bar"> 
-										<div class="achievementProgressBar">  
-										   <div class="currentProgress" id="progressbar2"> </div>
-										</div>     
-									</td>
-								</tr>
-							</table>
-
-							<div class="unlockDescription" id="description2">
-									Collect /I don't know yet/ powerUps to unlock this achievement. <br>
-                                    <span> ---  </span>
-                                    <span id="currentAchievementProgress2"> 0 </span> 
-                                    <span> / I don't know yet  --- </span>
-							</div>
+						<div class="unlockDescription" id="description2">
+							Collect /I don't know yet/ powerUps to unlock this achievement. <br>
+                            <span> ---  </span>
+                            <span id="currentAchievementProgress2"> 0 </span> 
+                            <span> / I don't know yet  --- </span>
 						</div>
+					</div>
 
-                        <div class="achievementBlock" onClick="showDescription(3)">
-                            <table class="achievement">
-                                <tr> 
-                                    <td class="icon" rowspan="2"> 
-                                        <img src="../res/img/placeholderAchievement.png" class="achievementIcon">
-                                     </td> 
-                                    <td class="type"> 
-                                        <div class="achievementType"> Scrooge McDuck </div>
-                                    </td>       
-                                </tr>
-                                <tr>  
-                                    <td class="bar"> 
-                                        <div class="achievementProgressBar">  
-                                           <div class="currentProgress" id="progressbar3">  </div>
-                                        </div>     
-                                    </td>
-                                </tr>
-                            </table>
+                    <div class="achievementBlock" onClick="showDescription(3)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/img/placeholderAchievement.png" class="achievementIcon">
+                                </td> 
+                                <td class="type"> 
+                                    <div class="achievementType"> rich bla </div>
+                                </td>       
+                            </tr>
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar3">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
 
-                            <div class="unlockDescription" id="description3">
-                                    50.000 € to unlock this achievement bla <br>
-                                    <span> ---  </span>
-                                    <span id="currentAchievementProgress3"> 0 </span> 
-                                    <span> / 50.000€  --- </span>
-                            </div>
+                        <div class="unlockDescription" id="description3">
+                            50.000 € to unlock this achievement bla <br>
+                            <span> ---  </span>
+                            <span id="currentAchievementProgress3"> 0 </span> 
+                            <span> / 50.000€  --- </span>
+
                         </div>
-
-
+                    </div>
 				</div>
 
 				<div id="options" hidden>
@@ -295,6 +278,7 @@
 						<div id="optionsHeader">--- Game Options ---</div>
 						<div id="gameOptions">
 							Inverted Mouse <input type="checkbox" id="invertedMouse" onchange="invertedMouseFunc();" checked>
+							blabla <input type="checkbox" id="hideScrollbar" onchange="hideScrollbar();" checked>
 						</div>
 						
 						<div id="optionsHeader">--- Sound Options ---</div>
@@ -427,6 +411,8 @@
     <!-- custom -->
     <script src="FileLoader.js"></script>
     <script src="RayParticleRenderer.js"></script>
+    <script src="HaloParticleRenderer.js"></script>
+    <script src="ImplosionParticleRenderer.js"></script>
     <script src="ExplosionParticleRenderer.js"></script>
     <script src="ParticleHandler.js"></script>
     <script src="Camera.js"></script>

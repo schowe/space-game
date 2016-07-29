@@ -2,7 +2,11 @@
 var laserAudio;
 var rocketAudio;
 var explosionAudio;
+
+var powerUpAudioSource;
+
 var powerUpAudio;
+
 //var MGAudio;
 
 
@@ -17,7 +21,7 @@ var FileLoader = function() {
         "../res/textures/tex.jpg",
         "../res/textures/sky_sphere_map.jpg",
         "../res/textures/Crosshair.png",
-        "../res/textures/RocketTexture.png",
+        "../res/textures/RocketV2Tex.png",
         "../res/textures/Crosshair1.png",
         "../res/textures/Crosshair2.png",
         "../res/textures/Crosshair3.png",
@@ -44,6 +48,12 @@ var FileLoader = function() {
         "../res/textures/PowerUpHealthTex.png",
         "../res/textures/PowerUpShieldTex.png",
         //"../res/textures/PowerUpRocketTex.png",
+        "../res/textures/PowerUpRocketTex.png",
+        "../res/textures/PowerUpRocket2Tex.png",
+        "../res/textures/PowerUpRocket4Tex.png",
+        "../res/textures/PowerUpRocket8Tex.png",
+        "../res/textures/GeldsackTex.jpg",
+        "../res/textures/GeldsackFacePalmTex.jpg",
 
         // Models
         //"../res/meshes/HeroShipV1.json",
@@ -61,7 +71,9 @@ var FileLoader = function() {
         "../res/meshes/PowerUpRocket.json",
         "../res/meshes/PowerUpRocket2.json",
         "../res/meshes/PowerUpRocket4.json",
-        "../res/meshes/PowerUpShield.json"
+        "../res/meshes/PowerUpRocket8.json",
+        "../res/meshes/PowerUpShield.json",
+        "../res/meshes/Geldsack.json"
     ];
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
@@ -76,6 +88,12 @@ var FileLoader = function() {
                 // on success:
                 loadedFiles[name] = geometry;
                 filesSuccessfullyLoaded += 1;
+            },
+            // on progress
+            function() {},
+            // on error
+            function() {
+                console.log("FileLoader couldn't find file "+file);
             }
         );
     }
@@ -84,11 +102,21 @@ var FileLoader = function() {
         var textureLoader = new THREE.TextureLoader();
         textureLoader.setCrossOrigin('anonymous');
         // load texture
-        textureLoader.load(file, function (texture) {
-            //console.log("got:"+name);
-            loadedFiles[name] = texture;
-            filesSuccessfullyLoaded += 1;
-        });
+        textureLoader.load(file,
+            // on load
+            function (texture) {
+                //console.log("got:"+name);
+                loadedFiles[name] = texture;
+                filesSuccessfullyLoaded += 1;
+            },
+            // on progress
+            function() {},
+            // on error
+            function() {
+                console.log("FileLoader couldn't find file "+file);
+            }
+
+        );
     }
 
     // alle gewünschten Files laden
@@ -125,8 +153,12 @@ var FileLoader = function() {
     laserAudioSource.src = '../res/sounds/gun.wav';
     laserAudio.appendChild(laserAudioSource)
 
+
     powerUpAudio = document.createElement('audio');
-    var powerUpAudioSource = document.createElement('source');
+    powerUpAudioSource = document.createElement('source');
+
+  
+  
     powerUpAudioSource.src = '../res/sounds/powerup.wav';
     powerUpAudio.appendChild(powerUpAudioSource);
 
