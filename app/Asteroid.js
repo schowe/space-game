@@ -1,37 +1,42 @@
 // Asteroidenklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
 // (Ausnahme: Collision soll onCollisionDetect aufrufen)
+var minShipSize     = 10;
+var maxShipSize     = 20;
+var maxAsteroidSize = 30;
+
 var geometryA, textureA;
 
-var despawnDistance = 3000; // aus core.js (Backplane der Camera) (changed)
+var despawnDistance = 700; // aus core.js (Backplane der Camera) (changed)
 
 function Asteroid(location,radius, direction, speed, level, small) {
-	console.log("Asteroid init");
+    console.log("Asteroid init");
     // Mesh setzen
     if(small) {
         geometryA = fileLoader.get("AsteroidV2");
-        textureA  = fileLoader.get("metall");
+        textureA  = fileLoader.get("AsteroidTex");
     } else {
         geometryA = fileLoader.get("AsteroidV2");
-        textureA  = fileLoader.get("metall");
+        textureA  = fileLoader.get("AsteroidTex");
     }
 
     THREE.Mesh.call(this, geometryA,
-                        
+                        new THREE.MeshPhongMaterial({map: textureA}));
+
     // setze Groesse
     this.scale.set(radius,radius,radius);
 
-    this.direction 	= direction;
+    this.direction  = direction;
     this.direction.normalize();
-    this.speed 		= speed;
-    this.radius 	= radius;
+    this.speed      = speed;
+    this.radius     = radius;
     
     this.position.x = location.x;
     this.position.y = location.y;
     this.position.z = location.z;
 
-    this.level 		= level;
-    this.isAlive	= true;
+    this.level      = level;
+    this.isAlive    = true;
 
     // setze Rotation
     this.rotation.set(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random(), 'XYZ');
@@ -50,7 +55,7 @@ Asteroid.prototype.move = function(delta) {
     this.direction.normalize();
 
     if(this.position.distanceTo(ship.position) > despawnDistance) {
-    	this.reset();
+        this.isAlive = false;
     }
 
    // console.log("Position asteroid: ("+this.position.x+","+this.position.y+","+this.position.z+")");
@@ -64,37 +69,37 @@ Asteroid.prototype.move = function(delta) {
 }
 
 Asteroid.prototype.onCollisionDetect = function(other, typ) {
-	// TODO:
+    // TODO:
     // falls Asteroid getroffen:
     // Asteroid ? -> abstossen und verkleinern
     if(typ == BOT.ASTEROID) {
-    	this.reflect(other);
+        this.reflect(other);
 
-    	if(small) {
-    		isAlive = false;
-    	} else {
-    		// verkleiner und erzeuge neuen
-    	}
+        if(small) {
+            isAlive = false;
+        } else {
+            // verkleiner und erzeuge neuen
+        }
 
-    	if(other.small) {
-    		isAlive = false;
-    	} else {
-    		// verkleiner und erzeuge neuen
-    	}
+        if(other.small) {
+            isAlive = false;
+        } else {
+            // verkleiner und erzeuge neuen
+        }
     }
 
     // Schiff   ? -> weiterbewegen (nichts tun)
     if(typ == BOT.SHIP) {
-    	other.isAlive = false;
+        other.isAlive = false;
     }
 
     // Schuss   ? -> explodieren und neu setzen
     if(typ == BOT.SHOT) {
-    	if(small) {
-    		isAlive = false;
-    	} else {
-    		// verkleiner und erzeuge neuen
-    	}
+        if(small) {
+            isAlive = false;
+        } else {
+            // verkleiner und erzeuge neuen
+        }
     }
 
     // TODO: aufspalten in Dreiecke mit reflektiertem Winkel
@@ -156,7 +161,7 @@ Asteroid.prototype.reset = function() {
                         ship.position.y - asteroidPosition.y,
                         ship.position.z - asteroidPosition.z);
     // bilde orthogonalen Vektor
-    var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
+    var randomDir = new THREE.Vector3(dir.x,dir.y,dir.z);
     randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
     randomDir.normalize();
     randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°) 

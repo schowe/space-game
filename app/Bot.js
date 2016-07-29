@@ -67,11 +67,31 @@ function Bot() {
         return true;
     }
 
+    // Respawn der Asteroiden
+    function respawnAsteroids() {
+        var level, asteroid;
+        // rueckwaerts, um beim Loeschen nicht ein Element zu ueberspringen
+        for(var i = asteroids.length - 1; i >= 0; i--) {
+            asteroid = asteroids[i];
+            if(!asteroid.isAlive) {
+                level = asteroid.level;
+                // altes Loeschen
+                scene.remove(asteroid);
+                asteroids.splice(i,1);
+
+                asteroid = createAsteroid(level);
+                asteroids.push(asteroid);
+                console.log("Respawned: " + asteroids.length);
+                scene.add(asteroid);
+            }
+        }
+    }
+
 
     // Erschaffe Asteroiden
     function createAsteroid(level) {
         var direction, alpha, beta, asteroidPosition, radius;
-	console.log("Enter Create Asteroid");
+    console.log("Enter Create Asteroid");
         // Welt als Kugel -> Setze an den aeusseren 3/4 Rand
         var positionRadius = worldRadius/4 * (1+3*Math.random());
 
@@ -90,10 +110,10 @@ function Bot() {
             radius = minShipSize + Math.random * (maxAsteroidSize - minShipSize);
         } while(!farAway(asteroidPosition, radius));
 
-        // TODO: speed abhaengig von Level, ! asteroid.speed < min(enemy.speed)
-        var speed = level > 15 ? 15 : level;
-        speed = speed/3 * (2 * Math.random() + 1);
-        speed = 50;
+        // speed abhaengig von Level, ! asteroid.speed < 65 < min(enemy.speed)
+        var speed = (level > 15) ? 15 : level; 
+        speed += 35 + 15 * Math.random();
+
 
         // Richtung:
         direction = new THREE.Vector3(
@@ -109,7 +129,7 @@ function Bot() {
 
        // direction = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() -0.5);
 
-	    console.log("Finally Create Asteroid");
+        console.log("Finally Create Asteroid");
 
         asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level, false);
 
@@ -120,9 +140,9 @@ function Bot() {
     function createEnemy(level) {
         var direction, alpha, beta, enemyPosition, radius,
             typ;
-	    console.log("Enter Create Enemy");
-        // Welt als Kugel -> Setze an den aeusseren 1/6 Rand
-        radius = worldRadius/6 * (5+Math.random());
+        console.log("Enter Create Enemy");
+        // Welt als Kugel -> Setze an den aeusseren 1/2 Rand
+        radius = worldRadius/2 * (1+Math.random());
 
         // zufaellig an den Rand positionieren
         do {
@@ -148,7 +168,7 @@ function Bot() {
             default: typ = 4; // hardest weapon
         }
 
-	    console.log("Finally Create Enemy");
+        console.log("Finally Create Enemy");
         enemy = new Enemy(enemyPosition, speed, level, typ);
 
         return enemy;
@@ -200,20 +220,15 @@ function Bot() {
 
                 }
             }
-            // Schiessen
-            for(enemy of enemies) {
-                if(enemy.shootAble) {
-                    enemy.shoot();
-                    enemy.shootAble = false;
-                }
-            }
+            // Asteroiden respawnen
+            respawnAsteroids();
             console.log("AI updated")
         },
 
 
         // Initialisierer der Bots je Level
         initAI: function(level) {
-		console.log("Start initAI");
+        console.log("Start initAI");
             // setzen unserer externen Faktoren
             playerPosition = ship.position;
             worldRadius = 5000;
@@ -227,7 +242,7 @@ function Bot() {
             for(var i = 0; i < 200; i++) {
                 asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
-		        console.log(asteroids.length);
+                console.log(asteroids.length);
                 scene.add(asteroid);
             }
 
@@ -239,7 +254,7 @@ function Bot() {
             for(var i = 0 ; i < 15 * level; i++) {
                 enemy = createEnemy(level);
                 enemies.push(enemy);
- 		        console.log(enemies.length);
+                console.log(enemies.length);
                 scene.add(enemy);
             }
         },

@@ -3,6 +3,7 @@ var maxAsteroidSize     = 30;
 var guardingRadius      = 50;
 var minDistanceToPlayer = 200;
 var maxShipAngle        = 70 * (Math.PI / 360);
+var shootAccuracy       = 100;
 
 var BOSS1  = 1;
 var BOSS2  = 2;
@@ -46,10 +47,10 @@ function Enemy(location, speed, level, typ) {
             this.weapon = 1;
             this.scale.set(1,1,1);
     }
-    geometryB = fileLoader.get("HeroShipV5");
+
     this.scale.set(20,20,20);
 
-    var textureB  = fileLoader.get("TextureHero");
+    var textureB  = fileLoader.get("TextureEnemyShipOne");
 
 
 
@@ -114,10 +115,10 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             renew = true;
         }
 
-        optimalDir = this.moveBezier(renew, delta);
+        optimalDir = this.moveCurve(renew, delta);
         optimalDir.normalize();
 
-        console.log("Points Bezier:_"+ this.points.length);
+        console.log("Points Curve: "+ this.points.length);
         // Attacke beendet, wenn Kurve abgelaufen
         if(this.points.length == 0) {
             this.onPlayerAttack = false;
@@ -144,7 +145,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
             this.onPlayerAttack = true;
 
             // TODO: Init Bezier-Kurve und gebe ersten Punkt vor
-            optimalDir = this.moveBezier(true, delta);
+            optimalDir = this.moveCurve(true, delta);
             optimalDir.normalize();
         }
     }
@@ -175,6 +176,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         dir = this.avoidObstacle(optimalDir, obstacles, delta);
     } else {
         dir = optimalDir;
+        this.shoot(ship.position);
     }
 
 
@@ -217,9 +219,9 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
 // @return optimale Richtung nach Bezierflugbahn
 // TODO: In aufrufender Klasse Fallunterscheidung
-Enemy.prototype.moveBezier = function(renew, delta) {
+Enemy.prototype.moveCurve = function(renew, delta) {
     var p1, p2;
-    var shipSize = 9;
+    var shipSize = 50;
 
 
     // Falls noch nicht erzeugt oder Spieler sich um mehr als 90° gedreht hat
@@ -281,7 +283,12 @@ Enemy.prototype.moveBezier = function(renew, delta) {
             p2,
             ship.position]);
 
-        this.points = curve.getPoints(5 / delta);
+        var curveLength = this.position.distanceTo(p1);
+        curveLength += p1.distanceTo(p2);
+        curveLength += p2.distanceTo(ship.position);
+
+        this.points = curve.getPoints(Math.round(5 * this.speed / (delta * curveLength)));
+        console.log(this.points.length);
         this.points.shift();
     }
     
@@ -304,7 +311,9 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
 
     var bot = Bot();
     var asteroids = bot.getAsteroids();
+    console.log("Asteroids:" + asteroids.length);
     var enemies   = bot.getEnemies();
+    console.log("Enemies: " + enemies.length);
 
     // Setze, da Abstand nach vorne wichtiger, Schiff voruebergehend auf die
     // Position mit idealer Flugrichtung im naechsten Frame
@@ -368,7 +377,7 @@ Enemy.prototype.checkDirection = function(direction, objects) {
 }
 
 
-Enemy.prototype.shoot = function() {
+Enemy.prototype.shoot = function(aimPosition) {
     // Schießt von position mit weapon in direction
     // TODO: Je naeher desto haeufiger
 
@@ -429,7 +438,7 @@ Enemy.prototype.avoidObstacle = function(optimalDir, obstacles, delta) {
     } else {  // im >15° Winkel auf einen zufliegend
         // sonst, weiche aus bzw. zerschiesse Asteroid wie aufs Zettel 1
         // U,V nehmen -> orthogonal verschieben und schiesse zuvor
-        this.shootAble = true;
+        this.shoot(ship.position);
 
         // weiche orthogonal aus
         if(this.checkDirection(U, obstacle) == 0) {
@@ -776,7 +785,11 @@ Enemy.prototype.searchDirectionOrthogonal = function(optimalDir, obstacles) {
 
 // Falls eingekesselt, mache dies
 Enemy.prototype.handleNoDirection = function() {
-    this.shootable = true;
+    var aim = MATH.clone(this.position);
+    var shootDir = MATH.clone(this.direction);
+    shootDir.normalize();
+    aim.add(shootDir.multiplyScalar(minObstacleDistance));
+    this.shoot(aim);    
     return new THREE.Vector3(0,0,0);
 }
 
