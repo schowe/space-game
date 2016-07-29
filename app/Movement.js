@@ -12,10 +12,11 @@ var yAxis = 0;
 var directionVector = new THREE.Vector4(0,0,0,1);
 var Pause = true;
 var PauseScreen = false;
+var isFirstPerson = false;
 
 var Sensitivity = 0.2;
-var maxVel = 1;
-var maxDrift = 2;
+var maxVel = 14;
+var maxDrift = 5;
 
 var mouseX = 0;
 var mouseY = 0;
@@ -119,7 +120,7 @@ function Movement() {
                         document.addEventListener('mousemove', moveCallback, false);
                         window.addEventListener('keydown', kdown);
                         window.addEventListener('keyup', kup);
-                        console.log("Added Event Listener");
+                       
 
                         element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
 
@@ -127,6 +128,8 @@ function Movement() {
 
                     } else {
 
+                        window.addEventListener('keydown', kdown);
+                        window.addEventListener('keyup', kup);
                         element.requestPointerLock();
 
                     }
@@ -210,6 +213,10 @@ function Movement() {
                             Movement().unlockPointer();
                             PauseScreen = true;
                         }
+                        break;
+                    case 86:
+                        crosshair.switch();
+
 
                 }
 
@@ -303,8 +310,12 @@ function moveCallback(event){
 function changeCam(){
     console.log(camera.currentTargetName);
     if(camera.currentTargetName == 'Target' ){
+        isFirstPerson = true;
+        crosses[pos].position.set(0,0,-40);
         camera.setTarget('Cockpit');
     }else{
+        isFirstPerson = false;
+        crosses[pos].position.set(0,10,-40);
         camera.setTarget('Target');
     }
 }

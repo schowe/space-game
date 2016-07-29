@@ -1,7 +1,6 @@
 // Asteroidenklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
 // (Ausnahme: Collision soll onCollisionDetect aufrufen)
-
 var geometryA, textureA;
 
 var despawnDistance = 3000; // aus core.js (Backplane der Camera) (changed)
@@ -18,8 +17,7 @@ function Asteroid(location,radius, direction, speed, level, small) {
     }
 
     THREE.Mesh.call(this, geometryA,
-                        new THREE.MeshPhongMaterial({map: textureA}));
-
+                        
     // setze Groesse
     this.scale.set(radius,radius,radius);
 
