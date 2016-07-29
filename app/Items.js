@@ -152,15 +152,10 @@ function collected(itemNumber){
 
 		case "MONEY" :
 
-<<<<<<< HEAD
 				changeMoney(20); 
 				 particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
 			break; 
-=======
-			changeMoney(20);
-			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
-			break;
->>>>>>> 4eb417c829a6b5b96c211b33721735286f1d562a
+
 
 		case "FACEPALM":
 
