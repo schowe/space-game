@@ -6,7 +6,7 @@ var rocketAmmo = 2;
 var MaxRockedAmmo =10;
 
 var MGAmmo = 0;
-var MaxMGAmmo = 100;
+var MaxMGAmmo = 600;
 
 var rocketMaxDistance = 1500;
 
