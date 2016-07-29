@@ -164,50 +164,45 @@ function shootLaser(){
 
         //create mesh
         var laser       = new THREE.Mesh(shootGeometry,  shootMaterial);
-        var laserHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
+
+
+        var p1 = new THREE.Vector3(0, 250, 0);
+        var p2 = new THREE.Vector3(0, -250, 0);
+        var dotGeometry1 = new THREE.Object3D();
+        var dotGeometry2 = new THREE.Object3D();
+        dotGeometry1.position = p1;
+        dotGeometry2.position = p2;
+
+        dotGeometry1.name = "upperPointGeometry";
+        dotGeometry2.name = "lowerPointGeometry";
+
+        laser.add(dotGeometry1);
+        laser.add(dotGeometry2);
+
 
         //set name for recognition in render-function
-        laserHitBox.name = "LaserHitBox";
+        laser.name = "LaserHitBox";
 
         //translate bullet to ship position
         laser.position.x = ship.position.x;
         laser.position.y = ship.position.y;
         laser.position.z = ship.position.z;
 
-        //translate HitBox to ship position
-        laserHitBox.position.x = ship.position.x;
-        laserHitBox.position.y = ship.position.y;
-        laserHitBox.position.z = ship.position.z;
-
         //set orientation of the bullet according to ship orientation
         laser.lookAt(targetPosition);
-
-        laserHitBox.lookAt(targetPosition);
 
         //rotate: laser beam would be pointing up otherwise
         laser.rotateX(1.57);
 
-        //rotate: HitBox would be pointing up otherwise
-        laserHitBox.rotateX(1.57);
-
         laser.translateY(-85);
-        laserHitBox.translateY(-85);
 
         //add bullet to scene
         scene.add(laser);
 
-        //Hitbox should not be visible
-        laserHitBox.visible = false;
-
-        scene.add(laserHitBox);
-
-        //save reference to laser in userData field of HitBox
-        laserHitBox.userData = laser;
-
 
         //add Hitbox to projectiles list so it will be moved (visible laserbeam will be moved with userData field)
 
-        projectiles.push(laserHitBox);
+        projectiles.push(laser);
     }
 }
 
