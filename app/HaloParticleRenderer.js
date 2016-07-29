@@ -50,7 +50,6 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
     this.update = function () {
         
         var time = this.clock.getElapsedTime();
-        
         if (this.running) {
             // this.particleSystem.rotateY(0.01);
 

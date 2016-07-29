@@ -1,10 +1,12 @@
 function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, speed, size) {
     
-    this.running = true;
 
+    this.running = true;
     this.clock = new THREE.Clock();
     this.clock.start();
+
     this.speed = speed;
+
     this.startVector = startVector;
     this.particleCount = nParticles;
     this.particles = new THREE.Geometry();
@@ -45,6 +47,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
     this.update = function() {
 
         if (this.running) {
+            
             var pCount = this.particleCount;
 
             while (pCount--) {
@@ -65,8 +68,6 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
             var time = this.clock.getElapsedTime();
 
-
-
             if (time > lifetime) {
                 // aufhören
                 scene.remove(this.particleSystem);
@@ -84,4 +85,3 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
 
 }
 
-// particleExplosion: function (vector, maxRadius, duration, color) {

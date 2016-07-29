@@ -256,8 +256,8 @@ function destroyAsteroid(asteroidNumber, collisionType) {
     rnd1 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
     rnd2 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
     rnd3 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
-
-    particleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc);
+    
+    particleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius/10);
 
     var newScale = Math.random() * 30;
 
