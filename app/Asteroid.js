@@ -7,7 +7,7 @@ var maxAsteroidSize = 30;
 
 var geometryA, textureA;
 
-var despawnDistance = 700; // aus core.js (Backplane der Camera) (changed)
+var despawnDistance = 5000; // aus core.js (Backplane der Camera) (changed)
 
 function Asteroid(location,radius, direction, speed, level, small) {
     console.log("Asteroid init");

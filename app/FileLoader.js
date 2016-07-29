@@ -53,6 +53,7 @@ var FileLoader = function() {
         "../res/textures/PowerUpRocket8Tex.png",
         "../res/textures/GeldsackTex.jpg",
         "../res/textures/GeldsackFacePalmTex.jpg",
+        "../res/textures/TextureEnemyShipOne.png",
 
         // Models
         //"../res/meshes/HeroShipV1.json",

@@ -224,7 +224,7 @@ function render() {
     if (!Pause) {
         // animation code goes here
 
-        handleCollision();
+        //handleCollision();
         renderWeapons();
         movement.move(delta);
         updateStars();
