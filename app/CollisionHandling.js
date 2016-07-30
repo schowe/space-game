@@ -38,7 +38,6 @@ function handleAsteroids() {
         //         }
         //
         // }
-
     }
 
 }
@@ -264,12 +263,13 @@ function handleProjectiles() {
             // }
 
         }
-
     }
+
 }
 
 /** NICHT LÖSCHEN **/
 function handlePlayerEnemyCollision() {
+
     // var playerHitboxes = getPlayerHitboxes();
     // for (var i = 0; i <= playerHitboxes.length - 1; i++) {
     //     for (var j = 0; j <= enemies.length; j++) {
@@ -282,10 +282,12 @@ function handlePlayerEnemyCollision() {
     //         }
     //     }
     // }
+
 }
 
 /** NICHT LÖSCHEN **/
 function handleEnemyEnemyCollision() {
+
     // for (var i = 0; i <= enemies.length - 2; i++) {
     //     var enemyHitboxes1 = getEnemyHitboxes(enemies[i]); {
     //         for (var j = 0; j < enemyHitboxes1.length; j++) {
@@ -298,13 +300,14 @@ function handleEnemyEnemyCollision() {
     //                 }
     //             }
     //         }
-
     //     }
     // }
+
 }
 
 
 function handlePlayerPopupCollision() {
+
     for (var i = 0; i < playerHitBoxes.length; i++) {
         for (var j = 0; j < itemHitBoxes.length; j++) {
             if (collision.intersectShipHitBoxBox(playerHitBoxes[i],
@@ -313,6 +316,7 @@ function handlePlayerPopupCollision() {
             }
         }
     }
+
 }
 
 function handleCollision() {

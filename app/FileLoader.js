@@ -2,20 +2,15 @@
 var laserAudio;
 var rocketAudio;
 var explosionAudio;
-
 var powerUpAudioSource;
-
 var powerUpAudio;
 var asteroidAudio;
-
-//var MGAudio;
-
-
 
 var FileLoader = function () {
     console.log("FileLoader running ...");
 
-    // Pfad zu allen Dateien
+    /************************* Get all files to load *************************/
+
     var files = [
         // Texturen
         "../res/textures/metall.jpg",
@@ -80,8 +75,8 @@ var FileLoader = function () {
         "../res/meshes/PowerUp_Laser.json",
         "../res/meshes/Coin.json",
         "../res/meshes/Kugelschild.json"
-
     ];
+
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
 
@@ -126,7 +121,8 @@ var FileLoader = function () {
         );
     }
 
-    // alle gewünschten Files laden
+    /************************* load Files *************************/
+
     for (var i = 0; i < files.length; i++) {
         var file = files[i];
 
@@ -151,8 +147,7 @@ var FileLoader = function () {
         }
     }
 
-
-    //initialize Audio-files
+    /************************* initialize Audio-files *************************/
 
     //Main-laser audio
     laserAudio = document.createElement('audio');
@@ -166,12 +161,9 @@ var FileLoader = function () {
     asteroidAudioSource.src = '../res/sounds/asteroid.wav';
     asteroidAudio.appendChild(asteroidAudioSource);
 
-
+    //audio for powerup
     powerUpAudio = document.createElement('audio');
     powerUpAudioSource = document.createElement('source');
-
-
-
     powerUpAudioSource.src = '../res/sounds/powerup.wav';
     powerUpAudio.appendChild(powerUpAudioSource);
 
@@ -181,18 +173,13 @@ var FileLoader = function () {
     rocketAudioSource.src = '../res/sounds/rocket.wav';
     rocketAudio.appendChild(rocketAudioSource);
 
+    //explosion audio
     explosionAudio = document.createElement('audio');
     var explosionAudioSource = document.createElement('source');
     explosionAudioSource.src = '../res/sounds/explosion.wav';
     explosionAudio.appendChild(explosionAudioSource);
 
-    // MGAudio = document.createElement('audio');
-    // var MGAudioSource = document.createElement('source');
-    // MGAudioSource.src = 'mg.wav';
-    // MGAudio.appendChild(MGAudioSource);
-
     console.log("FileLoader done.");
-
 
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden

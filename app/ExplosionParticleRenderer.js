@@ -1,6 +1,5 @@
 function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, speed, size) {
 
-
     this.running = true;
     this.clock = new THREE.Clock();
     this.clock.start();
@@ -39,6 +38,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
         );
         this.particles.vertices.push(particle);
     }
+
     this.particleSystem = new THREE.Points(this.particles, this.material);
 
     // zur Szene hinzufügen
@@ -74,14 +74,11 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
                 this.running = false;
                 return false;
             } else {
-                // weitermachen
+	            // weitermachen
                 return true;
             }
         }
 
 
     };
-
-
 }
-

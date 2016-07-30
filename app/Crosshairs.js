@@ -5,6 +5,7 @@ var old = 0;
 function Crosshairs() {
 
     return {
+
         init: function () {
 
             var mapA = fileLoader.get("Crosshair1");
@@ -185,7 +186,7 @@ function Crosshairs() {
 
         }
 
-
     }
+
 }
 

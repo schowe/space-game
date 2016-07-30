@@ -3,7 +3,6 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
     this.startVector = startVector;
     this.particleCount = nParticles;
 
-
     this.running = true;
     this.clock = new THREE.Clock();
     this.clock.start();
@@ -27,12 +26,10 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
             this.startVector.z
         );
 
-
         var radius = initialRadius;
         var angle = Math.random() * Math.PI * 2;
         particle.x += Math.cos(angle) * radius;
         particle.z += Math.sin(angle) * radius;
-
 
         particle.velocity = particle.clone().sub(this.startVector.clone());
 
@@ -41,18 +38,13 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
 
     this.particleSystem = new THREE.Points(this.particles, this.material);
 
-
     // zur Szene hinzufügen
     scene.add(this.particleSystem);
-
-
 
     this.update = function () {
 
         var time = this.clock.getElapsedTime();
         if (this.running) {
-            // this.particleSystem.rotateY(0.01);
-
 
             for (var i = 0; i < this.particles.vertices.length; i++) {
                 var particle = this.particles.vertices[i];
@@ -75,11 +67,8 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
                 // weitermachen
                 return true;
             }
-
-
         }
 
     };
-
 
 }

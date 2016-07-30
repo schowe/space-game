@@ -23,13 +23,10 @@ var mouseX = 0;
 var mouseY = 0;
 var target = new THREE.Vector3(0, 0, 0);
 
-
 var lat = 0;
 var lon = 0;
 var phi = 0;
 var theta = 0;
-
-
 
 function Movement() {
 
@@ -232,7 +229,6 @@ function Movement() {
         },
 
 
-
         move: function (delta) {
 
             if (moveForward == true && yAxis > -maxVel) {
@@ -242,7 +238,6 @@ function Movement() {
             if (moveBackward == true && yAxis < -2) {
                 yAxis++;
                 setSpeed(-yAxis);
-
             }
             if (moveLeft == true && zAxis < maxDrift) {
                 zAxis++;
@@ -256,7 +251,6 @@ function Movement() {
                 zAxis += 0.5;
             }
             ship.translateZ(yAxis);
-
             ship.translateX(-zAxis);
 
             sphere.position.set(ship.position.x, ship.position.y, ship.position.z);
@@ -289,26 +283,29 @@ function Movement() {
                 document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
                 document.exitPointerLock();
             }
+
         },
 
         lockPointer: function () {
+
             var element = document.body;
 
             element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
             element.requestPointerLock();
-
 
         }
     }
 }
 
 function moveCallback(event) {
+
     mouseX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
     mouseY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
 }
 
 function changeCam() {
+
     console.log(camera.currentTargetName);
     if (camera.currentTargetName == 'Target') {
         isFirstPerson = true;
@@ -319,13 +316,16 @@ function changeCam() {
         crosses[pos].position.set(0, 10, -40);
         camera.setTarget('Target');
     }
+
 }
 
 function stop() {
+
     xAxis = 0.0;
     yAxis = -2.0;
     zAxis = 0.0;
     setSpeed(0.0);
     mouseX = 0.0;
     mouseY = 0.0;
+
 }

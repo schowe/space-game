@@ -44,23 +44,27 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
         );
         this.particles.vertices.push(particle);
     }
+
     this.particleSystem = new THREE.Points(this.particles, this.material);
 
     // zur Szene hinzufügen
     scene.add(this.particleSystem);
 
-
-
     this.updateStartAndEndpoint = function (startVector, endVector) {
+
         this.startVector = startVector;
         this.endVector = endVector;
+
     };
 
     this.reset = function () {
+
         scene.remove(this.particleSystem);
+
     };
 
     this.update = function () {
+
         var pCount = this.particleCount;
         while (pCount--) {
             var particle = this.particles.vertices[pCount];
@@ -118,7 +122,7 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
             this.particleSystem.geometry.__dirtyVertices = true;
         }
         this.particles.verticesNeedUpdate = true;
-    };
 
+    };
 
 }

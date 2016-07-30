@@ -17,16 +17,21 @@ var ParticleHandler = function () {
             explosion.update();
         }
         currentExplosions.push(explosion);
+
     }
 
     function addImplosion(position) {
+
         var implosion = new ImplosionParticleRenderer(0xffcc11, 10000, fileLoader.get("particle_grey"), position, 1);
         currentImplosions.push(implosion);
+
     }
 
-    function addHalo(position, lifetime, color) { // TODO: lifetime, size, speed
+    function addHalo(position, lifetime, color) {
+        // TODO: lifetime, size, speed
         var halo = new HaloParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime, position, 1, 30);
         currentHalos.push(halo);
+
     }
 
     return {
@@ -37,6 +42,7 @@ var ParticleHandler = function () {
         addHalo: addHalo,
 
         update: function () {
+
             for (var i = 0; i < currentExplosions.length; i++) {
                 var explosion = currentExplosions[i];
                 var successful = explosion.update();
@@ -44,6 +50,7 @@ var ParticleHandler = function () {
                     currentExplosions.splice(i, 1);
                 }
             }
+
             for (var i = 0; i < currentImplosions.length; i++) {
                 var implosion = currentImplosions[i];
 
@@ -62,10 +69,10 @@ var ParticleHandler = function () {
                 var halo = currentHalos[i];
                 var successful = halo.update();
                 if (!successful) {
-
                     currentHalos.splice(i, 1);
                 }
             }
+
         }
     };
 

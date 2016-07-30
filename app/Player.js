@@ -5,10 +5,8 @@ var cross;
 var shield, shieldGeometry, shieldTex, shieldMaterial;
 
 frontVector = new THREE.Vector3(0, 0, 0);
-
 backVector = new THREE.Vector3(0, 0, 0);
 directionVector = new THREE.Vector3(0, 0, 0);
-
 
 function Player() {
 
@@ -16,26 +14,32 @@ function Player() {
     var endVector = new THREE.Vector3(0, 0, 0);
     var particleRay;
 
-
     function createRay() {
+
         particleRay = new RayParticleRenderer(0x2255ff, 100, fileLoader.get("particle"), startVector, endVector);
+
     }
     createRay();
 
     // TODO: auslagern in Mathe-Klasse
     function getOrthognalVector(vector1, vector2) {
+
         var v1 = vector1.clone();
         var v2 = vector2.clone();
         return new THREE.Vector3().crossVectors(v1, v2);
+
     }
 
     return {
 
         playerHitByAsteroid: function () {
+
             changeHP(-20);
+
         },
 
         init: function () {
+
             var geometry = fileLoader.get("HeroShipV5");
             var texture = fileLoader.get("TextureHero");
 
@@ -61,9 +65,11 @@ function Player() {
             playerHitBoxes.push(hitBoxCenter);
             playerHitBoxes.push(hitBoxLeftWing);
             playerHitBoxes.push(hitBoxRightWing);
+
         },
 
         updateParticleValues: function () {
+
             particleRay.reset();
 
             // Schiffsposition und Richtingsvektor bestimmen
@@ -106,6 +112,7 @@ function Player() {
             // Partikel updaten
             createRay();
             particleRay.update();
+
         },
 
 

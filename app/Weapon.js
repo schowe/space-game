@@ -4,17 +4,17 @@ var weaponsActive = false;
 //Available ammunition, maximal ammunition
 var rocketAmmo = 2;
 var MaxRocketAmmo = 10;
-
 var MGAmmo = 0;
 var MaxMGAmmo = 600;
 
+//Max distance covered by rocket
 var rocketMaxDistance = 1500;
 
+//Weaponcooldown
 var laserReloadTime = 0.4;
 var rocketReloadTime = 1;
 
-//Damage of the Weapons
-
+//Weapondamage
 var rocketDamage = 10;
 var laserDamage = 2;
 var explosionDamage = 10;
@@ -26,19 +26,15 @@ var activeSecWeapon = 0;
 //List of rendered projectiles (rockets, laser, MG and explosion), also for Colision
 var projectiles = [];
 
-//Variables for Time-Control
-
-//Clock
+//Clock for weapons
 var weaponClock;
 
-//time since last laser-shoot
+//time since last shot was fired
 var timeSinceShoot = 0;
-//time since last Rocket
 var timeSinceRocket = 0;
-//time since last MG shooting
 var timeSinceMG = 0;
 
-// time Explosion is existing
+//time Explosion is existing
 var explosionTime = 0;
 
 //Counter for limiting MG single shootings
@@ -50,9 +46,11 @@ var rocketGeometry;
 var explosionGeometry;
 var MGGeometry;
 var hitBoxGeometry;
+
+//Textures for bullets
 var rocketTexture;
 
-// Materials for Bullets etc.
+//Materials for bullets etc.
 var shootMaterial;
 var explosionMaterial;
 var rocketMaterial;
@@ -63,19 +61,19 @@ function initializeWeapons() {
 
     //initialize Geometrys
     shootGeometry = new THREE.CylinderGeometry(1, 1, 500);
-    rocketGeometry = fileLoader.get("RocketV2");
+
     explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
+
     MGGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
     //initialize Materials
     rocketTexture = fileLoader.get("TextureHero");
     rocketMaterial = new THREE.MeshPhongMaterial({ map: rocketTexture });
 
-
-
     shootMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
-    //rocketMaterial = new THREE.MeshPhongMaterial( { /*map:rocketTexture*/ color: 0x0000FF});
+
     explosionMaterial = new THREE.MeshBasicMaterial({ color: 0xFF2F05 });
     hitBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
 
@@ -84,10 +82,12 @@ function initializeWeapons() {
 
     //add Listener for left and rigth mouseclick
     document.body.addEventListener('click', shoot, false);
+
 }
 
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
 function MGShoot() {
+
     //create bullet mesh
     var bullet1 = new THREE.Mesh(MGGeometry, shootMaterial);
 
@@ -139,20 +139,24 @@ function MGShoot() {
     bullet5.position.z = ship.position.z;
     scene.add(bullet5);
     projectiles.push(bullet5);
+
 }
 
 //called by EventListener when mouse clicked: leftclick: e.button == 0; rightclick e.button = 2 (ZWEI)
 function shoot(e) {
+
     if (e.button == 0) {
         shootLaser();
     }
     else {
         shootRocket();
     }
+
 }
 
 //Firering main-laser
 function shootLaser() {
+
     //if for limiting shooting frequency
     if (timeSinceShoot > laserReloadTime) {
 
@@ -189,7 +193,6 @@ function shootLaser() {
 
         //rotate: HitBox would be pointing up otherwise
         laserHitBox.rotateX(1.57);
-
         laser.translateY(-85);
         laserHitBox.translateY(-85);
 
@@ -204,26 +207,29 @@ function shootLaser() {
         //save reference to laser in userData field of HitBox
         laserHitBox.userData = laser;
 
-
         //add Hitbox to projectiles list so it will be moved (visible laserbeam will be moved with userData field)
-
         projectiles.push(laserHitBox);
     }
+
 }
 
 //projectileIndex: Index in projectile list of laser hitbox
 function successLaser(projectileIndex) {
+
     //get to hitbox belonging laserbeam
     var laser = projectiles[projectileIndex].userData;
 
     //remove Hitbox and laserbeam from scene
     scene.remove(projectiles[projectileIndex]);
     scene.remove(laser);
+
     //remove Hitbox from projectiles
     projectiles.splice(projectileIndex, 1);
+
 }
 
 function successRocket(projectileIndex) {
+
     //get to hitbox belonging rocket
     var rocket = projectiles[projectileIndex].userData;
 
@@ -236,6 +242,7 @@ function successRocket(projectileIndex) {
 
     //remove Hitbox from projectiles
     projectiles.splice(projectileIndex, 1);
+
 }
 
 //Shooting Rocket
@@ -301,6 +308,7 @@ function shootRocket() {
 
 //Explosion of the rocket at specific distance
 function rocketExplode(rocket) {
+
     //play explosion time
     explosionAudio.play();
 
@@ -332,21 +340,23 @@ function rocketExplode(rocket) {
 
     // starte Particle: Implosion -> Explosion -> Halo
     particleHandler.addImplosion(particleAnimationPosition);
+
 }
 
 //calculates the distance between an Object and the spaceship
 function calculateDistanceToShip(obj) {
+
     var dx = obj.position.x - ship.position.x;
     var dy = obj.position.y - ship.position.y;
     var dz = obj.position.z - ship.position.z;
 
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
+
 }
 
 
 //funtion for mooving weapons and destruction of rocket/explosion
 function renderWeapons() {
-
 
     //Variable for adding the past time since last call to all Weapon-Time-Counters
     var add = weaponClock.getDelta();
@@ -389,7 +399,6 @@ function renderWeapons() {
                 successLaser(bul);
             }
         }
-
         //if projectile is a rocket Hitbox:
         else if (projectiles[bul].name == "RocketHitBox") {
             //translate in mooving direction (translateZ becouse of different orientation then laser)
@@ -413,9 +422,11 @@ function renderWeapons() {
             }
         }
     }
+
 }
 
 function toggleWeapons() {
+
     if (weaponsActive == true) {
         document.removeEventListener('click', shoot, false);
         weaponsActive = false;
@@ -423,4 +434,5 @@ function toggleWeapons() {
         document.addEventListener('click', shoot, false);
         weaponsActive = true;
     }
+
 }

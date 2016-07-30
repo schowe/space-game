@@ -19,8 +19,6 @@ function createStars() {
     for (var count = 0; count < 300; count++) {
 
         material = new THREE.MeshBasicMaterial({
-
-
             transparent: true,
             combine: THREE.MixOperation,
             blending: THREE.AdditiveBlending,
@@ -41,6 +39,7 @@ function createStars() {
         scene.add(star);
         stars.push(star);
     }
+
 }
 
 
@@ -58,23 +57,18 @@ function createAsteroids() {
 
     for (countAst = 0; countAst < 100; countAst++) {
 
-
         rndSpeedX = Math.random() * 20 - 14;
         rndSpeedY = Math.random() * 20 - 14;
         rndSpeedZ = Math.random() * 20 - 14;
         rotSpeed = Math.random() * 0.05 - 0.01;
         rndScale = Math.random() * 30;
 
-
         var vecSpeed = new THREE.Vector3(rndSpeedX, rndSpeedY, rndSpeedZ);
         var vecRot = new THREE.Vector3(rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * 2 - 0));
         asteroidSpeedVecs.push(vecSpeed);
         asteroidRotVecs.push(vecRot);
 
-
         astOriginal = new THREE.Mesh(astGeometry, new THREE.MeshPhongMaterial({ map: astTexture }));
-
-
 
         astOriginal.position.x = ship.position.x + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) - biggerSphereRadius);
         astOriginal.position.y = ship.position.y + Math.floor(Math.random() * (biggerSphereRadius - (-biggerSphereRadius)) - biggerSphereRadius);
@@ -121,7 +115,6 @@ function updateAsteroids() {
         tmpAsteroid.position.y += asteroidSpeedVecs[countAst].y;
         tmpAsteroid.position.z += asteroidSpeedVecs[countAst].z;
 
-
         //Update SpeedValue Hitbox
         tmpHitBox.position.x += asteroidSpeedVecs[countAst].x;
         tmpHitBox.position.y += asteroidSpeedVecs[countAst].y;
@@ -145,10 +138,7 @@ function updateAsteroids() {
             tmpHitBox.position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
             tmpHitBox.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
             tmpHitBox.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
-
-
         }
-
     }
 
 }
@@ -177,28 +167,21 @@ function asteroidCollision(ast1Index, ast2Index) {
 
         asteroidSpeedVecs[ast1Index] = ast1Dir;
         asteroidSpeedVecs[ast2Index] = ast2Dir;
-
     }
 
     else if (asteroidHitBoxes[ast1Index].geometry.parameters.radius < 55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius > 55) {
-
         destroyAsteroid(ast1Index, "AsteroidAsteroidCollision");
-
     } else if (asteroidHitBoxes[ast1Index].geometry.parameters.radius > 55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius < 55) {
-
         destroyAsteroid(ast2Index, "AsteroidAsteroidCollision");
-
     } else if (asteroidHitBoxes[ast1Index].geometry.parameters.radius < 55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius < 55) {
-
         destroyAsteroid(ast1Index, "AsteroidAsteroidCollision");
         destroyAsteroid(ast2Index, "AsteroidAsteroidCollision");
-
     }
+
 }
 
 
 function hitAsteroid(asteroidNumber, collisionType) {
-
 
     switch (collisionType) {
 
@@ -219,20 +202,15 @@ function hitAsteroid(asteroidNumber, collisionType) {
 
     }
 
-
     if (asteroidsHP[asteroidNumber] <= 0) {
-
         destroyAsteroid(asteroidNumber, collisionType);
-
     }
-
 
 }
 
 
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber, collisionType) {
-
 
     asteroidAudio.play();
 
@@ -243,8 +221,11 @@ function destroyAsteroid(asteroidNumber, collisionType) {
         case "Rocket":
         case "Explosion":
             changeScore(scoreValues["asteroidDestroyed"]);
+
             break;
+
         default:
+
             break;
 
     }
@@ -295,16 +276,14 @@ function World() {
             sphere.position.set(0, 0, 0);
         }
     }
+
 }
 
 //Update stars- check if they are inside Sphere. Else randomize Position
 function updateStars() {
 
     // iterate through every star
-
     for (var i = 0; i < stars.length; i++) {
-
-
         star = stars[i];
 
         var temp = Math.sin(clock.getElapsedTime());
@@ -313,12 +292,9 @@ function updateStars() {
         star.scale.x = star.scale.y = star.scale.z = temp;
 
         if ((star.position.x < sphere.position.x - smallSphereRadius || star.position.x > sphere.position.x + smallSphereRadius || star.position.y < sphere.position.y - smallSphereRadius || star.position.y > sphere.position.y + smallSphereRadius || star.position.z < sphere.position.z - smallSphereRadius || star.position.z > sphere.position.z + smallSphereRadius)) {
-
             star.position.x = ship.position.x + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) - smallSphereRadius);
             star.position.y = ship.position.y + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) - smallSphereRadius);
             star.position.z = ship.position.z + Math.floor(Math.random() * (smallSphereRadius - (-smallSphereRadius)) - smallSphereRadius);
-
-
         }
     }
 
@@ -327,13 +303,11 @@ function updateStars() {
 //function to get the directionVector of a Mesh
 function getMeshDirection(mesh) {
 
-
     //Default Front-Facing
     var dir = new THREE.Vector3(0, 0, 1);
     //Apply rotation of Mesh
     dir.applyQuaternion(mesh.quaternion);
 
     return dir;
-
 
 }

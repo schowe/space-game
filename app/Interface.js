@@ -1,6 +1,5 @@
 // TODO: eventuell Refactoring?
 
-
 function Interface() {
     var $overlay = $('#menu-overlay');
     var menuVisible = false;
@@ -74,7 +73,6 @@ function loadingEllipsis() {
 			break;
 	}
 }
-
 
 /* Randomly selects a splash text from an array */
 function loadingSplash() {

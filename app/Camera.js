@@ -67,6 +67,7 @@ function Camera() {
             clearTimeout(p4);
             camera.setTarget('Target');
         }
+
     }
 
 }
@@ -78,16 +79,18 @@ function orbit() {
     p2 = setTimeout(function () {
         pos2();
     }, 5000);
+
     p3 = setTimeout(function () {
         pos3();
     }, 10000);
+
     p4 = setTimeout(function () {
         pos4();
     }, 15000);
+
     p1 = setTimeout(function () {
         pos1();
     }, 20000);
-
 
 }
 

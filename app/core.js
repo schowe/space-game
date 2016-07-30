@@ -33,6 +33,7 @@ var composer, glitchPass, glitchPassEnabled;
 
 // Document Ready Function
 $(function () {
+
     // wird ausgeführt, wenn das Dokument geladen ist:
 
     // Module initialisieren
@@ -64,13 +65,9 @@ function init() {
     container = document.createElement('div');
     document.body.appendChild(container);
 
-
-
-    //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
     clock = new THREE.Clock();
-
 
 
     /********** Szene füllen **********/
@@ -85,7 +82,6 @@ function init() {
     object = new THREE.AxisHelper(100);
     object.position.set(0, 0, 0);
     scene.add(object);
-
 
 
     /********** Module laden **********/
@@ -111,7 +107,6 @@ function init() {
 
     stats = new Stats();
     container.appendChild(stats.dom);
-
 
 
     /********** Camera **********/
@@ -141,9 +136,7 @@ function init() {
     camera.setTarget('Target');
 
 
-
     /********** Renderer & Post Processing **********/
-
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -154,11 +147,11 @@ function init() {
 
     glitchPass = new THREE.GlitchPass();
     glitchPass.renderToScreen = true;
+    // TODO: Still needed?
     // glitchPass.goWild = true;
     composer.addPass(glitchPass);
 
     glitchPassEnabled = false;
-
 
 
     /********** Input **********/
@@ -172,6 +165,7 @@ function init() {
 }
 
 function onWindowResize() {
+
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -179,6 +173,7 @@ function onWindowResize() {
 }
 
 function cameraAnimate() {
+
     if (frames < 25) {
         frames++;
         requestAnimationFrame(cameraAnimate);
@@ -191,18 +186,22 @@ function cameraAnimate() {
     movement.move(delta);
     camera.update();
     renderer.render(scene, camera);
+
 }
 
 
 function glitchScreen(duration) {
+
     glitchPassEnabled = true;
     setTimeout(function () {
         glitchPassEnabled = false;
     }, duration);
+
 }
 
 
 function animate() {
+
     // dont touch!
     requestAnimationFrame(animate);
     now = Date.now();
@@ -215,6 +214,7 @@ function animate() {
 }
 
 function render() {
+
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
@@ -241,4 +241,5 @@ function render() {
     } else {
         renderer.render(scene, camera);
     }
+
 }

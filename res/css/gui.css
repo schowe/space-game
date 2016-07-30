@@ -156,7 +156,6 @@ body {
 	opacity: 0.5;
 	border: 1px solid black;
 	border-radius: 10px;
-
 }
 
 #speedBarValue {
@@ -258,8 +257,6 @@ body {
 	display: inline;
 }
 
-
-
 #gameOverBox{
 	position: fixed;
 	border-style: solid;
@@ -339,6 +336,7 @@ body {
 }
 
 #shop{
+
 }
 
 #shopTable{
@@ -366,7 +364,6 @@ body {
 
 }
 
-
 .shopItemPic{
 
 	margin-left: auto;
@@ -392,7 +389,6 @@ body {
 	-webkit-transform:scale(0.95);
 	transform:scale(0.95);
 }
-
 
 #shopItemDesc{
 	margin-left: auto;
