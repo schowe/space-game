@@ -12,7 +12,7 @@ var FileLoader = function () {
     /************************* Get all files to load *************************/
 
     var files = [
-        // Texturen
+        /************************* Texturen *************************/
         "../res/textures/AsteroidTex.jpg",
         "../res/textures/Boss_Bright.jpg",
         "../res/textures/Boss_Textures_Combined_V1.jpg",
@@ -71,7 +71,7 @@ var FileLoader = function () {
         "../res/textures/TextureHero.png",
         "../res/textures/VengeanceMaterial.png",
 
-        // Models
+        /************************* Meshes *************************/
         "../res/meshes/AsteroidV2.json",
         "../res/meshes/AsteroidV2Part1.json",
         "../res/meshes/AsteroidV2Part2.json",
