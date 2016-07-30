@@ -116,7 +116,9 @@ body {
 
 #hpBoxValue {
 	height: 100%;
-	//width: 0%;
+	/*
+	width: 0%;
+	*/
 	border-radius: 10px;
 }
 
@@ -302,13 +304,13 @@ body {
 }
 
 #gameOverButton:hover {
-  background: #d1d1d1;
-  background-image: -webkit-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -moz-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -ms-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -o-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: linear-gradient(to bottom, #d1d1d1, #b0b0b0);
-  text-decoration: none;
+	background: #d1d1d1;
+	background-image: -webkit-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: -moz-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: -ms-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: -o-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: linear-gradient(to bottom, #d1d1d1, #b0b0b0);
+	text-decoration: none;
 }
 
 #loadingTexturesOverlay {

@@ -12,7 +12,7 @@ var asteroidAudio;
 
 
 
-var FileLoader = function() {
+var FileLoader = function () {
     console.log("FileLoader running ...");
 
     // Pfad zu allen Dateien
@@ -97,10 +97,10 @@ var FileLoader = function() {
                 filesSuccessfullyLoaded += 1;
             },
             // on progress
-            function() {},
+            function () { },
             // on error
-            function() {
-                console.log("FileLoader couldn't find file "+file);
+            function () {
+                console.log("FileLoader couldn't find file " + file);
             }
         );
     }
@@ -117,10 +117,10 @@ var FileLoader = function() {
                 filesSuccessfullyLoaded += 1;
             },
             // on progress
-            function() {},
+            function () { },
             // on error
-            function() {
-                console.log("FileLoader couldn't find file "+file);
+            function () {
+                console.log("FileLoader couldn't find file " + file);
             }
 
         );
@@ -133,8 +133,8 @@ var FileLoader = function() {
         //console.log("looking for:"+file);
 
         var h = file.split("/");
-        var name = h[h.length-1].split(".")[0];
-        var type = h[h.length-1].split(".")[1];
+        var name = h[h.length - 1].split(".")[0];
+        var type = h[h.length - 1].split(".")[1];
 
         // abhängig vom Dateityp: korrekten Loader auswählen
         switch (type) {
@@ -147,7 +147,7 @@ var FileLoader = function() {
                 loadImage(file, name);
                 break;
             default:
-                console.log("Error: unknown file format: "+file);
+                console.log("Error: unknown file format: " + file);
         }
     }
 
@@ -170,8 +170,8 @@ var FileLoader = function() {
     powerUpAudio = document.createElement('audio');
     powerUpAudioSource = document.createElement('source');
 
-  
-  
+
+
     powerUpAudioSource.src = '../res/sounds/powerup.wav';
     powerUpAudio.appendChild(powerUpAudioSource);
 
@@ -202,14 +202,14 @@ var FileLoader = function() {
     // "public" Methoden:
     return {
         isReady: isReady,
-        getAll: function() {
+        getAll: function () {
             // gibt alle geladenen Dateien zurück
             return isReady() ? loadedFiles : undefined;
         },
-        get: function(name) {
+        get: function (name) {
             var result = isReady() ? loadedFiles[name] : undefined;
             if (result == undefined) {
-                console.log("FileLoader could not find texture '"+name+"'");
+                console.log("FileLoader could not find texture '" + name + "'");
             }
             return result;
         }

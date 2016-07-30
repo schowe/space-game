@@ -1,4 +1,4 @@
-var cross1,cross2,cross3,cross4,cross5,cross6,cross7,cross8,cross9,cross10,cross11,cross12,cross13,cross14,cross15;
+var cross1, cross2, cross3, cross4, cross5, cross6, cross7, cross8, cross9, cross10, cross11, cross12, cross13, cross14, cross15;
 var crosses = [];
 var pos = 0;
 var old = 0;
@@ -9,7 +9,7 @@ function Crosshairs() {
 
             var mapA = fileLoader.get("Crosshair1");
 
-            var materialA = new THREE.SpriteMaterial({map: mapA});
+            var materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross1 = new THREE.Sprite(materialA);
             cross1.position.set(0, 10, -40);
@@ -20,7 +20,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair2");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross2 = new THREE.Sprite(materialA);
             cross2.position.set(0, 10, -40);
@@ -30,7 +30,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair3");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross3 = new THREE.Sprite(materialA);
             cross3.position.set(0, 10, -40);
@@ -40,7 +40,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair4");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross4 = new THREE.Sprite(materialA);
             cross4.position.set(0, 10, -40);
@@ -50,7 +50,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair5");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross5 = new THREE.Sprite(materialA);
             cross5.position.set(0, 10, -40);
@@ -60,7 +60,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair6");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross6 = new THREE.Sprite(materialA);
             cross6.position.set(0, 10, -40);
@@ -70,7 +70,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair7");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross7 = new THREE.Sprite(materialA);
             cross7.position.set(0, 10, -40);
@@ -80,7 +80,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair8");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross8 = new THREE.Sprite(materialA);
             cross8.position.set(0, 10, -40);
@@ -90,7 +90,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair9");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross9 = new THREE.Sprite(materialA);
             cross9.position.set(0, 10, -40);
@@ -100,7 +100,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair10");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross10 = new THREE.Sprite(materialA);
             cross10.position.set(0, 10, -40);
@@ -110,7 +110,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair11");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross11 = new THREE.Sprite(materialA);
             cross11.position.set(0, 10, -40);
@@ -120,7 +120,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair12");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross12 = new THREE.Sprite(materialA);
             cross12.position.set(0, 10, -40);
@@ -130,7 +130,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair13");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross13 = new THREE.Sprite(materialA);
             cross13.position.set(0, 10, -40);
@@ -140,7 +140,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair14");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross14 = new THREE.Sprite(materialA);
             cross14.position.set(0, 10, -40);
@@ -150,7 +150,7 @@ function Crosshairs() {
 
             mapA = fileLoader.get("Crosshair15");
 
-            materialA = new THREE.SpriteMaterial({map: mapA});
+            materialA = new THREE.SpriteMaterial({ map: mapA });
 
             cross15 = new THREE.Sprite(materialA);
             cross15.position.set(0, 10, -40);
@@ -163,26 +163,26 @@ function Crosshairs() {
 
         },
 
-        switch:function(){
-            if(pos == crosses.length-1){
-                old = crosses.length-1;
+        switch: function () {
+            if (pos == crosses.length - 1) {
+                old = crosses.length - 1;
                 pos = 0;
             }
-            else{
+            else {
                 old = pos;
                 pos++;
             }
-            if(isFirstPerson){
-                crosses[pos].position.set(0,0,-40);
+            if (isFirstPerson) {
+                crosses[pos].position.set(0, 0, -40);
             }
-            else{
-                crosses[pos].position.set(0,10,-40);
+            else {
+                crosses[pos].position.set(0, 10, -40);
             }
             crosses[old].visible = false;
             ship.remove(crosses[old]);
             ship.add(crosses[pos]);
             crosses[pos].visible = true;
-            
+
         }
 
 

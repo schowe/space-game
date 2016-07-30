@@ -1,5 +1,5 @@
 function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, startVector, size) {
-    
+
     this.startVector = startVector;
     this.particleCount = nParticles;
     this.color = particleColor;
@@ -27,9 +27,9 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             startVector.z
         );
 
-        particle.x += Math.random()-0.5;
-        particle.y += Math.random()-0.5;
-        particle.z += Math.random()-0.5;
+        particle.x += Math.random() - 0.5;
+        particle.y += Math.random() - 0.5;
+        particle.z += Math.random() - 0.5;
 
 
         particle.velocity = particle.clone().sub(startVector.clone());
@@ -58,9 +58,9 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
 
 
 
-                particle.x += particle.velocity.x*this.currentMovement*0.5;
-                particle.y += particle.velocity.y*this.currentMovement*0.5;
-                particle.z += particle.velocity.z*this.currentMovement*0.5;
+                particle.x += particle.velocity.x * this.currentMovement * 0.5;
+                particle.y += particle.velocity.y * this.currentMovement * 0.5;
+                particle.z += particle.velocity.z * this.currentMovement * 0.5;
 
                 this.particleimploSystem.geometry.__dirtyVertices = true;
             }
@@ -72,13 +72,13 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             }
 
             this.particles.verticesNeedUpdate = true;
-            
+
             return true; // weitermachen
-            
+
         } else {
             scene.remove(this.particleSystem);
             return false; //aufhören
-            
+
         }
     };
 

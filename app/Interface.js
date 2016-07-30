@@ -17,7 +17,7 @@ function Interface() {
     }
 
     return {
-        toggleMenuOverlay: function() {
+        toggleMenuOverlay: function () {
             if (menuVisible) {
                 hideOverlay();
             } else {
@@ -59,7 +59,7 @@ function LoadingScreen() {
 function loadingEllipsis() {
 	var loadingHeader = document.getElementById('loadingTexturesHeader');
 
-	switch(loadingHeader.innerHTML.length) {
+	switch (loadingHeader.innerHTML.length) {
 		case 7:
 			loadingHeader.innerHTML = 'Loading.';
 			break;
@@ -119,8 +119,8 @@ function loadingSplash() {
 /* Hides the overlay and stops its functions */
 function hideTextureLoading() {
 	// Set an Interval to check if textures have loaded
-	var loadingID = setInterval(function() {
-		if(fileLoader.isReady()) {
+	var loadingID = setInterval(function () {
+		if (fileLoader.isReady()) {
 			$('#loadingTexturesOverlay').hide();
 			clearInterval(loadingID);
 			clearInterval(loadingEllipsisID);
@@ -139,7 +139,7 @@ var scoreReference = document.getElementById('score');
 
 /* Starts the passive score counter */
 function startScoreCounter() {
-	scoreCounterID = setInterval(function() { addScore(1); }, 1000);
+	scoreCounterID = setInterval(function () { addScore(1); }, 1000);
 }
 
 /* Stops the passive score counter */
@@ -173,7 +173,7 @@ var moneyReference = document.getElementById('money');
 
 /* Changes the amount of currentMoney by @value */
 function changeMoney(value) {
-	currentMoney +=parseInt(value);
+	currentMoney += parseInt(value);
     moneyReference.innerHTML = currentMoney
 }
 
@@ -201,19 +201,19 @@ var maxAmmo = 0;
 
 /* Updates the weapon interface of the secondary weapon*/
 function updateWeaponInterface() {
-	switch(activeSecWeapon) {
+	switch (activeSecWeapon) {
 		case 0:
-				currentAmmo = rocketAmmo;
-				maxAmmo = MaxRocketAmmo;
-				break;
+			currentAmmo = rocketAmmo;
+			maxAmmo = MaxRocketAmmo;
+			break;
 		case 1:
-				currentAmmo = MGAmmo;
-				maxAmmo = MaxMGAmmo;
-				break;
+			currentAmmo = MGAmmo;
+			maxAmmo = MaxMGAmmo;
+			break;
 		default:
-				currentAmmo = 42;
-				maxAmmo = 42;
-				break;
+			currentAmmo = 42;
+			maxAmmo = 42;
+			break;
 	}
 
 	currentAmmoLabel.innerHTML = currentAmmo;
@@ -224,10 +224,10 @@ function updateWeaponInterface() {
  * FUNCTIONS FOR HP
  */
 
- 	var currentHP = 0;
-	var maxHP = 0;
-	var displayedHP = 0;
-	var hpBoxCurrent = document.getElementById('hpBoxValue');
+var currentHP = 0;
+var maxHP = 0;
+var displayedHP = 0;
+var hpBoxCurrent = document.getElementById('hpBoxValue');
 
 /* Changes HP by @value */
 function changeHP(value) {
@@ -250,7 +250,7 @@ function changeHP(value) {
 	var tempID = setInterval(frame, 1);
 
 	function frame() {
-		if(i < ticks) {
+		if (i < ticks) {
 			if (!Pause) {
 				displayedHP += hpTick;
 
@@ -282,7 +282,7 @@ function changeHP(value) {
 function setHP(value) {
 	updateHPDisplay();
 
-	if(value<=maxHP){
+	if (value <= maxHP) {
 		currentHP = value;
 		displayedHP = value;
 		updateHPDisplay();
@@ -321,7 +321,7 @@ function updateHPDisplay() {
 
 /* Sets the HP bar to a calculated color-gradient. */
 function hpUpdateColor() {
-	if(displayedHP <= (maxHP / 2)) {
+	if (displayedHP <= (maxHP / 2)) {
 		// Color gradient in hex from 0% to 50%
 		var temp = parseInt((510 * displayedHP / maxHP) + 0.5);
 		hpBoxCurrent.style.background = '#FF' + padHex(temp.toString(16)) + '00';
@@ -339,9 +339,9 @@ function hpUpdateColor() {
 /* Initiates the gameOver sequences */
 function gameOver() {
 	document.getElementById('gameOverText3').innerHTML = getScore();
-	$('#gameOverBox').animate({top : '20%'}, 250);
-  	Pause = true;
-  	PauseScreen = true;
+	$('#gameOverBox').animate({ top: '20%' }, 250);
+	Pause = true;
+	PauseScreen = true;
     Movement().unlockPointer();
 }
 
@@ -358,18 +358,18 @@ var secHTML = document.getElementById('timerBoxSec');
 function displayLevel(value) {
 	var levelReference = document.getElementById('currentLevel');
 	levelReference.innerHTML = parseInt(value);
-	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
+	$('#levelDisplay').animate({ opacity: '1', top: '50px' }, 1000);
 
-	setTimeout(function() {
-    	$(levelReference).animate({opacity: '1'}, 100);
-	$(levelReference).animate({opacity: '0.3'}, 100);
-	$(levelReference).animate({opacity: '1'}, 100);
-	$(levelReference).animate({opacity: '0.3'}, 100);
-	$(levelReference).animate({opacity: '1'}, 100);
+	setTimeout(function () {
+		$(levelReference).animate({ opacity: '1' }, 100);
+		$(levelReference).animate({ opacity: '0.3' }, 100);
+		$(levelReference).animate({ opacity: '1' }, 100);
+		$(levelReference).animate({ opacity: '0.3' }, 100);
+		$(levelReference).animate({ opacity: '1' }, 100);
 	}, 5000);
 
-	setTimeout(function() {
-		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
+	setTimeout(function () {
+		$('#levelDisplay').animate({ opacity: '0', top: '0px' }, 1000);
 	}, 1500);
 }
 
@@ -382,12 +382,12 @@ function setLevelTimer(seconds) {
 
 /* Starts the timer */
 function startLevelTimer() {
-	var levelTimer = setInterval(function() {
-		if(!Pause ) {
-			if(sec == 0 && min > 0) {
+	var levelTimer = setInterval(function () {
+		if (!Pause) {
+			if (sec == 0 && min > 0) {
 				min--;
 				sec = 59;
-			} else if(sec == 0 && min == 0) {
+			} else if (sec == 0 && min == 0) {
 				//next level
 				clearInterval(levelTimer);
 			}
@@ -401,12 +401,12 @@ function startLevelTimer() {
 
 /* Updates the displayed time */
 function displayTimer() {
-	if(sec < 10)
+	if (sec < 10)
 		secHTML.innerHTML = '0' + sec;
 	else
 		secHTML.innerHTML = sec;
 
-	if(min < 10)
+	if (min < 10)
 		minHTML.innerHTML = '0' + min;
 	else
 		minHTML.innerHTML = min;
@@ -434,10 +434,10 @@ function setSpeed(newSpeed) {
 	var temp = document.getElementById('speedValue');
 	temp.innerHTML = parseInt(newSpeed * speedFactor) + '' + parseInt(Math.random() * 10);
 
-	if(parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - 10)
+	if (parseInt(temp.innerHTML) >= maxSpeed * speedFactor * 10 - 10)
 		temp.innerHTML = parseInt(maxSpeed * speedFactor * 10);
 
-	if(parseInt(temp.innerHTML) < 10)
+	if (parseInt(temp.innerHTML) < 10)
 		temp.innerHTML = 0;
 }
 
@@ -454,7 +454,7 @@ function setMaxSpeed(newMaxSpeed) {
 function setPowerUp(powerUp, removeOrAdd) {
 	var icon;
 
-	switch(powerUp) {
+	switch (powerUp) {
 		case 1:
 			icon = document.getElementById('powerUpOne');
 			break;
@@ -485,7 +485,7 @@ function setPowerUp(powerUp, removeOrAdd) {
 /* Pads @hex if it is shorter than 2 digits */
 function padHex(hex) {
 
-	while(hex.length < 2) {
+	while (hex.length < 2) {
 		hex = '0' + hex;
 	}
 
@@ -515,7 +515,7 @@ var costUpgrade3Faktor = 1.2;
 var costUpgrade3 = 40000; //+ 1 hp alle anfangs 5 sec
 var upgrade3Time = 5000;
 
-function checkBuyable(){
+function checkBuyable() {
 	//setzen der Preise
 	var cost1 = document.getElementById('costUpgrade1');
 	cost1.innerHTML = parseInt(costUpgrade1);
@@ -531,52 +531,52 @@ function checkBuyable(){
 	var shopTr2 = document.getElementById('shopItem2');
 	var shopTr3 = document.getElementById('shopItem3');
 
-	if(currentMoney < costUpgrade1) {
+	if (currentMoney < costUpgrade1) {
 		shopTr1.style.opacity = '0.5';
 	} else {
-		shopTr1.style.opacity= '1';
+		shopTr1.style.opacity = '1';
 	}
 
-	if(currentMoney < costUpgrade2) {
+	if (currentMoney < costUpgrade2) {
 		shopTr2.style.opacity = '0.5';
 	} else {
-		shopTr2.style.opacity= '1';
+		shopTr2.style.opacity = '1';
 	}
 
-	if(currentMoney < costUpgrade3) {
+	if (currentMoney < costUpgrade3) {
 		shopTr3.style.opacity = '0.5';
 	} else {
-		shopTr3.style.opacity= '1';
+		shopTr3.style.opacity = '1';
 	}
 }
 var addHPID;
 
-function buyUpgrade(value){
-	switch(value){
+function buyUpgrade(value) {
+	switch (value) {
 		case 1: //max hp +25
 			var cost = costUpgrade1;
-			if(abrechnung(cost)){
-				setMaxHP(getMaxHP()+25);
-				costUpgrade1 = parseInt(costUpgrade1*costUpgrade1Faktor);
+			if (abrechnung(cost)) {
+				setMaxHP(getMaxHP() + 25);
+				costUpgrade1 = parseInt(costUpgrade1 * costUpgrade1Faktor);
 			}
 			break;
 		case 2:
 			var cost = costUpgrade2;
-			if(abrechnung(cost)){
+			if (abrechnung(cost)) {
 				maxVel++;
 				setMaxSpeed(maxVel);
-				costUpgrade2 = parseInt(costUpgrade2*costUpgrade2Faktor);
+				costUpgrade2 = parseInt(costUpgrade2 * costUpgrade2Faktor);
 			}
 			break;
 		case 3:
 			var cost = costUpgrade3;
-			if(abrechnung(cost)){
+			if (abrechnung(cost)) {
 				clearInterval(addHPID);
 
-				costUpgrade3 = parseInt(costUpgrade3*costUpgrade3Faktor);
-				addHPID = setInterval(function() {
-					if(!Pause){
-						setHP(getHP()+1);
+				costUpgrade3 = parseInt(costUpgrade3 * costUpgrade3Faktor);
+				addHPID = setInterval(function () {
+					if (!Pause) {
+						setHP(getHP() + 1);
 					}
 				}, 5000 / amountUpgrade3++);
 			}
@@ -588,10 +588,10 @@ function buyUpgrade(value){
 }
 
 function abrechnung(value) {
-	if(currentMoney>=value){
+	if (currentMoney >= value) {
 		changeMoney(-value);
 		return true;
-	}else{
+	} else {
 		return false;
 	}
 }
