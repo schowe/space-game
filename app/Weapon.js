@@ -62,6 +62,8 @@ function initializeWeapons() {
     //initialize Geometrys
     shootGeometry = new THREE.CylinderGeometry(1, 1, 500);
 
+    rocketGeometry = fileLoader.get("RocketV2");
+
     explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
 
     MGGeometry = new THREE.SphereGeometry(0.1, 16, 16);

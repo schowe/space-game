@@ -104,7 +104,7 @@ function loadingSplash() {
 		'Gathering Intel',
 		'Achieving Consciousness',
 		'Removing easiest difficulty',
-		'Encounting Voyager',
+		'Encountering Voyager',
 		'Joining the Dark Side'
 	];
 

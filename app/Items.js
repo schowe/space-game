@@ -70,7 +70,7 @@ function spawnPowerUp(x, y, z, type) {
 		} else if (rndCase > 0.75 && rndCase < 0.8125) {
 
 			itemGeometry = fileLoader.get("PowerUpMinigun");
-			minigunTex = fileLoader.get("PowerUpMiniGunTex")
+			minigunTex = fileLoader.get("PowerUpMinigunTex")
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: minigunTex }));
 			types.push("MINIGUN");
 
@@ -83,7 +83,7 @@ function spawnPowerUp(x, y, z, type) {
 
 		} else if (rndCase > 0.875 && rndCase < 0.9375) {
 
-			itemGeometry = fileLoader.get("PowerUp_Laser");
+			itemGeometry = fileLoader.get("PowerUpLaser");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial());
 			types.push("LASERUP");
 
