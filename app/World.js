@@ -138,7 +138,6 @@ function updateAsteroids() {
             rnd2 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
             rnd3 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
 
-            //console.log("new VEC : " + newVec.x + " " + newVec.y + " " + newVec.z );
             tmpAsteroid.position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
             tmpAsteroid.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
             tmpAsteroid.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
@@ -163,7 +162,6 @@ function asteroidCollision(ast1Index, ast2Index) {
     var ast1Dir = asteroidSpeedVecs[ast1Index];
     var ast2Dir = asteroidSpeedVecs[ast2Index];
 
-    //console.log(asteroidHitBoxes[ast1Index].geometry.parameters.radius);
     if (asteroidHitBoxes[ast1Index].geometry.parameters.radius > 55 && asteroidHitBoxes[ast2Index].geometry.parameters.radius > 55) {
         var axis = ast2.position.clone();
         axis.sub(ast1.position);
@@ -205,7 +203,6 @@ function hitAsteroid(asteroidNumber, collisionType) {
     switch (collisionType) {
 
         case "Laser" :
-            //console.log("LASERHIT");
             asteroidsHP[asteroidNumber] -= laserDamage;
 
             break;

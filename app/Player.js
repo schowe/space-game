@@ -61,10 +61,6 @@ function Player() {
             playerHitBoxes.push(hitBoxCenter);
             playerHitBoxes.push(hitBoxLeftWing);
             playerHitBoxes.push(hitBoxRightWing);
-
-            // ship.add(hitBoxLeftWing);
-            // ship.add(hitBoxRightWing);
-            // ship.add(hitBoxCenter);
         },
 
         updateParticleValues: function () {

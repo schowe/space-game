@@ -53,7 +53,7 @@ function Movement() {
 
                         blocker.style.display = 'none';
                         document.addEventListener('mousemove', moveCallback, false);
-                       //
+
                         Pause = false;
                         Camera().endOrbit();
 
@@ -234,7 +234,6 @@ function Movement() {
 
 
         move:function(delta) {
-            //console.log(delta);
 
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;

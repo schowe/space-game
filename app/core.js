@@ -186,7 +186,7 @@ function cameraAnimate(){
         yAxis = -2;
         requestAnimationFrame(animate);
     }
-    //
+    
     delta = clock.getDelta();
     movement.move(delta);
     camera.update();

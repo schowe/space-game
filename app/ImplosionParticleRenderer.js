@@ -48,10 +48,6 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
 
     this.update = function () {
 
-        // this.particleSystem.rotateX(0.5);
-        // this.particleSystem.rotateY(0.5);
-        // this.particleSystem.rotateZ(0.5);
-
 
         if (this.running) {
 
@@ -65,8 +61,6 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
                 particle.x += particle.velocity.x*this.currentMovement*0.5;
                 particle.y += particle.velocity.y*this.currentMovement*0.5;
                 particle.z += particle.velocity.z*this.currentMovement*0.5;
-
-                // particle.addScaledVector(particle.velocity, this.currentMovement*0.2);
 
                 this.particleimploSystem.geometry.__dirtyVertices = true;
             }
@@ -82,7 +76,6 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             return true; // weitermachen
             
         } else {
-            //console.log("Ich sollte weg sein >.>");
             scene.remove(this.particleSystem);
             return false; //aufhören
             
