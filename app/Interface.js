@@ -215,7 +215,7 @@ function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
 				currentAmmo = rocketAmmo;
-				maxAmmo = MaxRockedAmmo;
+				maxAmmo = MaxRocketAmmo;
 				break;
 		case 1:
 				currentAmmo = MGAmmo;
@@ -649,7 +649,7 @@ costUpgrade = [
 1000,	// + 25 maxHP
 5000,	// + 1 maxSpeed
 40000,	// passive HP regen
-1000,	// + 2 MaxRockedAmmo
+1000,	// + 2 MaxRocketAmmo
 1000,	// + 20 MaxMGAmmo
 2000	// + 1 rocketDamage
 ];
@@ -658,7 +658,7 @@ costUpgradeFactor = [
 1.2,	// + 25 maxHP
 1.2,	// + 1 maxSpeed
 1.2,	// passive HP regen
-1.2,	// + 2 MaxRockedAmmo
+1.2,	// + 2 MaxRocketAmmo
 1.2,	// + 20 MaxMGAmmo
 1.2		// + 1 rocketDamage
 ];
@@ -694,8 +694,8 @@ function buyUpgrade(i) {
 					setHP(getHP() + 1);
 			}, 5000 / ++amountUpgrade2);
 			break;
-		case 3:		// + 2 MaxRockedAmmo
-			MaxRockedAmmo += 2;
+		case 3:		// + 2 MaxRocketAmmo
+			MaxRocketAmmo += 2;
 			break;
 		case 4:
 			MaxMGAmmo += 20;
@@ -738,7 +738,7 @@ function displayMilestoneNote(value) {
 var milestonesName = [
 	"Rattle the Stars",
 	"PowerUp Collector",
-	"Dagobert Duck",
+	"Scrooge McDuck",
 	"Speed Junkie"
 ];
 
