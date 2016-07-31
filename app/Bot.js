@@ -8,8 +8,8 @@
 // Hier aufzurufen:
 // - init()
 // - update(delta)
-var asteroids = [], enemies = [], enemy, asteroid, 
-    worldRadius, gameLevel;
+var asteroids = [], enemies = [], asteroidHitBoxes = [],
+    enemy, asteroid, worldRadius, gameLevel;
 
 function Bot() {
 
@@ -79,10 +79,10 @@ function Bot() {
                 if(level = gameLevel) {
                     // altes Loeschen
                     scene.remove(asteroid);
-                    asteroids.splice(i,1);
 
                     asteroid = createAsteroid(level);
-                    asteroids.push(asteroid);
+                    asteroids[i] = asteroid;
+                    asteroidHitBoxes[i] = asteroid.hitBox;
                     console.log("Respawned: " + asteroids.length);
                     scene.add(asteroid);
                 }
@@ -103,7 +103,8 @@ function Bot() {
                 enemies.splice(i,1);
 
                 enemy = createEnemy(level);
-                enemies.push(enemy);
+                enemies[i] = enemy;
+                enemyHitBoxes[i] = enemy.hitBox;
                 console.log("Respawned: " + enemies.length);
                 scene.add(enemy);
             }
@@ -134,7 +135,7 @@ function Bot() {
         } while(!farAway(asteroidPosition, radius));
 
         // speed abhaengig von Level, ! asteroid.speed < 65 < min(enemy.speed)
-        var speed = (level > 15) ? 15 : level; 
+        var speed = (level > 15) ? 15 : level;
         speed += 35 + 15 * Math.random();
         //speed = 50;
 
@@ -148,7 +149,7 @@ function Bot() {
         var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
         randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
         randomDir.normalize();
-        randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°) 
+        randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°)
         direction.add(randomDir);
 
        // direction = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() -0.5);
@@ -266,9 +267,11 @@ function Bot() {
             for(var i = 0; i < 200; i++) {
                 asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
+                asteroidHitBoxes.push(asteroid.hitBox);
                 console.log(asteroids.length);
                 scene.add(asteroid);
             }
+
             console.log(level);
             // erstelle Gegner
             if(level == 1) {
@@ -279,6 +282,7 @@ function Bot() {
                 console.log("Hello");
                 enemy = createEnemy(level);
                 enemies.push(enemy);
+                enemyHitBoxes.push(enemy.hitBox);
                 console.log(enemies.length);
                 scene.add(enemy);
             }
