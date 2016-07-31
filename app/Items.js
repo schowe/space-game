@@ -70,7 +70,7 @@ function spawnPowerUp(x, y, z, type) {
 		} else if (rndCase > 0.75 && rndCase < 0.8125) {
 
 			itemGeometry = fileLoader.get("PowerUpMinigun");
-			minigunTex = fileLoader.get("PowerUpMinigunTex")
+			//minigunTex = fileLoader.get("PowerUpMinigunTex")
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: minigunTex }));
 			types.push("MINIGUN");
 
