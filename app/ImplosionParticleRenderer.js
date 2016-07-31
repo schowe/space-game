@@ -1,5 +1,5 @@
 function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, startVector, size) {
-    
+
     this.startVector = startVector;
     this.particleCount = nParticles;
     this.color = particleColor;
@@ -27,10 +27,9 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             startVector.z
         );
 
-        particle.x += Math.random()-0.5;
-        particle.y += Math.random()-0.5;
-        particle.z += Math.random()-0.5;
-
+        particle.x += Math.random() - 0.5;
+        particle.y += Math.random() - 0.5;
+        particle.z += Math.random() - 0.5;
 
         particle.velocity = particle.clone().sub(startVector.clone());
 
@@ -44,14 +43,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
     // zur Szene hinzufügen
     scene.add(this.particleimploSystem);
 
-
-
     this.update = function () {
-
-        // this.particleSystem.rotateX(0.5);
-        // this.particleSystem.rotateY(0.5);
-        // this.particleSystem.rotateZ(0.5);
-
 
         if (this.running) {
 
@@ -60,13 +52,9 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             while (pCount--) {
                 var particleimplo = this.particles.vertices[pCount];
 
-
-
-                particle.x += particle.velocity.x*this.currentMovement*0.5;
-                particle.y += particle.velocity.y*this.currentMovement*0.5;
-                particle.z += particle.velocity.z*this.currentMovement*0.5;
-
-                // particle.addScaledVector(particle.velocity, this.currentMovement*0.2);
+                particle.x += particle.velocity.x * this.currentMovement * 0.5;
+                particle.y += particle.velocity.y * this.currentMovement * 0.5;
+                particle.z += particle.velocity.z * this.currentMovement * 0.5;
 
                 this.particleimploSystem.geometry.__dirtyVertices = true;
             }
@@ -78,18 +66,12 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             }
 
             this.particles.verticesNeedUpdate = true;
-            
+
             return true; // weitermachen
-            
         } else {
-            //console.log("Ich sollte weg sein >.>");
             scene.remove(this.particleSystem);
             return false; //aufhören
-            
         }
     };
-
-
-
 
 }
