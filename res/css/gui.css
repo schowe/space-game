@@ -239,7 +239,7 @@
 	border-top: solid;
 	text-align: center;
 	border-color: white;
-	background-color: rgba(255,255,255,0.2);
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 #timerBoxText {
@@ -272,7 +272,7 @@
 	left: 40%;
 	width: 20%;
 	height: 30px;
-	background-color: rgba(255,255,255,0.4);
+	background-color: rgba(255, 255, 255, 0.4);
 	border-style: ridge;
 	border-color: white;
 	border-width: 3px;
@@ -297,13 +297,12 @@
 
 #milestoneDisplay {
 	position: fixed;
-
 	top: 100px;
 	right: -110px;
 	width: 150px;
 	height: 100px;
 
-	background-color: rgba(255,255,255,0.4);
+	background-color: rgba(255, 255, 255, 0.4);
 	border-style: ridge;
 	border-color: white;
 	border-width: 3px;
@@ -326,3 +325,7 @@
 	margin-left: auto;
 	background-image: url(../textures/GUIachievement2.png);
 }
+
+/**
+ * End of splash displays
+ */

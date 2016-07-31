@@ -22,7 +22,7 @@ canvas {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 /* None-menu pause screen (ESC) */
@@ -211,7 +211,7 @@ canvas {
 }
 
 .shopItemPic:hover {
-	background-color: rgba(0,0,0,1);
+	background-color: rgba(0, 0, 0, 1);
 	transform: scale(0.95);
 }
 
@@ -256,7 +256,7 @@ canvas {
 	margin-top: 3%;
 	font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
 	font-weight: bold;
-	text-shadow: 1px 1px rgba(255,255,255, 0.2);
+	text-shadow: 1px 1px rgba(255, 255, 255, 0.2);
 }
 
 #menu-highscore-table {
@@ -277,8 +277,8 @@ canvas {
 }
 
 #menu-highscore-table td, th {
-    box-shadow: 4px 3px 71px -11px rgba(255,255,255,0.8);
-    text-shadow: 1px 1px rgba(255,255,255, 0.2);
+    box-shadow: 4px 3px 71px -11px rgba(255, 255, 255, 0.8);
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.2);
 }
 
 #menu-highscore-table th {
@@ -317,16 +317,15 @@ canvas {
     margin-top: 3%;
     font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
     font-weight: bold;
-    text-shadow: 1px 1px rgba(255,255,255, 0.2);
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.2);
 }
 
 .achievementBlock {
-    border-style: ridge 4px;
     border-radius: 5px;
     padding: 5px;
     width: 70%;
     height: 12%;
-    background-color: rgba(124,124,124,0.4);
+    background-color: rgba(124, 124, 124, 0.4);
     margin-left: 15%;
     margin-bottom: 5%;
 }
@@ -337,7 +336,6 @@ canvas {
 }
 
 .achievement .icon {
-    padding: auto;
     width: 20%;
 }
 
@@ -366,7 +364,7 @@ canvas {
     position: relative;
     border-radius: 10px;
     width: 100%;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
     height: 7px;
 }
 
@@ -412,7 +410,7 @@ canvas {
 	height: auto;
 	border-radius: 5px;
 	border-style: solid;
-	background: rgba(0,0,0,0.9);																																																																																																																																																																																																																																								);
+	background-color: rgba(0, 0, 0, 0.9);
 }
 
 .crossPic {
@@ -467,7 +465,7 @@ canvas {
 	left: 20%;
 	width: 60%;
 	height: 340px;
-	background-color: rgba(255,255,255,0.2);
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 #gameOverText1 {
