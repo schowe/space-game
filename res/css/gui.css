@@ -142,6 +142,48 @@ body {
 	display: inline;
 }
 
+#shieldBox {
+	position: fixed;
+	left: 20px;
+	right: 120px;
+	bottom: 15px;
+	height: 20px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.5);
+	transform: rotate(180deg);
+}
+
+#shieldBoxValue {
+	height: 100%;
+	width: 50%;
+	border-radius: 10px;
+	background-color: rgb(255, 255, 255);
+}
+
+#shieldTextBox {
+	position: fixed;
+	left: 50%;
+	top: 3%;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	text-shadow: 2px 2px #000000;
+	transform: rotate(180deg) skewX(45deg);
+}
+
+#currentShield {
+	display: inline;
+}
+
+#shieldDivider {
+	display: inline;
+}
+
+#maxShield {
+	display: inline;
+}
+
 #speedBar {
 	transform: rotate(180deg);
 	position: fixed;
@@ -169,8 +211,7 @@ body {
 	transform: skewX(45deg);
 	color: yellow;
 	font-size: 30px;
-	bottom: 18%;
-	right: 60px;
+	right: 47px;
 	bottom: 18%;
 	text-align: right;
 }
@@ -234,15 +275,17 @@ body {
 #powerUps {
 	position: fixed;
 	height: 30px;
-	bottom: 15px;
+	bottom: 72px;
+	right: 40px;
+	/*bottom: 15px;
 	left: 30px;
-	transform: skewX(45deg);
+	transform: skewX(45deg);*/
 }
 #powerUpIcons img{
-	height: 35px;
+	height: 45px;
 	width:auto;
 	display:inline;
-	margin-right:20px;
+	margin-right:5px;
 }
 
 .inactive {
@@ -377,15 +420,6 @@ body {
 	position: relative;
 	width: 100px;
 }
-
-#shopItem1{
-
-}
-
-#shopItem2{
-
-}
-
 
 .shopItemPic{
 

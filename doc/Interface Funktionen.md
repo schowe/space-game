@@ -173,3 +173,5 @@ removeOrAdd 0 für remove und 1 für add.
 HP Bar kann in niedrigen Werten leicht über die Kanten hinaus gehen.
 displayedHP kann durch sehr häufige Änderungen zu Werten zwischen 0 und maxHP 
 sich um einen oder mehr HP flippen durch die Ungenauigkeit von floats.
+reachedMaxSpeed kann sich leicht verändern wenn man sich MaxSpeed kauft.
+Passiver HP Regen lässt sich ausnutzen durch pausieren.
