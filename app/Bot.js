@@ -76,10 +76,14 @@ function Bot() {
             asteroid = asteroids[i];
             if(!asteroid.isAlive) {
                 level = asteroid.level;
-                if(level = gameLevel) {
+                if(level == gameLevel) {
                     // altes Loeschen
                     scene.remove(asteroid);
+                    // und explodieren lassen
+                    particleHandler.addExplosion(asteroids.position,
+                                                        5, 0xcccccc);
 
+                    // neu erschaffen
                     asteroid = createAsteroid(level);
                     asteroids[i] = asteroid;
                     asteroidHitBoxes[i] = asteroid.hitBox;
@@ -96,6 +100,7 @@ function Bot() {
         // rueckwaerts, um beim Loeschen nicht ein Element zu ueberspringen
         for(var i = enemies.length - 1; i >= 0; i--) {
             enemy = enemies[i];
+            // TODO: nicht immer
             if(!enemy.isAlive) {
                 level = enemy.level;
                 // altes Loeschen
