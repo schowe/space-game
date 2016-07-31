@@ -76,19 +76,22 @@ function Bot() {
             asteroid = asteroids[i];
             if(!asteroid.isAlive) {
                 level = asteroid.level;
-                if(level == gameLevel) {
-                    // altes Loeschen
-                    scene.remove(asteroid);
-                    // und explodieren lassen
-                    particleHandler.addExplosion(asteroids.position,
+                // altes Loeschen
+                scene.remove(asteroid);
+                // und explodieren lassen
+                particleHandler.addExplosion(asteroids.position,
                                                         5, 0xcccccc);
 
+                if(level == gameLevel) {
                     // neu erschaffen
                     asteroid = createAsteroid(level);
                     asteroids[i] = asteroid;
                     asteroidHitBoxes[i] = asteroid.hitBox;
                     console.log("Respawned: " + asteroids.length);
                     scene.add(asteroid);
+                } else {
+                    asteroids.splice(i,1);
+                    asteroidHitBoxes.splice(i,1);
                 }
             }
         }
@@ -244,14 +247,9 @@ function Bot() {
         updateAI: function(delta) {
             // Gegner und Asteroiden updaten
             updateLocation(delta);
-            // Kollisionsueberpruefung -> zerstoerte Loeschen
-            for(asteroid of asteroids) {
-                if(!asteroid.isAlive) {
-
-                }
-            }
             // Asteroiden respawnen
             respawnAsteroids();
+            respawnEnemies();
             console.log("AI updated")
         },
 
@@ -277,7 +275,6 @@ function Bot() {
                 scene.add(asteroid);
             }
 
-            console.log(level);
             // erstelle Gegner
             if(level == 1) {
                 enemies = [];

@@ -362,7 +362,6 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
             possibleObstacle = false;
             break;
         }
-
     }
 
     return obstacles;
