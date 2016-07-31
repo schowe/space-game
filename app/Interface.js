@@ -8,6 +8,7 @@ function Interface() {
     var $overlay = $('#menu-overlay');
     var menuVisible = false;
 
+	/* Turns the menu overlay on */
     function showOverlay() {
         $overlay.show();
         checkBuyable();
@@ -16,6 +17,7 @@ function Interface() {
         menuVisible = true;
     }
 
+	/* Turns the menu overlay off */
     function hideOverlay() {
         $overlay.hide();
         menuVisible = false;
@@ -30,6 +32,7 @@ function Interface() {
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbar').checked = true;
+			displayMilestoneNote(3);
 			displayLevel(1);
 			setLevelTimer(260);
 			startLevelTimer();
@@ -267,7 +270,7 @@ function changeHP(value) {
 					return;
 				}
 
-				if (displayedHP <= 0) {
+				if (parseInt(displayedHP + 0.5) <= 0) {
 					clearInterval(tempID);
 					document.getElementById('currentHP').innerHTML = '' + 0;
 					hpBoxCurrent.style.width = 0;
@@ -289,8 +292,6 @@ var maxShield = 0;
 var displayedShield = 0;
 
 //return: restValue, restTicks, restOfTick
-
-
 
 function subShield(value, hpTick) {
 	var i = 1;
@@ -392,21 +393,6 @@ function updateShieldDisplay() {
 	//shieldUpdateColor();
 }
 
-/* Sets the HP bar to a calculated color-gradient. 
-function shieldUpdateColor() {
-    var temp;
-    
-	if(displayedHP <= (maxHP / 2)) {
-		// Color gradient in hex from 0% to 50%
-		temp = parseInt((510 * displayedHP / maxHP) + 0.5);
-		hpBoxCurrent.style.background = '#FF' + padHex(temp.toString(16)) + '00';
-	} else {
-		// Color gradient in hex from 50% to 100%
-		temp = parseInt(255.5 - 255 * (2 * displayedHP / maxHP - 1));
-		hpBoxCurrent.style.background = '#' + padHex(temp.toString(16)) + 'FF00';
-	}
-}*/
-
 /* Sets the HP bar to a calculated color-gradient. */
 function hpUpdateColor() {
     var temp;
@@ -438,6 +424,7 @@ function padHex(hex) {
 
 /* Initiates the gameOver sequences */
 function gameOver() {
+	glitchScreen(500);
 	document.getElementById('gameOverText3').innerHTML = getScore();
 	$('#gameOverBox').animate({top: '20%'}, 500);
   	Pause = true;
@@ -676,8 +663,9 @@ costUpgradeFactor = [
 1.2		// + 1 rocketDamage
 ];
 
+/* Highlight items the player can purchase */
 function checkBuyable() {
-	for(var i = 0; i < 6; i++) {
+	for(var i = 0; i < costUpgrade.length; i++) {
 		document.getElementById('costUpgrade' + i).innerHTML = '' + costUpgrade[i];
 		
 		if(currentMoney < costUpgrade[i])
@@ -687,7 +675,7 @@ function checkBuyable() {
 	}
 }
 
-
+/* Buy the shop item with index @i */
 function buyUpgrade(i) {
 	if(currentMoney < costUpgrade[i])
 		return;
@@ -721,7 +709,7 @@ function buyUpgrade(i) {
 	
 	changeMoney(-costUpgrade[i]);
 	moneySpentInShop += costUpgrade[i];
-	costUpgrade[i] *= parseInt(costUpgradeFactor[i]);
+	costUpgrade[i] = parseInt(costUpgrade[i] * costUpgradeFactor[i]);
 	checkBuyable();
 	updateWeaponInterface();
 }
@@ -735,30 +723,40 @@ var moneySpentInShop = 0;
 var reachedMaxSpeed = 80;
  
 function displayMilestoneNote(value) {
-	var levelReference = document.getElementById('currentLevel');
-	levelReference.innerHTML = parseInt(value);
-	$('#levelDisplay').animate({opacity: '1', top: '50px'}, 1000);
-
+	document.getElementById('milestoneNote').innerHTML = value;
+	$('#picRef').css('background-image', 'url(../textures/GUIachievement2.png)');
+	
+	var displayRef = document.getElementById('milestoneDisplay');
+	displayRef.innerHTML = 'You have unlocked: ' + milestonesName[value - 1];
+	$(displayRef).animate({opacity: '1', right: '10px'}, 1000);
+	
 	setTimeout(function() {
-    	$(levelReference).animate({opacity: '1'}, 100);
-		$(levelReference).animate({opacity: '0.3'}, 100);
-		$(levelReference).animate({opacity: '1'}, 100);
-		$(levelReference).animate({opacity: '0.3'}, 100);
-		$(levelReference).animate({opacity: '1'}, 100);
-	}, 5000);
-
-	setTimeout(function() {
-		$('#levelDisplay').animate({opacity: '0', top: '0px'}, 1000);
-	}, 1500);
+		$(displayRef).animate({opacity: '0', right: '-110px'}, 1000);
+	}, 4000);
 }
+
+var milestonesName = [
+	"Rattle the Stars",
+	"PowerUp Collector",
+	"Dagobert Duck",
+	"Speed Junkie"
+];
 
 var reachedMilestone = [
 	false,
 	false,
 	false,
 	false
-]
+];
 
+var milestonesHighscore = [
+	1000,
+	1000,
+	1000,
+	1000
+];
+
+// Putt putt
 var openCloseValues = new Array(10);
 
 function showDescription(number) {
@@ -802,22 +800,24 @@ function setFinished(number) {
 	temp.css('background-color', 'rgba(255, 170, 0, 0.6)');
 	temp.css('border-color', 'rgba(255, 255, 255, 0.8)');
 	temp.css('box-shadow', 'none');
-
 }
 
 /**
  * FUNCTIONS FOR OPTIONS
  */
  
-function checkActiveCross(){
+/* Highlights the active crosshair */
+function checkActiveCross() {
 	$('.crossPic').css('border-color','rgba(0, 153, 204, 0.7)');
 	$('#crossPic' + pos).css('border-color', 'rgba(255, 170, 0, 0.9)');
 }
 
+/* Inverts mouse input */
 function invertedMouseFunc() {
 	mouseInverted *= -1;
 }
 
+/* Toggles scrollbar-hiding */
 function hideScrollbar() {
 	var temp = $('.innerScrollbar');
 

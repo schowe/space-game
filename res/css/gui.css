@@ -1,9 +1,10 @@
-body {
-    padding: 0;
-    margin: 0;
-    background: transparent;
-    font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-}
+/**
+ * Despite its name, this file mostly contains stylesheet data related to the HUD.
+ */
+
+/**
+ * Start of persistent HUD
+ */
 
 #scoreBox {
 	position: fixed;
@@ -60,7 +61,7 @@ body {
 	text-align: left;
 }
 
-#ammopic{
+#ammopic {
 	margin-top: 10px;
 	position: fixed;
 	top: 0px;
@@ -74,12 +75,10 @@ body {
 	z-index: 2;
 	transform: skewX(45deg);
 	background-image: url(../textures/GUImetall.jpg);
-
 	position: fixed;
 	left : -40px;
 	bottom: -4px;
 	height: 50px;
-
     border-style: solid;
     border-color: grey;
     border-width: 1px;
@@ -90,12 +89,10 @@ body {
 	z-index: 2;
 	transform: skewX(-45deg);
 	background-image: url(../textures/GUImetall.jpg);
-
 	position: fixed;
 	right : -40px;
 	bottom: -4px;
 	height: 50px;
-
     border-style: solid;
     border-color: grey;
     border-width: 1px;
@@ -115,7 +112,6 @@ body {
 
 #hpBoxValue {
 	height: 100%;
-	//width: 0%;
 	border-radius: 10px;
 }
 
@@ -206,7 +202,7 @@ body {
 	border-radius: 10px;
 }
 
-#speedBox{
+#speedBox {
 	position: fixed;
 	transform: skewX(45deg);
 	color: yellow;
@@ -216,12 +212,66 @@ body {
 	text-align: right;
 }
 
+#powerUps {
+	position: fixed;
+	height: 30px;
+	bottom: 72px;
+	right: 40px;
+}
+#powerUpIcons img {
+	height: 45px;
+	width: auto;
+	display: inline;
+	margin-right: 5px;
+}
+
+.inactive {
+	opacity: 0.4;
+}
+
+#timerBox {
+	z-index: 1;
+	position: fixed;
+	color: yellow;
+	width: 100%;
+	bottom: -25px;
+	height: 50px;
+	border-top: solid;
+	text-align: center;
+	border-color: white;
+	background-color: rgba(255,255,255,0.2);
+}
+
+#timerBoxText {
+	display: inline;
+}
+
+#timerBoxMin {
+	display: inline;
+}
+
+#timerBoxDiv {
+	display: inline;
+}
+
+#timerBoxSec {
+	display: inline;
+}
+
+/**
+ * End of persistent HUD
+ */
+ 
+ 
+/**
+ * Start of splash displays
+ */
+ 
 #levelDisplay {
 	position: fixed;
 	left: 40%;
 	width: 20%;
 	height: 30px;
-
 	background-color: rgba(255,255,255,0.4);
 	border-style: ridge;
 	border-color: white;
@@ -234,17 +284,22 @@ body {
 #levelText {
 	color: yellow;
 	width: auto;
-
 	margin-bottom: 36px;
 	font-size: 28px;
 	line-height: 26.4px;
 }
 
-#milestonesDisplay{
+#currentLevel {
+	margin-top: -30px;
+	font-size: 36px;
+	color: yellow;
+}
+
+#milestoneDisplay {
 	position: fixed;
 
-	top :100px;
-	right :10px;
+	top: 100px;
+	right: -110px;
 	width: 150px;
 	height: 100px;
 
@@ -257,272 +312,17 @@ body {
 	opacity: 1;
 }
 
-#milestoneNote{
+#milestoneNote {
 	color: yellow;
-	width: auto;
-	margin-bottom: 36px;
-	font-size: 28px;
+	margin: auto;
+	font-size: 16px;
 	line-height: 26.4px;
-
 }
 
-#currentLevel {
-	margin-top: -30px;
-	font-size: 36px;
-	color: yellow;
-}
-
-#powerUps {
-	position: fixed;
-	height: 30px;
-	bottom: 72px;
-	right: 40px;
-	/*bottom: 15px;
-	left: 30px;
-	transform: skewX(45deg);*/
-}
-#powerUpIcons img{
-	height: 45px;
-	width:auto;
-	display:inline;
-	margin-right:5px;
-}
-
-.inactive {
-	opacity: 0.4;
-}
-
-#timerBox{
-	z-index: 1;
-	position: fixed;
-	color: yellow;
-
-	width: 100%;
-	bottom: -25px;
-
-	height: 50px;
-
-	border-top: solid;
-	text-align: center;
-	border-color: white;
-	background-color: rgba(255,255,255,0.2);
-}
-
-#timerBoxText{
-	display: inline;
-}
-
-#timerBoxMin{
-	display: inline;
-}
-
-#timerBoxDiv{
-	display: inline;
-}
-
-#timerBoxSec{
-	display: inline;
-}
-
-
-
-#gameOverBox{
-	position: fixed;
-	border-style: solid;
-	border-color: white;
-	border-radius: 30px; 
-	text-align: center;
-	top : -1000px;
-	left: 20%;
-	width: 60%;
-	height: 340px;
-	background-color: rgba(255,255,255,0.2);
-}
-
-#gameOverText1{
-	color : #ff3030;
-	text-shadow: 3px 2px #000000;
-	font-size: 80px;
-}
-
-#gameOverBox2{
-	margin-top: 20px;
-	font-size: 30px;
-	color : white;
-}
-
-#gameOverText2{
-	display: inline;
-}
-
-#gameOverText3{
-	display: inline;
-}
-
-#gameOverButton {
-	margin-top: 50px;
-    border-radius: 38px;
-    text-shadow: 4px 2px 13px #666666;
-    color: #ffffff;
-    font-size: 20px;
-    background: #dbdbdb;
-    padding: 10px 20px 10px 20px;
-}
-
-#gameOverButton:hover {
-  background: #d1d1d1;
-  background-image: linear-gradient(to bottom, #d1d1d1, #b0b0b0);
-  text-decoration: none;
-}
-
-#loadingTexturesOverlay {
-	overflow: hidden;
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100vh;
-    background: black;
-    z-index: 1000;
-    color: white;
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.95);
-}
-
-#loadingTexturesHeader {
-    text-align: center;
-    padding-top: 22%;
-	font-size: 32px;
-}
-
-#loadingTexturesSplash {
-	text-align: center;
-	top: 1%;
-	font-size: 24px;
-}
-
-#shop{
-}
-
-#shopTable{
-	width: 90%;
-	margin-top: 4%;
-	margin-bottom: 4%;
-	margin-left: 5%;
-	margin-right: 5%;
-}
-
-#shopTable tr{
-	height: 100px;
-	width : 100%;
-}
-
-.shopTableTd1{
+#milestonePic {
 	position: relative;
-	width: 100px;
-}
-
-.shopItemPic{
-
+	height: 40px;
+	width: 40px;
 	margin-left: auto;
-    margin-right: auto;
-
-	border: 4px ridge;
-    border-color: rgba(0, 153, 204, 0.7);
-    border-radius: 9px;
-    box-shadow: inset 1px 1px 6px -2px #00ace6, inset 2px 2px 10px -6px #cccccc, 5px 3px 71px -11px rgba(255,255,255,0.5);
-
-	border-radius: 15px;
-	top: 0px;
-	bottom: 0px;
-	width: 100px;
-	height: 100px;
-}
-
-.shopItemPic:hover {
-	background-color: rgba(0,0,0,1);
-	transform:scale(0.95);
-}
-
-
-#shopItemDesc{
-	margin-left: auto;
-    margin-right: auto;
-    color: white;
-
-	width: auto;
-	height: 100px;
-	border-style: solid;
-	border-color: black;
-	background: rgba(0, 0, 0, 0.8);
-}
-
-#costSign{
-	color: yellow;
-	display: inline;
-}
-
-.costUpgrade{
-	margin-left: auto;
-    margin-right: auto;
-	margin-bottom: 0px;
-	color: yellow;
-	display: inline;
-}
-
-#optionContainer{
-	text-align: left;
-	padding-top: 20px;
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-#optionsHeader{
-	text-align: center;
-	opacity: 0.5;
-}
-
-
-#crossContainer{
-	width: auto;
-	height: auto;
-	border-radius: 5px;
-	border-style: solid;
-	background: rgba(0,0,0,0.9);																																																																																																																																																																																																																																								);
-}
-
-.crossPic{
-	opacity: 1;
-
-	border: 2px ridge;
-	background-color: transparent;
-	border-radius: 2px;
-
-	border-color: rgba(0, 153, 204, 0.7);
-	width: 50px;
-	height: 50px;
-
-	padding: 3px;
-	margin: 2px;
-}
-
-.crossPic:hover{
-	transform:scale(1.2);
-}
-
-#volumeBar{
-	height: 25px;
-	width: 200px;
-	border:1px solid black;
-	position: relative;
-}
-
-#volumeSlider{
-	width:1px;
-	height:100%;
-	background-color:red;
-	top:0px;
-	left:0px;
-	position:absolute;
-	cursor:pointer;
-
+	background-image: url(../textures/GUIachievement2.png);
 }
