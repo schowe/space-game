@@ -5,12 +5,13 @@ var minShipSize     = 10;
 var maxShipSize     = 20;
 var maxAsteroidSize = 30;
 var asteroidHP      = 10;
+var smallityBorder  = 20;
 
 var geometryA, textureA;
 
 var despawnDistance = 700; // aus core.js (Backplane der Camera) (changed)
 
-function Asteroid(location,radius, direction, speed, level, small) {
+function Asteroid(location,radius, direction, speed, level) {
     console.log("Asteroid init");
     // Mesh setzen
     if(small) {
@@ -38,13 +39,15 @@ function Asteroid(location,radius, direction, speed, level, small) {
 
     this.level      = level;
     this.isAlive    = true;
-    this.isSmall 	= small;
+    this.isSmall 	= (radius <= 20) ? true : false;
     this.HP         = asteroidHP;
 
     // setze Rotation
-    this.rotation.set(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random(), 'XYZ');
+    this.rotation.set(0.05 * Math.random(),
+                            0.05 * Math.random(),0.05 * Math.random(), 'XYZ');
 
-    this.rotateSpeed = new THREE.Vector3(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random());
+    this.rotateSpeed = new THREE.Vector3(0.05 * Math.random(),
+                                    0.05 * Math.random(),0.05 * Math.random());
 
     // setze Hitbox
     this.hitBox = this.getHitBox();
@@ -77,7 +80,7 @@ Asteroid.prototype.move = function(delta) {
 
 }
 
-Asteroid.prototype.collide(other, type) {
+Asteroid.prototype.collide = function(other, type) {
     switch(type) {
         case "ASTEROID": case "asteroid": case "Asteroid":
             if(this.isSmall) {

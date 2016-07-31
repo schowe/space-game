@@ -8,7 +8,7 @@
 // Hier aufzurufen:
 // - init()
 // - update(delta)
-var asteroids = [], enemies = [], asteroidHitBoxes = [],
+var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
     enemy, asteroid, worldRadius, gameLevel;
 
 function Bot() {
@@ -103,18 +103,25 @@ function Bot() {
         // rueckwaerts, um beim Loeschen nicht ein Element zu ueberspringen
         for(var i = enemies.length - 1; i >= 0; i--) {
             enemy = enemies[i];
-            // TODO: nicht immer
+
             if(!enemy.isAlive) {
                 level = enemy.level;
                 // altes Loeschen
                 scene.remove(enemy);
-                enemies.splice(i,1);
 
-                enemy = createEnemy(level);
-                enemies[i] = enemy;
-                enemyHitBoxes[i] = enemy.hitBox;
+                // und gegebenenfalls neu setzen
+                if(enemy.respawn) {
+                    enemy = createEnemy(level);
+                    enemies[i] = enemy;
+                    enemyHitBoxes[i] = enemy.hitBox;
+                    scene.add(enemy);
+                } else {
+                    enemies.splice(i,1);
+                    enemyHitBoxes.splice(i,1);
+                }
+
                 console.log("Respawned: " + enemies.length);
-                scene.add(enemy);
+
             }
         }
     }
@@ -164,7 +171,7 @@ function Bot() {
 
         console.log("Finally Create Asteroid");
 
-        asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level, false);
+        asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level);
 
         return asteroid;
     }

@@ -68,6 +68,7 @@ function Enemy(location, speed, level, typ) {
     this.onPlayerAttack  = false;
     this.delta      = 0;
     this.HP         = enemyHP;
+    this.respawn    = false;
 
     // Initialen Ausrichtungsvektor
     this.lookAt(ship.position);
@@ -878,7 +879,7 @@ Enemy.prototype.getObstacleProjectilesHitBox = function() {
 
 
 // TODO: spezifizieren
-Enemy.prototype.collide(other, type) {
+Enemy.prototype.collide = function(other, type) {
     switch(type) {
         case "ASTEROID": case "asteroid": case "Asteroid":
 
