@@ -1,6 +1,6 @@
 // Asteroidenklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
-// (Ausnahme: Collision soll onCollisionDetect aufrufen)
+// (Ausnahme: Collision soll collide aufrufen)
 var minShipSize     = 10;
 var maxShipSize     = 20;
 var maxAsteroidSize = 30;

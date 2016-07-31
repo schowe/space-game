@@ -16,7 +16,7 @@ var asteroids, enemies, enemy, asteroid,
 
 // Enemyklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
-// (Ausnahme: Collision soll auf onCollisionDetect zugreifen)
+// (Ausnahme: Collision soll auf collide zugreifen)
 function Enemy(location, speed, level, typ) {
     // TODO: unterschiedliche Enemies
 
@@ -399,22 +399,6 @@ Enemy.prototype.shoot = function(aimPosition) {
     // TODO: Shoot von Weapon aufrufen von this.position nach futurePosition
 
 
-}
-
-
-Enemy.prototype.onCollisionDetect = function(other, typ) {
-
-    // TODO:
-    // falls Schiff getroffen:
-    if(other instanceof Enemy) {
-    //       this = bot.createEnemy(level);
-    }
-    // Asteroid, Schiff, Schuss von Gegner ? -> neu setzen
-    // Schuss vom Spieler ? -> explodieren
-
-    // nutze die Methoden {asteroid,enemy}.onCollisionDetect(other)
-
-    // gebe "Ueberlebende" zurueck
 }
 
 
