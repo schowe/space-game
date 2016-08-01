@@ -212,7 +212,7 @@ function handleProjectiles() {
 
         // }
 
-        //}
+        }
 
     }
 }
