@@ -25,6 +25,7 @@ function handleAsteroids() {
                 asteroids[i].collide(player, "player");
                 // asteroidHitBySpaceship(i);
                 player.playerHitByAsteroid();
+                console.log("Asteroid vs Player");
             }
         }
 
@@ -70,7 +71,7 @@ function handleProjectiles() {
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
                 if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
                     projectiles[i])) {
-                    console.log("hit");
+                    //console.log("hit");
                     successRocket(i);
                     //destruction implementet in handleCollision()
                     toDestroy = j;

@@ -114,14 +114,14 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
         var renew = false;
         // Falls Spieler umgedreht (im Vergleich zum initialisieren), neu machen
         if(MATH.dot(this.oldPlayerDir,this.playerDirection) < 0) {
-            console.log("please renew");
+            //console.log("please renew");
             renew = true;
         }
 
         optimalDir = this.moveCurve(renew, delta);
         optimalDir.normalize();
 
-        console.log("Points Curve: "+ this.points.length);
+        //console.log("Points Curve: "+ this.points.length);
         // Attacke beendet, wenn Kurve abgelaufen
         if(this.points.length == 0) {
             this.onPlayerAttack = false;
@@ -190,8 +190,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
 
     // 6. Schritt: update Position
-    console.log("Position enemy before: ("+this.position.x+","+this.position.y+","+this.position.z+")");
-    console.log("Direction: ("+dir.x+","+dir.y+","+dir.z+")");
+    //console.log("Position enemy before: ("+this.position.x+","+this.position.y+","+this.position.z+")");
+    //console.log("Direction: ("+dir.x+","+dir.y+","+dir.z+")");
 
     dir.multiplyScalar(delta * this.speed);
 
@@ -202,7 +202,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
 
 
     console.log("Position enemy after: ("+this.position.x+","+this.position.y+","+this.position.z+")");
-    console.log("Direction at init: ("+this.direction.x+","+this.direction.y+","+this.direction.z+")");
+    //console.log("Direction at init: ("+this.direction.x+","+this.direction.y+","+this.direction.z+")");
 
 
 
@@ -233,7 +233,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
 
     // Falls noch nicht erzeugt oder Spieler sich um mehr als 90° gedreht hat
     if(renew) {
-        console.log("renews");
+        //console.log("renews");
         this.points = [];
 
         this.oldPlayerDir = ship.position;
@@ -295,17 +295,17 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         curveLength += p2.distanceTo(ship.position);
 
         this.points = curve.getPoints(Math.round(20 * this.speed / (delta * curveLength)));
-        console.log(this.points.length);
+        //console.log(this.points.length);
         //this.points.shift();
     }
 
     // Punkte abarbeiten mit points.shift();
     var dir = this.points.shift();
-    console.log(dir.x,dir.y,dir.z);
+    //console.log(dir.x,dir.y,dir.z);
     dir.sub(this.position);
 
     //console.log(dir.x,dir.y,dir.z);
-    console.log(this.points.length);
+    //console.log(this.points.length);
 
     return dir;
 }
@@ -319,9 +319,9 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
 
     var bot = Bot();
     var asteroids = bot.getAsteroids();
-    console.log("Asteroids:" + asteroids.length);
+    //console.log("Asteroids:" + asteroids.length);
     var enemies   = bot.getEnemies();
-    console.log("Enemies: " + enemies.length);
+    //console.log("Enemies: " + enemies.length);
 
     // Setze, da Abstand nach vorne wichtiger, Schiff voruebergehend auf die
     // Position mit idealer Flugrichtung im naechsten Frame
@@ -449,7 +449,7 @@ Enemy.prototype.avoidObstacle = function(optimalDir, obstacles, delta) {
             avoidDir = MATH.clone(U);
         } else {
             avoidDir = MATH.negated(U);
-            console.log("this.checkDirection(U, obstacle) = "+ this.checkDirection(U, obstacle));
+            //console.log("this.checkDirection(U, obstacle) = "+ this.checkDirection(U, obstacle));
         }
     }
 
@@ -463,7 +463,7 @@ Enemy.prototype.avoidObstacle = function(optimalDir, obstacles, delta) {
     dir.multiplyScalar(bestImpact);
     dir.add(avoidDir);
 
-    console.log(dir.x, dir.y, dir.z);
+    //console.log(dir.x, dir.y, dir.z);
 
     return dir;
 }
