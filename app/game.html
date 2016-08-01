@@ -545,16 +545,51 @@
 						
 						<div id="optionsHeader">--- Sound Options ---</div>
 						<div id="soundOptions">
+                        <!--
 							<table>
 								<tr>
-									<td>Volume</td>
-									<td>
-										<div id="volumeBar">
-											<div id=volumeSlider></div>
-										</div>
+									<td class="blabla">Volume</td>
+                                </tr>
+                                <tr>
+									<td class="blabla">
+                                        <
+                                        <div class="volumeBar">
+                                        <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/>
+                                        </div>
+                                        <span id="volumeText"> 67% </span>
+                                        <div id="bla" onClick="showAdvancedSoundOptions()"> advanced </div>
+
+                                        <div id="advancedSoundOptions">
+                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> <br>
+                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
+                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
+                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
+
+                                        </div>
+
 									</td>
 								</tr>
 							</table>
+                        -->
+
+                        <span class="volumeDescriptor"> volume: </span>
+                        <span class="volumeBar"> 
+                            <input type="range" min="0" max="1" step="0.05" onchange="changeVolume(this.value)"/> 
+                        </span>
+                        <span id="volumeText"> 80% </span>
+                        <span class="advancedSoundSign" onclick="showAdvancedSoundOptions()"> advanced </span>
+
+                        <div id="advancedSoundOptions">
+                            <div class="volumeDescriptor"> Laser: </div>
+                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> <br>
+                            <div class="volumeDescriptor"> Rocket: </div>
+                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
+                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
+                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
+
+                        </div>
+
+
 						</div>
 						<div id="optionsHeader">--- Crosshair Options ---</div>
 						<div id="crossOptions">
