@@ -4,6 +4,21 @@ var ParticleHandler = function () {
     var currentImplosions = [];
     var currentHalos = [];
 
+    function addlittleExplosion(position, lifetime, color, speed, size){
+        if (speed == undefined) speed = 1;
+        if (size == undefined) size = 1;
+
+        // explosion 15 bewegungsschritte laufen lassen
+
+        var explosion = new ExplosionParticleRenderer(color, 2500, fileLoader.get("particle_grey"), lifetime, position, speed, size);
+
+      /*  for (var i = 0; i < 15; i++) {
+
+            explosion.update();
+        }*/
+        currentExplosions.push(explosion); 
+    }
+
     function addExplosion(position, lifetime, color, speed, size) {
 
 
@@ -38,6 +53,9 @@ var ParticleHandler = function () {
     }
 
     return {
+
+        addlittleExplosion: addlittleExplosion,
+
         addExplosion: addExplosion,
 
         addImplosion: addImplosion,
