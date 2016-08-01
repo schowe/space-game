@@ -213,7 +213,7 @@ function Bot() {
         for(var i = asteroids.length - 1; i >= 0; i--) {
             //console.log("HP of "+i+" "+asteroidHP[i]);
             var asteroid = asteroids[i];
-            if(/*!asteroid.isAlive*/asteroidHP[i]<=0){
+            if(asteroidHP[i]<=0){
                 respawnAsteroid(asteroid, i);
             }else{
                 asteroid.move(delta);
