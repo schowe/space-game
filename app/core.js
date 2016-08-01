@@ -19,6 +19,8 @@ var movement;
 var particleHandler;
 var collision;
 var stats;
+var starfield;
+var world;
 
 // TODO: eigentlich in Interface
 var scoreValues = {

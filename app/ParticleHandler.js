@@ -12,7 +12,7 @@ var ParticleHandler = function () {
 
         // explosion 15 bewegungsschritte laufen lassen
 
-        var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime + 2, position, speed, size);
+        var explosion = new ExplosionParticleRenderer(color, 5000, fileLoader.get("particle_grey"), lifetime + 2, position, speed, size);
 
         for (var i = 0; i < 15; i++) {
 
@@ -25,7 +25,7 @@ var ParticleHandler = function () {
 
     function addImplosion(position) {
 
-        var implosion = new ImplosionParticleRenderer(0xffcc11, 10000, fileLoader.get("particle_grey"), position, 1);
+        var implosion = new ImplosionParticleRenderer(0xffcc11, 5000, fileLoader.get("particle_grey"), position, 1);
 
         currentImplosions.push(implosion);
 
@@ -34,7 +34,7 @@ var ParticleHandler = function () {
 
     function addHalo(position, lifetime, color) {
         // TODO: lifetime, size, speed
-        var halo = new HaloParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime, position, 1, 30);
+        var halo = new HaloParticleRenderer(color, 5000, fileLoader.get("particle_grey"), lifetime, position, 1, 30);
 
         currentHalos.push(halo);
 
