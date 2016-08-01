@@ -165,23 +165,24 @@ function shootLaser(){
         //create mesh
         var laser       = new THREE.Mesh(shootGeometry,  shootMaterial);
 
+        // dummy points to check collision with laser
+        var p1 = new THREE.Vector3(0, laser.geometry.parameters.height / 2, 0);
+        var p2 = new THREE.Vector3(0, - laser.geometry.parameters.height / 2, 0);
+        var dummyDot1 = new THREE.Object3D();
+        var dummyDot2 = new THREE.Object3D();
+        dummyDot1.position = p1;
+        dummyDot2.position = p2;
 
-        var p1 = new THREE.Vector3(0, 250, 0);
-        var p2 = new THREE.Vector3(0, -250, 0);
-        var dotGeometry1 = new THREE.Object3D();
-        var dotGeometry2 = new THREE.Object3D();
-        dotGeometry1.position = p1;
-        dotGeometry2.position = p2;
+        // names will be checked in CollisionHandling
+        dummyDot1.name = "upperPoint";
+        dummyDot2.name = "lowerPoint";
 
-        dotGeometry1.name = "upperPointGeometry";
-        dotGeometry2.name = "lowerPointGeometry";
-
-        laser.add(dotGeometry1);
-        laser.add(dotGeometry2);
-
+        // add points to laser
+        laser.add(dummyDot1);
+        laser.add(dummyDot2);
 
         //set name for recognition in render-function
-        laser.name = "LaserHitBox";
+        laser.name = "Laser";
 
         //translate bullet to ship position
         laser.position.x = ship.position.x;
@@ -193,44 +194,37 @@ function shootLaser(){
 
         //rotate: laser beam would be pointing up otherwise
         laser.rotateX(1.57);
-
         laser.translateY(-85);
 
         //add bullet to scene
         scene.add(laser);
 
-
-        //add Hitbox to projectiles list so it will be moved (visible laserbeam will be moved with userData field)
-
+        //add laser to projectiles list so it will be moved
         projectiles.push(laser);
     }
 }
 
 //projectileIndex: Index in projectile list of laser hitbox
 function successLaser(projectileIndex){
-    //get to hitbox belonging laserbeam
-    var laser = projectiles[projectileIndex].userData;
-
-    //remove Hitbox and laserbeam from scene
-    scene.remove(projectiles[projectileIndex]);
+    //get laser
+    var laser = projectiles[projectileIndex];
+    //remove laser and laserbeam from scene
     scene.remove(laser);
-    //remove Hitbox from projectiles
+    //remove laser from projectiles
     projectiles.splice(projectileIndex,1);
 }
 
 function successRocket(projectileIndex){
-	//get to hitbox belonging rocket
-	var rocket = projectiles[projectileIndex].userData;
-
+	//get rocket
+	var rocket = projectiles[projectileIndex];
 	//start explosion
 	rocketExplode(rocket);
 
-	//remove Hitbox and rocket from scene
-	scene.remove(projectiles[projectileIndex]);
-    scene.remove(rocket);
+	//remove rocket from scene
+  scene.remove(rocket);
 
-    //remove Hitbox from projectiles
-    projectiles.splice(projectileIndex,1);
+  //remove rocket from projectiles
+  projectiles.splice(projectileIndex,1);
 }
 
 //Shooting Rocket
@@ -244,52 +238,50 @@ function shootRocket(){
    		//play rocket-sound
    		rocketAudio.play();
 
-        // create rocket
-        var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
+      // create rocket
+      var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
 
-        var rocketHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
+      // dummy points to check collision with laser
+      var p1 = new THREE.Vector3(0, 500, 0);
+      var p2 = new THREE.Vector3(0, -500, 0);
+      var dummyDot1 = new THREE.Object3D();
+      var dummyDot2 = new THREE.Object3D();
+      dummyDot1.position = p1;
+      dummyDot2.position = p2;
 
-	  	//set name for recocnition in render-function
-  	 	rocketHitBox.name = "RocketHitBox";
+      // names will be checked in CollisionHandling
+      dummyDot1.name = "upperPoint";
+      dummyDot2.name = "lowerPoint";
 
-        //scaling the rocket
-        rocket.scale.x = rocket.scale.y = rocket.scale.z = 5;
+      // add points to laser
+      rocket.add(dummyDot1);
+      rocket.add(dummyDot2);
 
-        //set position at position of the spaceship
-        rocket.position.x = ship.position.x;
-        rocket.position.y = ship.position.y;
-        rocket.position.z = ship.position.z;
+      //set name for recocnition in render-function
+  	 	rocket.name = "Rocket";
 
-        rocketHitBox.position.x = ship.position.x;
-        rocketHitBox.position.y = ship.position.y;
-        rocketHitBox.position.z = ship.position.z;
+      //scaling the rocket
+      rocket.scale.x = rocket.scale.y = rocket.scale.z = 5;
 
-        //orientate rocket like spaceship
-        rocket.lookAt(targetPosition);
+      //set position at position of the spaceship
+      rocket.position.x = ship.position.x;
+      rocket.position.y = ship.position.y;
+      rocket.position.z = ship.position.z;
 
-        rocketHitBox.lookAt(targetPosition);
+      //orientate rocket like spaceship
+      rocket.lookAt(targetPosition);
 
-        //rotate rocket; rocket would fly backwards otherwise
-        rocket.rotateY(3.1415);
+      //rotate rocket; rocket would fly backwards otherwise
+      rocket.rotateY(3.1415);
 
-  	 	//rotate: rocket would be pointing up otherwise (rocket has initially a different orientation then the rocket)
-	  	rocketHitBox.rotateX(1.57);
-
-        //add rocket to scene
-        scene.add(rocket);
-
-    	//hitbox should be invisible
-    	//rocketHitBox.visible = false;
-
-    	scene.add(rocketHitBox);
-
-    	rocketHitBox.userData = rocket;
+      //add rocket to scene
+      scene.add(rocket);
 
     	//add hitbox to list for rendering and collision. rocket is rendered via hitbox (see renderWeapons())
-    	projectiles.push(rocketHitBox);
+    	projectiles.push(rocket);
 
-        //reset timer
-        timeSinceRocket = 0;
+      //reset timer
+      timeSinceRocket = 0;
     }
 
 }
@@ -374,27 +366,24 @@ function renderWeapons(){
 		//check name and proceed accordingly
 
 	   	//if projectile is a laser hitbox:
-		if(projectiles[bul].name == "LaserHitBox"){
+		if(projectiles[bul].name == "Laser"){
 
 			//translate in mooving direction
 	    	projectiles[bul].translateY(-4000 * add);
 
 	    	//translate to hitbox belonging laser-beam
-	    	var laser = projectiles[bul].userData;
-	    	laser.translateY(-4000 * add);
-
 	    	if (dis > biggerSphereRadius){
     			successLaser(bul);
     		}
 	    }
 
   		//if projectile is a rocket Hitbox:
-	    else if(projectiles[bul].name == "RocketHitBox"){
-			//translate in mooving direction (translateZ becouse of different orientation then laser)
+	    else if(projectiles[bul].name == "Rocket"){
+			  //translate in mooving direction (translateZ becouse of different orientation then laser)
 	    	projectiles[bul].translateZ(2000 * add);
 
 	    	//translate to hitbox belonging rocket
-	    	var rkt = projectiles[bul].userData;
+	    	var rkt = projectiles[bul];
 	    	rkt.translateZ(2000 * add);
 	    	//console.log(rkt);
 

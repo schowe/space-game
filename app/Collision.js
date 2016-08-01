@@ -282,7 +282,7 @@ var Collision = function() {
 
     function intersectPointSphere(point, sphere) {
 
-        console.log(point);
+        //console.log(point);
 
         var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
         var distance = Math.sqrt((globalPoint.x - sphere.position.x) * (globalPoint.x - sphere.position.x) +
