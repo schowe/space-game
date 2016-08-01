@@ -62,7 +62,6 @@ function handleProjectiles() {
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
                 if (collision.intersectPointSphere(projectiles[i].getObjectByName("upperPoint"), asteroidHitBoxes[j]) ||
                         collision.intersectPointSphere(projectiles[i].getObjectByName("lowerPoint"), asteroidHitBoxes[j])) {
-                    console.log("hit");
                     successRocket(i);
                     hitAsteroid(j, "Rocket");
                     projectileSucceded = true;
@@ -96,94 +95,54 @@ function handleProjectiles() {
         }
 
 
-        // /** NICHT LÖSCHEN **/
-        // // Collect items via projectiles
-        // if (projectileSucceded === false) {
+        // Collect items via projectiles
+        if (projectileSucceded === false) {
 
-        //     if (projectiles[i].name === "LaserHitBox") {
-        //         for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
-        //             if (collision.intersectBoxCylinder(itemHitBoxes[j],
-        //                     projectiles[i])) {
-        //                 successLaser(i);
-        //                 collected(j);
-        //                 break;
-        //             }
-        //         }
-        //     }
-
+            if (projectiles[i].name === "Laser") {
+                for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
+                    if (collision.intersectBoxCylinder(itemHitBoxes[j],
+                            projectiles[i])) {
+                        successLaser(i);
+                        collected(j);
+                        break;
+                    }
+                }
+            }
 
 
-        //     else if (projectiles[i].name === "RocketHitBox") {
-        //         for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
-        //             if (collision.intersectBoxCylinder(itemHitBoxes[j],
-        //                     projectiles[i])) {
-        //                 successRocket(i);
-        //                 collected(j);
-        //                 break;
-        //             }
-        //         }
-        //     }
+
+            else if (projectiles[i].name === "Rocket") {
+                for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
+                    if (collision.intersectBoxCylinder(itemHitBoxes[j],
+                            projectiles[i])) {
+                        successRocket(i);
+                        collected(j);
+                        break;
+                    }
+                }
+            }
 
 
-        //     else if (projectiles[i].name === "Explosion") {
-        //         for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
-        //             if (collision.intersectSphereBox(itemHitBoxes[j],
-        //                     projectiles[i])) {
-        //                 collected(j);
-        //             }
-        //         }
-        //     }
+            else if (projectiles[i].name === "Explosion") {
+                for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
+                    if (collision.intersectSphereBox(itemHitBoxes[j],
+                            projectiles[i])) {
+                        collected(j);
+                    }
+                }
+            }
 
 
-        //     else if (projectiles[i].name === "MachineGun") {
-        //         for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
-        //             if (collision.intersectSphereBox(itemHitBoxes[j],
-        //                     projectiles[i])) {
-        //                 /** NICHT LÖSCHEN **/
-        //                 // successMachineGunBullet(i);
-        //                 collected(j);
-        //             }
-        //         }
-        //     }
-
-        /** NICHT LÖSCHEN **/
-        //     if (projectiles[i].name === "LaserHitBox") {
-        //         if (collision.intersectBoxCylinder(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             // successLaser(projectiles[i]);
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-        //     else if (projectiles[i].name === "RocketHitBox") {
-        //         if (collision.intersectBoxCylinder(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             // successRocket(projectiles[i]);
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-        //     else if (projectiles[i].name === "Explosion") {
-        //         if (collision.intersectSphereBox(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-        //     else if (projectiles[i].name === "MachineGun") {
-        //         if (collision.intersectSphereBox(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             // successMachineGunBullet(projectiles[i]);
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-
-        // }
+            else if (projectiles[i].name === "MachineGun") {
+                for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
+                    if (collision.intersectSphereBox(itemHitBoxes[j],
+                            projectiles[i])) {
+                        /** NICHT LÖSCHEN **/
+                        // successMachineGunBullet(i);
+                        collected(j);
+                    }
+                }
+            }
 
 
         /** NICHT LÖSCHEN **/
