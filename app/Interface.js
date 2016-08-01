@@ -28,6 +28,8 @@ function Interface() {
 		init: function() {
 			setMaxHP(100);
 			setHP(100);
+			setMaxShield(100);
+			setShield(70);
 			setMoney(22222222222);
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
@@ -35,8 +37,6 @@ function Interface() {
 			displayLevel(1);
 			setLevelTimer(260);
 			startLevelTimer();
-			changeHP(-50);
-			setTimeout(function() {changeHP(-10)}, 5000);
 		},
 		
 		/* Toggles the pause menu */
@@ -242,15 +242,21 @@ function updateWeaponInterface() {
  * FUNCTIONS FOR HP
  */
 
- 	var currentHP = 0;
-	var maxHP = 0;
-	var displayedHP = 0;
-	var hpBoxCurrent = document.getElementById('hpBoxValue');
+var currentHP = 0;
+var maxHP = 0;
+var displayedHP = 0;
+var hpBoxCurrent = document.getElementById('hpBoxValue');
+
+var currentShield = 0;
+var maxShield = 0;
+var displayedShield = 0;
+var shieldBoxCurrent = document.getElementById('shieldBoxValue');
 
 /* Changes HP by @value */
 function changeHP(value) {
 	var i = 0;
-	var ticks = 200;
+	var ticks = 100;
+	var temp = 0;
 	value = parseInt(value);
 	currentHP = currentHP + value;
 
@@ -259,16 +265,22 @@ function changeHP(value) {
 
 	// Amount of HP per tick
 	var hpTick = value / ticks;
-	
-	//if (value < 0)
-		//subShield(value, hpTick);
-	
+	console.log(value);
+	console.log(hpTick);
 	var tempID = setInterval(frame, 1);
 
 	function frame() {
 		if(i < ticks) {
 			if (!Pause) {
+				temp = hpTick;
+				
+				if(hpTick < 0)
+					// Reduce shield first
+					hpTick = reduceShield(hpTick);
+				
 				displayedHP += hpTick;
+				hpTick = temp;
+				
 				if (displayedHP > maxHP) {
 					clearInterval(tempID);
 					displayedHP = maxHP;
@@ -293,47 +305,37 @@ function changeHP(value) {
 	}
 }
 
-var currentShield = 0;
-var maxShield = 0;
-var displayedShield = 0;
-
-//return: restValue, restTicks, restOfTick
-
-function subShield(value, hpTick) {
-	var i = 1;
-	var restValue = 0;
-	currentShield += value;
+/* Reduces shield by @hpTick */
+function reduceShield(hpTick) {
+	var restTick = 0;
+	currentShield += hpTick;
 	
-	if (currentShield < 0) {
-		restValue = currentShield;
+	if(currentShield < 0) {
+		restTick = currentShield;
 		currentShield = 0;
 	}
 	
-	var tempID = setInterval(frame, 1);
-	
-	function frame() {
-		if(i <= ticks) {
-			if(Pause)
-				return;
-				
-			displayedShield += hpTick;
+	displayedShield = parseInt(currentShield + 0.5);
+	updateShieldDisplay();
+	return restTick;
+}
 
-			if (displayedShield <= 0) {
-				clearInterval(tempID);
-				var restOfTick = displayedShield;
-				displayedShield = 0;
-				//HTML fehlt noch; updateShieldDisplay?
-				document.getElementById('currentShield').innerHTML = '' + 0;
-				shieldBoxCurrent.style.width = 0;
-				return [restValue, (ticks - i), restOfTick];
+function rechargeShield() {
+	var i = 0;
+	var tempID = setInterval(function() {
+		if(displayedShield < maxShield) {
+			console.log(1);
+			if(!Pause) {
+				console.log(2);
+				currentShield = ++displayedShield;
+				updateShieldDisplay();
 			}
-			
-			updateShieldDisplay();
-			i++;			
-		} else {
-			clearInterval(tempID);
-		}
-	}
+			console.log(++i);
+		} else clearInterval(tempID);
+	}, 10);
+	
+	console.log(3);
+	updateShieldDisplay();
 }
 
 /* Sets HP to @value */
@@ -345,20 +347,37 @@ function setHP(value) {
 		return;
 	}
 	
+	if(value > maxHP)
+		value = maxHP;
+
 	currentHP = value;
 	displayedHP = value;
-	
-	if(value > maxHP) {
-		currentHP = maxHP;
-		displayedHP = maxHP;
-	}
-	
 	updateHPDisplay();
 }
 
-/* Returns HP */
+/* Sets shield to @value */
+function setShield(value) {
+	value = parseInt(value + 0.5);
+	
+	if(value < 0)
+		value = 0;
+	
+	if(value > maxShield)
+		value = maxShield;
+	
+	currentShield = value;
+	displayedShield = value;
+	updateShieldDisplay();
+}
+
+/* Returns currentHP */
 function getHP() {
 	return currentHP;
+}
+
+/* Returns currentShield */
+function getShield() {
+	return currentShield;
 }
 
 /* Sets maxHP to @value */
@@ -368,9 +387,21 @@ function setMaxHP(value) {
 	updateHPDisplay();
 }
 
+/* Sets maxShield to @value */
+function setMaxShield(value) {
+	maxShield = parseInt(value + 0.5);
+	document.getElementById('maxShield').innerHTML = '' + maxShield;
+	updateShieldDisplay();
+}
+
 /* Returns maxHP */
 function getMaxHP() {
 	return maxHP;
+}
+
+/* returns maxShield */
+function getMaxShield() {
+	return maxShield;
 }
 
 /* Updates the displayed HP */
@@ -388,15 +419,16 @@ function updateHPDisplay() {
 
 /* Updates the displayed Shield */
 function updateShieldDisplay() {
-	// Update the HP label
-	var temp = document.getElementById('currentShield');
-	temp.innerHTML = parseInt(displayedShield + 0.5);
+	// Update the shield label
+	var tempRef = document.getElementById('currentShield');
+	tempRef.innerHTML = parseInt(displayedShield + 0.5);
 
-	// Update the HP width
+	// Update the shield width
 	shieldBoxCurrent.style.width = displayedShield / maxShield * 100 + '%';
 
-	// Update the HP color
-	//shieldUpdateColor();
+	// Update the shield color
+    var temp = parseInt(255.5 * displayedShield / maxShield);
+	shieldBoxCurrent.style.background = '#00' + padHex(temp.toString(16)) + 'FF';
 }
 
 /* Sets the HP bar to a calculated color-gradient. */
@@ -416,7 +448,6 @@ function hpUpdateColor() {
  
 /* Pads @hex if it is shorter than 2 digits */
 function padHex(hex) {
-	
 	while(hex.length < 2) {
 		hex = '0' + hex;
 	}
@@ -890,6 +921,31 @@ function hideScrollbar() {
 		default:
 			temp.css('margin-right', '-16px');
 			document.getElementById('hideScrollbar').checked = true;
+			break;
+	}
+}
+
+function invertShieldBar() {
+	var shieldBox = $('#shieldBox');		//rotate
+	var shieldTextBox = $('#shieldTextBox');	//rotate, left -> 40%, top -> bottom -> 33%
+	
+	switch(shieldBox.css('transform')) {
+		case 'matrix(-1, 0, 0, -1, 0, 0)':
+			console.log(1);
+			shieldBox.css('transform', '');
+			shieldTextBox.css('transform', 'skewX(45deg)');
+			shieldTextBox.css('top', '');
+			shieldTextBox.css('bottom', '33%');
+			shieldTextBox.css('left', '40%');
+			break;
+		default:
+			console.log(2);
+			console.log(shieldBox.css('transform'));
+			shieldBox.css('transform', 'rotate(180deg)');
+			shieldTextBox.css('transform', 'rotate(180deg) skewX(45deg)');
+			shieldTextBox.css('top', '3%');
+			shieldTextBox.css('bottom', '');
+			shieldTextBox.css('left', '50%');
 			break;
 	}
 }
