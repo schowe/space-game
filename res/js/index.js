@@ -5,7 +5,6 @@ var spaceshipGroup, sphere, planet;
 var rayParticleRenderer, rayStart, rayEnd;
 
 var fileLoader = FileLoader();
-var network = Network();
 
 
 
@@ -21,7 +20,6 @@ $(function () {
         if (fileLoader.isReady()) {
             console.log("done");
             clearInterval(loadingLoop);
-            loadHighscore();
             init();
             fadeOutLoadingOverlay();
             animate();
@@ -166,23 +164,6 @@ $(function () {
             $("#overlay-menu").css("margin-left", 50-x*scaling+"px");
             $("#overlay-menu").css("padding-top", 50-y*scaling+"px");
         }
-    }
-
-    function loadHighscore() {
-        network.getTop10(function (highscore) {
-            for (var i = 0; i < highscore.length; i++) {
-                var score = highscore[i];
-                var tableTag =
-                    "<div class='row highscore-body'>" +
-                        "<div class='col-md-2'>"+(i+1)+"</div>" +
-                        "<div class='col-md-4'>"+score.player+"</div>" +
-                        "<div class='col-md-2'>"+score.level+"</div>" +
-                        "<div class='col-md-3'>"+score.score+"</div>" +
-                    "</div>";
-                $("#overlay-highscore").html($("#overlay-highscore").html()+tableTag);
-                console.log("append");
-            }
-        });
     }
 
 
