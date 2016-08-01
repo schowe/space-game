@@ -574,9 +574,7 @@ function checkMilestones(){
 	
 	changeMilestoneProgress(1, reachedMaxSpeed, 2000);
 	changeMilestoneProgress(2, reachedMaxSpeed, 4000);
-
-	//changeMilestoneProgress(2, 80, 100);
-
+	changeMilestoneProgress(3, collectedPowerups, 15);
 	changeMilestoneProgress(4, reachedMoney, 50000);
 	changeMilestoneProgress(5, reachedMoney, 100000);
 	changeMilestoneProgress(6, moneySpentInShop, 10000);
