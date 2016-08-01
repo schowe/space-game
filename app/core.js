@@ -19,6 +19,7 @@ var movement;
 var particleHandler;
 var collision;
 var stats;
+var network;
 
 // TODO: eigentlich in Interface
 var scoreValues = {
@@ -37,6 +38,7 @@ $(function () {
     // wird ausgeführt, wenn das Dokument geladen ist:
 
     // Module initialisieren
+    network = Network();
     fileLoader = FileLoader();
     LoadingScreen();
     interface = Interface();
