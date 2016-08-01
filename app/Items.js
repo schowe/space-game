@@ -1,7 +1,8 @@
 var powerUps = [];
 var types = [];
 var itemHitBoxes = [];
-var shieldActive = false;
+var shieldActive = false; 
+var collectedPowerups = 0;
 
 function spawnPowerUp(x, y, z, type) {
 
@@ -210,6 +211,7 @@ function collected(itemNumber) {
 	}
 
 	updateWeaponInterface();
+	collectedPowerups++;
     scene.remove(powerUps[itemNumber]);
     scene.remove(itemHitBoxes[itemNumber]);
 
