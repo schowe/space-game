@@ -10,6 +10,7 @@ var smallSphereRadius = 1000;
 var biggerSphereRadius = 5000;
 var asteroidRadius = 3.5;
 var defaultAsteroidHP = 10;
+var destroyedAsteroids = 0; //für die milestones
 
 //starStuff
 function createStars() {
@@ -212,6 +213,10 @@ function hitAsteroid(asteroidNumber, collisionType) {
 //Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber, collisionType) {
 
+	//für die Milestones
+	destroyedAsteroids++;
+	checkMilestones(); 
+	
     asteroidAudio.play();
 
     // update Highscore

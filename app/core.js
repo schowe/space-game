@@ -21,13 +21,6 @@ var particleHandler;
 var collision;
 var stats;
 
-// TODO: eigentlich in Interface
-var scoreValues = {
-    "itemCollected": 10,
-    "enemyDestroyed": 50,
-    "asteroidDestroyed": 20
-};
-
 // Postprocessing
 var composer, glitchPass, glitchPassEnabled;
 

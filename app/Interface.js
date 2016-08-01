@@ -1,7 +1,44 @@
+var level = 1;
 var scoreValues = {
-	"asteroidDestroyed" : 20,
-	"enemyDestroyed" : 50,
-	"itemCollected" : 10
+    "itemCollected": 10,
+    "enemyDestroyed": 50,
+    "asteroidDestroyed": 20
+};
+
+levelTimes = [
+	10,
+	15,
+	30,
+	60,
+	90,
+	120,
+	180,
+	240,
+	300,
+	300
+];
+
+//level design
+// wird vom Timer aufgerufen
+function levelDesign(level){
+	switch (level){
+		case 1:
+		
+		// spawn stuff
+			break;
+		case 2:
+		
+		//spawn stuff
+			break;
+		case 3:
+		
+		//spawn stuff
+			break;
+		default:
+			break;
+	}
+	setLevelTimer(levelTimes[level-1]);
+	displayLevel(level);
 }
 
 function Interface() {
@@ -32,11 +69,9 @@ function Interface() {
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbar').checked = true;
-			displayLevel(1);
-			setLevelTimer(260);
+			
+			levelDesign(level);
 			startLevelTimer();
-			changeHP(-50);
-			setTimeout(function() {changeHP(-10)}, 5000);
 		},
 		
 		/* Toggles the pause menu */
@@ -212,6 +247,8 @@ function getMoney() {
  * FUNCTIONS FOR AMMO
  */
 
+var rocketPic = $('#rocketPic');
+var migPic = $('#migPic');
 var currentAmmo;
 var maxAmmo;
 
@@ -221,10 +258,14 @@ var maxAmmo;
 function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
+				migPic.hide();
+				rocketPic.show();
 				currentAmmo = rocketAmmo;
 				maxAmmo = MaxRocketAmmo;
 				break;
 		case 1:
+				migPic.show();
+				rocketPic.hide();
 				currentAmmo = MGAmmo;
 				maxAmmo = MaxMGAmmo;
 				break;
@@ -480,9 +521,9 @@ function startLevelTimer() {
 			if(sec == 0 && min > 0) {
 				min--;
 				sec = 59;
-			} else if(sec == 0 && min == 0) {
-				//next level
-				clearInterval(levelTimer);
+			} else if(sec <= 1 && min == 0) {
+				level++;
+				levelDesign(level);
 			} else {
 				sec--;
 			}
@@ -540,7 +581,6 @@ function setSpeed(newSpeed) {
 	if(parseInt(tempRef.innerHTML) < 90)
 		tempRef.innerHTML = 80;
 	
-	checkMilestones();
 }
 
 /* Sets maxSpeed to @newMaxSpeed */
@@ -611,17 +651,6 @@ function showMilestones() {
 	/* UPDATE VALUES */
 }
 
-function checkMilestones(){
-	
-	changeMilestoneProgress(1, reachedMaxSpeed, 2000);
-	changeMilestoneProgress(2, reachedMaxSpeed, 4000);
-	changeMilestoneProgress(3, collectedPowerups, 15);
-	changeMilestoneProgress(4, reachedMoney, 50000);
-	changeMilestoneProgress(5, reachedMoney, 100000);
-	changeMilestoneProgress(6, moneySpentInShop, 10000);
-	changeMilestoneProgress(7, moneySpentInShop, 100000);
-}
-
 /* Opens the Options tab */
 function showOptions() {
 	menuHideAll();
@@ -669,18 +698,20 @@ var amountUpgrade2 = 0;
 var passiveHPID;
 
 costUpgrade = [
-	1000,	// + 25 maxHP
-	5000,	// + 1 maxSpeed
+	1000,	// + 10 maxHP
 	40000,	// passive HP regen
+	10000,  // + 10 shield
+	5000,	// + 1 maxSpeed
 	1000,	// + 2 MaxRocketAmmo
 	1000,	// + 20 MaxMGAmmo
 	2000	// + 1 rocketDamage
 ];
 
 costUpgradeFactor = [
-	1.2,	// + 25 maxHP
-	1.2,	// + 1 maxSpeed
+	1.2,	// + 10 maxHP
 	1.2,	// passive HP regen
+	1.2, 	// + 10 shield
+	1.2,	// + 1 maxSpeed
 	1.2,	// + 2 MaxRocketAmmo
 	1.2,	// + 20 MaxMGAmmo
 	1.2		// + 1 rocketDamage
@@ -704,13 +735,10 @@ function buyUpgrade(i) {
 		return;
 	
 	switch(i) {
-		case 0:		// + 25 maxHP
-			setMaxHP(getMaxHP() + 25);
+		case 0:		// + 10 maxHP
+			setMaxHP(getMaxHP() + 10);
 			break;
-		case 1:		// + 1 maxSpeed
-			setMaxSpeed(++maxVel);
-			break;
-		case 2:		// passive HP regen
+		case 1:		// passive HP regen
 			clearInterval(passiveHPID);
 			passiveHPID = setInterval(function() {		
 				if (!Pause) {
@@ -727,13 +755,19 @@ function buyUpgrade(i) {
 				}
 			}, 5000 / ++amountUpgrade2);
 			break;
-		case 3:		// + 2 MaxRocketAmmo
+		case 2:
+			//setMaxShield(getMaxShield()+10);
+			break;
+		case 3:		// + 1 maxSpeed
+			setMaxSpeed(++maxVel);
+			break;
+		case 4:		// + 2 MaxRocketAmmo
 			MaxRocketAmmo += 2;
 			break;
-		case 4:
+		case 5:
 			MaxMGAmmo += 20;
 			break;
-		case 5:
+		case 6:
 			rocketDamage++;
 			break;
 		default:
@@ -773,15 +807,15 @@ function displayMilestoneNote(value) {
 var milestoneName = [
 	"Speed Junkie",
 	"Speedy Gonzales",
-	"PowerUp Collector",
+	"Catch 'em All",
 	"Scrooge McDuck",
 	"Richer than Scrooge McDuck",
-	"Money Spender",
-	"Money Spender 2.0",
+	"Sugar Daddy",
+	"Shopaholic",
 	"Headhunterz",
 	"Hero of the Universe",
-	"Asteroid Killer",
-	"Asteroid Killer 2.0"
+	"Vacuum Cleaner",
+	"Star Destroyer"
 ];
 
 var reachedMilestone = [
@@ -830,11 +864,15 @@ function showDescription(number) {
 function checkMilestones(){
 	changeMilestoneProgress(1, reachedMaxSpeed, 2000);
 	changeMilestoneProgress(2, reachedMaxSpeed, 4000);
-	// 3?
+	changeMilestoneProgress(3, collectedPowerups, 15);
 	changeMilestoneProgress(4, reachedMoney, 50000);
 	changeMilestoneProgress(5, reachedMoney, 100000);
 	changeMilestoneProgress(6, moneySpentInShop, 10000);
 	changeMilestoneProgress(7, moneySpentInShop, 100000);
+	//changeMilestoneProgress(8, destroyedEnemies, 20);
+	//changeMilestoneProgress(9, destroyedEnemies, 50);
+	changeMilestoneProgress(10, destroyedAsteroids, 20);
+	changeMilestoneProgress(11, destroyedAsteroids, 50);
 }
 
 var percentage;
