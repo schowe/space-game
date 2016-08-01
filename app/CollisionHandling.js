@@ -44,10 +44,11 @@ function handleProjectiles() {
         var projectileSucceded = false;
 
         // Asteroidentreffer
-        if (projectiles[i].name === "LaserHitBox") {
+        if (projectiles[i].name === "Laser") {
+
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
-                if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
-                        projectiles[i])) {
+                if (collision.intersectPointSphere(projectiles[i].getObjectByName("upperPoint"), asteroidHitBoxes[j]) ||
+                        collision.intersectPointSphere(projectiles[i].getObjectByName("lowerPoint"), asteroidHitBoxes[j])) {
                     successLaser(i);
                     hitAsteroid(j, "Laser");
                     projectileSucceded = true;
@@ -57,11 +58,10 @@ function handleProjectiles() {
         }
 
 
-        else if (projectiles[i].name === "RocketHitBox") {
+        else if (projectiles[i].name === "Rocket") {
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
-                if (collision.intersectSphereCylinder(asteroidHitBoxes[j],
-                        projectiles[i])) {
-                    console.log("hit");
+                if (collision.intersectPointSphere(projectiles[i].getObjectByName("upperPoint"), asteroidHitBoxes[j]) ||
+                        collision.intersectPointSphere(projectiles[i].getObjectByName("lowerPoint"), asteroidHitBoxes[j])) {
                     successRocket(i);
                     hitAsteroid(j, "Rocket");
                     projectileSucceded = true;
@@ -95,11 +95,10 @@ function handleProjectiles() {
         }
 
 
-        /** NICHT LÖSCHEN **/
         // Collect items via projectiles
         if (projectileSucceded === false) {
 
-            if (projectiles[i].name === "LaserHitBox") {
+            if (projectiles[i].name === "Laser") {
                 for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
                     if (collision.intersectBoxCylinder(itemHitBoxes[j],
                             projectiles[i])) {
@@ -112,7 +111,7 @@ function handleProjectiles() {
 
 
 
-            else if (projectiles[i].name === "RocketHitBox") {
+            else if (projectiles[i].name === "Rocket") {
                 for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
                     if (collision.intersectBoxCylinder(itemHitBoxes[j],
                             projectiles[i])) {
@@ -144,45 +143,6 @@ function handleProjectiles() {
                     }
                 }
             }
-
-        /** NICHT LÖSCHEN **/
-        //     if (projectiles[i].name === "LaserHitBox") {
-        //         if (collision.intersectBoxCylinder(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             // successLaser(projectiles[i]);
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-        //     else if (projectiles[i].name === "RocketHitBox") {
-        //         if (collision.intersectBoxCylinder(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             // successRocket(projectiles[i]);
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-        //     else if (projectiles[i].name === "Explosion") {
-        //         if (collision.intersectSphereBox(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-        //     else if (projectiles[i].name === "MachineGun") {
-        //         if (collision.intersectSphereBox(itemHitBoxes[j],
-        //                 projectiles[i])) {
-        //             // successMachineGunBullet(projectiles[i]);
-        //             console.log("Collision detected");
-        //             collected(j);
-        //         }
-        //     }
-
-
-        // }
 
 
         /** NICHT LÖSCHEN **/

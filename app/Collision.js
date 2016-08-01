@@ -281,16 +281,13 @@ var Collision = function() {
     }
 
     function intersectPointSphere(point, sphere) {
-
-        var globalPoint = new THREE.Vector(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
+        var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
         var distance = Math.sqrt((globalPoint.x - sphere.position.x) * (globalPoint.x - sphere.position.x) +
                            (globalPoint.y - sphere.position.y) * (globalPoint.y - sphere.position.y) +
                            (globalPoint.z - sphere.position.z) * (globalPoint.z - sphere.position.z));
         // if the distance is smaller than the radius of the sphere there is an intersection
         return distance < sphere.geometry.parameters.radius;
     }
-
-
 
     return {
 
@@ -308,6 +305,8 @@ var Collision = function() {
         intersectSphereShipHitBox: intersectSphereShipHitBox,
         // returns whether there is an intersection between a shipHitBox and another box
         intersectShipHitBoxBox: intersectShipHitBoxBox,
+        // returns whether there is an intersection between a Point and a Sphere
+        intersectPointSphere: intersectPointSphere,
 
         // returns wheter there is a collision between a spehere and any other mesh
         // that is collidable
