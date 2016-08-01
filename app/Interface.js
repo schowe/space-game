@@ -263,7 +263,6 @@ function changeHP(value) {
 			if (!Pause) {
 				displayedHP += hpTick;
 				if (displayedHP > maxHP) {
-
 					clearInterval(tempID);
 					displayedHP = maxHP;
 					updateHPDisplay();
