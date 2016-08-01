@@ -58,6 +58,7 @@ var FileLoader = function () {
         "../res/textures/PowerUpRocket4Tex.png",
         "../res/textures/PowerUpRocket8BadTex.png",
         "../res/textures/PowerUpRocket8Tex.png",
+<<<<<<< HEAD
         "../res/textures/PowerUpRocketBadTex.png",
         "../res/textures/PowerUpRocketTex.png",
         "../res/textures/PowerUpShieldBadTex.png",
@@ -70,6 +71,11 @@ var FileLoader = function () {
         "../res/textures/TextureEnemyShipOne.jpg",
         "../res/textures/TextureHero.png",
         "../res/textures/VengeanceMaterial.png",
+=======
+        "../res/textures/GeldsackTex.jpg",
+        "../res/textures/GeldsackFacePalmTex.jpg",
+        "../res/textures/TextureEnemyShipOne.png",
+>>>>>>> bd202d8fb0ca40bda875fda93abbca117ebec8ee
 
         /************************* Meshes *************************/
         "../res/meshes/AsteroidV2.json",
