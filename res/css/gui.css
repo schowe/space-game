@@ -298,10 +298,11 @@
 #milestoneDisplay {
 	position: fixed;
 	top: 100px;
-	right: -110px;
-	width: 150px;
+	right: -210px;
+	width: 200px;
 	height: 100px;
 
+	color : yellow;
 	background-color: rgba(255, 255, 255, 0.4);
 	border-style: ridge;
 	border-color: white;
@@ -312,18 +313,12 @@
 }
 
 #milestoneNote {
-	color: yellow;
 	margin: auto;
 	font-size: 16px;
 	line-height: 26.4px;
 }
 
 #milestonePic {
-	position: relative;
-	height: 40px;
-	width: 40px;
-	margin-left: auto;
-	background-image: url(../textures/GUIachievement2.png);
 }
 
 /**

@@ -28,11 +28,10 @@ function Interface() {
 		init: function() {
 			setMaxHP(100);
 			setHP(100);
-			setMoney(1000000);
+			setMoney(22222222222);
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbar').checked = true;
-			displayMilestoneNote(3);
 			displayLevel(1);
 			setLevelTimer(260);
 			startLevelTimer();
@@ -189,6 +188,7 @@ function changeMoney(value) {
 
     if (currentMoney > reachedMoney) {
     	reachedMoney = currentMoney;
+		checkMilestones();
     }
 }
 
@@ -196,6 +196,11 @@ function changeMoney(value) {
 function setMoney(value) {
 	currentMoney = parseInt(value + 0.5);
     moneyReference.innerHTML = currentMoney;
+	
+	if (currentMoney > reachedMoney) {
+    	reachedMoney = currentMoney;
+		checkMilestones();
+    }
 }
 
 /* Returns the current amount of currentMoney */
@@ -526,11 +531,16 @@ function setSpeed(newSpeed) {
 		tempRef.innerHTML = parseInt(maxSpeed * speedFactor * 10);
 
 	// Soll der aufhören upzudaten wenn das Achievement erreicht wurde?
-	if(!reachedMilestone[1] && parseInt(tempRef.innerHTML) > reachedMaxSpeed)
+	if(parseInt(tempRef.innerHTML) > reachedMaxSpeed){
 		reachedMaxSpeed = parseInt(tempRef.innerHTML);
+		checkMilestones();
+	}
+
 
 	if(parseInt(tempRef.innerHTML) < 90)
 		tempRef.innerHTML = 80;
+	
+	checkMilestones();
 }
 
 /* Sets maxSpeed to @newMaxSpeed */
@@ -734,26 +744,42 @@ var moneySpentInShop = 0;
 var reachedMaxSpeed = 80;
  
 function displayMilestoneNote(value) {
-	document.getElementById('milestoneNote').innerHTML = value;
-	$('#picRef').css('background-image', 'url(../textures/GUIachievement2.png)');
+	//document.getElementById('milestoneNote').innerHTML = value;
+	//$('#picRef').css('background-image', 'url(../textures/GUIachievement2.png)');
 	
 	var displayRef = document.getElementById('milestoneDisplay');
-	displayRef.innerHTML = 'You have unlocked: ' + milestonesName[value - 1];
-	$(displayRef).animate({opacity: '1', right: '10px'}, 1000);
+	displayRef.innerHTML = 'You have unlocked: ' + milestoneName[value - 1] + '<br> Highscore += ' + milestonesHighscore[value - 1];
 	
+	changeScore(parseInt(milestonesHighscore[value-1]));
+	
+	$(displayRef).animate({opacity: '1', right: '10px'}, 1000);
 	setTimeout(function() {
 		$(displayRef).animate({opacity: '0', right: '-110px'}, 1000);
 	}, 4000);
 }
 
-var milestonesName = [
-	"Rattle the Stars",
+var milestoneName = [
+	"Speed Junkie",
+	"Speedy Gonzales",
 	"PowerUp Collector",
 	"Scrooge McDuck",
-	"Speed Junkie"
+	"Richer than Scrooge McDuck",
+	"Money Spender",
+	"Money Spender 2.0",
+	"Headhunterz",
+	"Hero of the Universe",
+	"Asteroid Killer",
+	"Asteroid Killer 2.0"
 ];
 
 var reachedMilestone = [
+	false,
+	false,
+	false,
+	false,
+	false,
+	false,
+	false,
 	false,
 	false,
 	false,
@@ -762,9 +788,16 @@ var reachedMilestone = [
 
 var milestonesHighscore = [
 	1000,
+	2000,
+	2000,
 	1000,
-	1000,
-	1000
+	2000,
+	2000,
+	4000,
+	4000,
+	8000,
+	4000,
+	8000
 ];
 
 var openCloseValues = new Array(10);
@@ -806,6 +839,11 @@ function changeMilestoneProgress (number, current, max) {
 
 function setFinished(number) {
 	/* Ideen?? */
+	
+	if(!reachedMilestone[number-1]){
+		displayMilestoneNote(number);
+		reachedMilestone[number-1] = true;
+	}
 
     var temp = $('#progressbar' + number);
 	temp.css('background-color', 'rgba(255, 170, 0, 0.6)');
