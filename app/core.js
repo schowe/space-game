@@ -133,6 +133,17 @@ function init() {
         stiffness: 1,
         matchRotation: true
     });
+
+    camera.addTarget({
+        name: 'fTarget',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0, -1, 40),
+        fixed: false,
+        stiffness: 0.15,
+        matchRotation: false
+    });
+
+
     var cam = Camera();
     cam.init();
 
@@ -181,7 +192,7 @@ function cameraAnimate() {
         frames++;
         requestAnimationFrame(cameraAnimate);
     } else {
-        yAxis = -2;
+       
         requestAnimationFrame(animate);
     }
 
