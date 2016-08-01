@@ -15,7 +15,7 @@ var laserReloadTime = 0.4;
 var rocketReloadTime = 1;
 
 //Weapondamage
-var rocketDamage = 5;
+var rocketDamage = 10;
 var laserDamage = 2;
 var explosionDamage = 10;
 var MGDamage = 1;

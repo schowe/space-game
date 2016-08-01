@@ -23,7 +23,6 @@ function spawnPowerUp(x, y, z, type) {
 			healthTex = fileLoader.get("PowerUpHealthTex");
             item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: healthTex }));
             types.push("HEALTH");
-          
 
 		} else if (rndCase > 0.125 && rndCase <= 0.375) {
 
@@ -90,10 +89,11 @@ function spawnPowerUp(x, y, z, type) {
 
 		} else {
 
-			itemGeometry = fileLoader.get("PowerUpShield");
-			shieldTex = fileLoader.get("PowerUpShieldTex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: shieldTex }));
-			types.push("SHIELD");
+			itemGeometry = fileLoader.get("Coin");
+			coinTex = fileLoader.get("Coin_Texture");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: coinTex }));
+			types.push("COIN");
+
 		}
 
 	}
