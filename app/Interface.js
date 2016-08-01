@@ -812,29 +812,8 @@ var milestonesHighscore = [
 	8000
 ];
 
-var openCloseValues = new Array(10);
-for(var z = 0; z < openCloseValues.length; z++)
-	openCloseValues[z] = false;
-
 function showDescription(number) {
-	if (!openCloseValues[number-1]) {
-		$('#description'+number).show();
-		openCloseValues[number-1] = true;
-	}
-	else {
-		$('#description'+number).hide();
-		openCloseValues[number-1] = false;
-	}
-}
-
-function checkMilestones(){
-	changeMilestoneProgress(1, reachedMaxSpeed, 2000);
-	changeMilestoneProgress(2, reachedMaxSpeed, 4000);
-	// 3?
-	changeMilestoneProgress(4, reachedMoney, 50000);
-	changeMilestoneProgress(5, reachedMoney, 100000);
-	changeMilestoneProgress(6, moneySpentInShop, 10000);
-	changeMilestoneProgress(7, moneySpentInShop, 100000);
+    $('#description'+number).toggle();
 }
 
 var percentage;
@@ -892,4 +871,25 @@ function hideScrollbar() {
 			document.getElementById('hideScrollbar').checked = true;
 			break;
 	}
+}
+
+function changeVolume(value) {
+	// tests
+	/*
+	$('#volumeSlider').css('border-color', 'green');
+	$('#volumeSlider').html(25);
+	console.log(1);
+	*/
+	console.log(value);
+
+	laserAudio.volume = value;
+	asteroidAudio.volume = value;
+	powerUpAudio.volume = value;
+	rocketAudio.volume = value;
+	explosionAudio.volume = value;
+	$('#volumeText').html(parseInt(value*100)+'%');
+}
+
+function showAdvancedSoundOptions() {
+	$('#advancedSoundOptions').toggle();
 }
