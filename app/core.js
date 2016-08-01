@@ -114,7 +114,7 @@ function init() {
 
     /********** Camera **********/
 
-    camera = new THREE.TargetCamera(75, window.innerWidth / window.innerHeight, 1, 5000);
+    camera = new THREE.TargetCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
 
     camera.addTarget({
         name: 'Target',
