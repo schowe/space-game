@@ -104,7 +104,7 @@ Enemy.prototype = new THREE.Mesh;
 
 
 // Bewegung des Schiffes
-Enemy.prototype.move = function(delta, asteroids, enemies) {
+Enemy.prototype.move = function(delta, asteroids, enemies, index) {
     var distanceToShip, dir, optimalDir;
     var obstacles = [];
 
@@ -218,6 +218,10 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     var viewDir = MATH.clone(this.position);
     viewDir.add(dir.multiplyScalar(5 * this.speed));
     this.lookAt(viewDir);
+
+    for(var j = enemyHitBoxes[index].length - 1; j >= 0 ;j--){
+        enemyHitBoxes[index][j].lookAt(viewDir);
+    }
 
     // 8. Schritt: Speichern
     dir.normalize();

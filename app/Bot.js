@@ -236,7 +236,7 @@ function Bot() {
                 enemyHitBoxes.splice(i,1);
                 enemyHP.splice(i,1);
             }else{
-                enemies[i].move(delta, asteroidsClone, asteroidHitBoxesClone);
+                enemies[i].move(delta, asteroidsClone, asteroidHitBoxesClone, i);
                 for(var j = enemyHitBoxes[i].length - 1; j >= 0 ;j--){
                     enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
                 }
