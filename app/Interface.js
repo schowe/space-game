@@ -36,6 +36,8 @@ function Interface() {
 			displayLevel(1);
 			setLevelTimer(260);
 			startLevelTimer();
+			changeHP(-50);
+			setTimeout(function() {changeHP(-10)}, 5000);
 		},
 		
 		/* Toggles the pause menu */
@@ -642,24 +644,24 @@ function menuClose() {
  */
 
 var amountUpgrade2 = 0;
-var PassiveHPID;
+var passiveHPID;
 
 costUpgrade = [
-1000,	// + 25 maxHP
-5000,	// + 1 maxSpeed
-40000,	// passive HP regen
-1000,	// + 2 MaxRocketAmmo
-1000,	// + 20 MaxMGAmmo
-2000	// + 1 rocketDamage
+	1000,	// + 25 maxHP
+	5000,	// + 1 maxSpeed
+	40000,	// passive HP regen
+	1000,	// + 2 MaxRocketAmmo
+	1000,	// + 20 MaxMGAmmo
+	2000	// + 1 rocketDamage
 ];
 
 costUpgradeFactor = [
-1.2,	// + 25 maxHP
-1.2,	// + 1 maxSpeed
-1.2,	// passive HP regen
-1.2,	// + 2 MaxRocketAmmo
-1.2,	// + 20 MaxMGAmmo
-1.2		// + 1 rocketDamage
+	1.2,	// + 25 maxHP
+	1.2,	// + 1 maxSpeed
+	1.2,	// passive HP regen
+	1.2,	// + 2 MaxRocketAmmo
+	1.2,	// + 20 MaxMGAmmo
+	1.2		// + 1 rocketDamage
 ];
 
 /* Highlight items the player can purchase */
@@ -687,10 +689,20 @@ function buyUpgrade(i) {
 			setMaxSpeed(++maxVel);
 			break;
 		case 2:		// passive HP regen
-			clearInterval(PassiveHPID);
-			PassiveHPID = setInterval(function() {
-				if(!Pause)
-					setHP(getHP() + 1);
+			clearInterval(passiveHPID);
+			passiveHPID = setInterval(function() {		
+				if (!Pause) {
+					currentHP = currentHP + 1;
+					displayedHP += 1;
+
+					if (currentHP > maxHP)
+						currentHP = maxHP;
+
+					if (displayedHP > maxHP)
+						displayedHP = maxHP;
+					
+					updateHPDisplay();
+				}
 			}, 5000 / ++amountUpgrade2);
 			break;
 		case 3:		// + 2 MaxRocketAmmo
@@ -755,12 +767,12 @@ var milestonesHighscore = [
 	1000
 ];
 
-// Putt putt
 var openCloseValues = new Array(10);
+for(var z = 0; z < openCloseValues.length; z++)
+	openCloseValues[z] = false;
 
 function showDescription(number) {
-	var $open = openCloseValues[number-1];
-	if (!$open) {
+	if (!openCloseValues[number-1]) {
 		$('#description'+number).show();
 		openCloseValues[number-1] = true;
 	}
