@@ -9,7 +9,7 @@ var smallityBorder = 20;
 
 var geometryA, textureA;
 
-var despawnDistance = 2000; // aus core.js (Backplane der Camera) (changed)
+var despawnDistance = 5000; // aus core.js (Backplane der Camera) (changed)
 var spawnRadius = 2000;
 
 function Asteroid(location, radius, direction, speed, level) {
@@ -17,13 +17,8 @@ function Asteroid(location, radius, direction, speed, level) {
     // Mesh setzen
     this.isSmall = (radius <= 20) ? true : false;
 
-    if (this.isSmall) {
-        geometryA = fileLoader.get("AsteroidV2");
-        textureA = fileLoader.get("AsteroidTex");
-    } else {
-        geometryA = fileLoader.get("AsteroidV2");
-        textureA = fileLoader.get("AsteroidTex");
-    }
+    geometryA = fileLoader.get("AsteroidV2");
+    textureA = fileLoader.get("AsteroidTex");
 
     THREE.Mesh.call(this, geometryA,
         new THREE.MeshPhongMaterial({ map: textureA }));
@@ -42,7 +37,7 @@ function Asteroid(location, radius, direction, speed, level) {
 
     this.level = level;
     this.isAlive = true;
-    this.HP = asteroidHP;
+    //this.HP = asteroidHP;
 
     // setze Rotation
     this.rotation.set(0.05 * Math.random(),
@@ -52,8 +47,8 @@ function Asteroid(location, radius, direction, speed, level) {
         0.05 * Math.random(), 0.05 * Math.random());
 
     // setze Hitbox
-    this.hitBox = this.getHitBox();
-    this.hitBox.position.set(this.position.x, this.position.y, this.position.z);
+    //this.hitBox = this.getHitBox();
+    //this.hitBox.position.set(this.position.x, this.position.y, this.position.z);
 }
 
 Asteroid.prototype.constructor = Asteroid;
@@ -83,11 +78,12 @@ Asteroid.prototype.move = function (delta) {
 
 }
 
-Asteroid.prototype.collide = function (other, type) {
+Asteroid.prototype.collide = function (other, type, index) {
     switch (type) {
         case "ASTEROID": case "asteroid": case "Asteroid":
             if (this.isSmall) {
                 this.isAlive = false;
+                
                 if (other.isSmall) {
                     other.isAlive = false;
                 }
@@ -106,10 +102,12 @@ Asteroid.prototype.collide = function (other, type) {
             this.isAlive = false;
             break;
         case "LASER": case "laser": case "Laser":
-            this.HP -= laserDamage;
+            asteroidHP[index] -= laserDamage;
+            console.log(index+" lost "+laserDamage+" of "+ asteroidHP[index]+" HP");
+            console.log(asteroidHitBoxes[index].position);
             break;
         case "ROCKET": case "rocket": case "Rocket":
-            this.HP -= rocketDamage;
+            asteroidHP[index] -= rocketDamage;
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
 
@@ -120,8 +118,8 @@ Asteroid.prototype.collide = function (other, type) {
         default: console.log("Error: Collision with unknown");
     }
 
-    if (this.HP <= 0) {
-        this.isAlive = false;
+    if (!this.isAlive) {
+        asteroidHP[index] = 0;
     }
 }
 
@@ -162,6 +160,8 @@ Asteroid.prototype.getHitBox = function () {
 
     mesh = new THREE.Mesh(geometry, material);
     //mesh.position.set(this.position.x, this.position.y, this.position.z);
+
+    scene.add(mesh);
 
     return mesh;
 }

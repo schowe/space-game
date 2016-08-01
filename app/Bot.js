@@ -9,7 +9,8 @@
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    enemy, worldRadius, gameLevel, numOfAsteroids = 50, spawnRadius = 2000;;
+    asteroidHP = [],
+    enemy, worldRadius, gameLevel, numOfAsteroids = 50;
 
 function Bot() {
 
@@ -70,38 +71,33 @@ function Bot() {
     }
 
     // Respawn der Asteroiden
-    function respawnAsteroids() {
-        var level, asteroid;
-        // rueckwaerts, um beim Loeschen nicht ein Element zu ueberspringen
-        for(var i = asteroids.length - 1; i >= 0; i--) {
-            asteroid = asteroids[i];
-            if(!asteroid.isAlive) {
-                //console.log("Dead");
-                level = asteroid.level;
-                // altes Loeschen
-                
-                scene.remove(asteroid);
-                /*
-                asteroids.splice(i,1);
-                asteroidHitBoxes.splice(i,1);
-                */
-                // nachgelagertes behandeln
+    function respawnAsteroid(asteroid, index) {
+        console.log("Respawned: "+index);
+        var level = asteroid.level;
+        // altes Loeschen
+        
+        scene.remove(asteroid);
+        /*
+        asteroids.splice(i,1);
+        asteroidHitBoxes.splice(i,1);
+        */
+        // nachgelagertes behandeln
 
-                //changeScore(scoreValues["asteroidDestroyed"]);
-                // gegebenfalls Power-Up zeigen
-                if(Math.random() < 0.23) {
-                    spawnPowerUp(asteroid.position.x,
-                                    asteroid.position.y, asteroid.position.z);
-                }
-
-                // neu erschaffen
-                asteroid = createAsteroid(level);
-                asteroids[i] = asteroid;
-                asteroidHitBoxes[i] = asteroid.hitBox;
-                //console.log("Respawned: " + i);
-                scene.add(asteroid);
-            }
+        //changeScore(scoreValues["asteroidDestroyed"]);
+        // gegebenfalls Power-Up zeigen
+        if(Math.random() < 0.23) {
+            spawnPowerUp(asteroid.position.x,
+                            asteroid.position.y, asteroid.position.z);
         }
+
+        // neu erschaffen
+        asteroid = createAsteroid(level);
+        asteroids[index] = asteroid;/*
+        asteroidHitBoxes[index] = asteroid.getHitBox();
+        asteroidHitBoxes[index].position.set(asteroids[index].position.x, asteroids[index].position.y, asteroids[index].position.z);*/
+        asteroidHP[index] = (10);
+        //console.log("Respawned: " + i);
+        scene.add(asteroid);
     }
 
     // Respawn der Enemies
@@ -159,23 +155,23 @@ function Bot() {
 
         // speed abhaengig von Level, ! asteroid.speed < 65 < min(enemy.speed)
         var speed = (level > 15) ? 15 : level;
-        speed += 35 + 15 * Math.random();
+        //speed += 35 + 15 * Math.random();
         //speed = 50;
 
 
         // Richtung:
-        // direction = new THREE.Vector3(
-        //                     ship.position.x - asteroidPosition.x,
-        //                     ship.position.y - asteroidPosition.y,
-        //                     ship.position.z - asteroidPosition.z);
-        // // bilde orthogonalen Vektor
-        // var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
-        // randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
-        // randomDir.normalize();
-        // randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°)
-        // direction.add(randomDir);
+         direction = new THREE.Vector3(
+                             ship.position.x - asteroidPosition.x,
+                             ship.position.y - asteroidPosition.y,
+                             ship.position.z - asteroidPosition.z);
+         // bilde orthogonalen Vektor
+         var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
+         randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
+         randomDir.normalize();
+         randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°)
+         direction.add(randomDir);
 
-        direction = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() -0.5);
+        /*direction = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() -0.5);*/
 
         //console.log("Finally Create Asteroid");
 
@@ -229,6 +225,8 @@ function Bot() {
     // Setze direction neu
     function updateLocation(delta) {
 
+        //console.log(asteroids[49].position.distanceTo(ship.position));
+
         // 1. Schritt: Gegner sortieren (siehe 2. Schritt)
         enemies.sort(compare);
 
@@ -241,9 +239,14 @@ function Bot() {
 
         // Asteroiden: Bewegung updaten
         for(var i = asteroids.length - 1; i >= 0; i--) {
+            //console.log("HP of "+i+" "+asteroidHP[i]);
             var asteroid = asteroids[i];
-            asteroid.move(delta);
-            asteroidHitBoxes[i].position.set(asteroid.position.x, asteroid.position.y, asteroid.position.z);
+            if(/*!asteroid.isAlive*/asteroidHP[i]<=0){
+                respawnAsteroid(asteroid, i);
+            }else{
+                asteroid.move(delta);
+                asteroidHitBoxes[i].position.set(asteroid.position.x, asteroid.position.y, asteroid.position.z);
+            }
             //console.log("Asteroid wird bewegt")
         }
 
@@ -253,7 +256,7 @@ function Bot() {
         // erst ab bestimmter Distanz d_max ausweichen priorisieren
         // ab d_min auf jeden Fall ausweichen
         for(enemy of enemies) {
-            enemy.move(delta, asteroid, enemies);
+            enemy.move(delta, asteroids, enemies);
             //console.log("Enemy wird bewegt")
         }
 
@@ -263,7 +266,6 @@ function Bot() {
         // update-Methode, aufzurufen in jedem Durchlauf des Renderers
         updateAI: function(delta) {
             // Asteroiden respawnen
-            respawnAsteroids();
             respawnEnemies();
             //console.log("AI updated")
             // Gegner und Asteroiden updaten
@@ -288,7 +290,9 @@ function Bot() {
             for(var i = 0; i < numOfAsteroids; i++) {
                 var asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
-                asteroidHitBoxes.push(asteroid.hitBox);
+                asteroidHitBoxes.push(asteroid.getHitBox());
+                asteroidHitBoxes[i].position.set(asteroids[i].position.x, asteroids[i].position.y, asteroids[i].position.z);
+                asteroidHP.push(10);
                 //console.log(asteroids.length);
                 scene.add(asteroid);
             }
