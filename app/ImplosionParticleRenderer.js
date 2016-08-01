@@ -69,7 +69,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
 
             return true; // weitermachen
         } else {
-            scene.remove(this.particleSystem);
+            scene.remove(this.particleimploSystem);
             return false; //aufhören
         }
     };
