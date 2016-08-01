@@ -68,7 +68,7 @@ body {
 	width: 80px;
 	height: 80px;
 	opacity: 0.3;
-	background: transparent url("../res/img/rocketplaceholder.png");
+	background: transparent url("../img/rocketplaceholder.png");
 }
 
 #bg1 {
@@ -116,7 +116,9 @@ body {
 
 #hpBoxValue {
 	height: 100%;
-	//width: 0%;
+	/*
+	width: 0%;
+	*/
 	border-radius: 10px;
 }
 
@@ -154,7 +156,6 @@ body {
 	opacity: 0.5;
 	border: 1px solid black;
 	border-radius: 10px;
-
 }
 
 #speedBarValue {
@@ -256,8 +257,6 @@ body {
 	display: inline;
 }
 
-
-
 #gameOverBox{
 	position: fixed;
 	border-style: solid;
@@ -302,13 +301,13 @@ body {
 }
 
 #gameOverButton:hover {
-  background: #d1d1d1;
-  background-image: -webkit-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -moz-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -ms-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: -o-linear-gradient(top, #d1d1d1, #b0b0b0);
-  background-image: linear-gradient(to bottom, #d1d1d1, #b0b0b0);
-  text-decoration: none;
+	background: #d1d1d1;
+	background-image: -webkit-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: -moz-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: -ms-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: -o-linear-gradient(top, #d1d1d1, #b0b0b0);
+	background-image: linear-gradient(to bottom, #d1d1d1, #b0b0b0);
+	text-decoration: none;
 }
 
 #loadingTexturesOverlay {
@@ -337,6 +336,7 @@ body {
 }
 
 #shop{
+
 }
 
 #shopTable{
@@ -364,7 +364,6 @@ body {
 
 }
 
-
 .shopItemPic{
 
 	margin-left: auto;
@@ -390,7 +389,6 @@ body {
 	-webkit-transform:scale(0.95);
 	transform:scale(0.95);
 }
-
 
 #shopItemDesc{
 	margin-left: auto;

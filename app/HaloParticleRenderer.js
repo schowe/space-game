@@ -3,7 +3,6 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
     this.startVector = startVector;
     this.particleCount = nParticles;
 
-
     this.running = true;
     this.clock = new THREE.Clock();
     this.clock.start();
@@ -27,12 +26,10 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
             this.startVector.z
         );
 
-
         var radius = initialRadius;
-        var angle = Math.random()*Math.PI*2;
-        particle.x += Math.cos(angle)*radius;
-        particle.z += Math.sin(angle)*radius;
-
+        var angle = Math.random() * Math.PI * 2;
+        particle.x += Math.cos(angle) * radius;
+        particle.z += Math.sin(angle) * radius;
 
         particle.velocity = particle.clone().sub(this.startVector.clone());
 
@@ -41,32 +38,26 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
 
     this.particleSystem = new THREE.Points(this.particles, this.material);
 
-
     // zur Szene hinzufügen
     scene.add(this.particleSystem);
 
-
-
     this.update = function () {
-        
-        var time = this.clock.getElapsedTime();
-        
-        if (this.running) {
-            // this.particleSystem.rotateY(0.01);
 
+        var time = this.clock.getElapsedTime();
+        if (this.running) {
 
             for (var i = 0; i < this.particles.vertices.length; i++) {
                 var particle = this.particles.vertices[i];
 
-                particle.x += particle.velocity.x*0.1 + (Math.random()-0.5)*0.1;
-                particle.y += particle.velocity.y*0.1 + (Math.random()-0.5)*0.1;
-                particle.z += particle.velocity.z*0.1 + (Math.random()-0.5)*0.1;
+                particle.x += particle.velocity.x * 0.1 + (Math.random() - 0.5) * 0.1;
+                particle.y += particle.velocity.y * 0.1 + (Math.random() - 0.5) * 0.1;
+                particle.z += particle.velocity.z * 0.1 + (Math.random() - 0.5) * 0.1;
 
                 this.particleSystem.geometry.__dirtyVertices = true;
             }
 
             this.particles.verticesNeedUpdate = true;
-            
+
             if (time > lifetime) {
                 // aufhören
                 scene.remove(this.particleSystem);
@@ -74,13 +65,10 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
                 return false;
             } else {
                 // weitermachen
-                return true;    
+                return true;
             }
-            
-                
         }
 
     };
-
 
 }
