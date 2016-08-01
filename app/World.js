@@ -61,7 +61,7 @@ function createAsteroids() {
         rndSpeedY = Math.random() * 20 - 14;
         rndSpeedZ = Math.random() * 20 - 14;
         rotSpeed = Math.random() * 0.05 - 0.01;
-        rndScale = Math.random() * 50;
+        rndScale = Math.random() * 30;
 
         var vecSpeed = new THREE.Vector3(rndSpeedX, rndSpeedY, rndSpeedZ);
         var vecRot = new THREE.Vector3(rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * 2 - 0));
@@ -195,11 +195,6 @@ function hitAsteroid(asteroidNumber, collisionType) {
             asteroidsHP[asteroidNumber] -= rocketDamage;
 
             break;
-
-        case "Explosion": 
-
-          asteroid[asteroidNumber] -= explosionDamage; 
-
 
         default:
 

@@ -23,7 +23,7 @@ function handleAsteroids() {
                 //console.log("COLLIDE");
                 destroyAsteroid(i);
                 // asteroidHitBySpaceship(i);
-                player.playerHitByAsteroid(i);
+                player.playerHitByAsteroid();
             }
         }
 
