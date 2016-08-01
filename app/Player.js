@@ -39,14 +39,28 @@ function Player() {
 
         		 changeHP(-10);
 
-        		 
+
 
         	}else if(yAxis < -6 && yAxis >= -14){
+        		var oldRotX=0; 
+        		oldRotX = ship.rotation.x; 
+        		//console.log("ROTATE");
+        		for (var k =0; k < 200 ; k++){
 
 
-        		 changeHP(-40);
+        			ship.rotation.x += 2.0; 
 
-        	}
+
+        		}	
+        			ship.rotation.x = oldRotX; 
+        			changeHP(-40); 
+        		 
+        		}
+
+
+
+
+        	
 
 
            

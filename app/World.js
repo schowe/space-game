@@ -7,7 +7,7 @@ var asteroidSpeedVecs = [];
 var asteroidRotVecs = [];
 var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
-var biggerSphereRadius = 4000;
+var biggerSphereRadius = 5000;
 var asteroidRadius = 3.5;
 var defaultAsteroidHP = 10;
 
@@ -61,7 +61,7 @@ function createAsteroids() {
         rndSpeedY = Math.random() * 20 - 14;
         rndSpeedZ = Math.random() * 20 - 14;
         rotSpeed = Math.random() * 0.05 - 0.01;
-        rndScale = Math.random() * 30;
+        rndScale = Math.random() * 70;
 
         var vecSpeed = new THREE.Vector3(rndSpeedX, rndSpeedY, rndSpeedZ);
         var vecRot = new THREE.Vector3(rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * 2 - 0));
