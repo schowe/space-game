@@ -267,51 +267,6 @@ var Collision = function () {
             (minZship(a) <= maxZ(b) && maxZship(a) >= minZ(b)));
     }
 
-    // Checks if there is an intersection between a point and sphere
-    function intersectPointSphere(point, sphere) {
-        var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
-        var distance = Math.sqrt((globalPoint.x - sphere.position.x) * (globalPoint.x - sphere.position.x) +
-                           (globalPoint.y - sphere.position.y) * (globalPoint.y - sphere.position.y) +
-                           (globalPoint.z - sphere.position.z) * (globalPoint.z - sphere.position.z));
-        // if the distance is smaller than the radius of the sphere there is an intersection
-        return distance < sphere.geometry.parameters.radius;
-    }
-
-    // Checks if there is an intersection between a point and box
-    function intersectPointBox(point, box) {
-        var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
-        return (globalPoint.x <= maxX(box) && globalPoint.x >= minX(box) &&
-            (globalPoint.y <= maxY(box) && globalPoint.y >= minY(box)) &&
-            (globalPoint.z <= maxZ(box) && globalPoint.z >= minZ(box)));
-    }
-
-
-    function intersectLineBox(p2, p1, box) {
-        var dir = new THREE.Vector3();
-        var gp1 =  new THREE.Vector3(p1.matrixWorld.elements[12], p1.matrixWorld.elements[13], p1.matrixWorld.elements[14]);
-        var gp2 = new THREE.Vector3(p2.matrixWorld.elements[12], p2.matrixWorld.elements[13], p2.matrixWorld.elements[14]);
-        dir = gp2.clone();
-        dir.sub(gp1);
-        dir.normalize();
-        var raycaster = new THREE.Raycaster(gp1, dir, 1, 1000);
-        var intersects = raycaster.intersectObject(box);
-        console.log(gp1);
-        console.log(gp2);
-        console.log(dir);
-        console.log(intersects.length);
-        if (intersects.length < 1) {
-            return false;
-        }
-        else {
-            if (intersects[0].distance < 500) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-    }
-
 
 
     return {
@@ -330,12 +285,6 @@ var Collision = function () {
         intersectSphereShipHitBox: intersectSphereShipHitBox,
         // returns whether there is an intersection between a shipHitBox and another box
         intersectShipHitBoxBox: intersectShipHitBoxBox,
-        // returns whether there is an intersection between a Point and a Sphere
-        intersectPointSphere: intersectPointSphere,
-        // returns whether there is an intersection between a Point and a Box
-        intersectPointBox: intersectPointBox,
-
-        intersectLineBox: intersectLineBox,
 
         // returns wheter there is a collision between a spehere and any other mesh
         // that is collidable

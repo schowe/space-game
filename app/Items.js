@@ -145,28 +145,25 @@ function collected(itemNumber) {
 
 			break;
 		case "SINGLEROCKET":
-            particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
-			rocketAmmo +=1;
+
+			rocketAmmo += 1;
 
 			break;
 
 		case "DOUBLEROCKET":
 
-			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
-            rocketAmmo +=2;
+			rocketAmmo += 2;
 
 			break;
 
 		case "QUATROROCKET":
 
-            particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
 			rocketAmmo += 4;
 
 			break;
 
 		case "SHIELD":
 
-            particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x0023FF);
 			shieldActive = true;
 			player.activateShield();
 
@@ -175,12 +172,12 @@ function collected(itemNumber) {
 		case "MONEY":
 
 			changeMoney(20);
-			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
+
 			break;
 
 		case "FACEPALM":
 
-            particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
 			break;
 
 		case "COIN":
