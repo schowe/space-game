@@ -12,7 +12,7 @@ var BOSS2  = 2;
 var SMALL1 = 3;
 var SMALL2 = 4;
 
-var asteroids, enemies, enemy, asteroid,
+var enemies, enemy, asteroid,
     radius, i, bezierPoints, geometryB, textureB, MATH, bot;
 
 // Enemyklasse

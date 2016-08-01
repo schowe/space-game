@@ -9,8 +9,7 @@
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    asteroidHP = [],
-    enemy, worldRadius, gameLevel, numOfAsteroids = 50;
+    asteroidHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 50;
 
 function Bot() {
 
@@ -237,6 +236,8 @@ function Bot() {
         // -> vordere updaten und Richtung des naechsten anhand der neuen Position
         //    ausrechnen
 
+        var asteroidsClone = [], asteroidHitBoxesClone = [];
+
         // Asteroiden: Bewegung updaten
         for(var i = asteroids.length - 1; i >= 0; i--) {
             //console.log("HP of "+i+" "+asteroidHP[i]);
@@ -248,15 +249,18 @@ function Bot() {
                 asteroidHitBoxes[i].position.set(asteroid.position.x, asteroid.position.y, asteroid.position.z);
             }
             //console.log("Asteroid wird bewegt")
+            asteroidsClone[i] = asteroids[i];
+            asteroidHitBoxesClone[i] = asteroidHitBoxes[i];
         }
 
-        asteroids.sort(compare);
+        asteroidsClone.sort(compare);
+        asteroidHitBoxesClone.sort(compare);
 
         // Enemies bewegen
         // erst ab bestimmter Distanz d_max ausweichen priorisieren
         // ab d_min auf jeden Fall ausweichen
         for(enemy of enemies) {
-            enemy.move(delta, asteroids, enemies);
+            enemy.move(delta, asteroidsClone, asteroidHitBoxesClone);
             //console.log("Enemy wird bewegt")
         }
 
