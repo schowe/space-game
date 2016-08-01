@@ -21,9 +21,14 @@ function handleAsteroids() {
             if (collision.intersectSphereShipHitBox(asteroidHitBoxes[i],
                 playerHitBoxes[j])) {
                 //console.log("COLLIDE");
-                destroyAsteroid(i);
+                //destroyAsteroid(i);
                 // asteroidHitBySpaceship(i);
-                player.playerHitByAsteroid(i);
+                changeAsteroidDirection(i); 
+                player.playerHitByAsteroid(i,j);
+                
+                break; 
+
+
             }
         }
 
