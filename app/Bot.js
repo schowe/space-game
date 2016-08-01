@@ -78,9 +78,15 @@ function Bot() {
                 level = asteroid.level;
                 // altes Loeschen
                 scene.remove(asteroid);
-                // und explodieren lassen
+                // nachgelagertes behandeln
                 particleHandler.addExplosion(asteroids.position,
                                                         5, 0xcccccc);
+                changeScore(scoreValues["asteroidDestroyed"]);
+                // gegebenfalls Power-Up zeigen
+                if(Math.random() < 0.23) {
+                    spawnPowerUp(asteroid.position.x,
+                                    asteroid.position.y, asteroid.position.z);
+                }
 
                 if(level == gameLevel) {
                     // neu erschaffen
@@ -203,11 +209,11 @@ function Bot() {
 
         // TODO: weapon
         switch(Math.round(level * Math.random())) {
-            case 0 : typ = 0; break;
-            case 1 : typ = 1; break;
-            case 2 : typ = 2; break;
-            case 3 : typ = 3; break;
-            default: typ = 4; // hardest weapon
+            case 0 : typ = "BOSS1"; break;
+            case 1 : typ = "BOSS2"; break;
+            case 2 : typ = "SMALL1"; break;
+            case 3 : typ = "SMALL2"; break;
+            default: typ = "BOSS1"; // hardest weapon
         }
 
         console.log("Finally Create Enemy");

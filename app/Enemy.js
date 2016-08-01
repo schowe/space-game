@@ -2,9 +2,9 @@ var minObstacleDistance = 100;
 var maxAsteroidSize     = 30;
 var guardingRadius      = 50;
 var minDistanceToPlayer = 200;
+var maxShipSize         = 20;
 var maxShipAngle        = 70 * (Math.PI / 360);
 var shootAccuracy       = 100;
-var enemyHP             = 10;
 
 var BOSS1  = 1;
 var BOSS2  = 2;
@@ -23,33 +23,37 @@ function Enemy(location, speed, level, typ) {
     // Waffe setzen und Groesse aendern
     // TODO: weaponguard
     switch(typ) {
-        case BOSS1:
+        case "BOSS1":
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
+            this.scale.set(20,20,20);
+            this.HP = 20;
             break;
-        case BOSS2:
+        case "BOSS2":
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
+            this.scale.set(25,25,25);
+            this.HP = 20;
             break;
-        case SMALL1:
+        case "SMALL1":
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
+            this.scale.set(20,20,20);
+            this.HP = 10;
             break;
-        case SMALL2:
+        case "SMALL2":
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
+            this.scale.set(20,20,20);
+            this.HP = 10;
             break;
         default:
             geometryB = fileLoader.get("EnemyMiniShipV1");
             this.weapon = 1;
-            this.scale.set(1,1,1);
+            this.scale.set(20,20,20);
+            this.HP = 10;
     }
 
-    this.scale.set(20,20,20);
 
     var textureB  = fileLoader.get("TextureEnemyShipOne");
 
@@ -67,7 +71,6 @@ function Enemy(location, speed, level, typ) {
     this.isAlive    = true;
     this.onPlayerAttack  = false;
     this.delta      = 0;
-    this.HP         = enemyHP;
     this.respawn    = false;
 
     // Initialen Ausrichtungsvektor
@@ -342,7 +345,7 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
             possibleObstacle = true;
             distanceToShip = asteroid.position.distanceTo(shipPosition);
             if(distanceToShip <= minObstacleDistance) { // nahe an this
-                obstacles.push(asteroid.getObstacleHitBox);
+                obstacles.push(asteroid.getObstacleHitBox());
             }
         } else if(possibleObstacle && d > minObstacleDistance) {
             possibleObstacle = false;
@@ -356,7 +359,7 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
         if(d <= 0 && d <= minObstacleDistance) { // nahe und vor einem
             distanceToShip = enemy.position.distanceTo(shipPosition);
             if(distanceToShip <= minObstacleDistance && enemy!=this) { // nahe an this
-                obstacles.push(enemy.getObstacleHitBox);
+                obstacles.push(enemy.getObstacleHitBox());
             }
         } else if(possibleObstacle && d > minObstacleDistance) {
             // nach Sortierung wieder zu weit entfernt oder hinter enemy
@@ -821,29 +824,10 @@ Enemy.prototype.updatePlayerDirection = function() {
 }
 
 
-// TODO : implement functions
-
-Enemy.prototype.getHitBox = function() {
-    var mesh, geometry, material;
-
-    geometry = new THREE.BoxGeometry(1,2,3); // TODO: spezifizieren
-
-    material = new THREE.MeshBasicMaterial({
-        transparent : true,
-        opacity     : 0.5,
-        color       : 0xffffff
-    });
-
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(this.position);
-
-    return mesh;
-}
-
 Enemy.prototype.getObstacleHitBox = function() {
     var mesh, geometry, material;
 
-    var radius = maxAsteroidSize; // <- aendern
+    var radius = maxShipSize; // <- aendern
     geometry = new THREE.SphereGeometry(radius,32,32);
 
     material = new THREE.MeshBasicMaterial({
@@ -877,6 +861,25 @@ Enemy.prototype.getObstacleProjectilesHitBox = function() {
     return mesh;
 }
 
+// TODO : implement functions
+
+Enemy.prototype.getHitBox = function() {
+    var mesh, geometry, material;
+
+    // TODO: (besser) spezifizieren
+    geometry = new THREE.BoxGeometry(this.scale.x, this.scale.y, this.scale.z);
+
+    material = new THREE.MeshBasicMaterial({
+        transparent : true,
+        opacity     : 0.2,
+        color       : 0xffffff
+    });
+
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(this.position);
+
+    return mesh;
+}
 
 // TODO: spezifizieren
 Enemy.prototype.collide = function(other, type) {

@@ -150,7 +150,7 @@ Asteroid.prototype.getHitBox = function() {
     var mesh, geometry, material;
 
     // TODO: Kontrolliere: 4 initialer Radius
-    geometry = new THREE.SphereGeometry(4 * this.radius,32,32);
+    geometry = new THREE.SphereGeometry(this.radius,32,32);
 
     material = new THREE.MeshBasicMaterial({
         transparent : true,
@@ -167,11 +167,11 @@ Asteroid.prototype.getHitBox = function() {
 Asteroid.prototype.getObstacleHitBox = function() {
     var mesh, geometry, material;
 
-    geometry = new THREE.SphereGeometry(4 * 1.2 * this.radius,32,32);
+    geometry = new THREE.SphereGeometry(1.2 * this.radius,32,32);
 
     material = new THREE.MeshBasicMaterial({
         transparent : true,
-        opacity     : 0.5,
+        opacity     : 0.0,
         color       : 0xffffff
     });
 
