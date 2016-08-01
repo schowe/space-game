@@ -4,7 +4,7 @@ var weaponsActive = false;
 //Available ammunition, maximal ammunition
 var rocketAmmo = 2;
 var MaxRocketAmmo = 10;
-var MGAmmo = 0;
+var MGAmmo = 50;
 var MaxMGAmmo = 600;
 
 MGReloadTime = 1.2;
@@ -183,9 +183,12 @@ function shoot(e) {
         shootRocket();
     }
     else{
-    	if(timeSinceMG > MGReloadTime){
+    	if(timeSinceMG > MGReloadTime && MGAmmo > 0){
+    		MGAudio.play();
     		MGShoot();
-    		mgCounter = 5;
+    		mgCounter = 6;
+    		MGAmmo -=25;
+	    	updateWeaponInterface();
     	}
     }
 }

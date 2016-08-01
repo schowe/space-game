@@ -342,4 +342,5 @@ function weaponSwitch(){
     else{
         activeSecWeapon = 0;
     }
+    updateWeaponInterface();
 }
