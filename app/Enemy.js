@@ -4,6 +4,7 @@ var guardingRadius      = 50;
 var minDistanceToPlayer = 200;
 var maxShipAngle        = 70 * (Math.PI / 360);
 var shootAccuracy       = 100;
+var shootDistance		= 100;
 
 var BOSS1  = 1;
 var BOSS2  = 2;
@@ -381,23 +382,26 @@ Enemy.prototype.checkDirection = function(direction, objects) {
 Enemy.prototype.shoot = function(aimPosition) {
     var projectileSpeed = 100;
     // Schießt von position mit weapon in direction
-    // TODO: Je naeher desto haeufiger
-    var distanceEnemyPlayer = this.position.distanceTo(ship.position);
-    distanceEnemyPlayer = distanceEnemyPlayer / projectileSpeed;
 
-    var futurePosition = MATH.clone(ship.position);
-    this.playerDirection.multiplyScalar(distanceEnemyPlayer);
-    futurePosition.add(this.playerDirection);
-    this.playerDirection.normalize();
+    if(this.position.distanceTo(aimPositionm) < shootDistance) {  
+       	// TODO: Je naeher desto haeufiger
 
-    var error = new THREE.Vector3(Math.random(),Math.random(),Math.random());
-    error.multiplyScalar(shootAccuracy);
+	    var distanceEnemyPlayer = this.position.distanceTo(ship.position);
+	    distanceEnemyPlayer = distanceEnemyPlayer / projectileSpeed;
 
-    futurePosition.add(error);
+	    var futurePosition = MATH.clone(ship.position);
+	    this.playerDirection.multiplyScalar(distanceEnemyPlayer);
+	    futurePosition.add(this.playerDirection);
+	    this.playerDirection.normalize();
 
-    // TODO: Shoot von Weapon aufrufen von this.position nach futurePosition
+	    var error = new THREE.Vector3(Math.random(),Math.random(),Math.random());
+	    error.multiplyScalar(shootAccuracy);
 
-    
+	    futurePosition.add(error);
+
+	    // TODO: Shoot von Weapon aufrufen von this.position nach futurePosition
+
+    }
 }
 
 
