@@ -218,7 +218,7 @@ function Movement() {
                     case 86:
                         crosshair.switch();
                         break;
-                    case 81:
+                    case 81:                    
                         weaponSwitch();
 
 
