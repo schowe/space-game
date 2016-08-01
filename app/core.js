@@ -19,9 +19,6 @@ var movement;
 var particleHandler;
 var collision;
 var stats;
-var network;
-var starfield;
-var world;
 
 // TODO: eigentlich in Interface
 var scoreValues = {
@@ -40,7 +37,6 @@ $(function () {
     // wird ausgeführt, wenn das Dokument geladen ist:
 
     // Module initialisieren
-    network = Network();
     fileLoader = FileLoader();
     LoadingScreen();
     interface = Interface();
@@ -91,11 +87,10 @@ function init() {
     player = Player();
     player.init();
 
-    world = World();
+    var world = World();
     world.init();
 
-    starfield = new Starfield();
-
+    createStars();
     createAsteroids();
 
     movement = Movement();
@@ -221,23 +216,20 @@ function render() {
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
-        // animation code goes here:
-        
-        movement.move(delta);
-        
+        // animation code goes here
+
         renderWeapons();
+        movement.move(delta);
+        updateStars();
         updateAsteroids();
         updatePowerUps();
+
         handleCollision();
 
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
-        
         // Explosionen updaten
         particleHandler.update();
-
-        // Sternenstaub bewegen
-        if (starfield !== undefined) starfield.update();
     }
 
     camera.update();
