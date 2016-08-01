@@ -128,6 +128,8 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
         asteroidHP[index] = 0;
     }
     if ((type == "ASTEROID" || type == "asteroid" || type == "Asteroid") && !other.isAlive) {
+        console.log(this.position.distanceTo(other.position));
+        console.log(asteroidHitBoxes[index].position.distanceTo(asteroidHitBoxes[otherIndex].position));
         asteroidHP[otherIndex] = 0;
     }
 }
@@ -169,8 +171,6 @@ Asteroid.prototype.getHitBox = function () {
 
     mesh = new THREE.Mesh(geometry, material);
     //mesh.position.set(this.position.x, this.position.y, this.position.z);
-
-    scene.add(mesh);
 
     return mesh;
 }

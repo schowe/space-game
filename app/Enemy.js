@@ -18,52 +18,55 @@ var enemies, enemy, asteroid,
 // Enemyklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
 // (Ausnahme: Collision soll auf collide zugreifen)
-function Enemy(location, speed, level, typ) {
+function Enemy(location, speed, level, typ, index) {
     // TODO: unterschiedliche Enemies
 
     // Waffe setzen und Groesse aendern
     // TODO: weaponguard
     switch(typ) {
         case "BOSS1":
-            geometryB = fileLoader.get("EnemyMiniShipV1");
+            geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            this.HP = 20;
+            enemyHP[index] = 20;
             break;
         case "BOSS2":
-            geometryB = fileLoader.get("EnemyMiniShipV1");
+            geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(25,25,25);
-            this.HP = 20;
+            enemyHP[index] = 20;
             break;
         case "SMALL1":
-            geometryB = fileLoader.get("EnemyMiniShipV1");
+            geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            this.HP = 10;
+            enemyHP[index] = 10;
             break;
         case "SMALL2":
-            geometryB = fileLoader.get("EnemyMiniShipV1");
+            geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            this.HP = 10;
+            enemyHP[index] = 10;
             break;
         default:
-            geometryB = fileLoader.get("EnemyMiniShipV1");
+            geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            this.HP = 10;
+            enemyHP[index] = 10;
     }
+
+    this.typ = typ;
 
     geometryB = fileLoader.get("EnemyShipOne");
     var textureB  = fileLoader.get("TextureEnemyShipOne");
-
 
 
     // Mesh setzen
     THREE.Mesh.call(this, geometryB,
                     new THREE.MeshPhongMaterial({map: textureB}));
 
+    this.scale.set(1,1,1);
+    
     MATH = MATHX();
 
     this.speed      = speed;
@@ -88,8 +91,11 @@ function Enemy(location, speed, level, typ) {
     this.oldPlayerLocation = MATH.clone(ship.position);
     this.oldPlayerDir = MATH.clone(ship.position);
 
+
+    this.position.set(2,2,2);
+
     // HitBox
-    this.hitBox = this.getHitBox();
+    // this.hitBox = this.getHitBox();
 
 }
 
@@ -217,7 +223,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies) {
     dir.normalize();
     this.oldDir = MATH.clone(dir);
 
-    this.hitBox.position.set(this.position);
+    //this.hitBox.position.set(this.position);
 
 }
 
@@ -869,11 +875,15 @@ Enemy.prototype.getObstacleProjectilesHitBox = function() {
 
 // TODO : implement functions
 
-Enemy.prototype.getHitBox = function() {
-    var mesh, geometry, material;
+Enemy.prototype.getHitBoxes = function() {
+
+    var hitBoxes = [];
+
+    var mesh, geometry1, geometry2, material;
 
     // TODO: (besser) spezifizieren
-    geometry = new THREE.BoxGeometry(this.scale.x, this.scale.y, this.scale.z);
+    geometry1 = new THREE.BoxGeometry(9, 4, 4);
+    geometry2 = new THREE.BoxGeometry(4, 3, 15);
 
     material = new THREE.MeshBasicMaterial({
         transparent : true,
@@ -881,10 +891,16 @@ Enemy.prototype.getHitBox = function() {
         color       : 0xffffff
     });
 
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(this.position);
+    mesh1 = new THREE.Mesh(geometry1, material);
+    mesh2 = new THREE.Mesh(geometry2, material);
+    scene.add(mesh1);
+    scene.add(mesh2);
+    //mesh.position.set(this.position);
 
-    return mesh;
+    hitBoxes.push(mesh1);
+    hitBoxes.push(mesh2);
+
+    return hitBoxes;
 }
 
 // TODO: spezifizieren

@@ -9,7 +9,7 @@
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    asteroidHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 50;
+    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 50;
 
 function Bot() {
 
@@ -91,41 +91,12 @@ function Bot() {
 
         // neu erschaffen
         asteroid = createAsteroid(level);
-        asteroids[index] = asteroid;/*
+        asteroids[index] = asteroid;
         asteroidHitBoxes[index] = asteroid.getHitBox();
-        asteroidHitBoxes[index].position.set(asteroids[index].position.x, asteroids[index].position.y, asteroids[index].position.z);*/
+        asteroidHitBoxes[index].position.set(asteroids[index].position.x, asteroids[index].position.y, asteroids[index].position.z);
         asteroidHP[index] = (10);
         //console.log("Respawned: " + i);
         scene.add(asteroid);
-    }
-
-    // Respawn der Enemies
-    function respawnEnemies() {
-        var level, enemy;
-        // rueckwaerts, um beim Loeschen nicht ein Element zu ueberspringen
-        for(var i = enemies.length - 1; i >= 0; i--) {
-            enemy = enemies[i];
-
-            if(!enemy.isAlive) {
-                level = enemy.level;
-                // altes Loeschen
-                scene.remove(enemy);
-
-                // und gegebenenfalls neu setzen
-                if(enemy.respawn) {
-                    enemy = createEnemy(level);
-                    enemies[i] = enemy;
-                    enemyHitBoxes[i] = enemy.hitBox;
-                    scene.add(enemy);
-                } else {
-                    enemies.splice(i,1);
-                    enemyHitBoxes.splice(i,1);
-                }
-
-                //console.log("Respawned: " + enemies.length);
-
-            }
-        }
     }
 
 
@@ -180,7 +151,7 @@ function Bot() {
     }
 
     // Erschaffe Enemy
-    function createEnemy(level) {
+    function createEnemy(level, index) {
         var direction, alpha, beta, enemyPosition, radius,
             typ;
         //console.log("Enter Create Enemy");
@@ -214,7 +185,7 @@ function Bot() {
         }
 
         //console.log("Finally Create Enemy");
-        enemy = new Enemy(enemyPosition, speed, level, typ);
+        enemy = new Enemy(enemyPosition, speed, level, typ, index);
 
         return enemy;
     }
@@ -259,8 +230,17 @@ function Bot() {
         // Enemies bewegen
         // erst ab bestimmter Distanz d_max ausweichen priorisieren
         // ab d_min auf jeden Fall ausweichen
-        for(enemy of enemies) {
-            enemy.move(delta, asteroidsClone, asteroidHitBoxesClone);
+        for(var i = enemies.length -1; i>=0; i--) {
+            if(enemyHP[i] <= 0){
+                enemies.splice(i,1);
+                enemyHitBoxes.splice(i,1);
+                enemyHP.splice(i,1);
+            }else{
+                enemies[i].move(delta, asteroidsClone, asteroidHitBoxesClone);
+                for(var j = enemyHitBoxes[i].length - 1; j >= 0 ;j--){
+                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
+                }
+            }
             //console.log("Enemy wird bewegt")
         }
 
@@ -270,10 +250,15 @@ function Bot() {
         // update-Methode, aufzurufen in jedem Durchlauf des Renderers
         updateAI: function(delta) {
             // Asteroiden respawnen
-            respawnEnemies();
+            // respawnEnemies();
             //console.log("AI updated")
             // Gegner und Asteroiden updaten
             updateLocation(delta);
+            for(var i = 0 ; i < enemies.length; i++) {
+                for(var j = enemyHitBoxes[i].length - 1; j >= 0 ;j--){
+                    enemyHitBoxes[i][j].rotation = enemies[i].rotation;
+                }
+            }
         },
 
 
@@ -306,11 +291,14 @@ function Bot() {
                 enemies = [];
             }
 
-            for(var i = 0 ; i < 0 * level; i++) {
+            for(var i = 0 ; i < 1 * level; i++) {
                 //console.log("Hello");
-                enemy = createEnemy(level);
+                enemy = createEnemy(level, i);
                 enemies.push(enemy);
-                enemyHitBoxes.push(enemy.hitBox);
+                enemyHitBoxes.push(enemy.getHitBoxes());
+                for(var j = enemyHitBoxes[i].length - 1; j >= 0 ;j--){
+                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
+                }
                 //console.log(enemies.length);
                 scene.add(enemy);
             }
