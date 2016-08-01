@@ -100,8 +100,12 @@ function handleProjectiles() {
 
             if (projectiles[i].name === "Laser") {
                 for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
-                    if (collision.intersectBoxCylinder(itemHitBoxes[j],
-                            projectiles[i])) {
+                    // if (collision.intersectLineBox(projectiles[i].getObjectByName("lowerPoint"),
+                    //         projectiles[i].getObjectByName("upperPoint"), itemHitBoxes[j])) {
+
+                    if (collision.intersectPointBox(projectiles[i].getObjectByName("upperPoint"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("lowerPoint"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("midPoint"), itemHitBoxes[j])) {
                         successLaser(i);
                         collected(j);
                         break;
@@ -110,11 +114,12 @@ function handleProjectiles() {
             }
 
 
-
             else if (projectiles[i].name === "Rocket") {
                 for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
-                    if (collision.intersectBoxCylinder(itemHitBoxes[j],
-                            projectiles[i])) {
+                    console.log();
+                    if (collision.intersectPointBox(projectiles[i].getObjectByName("upperPoint"), itemHitBoxes[j]) ||
+                            collision.intersectPointBox(projectiles[i].getObjectByName("lowerPoint"), itemHitBoxes[j]) ||
+                            collision.intersectPointBox(projectiles[i].getObjectByName("midPoint"), itemHitBoxes[j])) {
                         successRocket(i);
                         collected(j);
                         break;

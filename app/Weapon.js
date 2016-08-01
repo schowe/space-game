@@ -168,18 +168,23 @@ function shootLaser(){
         // dummy points to check collision with laser
         var p1 = new THREE.Vector3(0, laser.geometry.parameters.height / 2, 0);
         var p2 = new THREE.Vector3(0, - laser.geometry.parameters.height / 2, 0);
+        var p3 = new THREE.Vector3(0, 0, 0);
         var dummyDot1 = new THREE.Object3D();
         var dummyDot2 = new THREE.Object3D();
-        dummyDot1.position = p1;
-        dummyDot2.position = p2;
+        var dummyDot3 = new THREE.Object3D();
+
+        dummyDot1.position.y = laser.geometry.parameters.height / 2;
+        dummyDot2.position.y = - laser.geometry.parameters.height / 2;
 
         // names will be checked in CollisionHandling
         dummyDot1.name = "upperPoint";
         dummyDot2.name = "lowerPoint";
+        dummyDot3.name = "midPoint";
 
         // add points to laser
         laser.add(dummyDot1);
         laser.add(dummyDot2);
+        laser.add(dummyDot3);
 
         //set name for recognition in render-function
         laser.name = "Laser";
@@ -242,20 +247,22 @@ function shootRocket(){
       var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
 
       // dummy points to check collision with laser
-      var p1 = new THREE.Vector3(0, 500, 0);
-      var p2 = new THREE.Vector3(0, -500, 0);
       var dummyDot1 = new THREE.Object3D();
       var dummyDot2 = new THREE.Object3D();
-      dummyDot1.position = p1;
-      dummyDot2.position = p2;
+      var dummyDot3 = new THREE.Object3D();
+
+      dummyDot1.position.y = 500;
+      dummyDot2.position.y = -500;
 
       // names will be checked in CollisionHandling
       dummyDot1.name = "upperPoint";
       dummyDot2.name = "lowerPoint";
+      dummyDot3.name = "midPoint";
 
       // add points to laser
       rocket.add(dummyDot1);
       rocket.add(dummyDot2);
+      rocket.add(dummyDot3);
 
       //set name for recocnition in render-function
   	 	rocket.name = "Rocket";
