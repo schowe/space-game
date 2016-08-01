@@ -20,6 +20,8 @@ var particleHandler;
 var collision;
 var stats;
 var network;
+var starfield;
+var world;
 
 // TODO: eigentlich in Interface
 var scoreValues = {
@@ -89,10 +91,11 @@ function init() {
     player = Player();
     player.init();
 
-    var world = World();
+    world = World();
     world.init();
 
-    createStars();
+    starfield = new Starfield();
+
     createAsteroids();
 
     movement = Movement();
@@ -218,20 +221,23 @@ function render() {
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
-        // animation code goes here
-
-        renderWeapons();
+        // animation code goes here:
+        
         movement.move(delta);
-        updateStars();
+        
+        renderWeapons();
         updateAsteroids();
         updatePowerUps();
-
         handleCollision();
 
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
+        
         // Explosionen updaten
         particleHandler.update();
+
+        // Sternenstaub bewegen
+        if (starfield !== undefined) starfield.update();
     }
 
     camera.update();
