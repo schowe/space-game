@@ -236,11 +236,9 @@ function Player() {
         },
 
 
-        activateShield: function (){
-        	 
-        	 console.log("SCHILD AKTIVIERT!");
-        	 shieldGeometry = fileLoader.get("Kugelschild");
-        	 shieldTex = fileLoader.get ("KugelschildTex");
+        activateShield: function () {
+            shieldGeometry = fileLoader.get("Kugelschild");
+            shieldTex = fileLoader.get("KugelschildTex");
 
         	 shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex }));
         	 shield.scale.x = shield.scale.y = shield.scale.z = 1; 
