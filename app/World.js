@@ -7,7 +7,7 @@ var asteroidSpeedVecs = [];
 var asteroidRotVecs = [];
 var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
-var biggerSphereRadius = 5000;
+var biggerSphereRadius = 4000;
 var asteroidRadius = 3.5;
 var defaultAsteroidHP = 10;
 
@@ -55,7 +55,7 @@ function createAsteroids() {
     astGeometry = fileLoader.get("AsteroidV2");
     astTexture = fileLoader.get("AsteroidTex");
 
-    for (countAst = 0; countAst < 100; countAst++) {
+    for (countAst = 0; countAst < 150; countAst++) {
 
         rndSpeedX = Math.random() * 20 - 14;
         rndSpeedY = Math.random() * 20 - 14;
@@ -195,6 +195,11 @@ function hitAsteroid(asteroidNumber, collisionType) {
             asteroidsHP[asteroidNumber] -= rocketDamage;
 
             break;
+
+        case "Explosion": 
+
+          asteroid[asteroidNumber] -= explosionDamage; 
+
 
         default:
 
