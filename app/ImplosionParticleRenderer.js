@@ -59,9 +59,9 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
                 var particle = this.particles.vertices[pCount];
 
 
-                particle.x += particle.velocity.x*this.currentMovement*0.5;
-                particle.y += particle.velocity.y*this.currentMovement*0.5;
-                particle.z += particle.velocity.z*this.currentMovement*0.5;
+                particle.x += particle.velocity.x*this.currentMovement;
+                particle.y += particle.velocity.y*this.currentMovement;
+                particle.z += particle.velocity.z*this.currentMovement;
 
                 // particle.addScaledVector(particle.velocity, this.currentMovement*0.2);
 
