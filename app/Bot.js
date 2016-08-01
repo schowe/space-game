@@ -71,7 +71,7 @@ function Bot() {
 
     // Respawn der Asteroiden
     function respawnAsteroid(asteroid, index) {
-        console.log("Respawned: "+index);
+        //console.log("Respawned: "+index);
         var level = asteroid.level;
         // altes Loeschen
         

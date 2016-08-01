@@ -62,7 +62,7 @@ Asteroid.prototype.move = function (delta) {
     this.direction.normalize();
 
     if (this.position.distanceTo(ship.position) > despawnDistance) {
-        console.log("DespawnRange");
+        //console.log("DespawnRange");
         this.isAlive = false;
     }
 
@@ -83,16 +83,13 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
     switch (type) {
         case "ASTEROID": case "asteroid": case "Asteroid":
             if (this.isSmall) {
-                console.log("asteroidsA");
                 this.isAlive = false;
 
                 if (other.isSmall) {
-                    console.log("asteroidsB");
                     other.isAlive = false;
                 }
             } else {
                 if (other.isSmall) {
-                    console.log("asteroidsC");
                     other.isAlive = false;
                 } else {
                     this.reflect(other);
@@ -103,13 +100,10 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
             // TODO
             break;
         case "PLAYER": case "player": case "Player":
-            console.log("player");
             this.isAlive = false;
             break;
         case "LASER": case "laser": case "Laser":
             asteroidHP[index] -= laserDamage;
-            console.log(index + " lost " + laserDamage + " of " + asteroidHP[index] + " HP");
-            console.log(asteroidHitBoxes[index].position);
             break;
         case "ROCKET": case "rocket": case "Rocket":
             asteroidHP[index] -= rocketDamage;
@@ -118,7 +112,6 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
 
             break;
         case "MACHINEGUN": case "machinegun": case "Machinegun":
-            console.log("machinegun");
             this.isAlive = false;
             break;
         default: console.log("Error: Collision with unknown");
@@ -128,8 +121,6 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
         asteroidHP[index] = 0;
     }
     if ((type == "ASTEROID" || type == "asteroid" || type == "Asteroid") && !other.isAlive) {
-        console.log(this.position.distanceTo(other.position));
-        console.log(asteroidHitBoxes[index].position.distanceTo(asteroidHitBoxes[otherIndex].position));
         asteroidHP[otherIndex] = 0;
     }
 }
