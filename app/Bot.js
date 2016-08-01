@@ -191,7 +191,7 @@ function Bot() {
         console.log("Enter Create Enemy");
         // Welt als Kugel -> Setze an den aeusseren 1/2 Rand
         // TODO: spawnRadius setzen
-        var spawnRadius = 700;
+        var spawnRadius = 300;
         radius = spawnRadius/2 * (1+Math.random());
 
         // zufaellig an den Rand positionieren
@@ -282,7 +282,7 @@ function Bot() {
             }
 
             // TODO: Levelabhaengigkeit klaeren
-            for(var i = 0; i < 200; i++) {
+            for(var i = 0; i < 50; i++) {
                 asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
                 asteroidHitBoxes.push(asteroid.hitBox);
@@ -295,7 +295,7 @@ function Bot() {
                 enemies = [];
             }
 
-            for(var i = 0 ; i < 15 * level; i++) {
+            for(var i = 0 ; i < 1 * level; i++) {
                 console.log("Hello");
                 enemy = createEnemy(level);
                 enemies.push(enemy);

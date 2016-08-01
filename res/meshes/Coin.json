@@ -39,8 +39,6 @@
 					"colorSpecular": [0.5, 0.5, 0.5],
 					"depthTest": true,
 					"depthWrite": true,
-					"mapDiffuse": "Coin_Texture.jpg",
-					"mapDiffuseWrap": ["repeat", "repeat"],
 					"shading": "Lambert",
 					"specularCoef": 50,
 					"opacity": 1.0,
