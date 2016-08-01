@@ -214,10 +214,6 @@ function Movement() {
                         break;
                     case 86:
                         crosshair.switch();
-                        break;
-                    case 81:                    
-                        weaponSwitch();
-
 
 
                 }
@@ -336,16 +332,6 @@ function stop() {
 
 }
 
-function weaponSwitch(){
-    if(activeSecWeapon == 0){
-        activeSecWeapon = 1;
-    }
-    else{
-        activeSecWeapon = 0;
-    }
-    updateWeaponInterface();
-}
-
 function cameraWatcher (){
 
     if(lat> 57 && yAxis ==0){
@@ -363,4 +349,7 @@ function cameraWatcher (){
 
 
     }
+
+
+
 }
