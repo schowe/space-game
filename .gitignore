@@ -1,6 +1,8 @@
+<<<<<<< HEAD
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
+/start_server
 
 # Folder config file
 Desktop.ini
@@ -45,3 +47,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+=======
+.idea/
+>>>>>>> 561684806994639a8179c1bb085ca9e413022c62
