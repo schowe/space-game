@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>SpaceGame</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="res/css/lib/bootstrap.css" />
+    <link rel="stylesheet" href="res/css/lib/sb-admin-2.css" />
+    <link rel="stylesheet" href="res/css/index.css" />
+
+    <!-- Javascript -->
+    <script src="res/js/lib/jquery-2.2.4.min.js"></script>
+    <script src="res/js/lib/bootstrap.min.js"></script>
+    <script src="res/js/lib/threejs/three.js"></script>
+
+    <!-- custom -->
+    <script type="text/javascript" src="app/FileLoader.js"></script>
+
+	<script>
+		var camera, scene, renderer;
+	
+		var sphere, ship ;
+	
+		var fileLoader = FileLoader();
+
+
+
+$(function () {
+
+    var container;
+    var tick;
+    var clock = new THREE.Clock(true);
+
+
+    // start
+    var loadingLoop = setInterval(function() {
+        console.log("loading");
+        if (fileLoader.isReady()) {
+            console.log("done");
+            clearInterval(loadingLoop);
+            init();
+            animate();
+        }
+    }, 50);
+
+
+
+    function init() {
+
+        // HTML-Container erzeugen
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        // Kamera und Szene erzeugen
+        scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.0009);
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+        camera.position.set(12, 15, -20);
+        camera.lookAt(scene.position);
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        // Licht
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(3, 6, 0);
+        scene.add(light);
+
+        // lens flares
+        var dirLight = new THREE.DirectionalLight( 0xffffff, 0.05 );
+        dirLight.position.set( 5, 5, 5 );
+        dirLight.color.setHSL( 0.1, 0.7, 0.5 );
+        scene.add( dirLight );
+
+        var textureLensflare1 = fileLoader.get("lensflare1");
+        var textureLensflare2 = fileLoader.get("lensflare2");
+        var textureLensflare3 = fileLoader.get("lensflare3");
+
+        var pointLight = new THREE.PointLight( 0xffffff, 1.5, 2000 );
+        pointLight.color.setHSL( 32/255, 1, 0.5 );
+        pointLight.position.set( 5, 5, 5 );
+        scene.add( pointLight );
+
+        var flareColor = new THREE.Color( 0xffffff );
+        flareColor.setHSL( 0.55, 0.9, 1);
+        var lensFlare = new THREE.LensFlare(textureLensflare1, 700, 0.0, THREE.AdditiveBlending, flareColor );
+
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare2, 512, 0.0, THREE.AdditiveBlending );
+
+        lensFlare.add( textureLensflare3, 60, 0.6, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 0.7, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 120, 0.9, THREE.AdditiveBlending );
+        lensFlare.add( textureLensflare3, 70, 1.0, THREE.AdditiveBlending );
+
+        lensFlare.position.copy( pointLight.position );
+
+        scene.add( lensFlare );
+
+
+        // Skybox
+        var geometrySkysphere = new THREE.SphereGeometry(1000, 256, 256);
+        var materialSkysphere = new THREE.MeshBasicMaterial({
+            map: fileLoader.get("sky_sphere_map"),
+            side: THREE.DoubleSide
+        });
+        sphere = new THREE.Mesh(geometrySkysphere, materialSkysphere);
+        scene.add(sphere);
+
+
+
+	var gridHelper = new THREE.GridHelper(10, 10);
+	scene.add(gridHelper);
+	var axisHelper = new THREE.AxisHelper(10);
+	scene.add(axisHelper);
+
+	
+	var jsonLoader = new THREE.JSONLoader();
+	jsonLoader.load("res/meshes/HeroShipV5.json", function(geometry, materials) {
+			// on load
+			var multiMaterial = new THREE.MultiMaterial(materials);
+			
+			for (var i = 0; i < multiMaterial.materials.length; i++) {
+				multiMaterial.materials[i].skinning = true;
+				multiMaterial.materials[i].map = fileLoader.get("TextureHero");			
+			}
+			multiMaterial.skinning = true;
+			ship = new THREE.SkinnedMesh(geometry, multiMaterial);
+			scene.add(ship);				
+		}
+	);
+	
+/*
+	var shipModel = fileLoader.get("HeroShipV5");
+	var shipTexture = fileLoader.get("TextureHero");
+	var ship = new THREE.SkinnedMesh(shipModel, new THREE.MeshPhongMaterial(
+			{
+				map:shipTexture,
+				skinning:true
+			}
+		)
+	);
+	scene.add(ship);*/
+
+
+
+
+        // Event-Listener für Resize
+        window.addEventListener("resize", onWindowResize, false);
+  
+
+    }
+    
+
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+
+    function animate() {
+        requestAnimationFrame(animate);
+        render();
+	
+	if (ship !== undefined) animateSpaceship();
+ 
+    }
+
+
+    function render() {
+        // dont touch!
+        renderer.render(scene, camera);
+
+    }
+
+    function animateSpaceship() {
+	var index = 1;
+
+        ship.skeleton.bones[index].rotation.z += 0.1;     
+        ship.skeleton.bones[index].matrixAutoUpdate = true;
+        ship.skeleton.bones[index].matrixWorldNeedsUpdate = true;
+        ship.geometry.verticesNeedUpdate = true;
+        ship.geometry.normalsNeedUpdate = true;
+    }
+
+
+});
+	</script>
+
+</head>
+
+<body>
+
+</body>
+
+</html>
