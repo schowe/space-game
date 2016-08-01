@@ -34,17 +34,14 @@
 					"DbgIndex": 0,
 					"DbgName": "Material",
 					"blending": "NormalBlending",
-					"colorAmbient": [0.800000011920929, 0.800000011920929, 0.800000011920929],
 					"colorDiffuse": [0.800000011920929, 0.800000011920929, 0.800000011920929],
 					"colorEmissive": [0.4000000059604645, 0.4000000059604645, 0.4000000059604645],
 					"colorSpecular": [0.5, 0.5, 0.5],
 					"depthTest": true,
 					"depthWrite": true,
-					"mapDiffuse": "KugelschildTex.png",
-					"mapDiffuseWrap": ["repeat", "repeat"],
 					"shading": "Lambert",
 					"specularCoef": 50,
-					"transparency": 0.30000001192092896,
+					"opacity": 0.30000001192092896,
 					"transparent": true,
 					"vertexColors": false
 				}

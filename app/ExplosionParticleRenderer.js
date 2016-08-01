@@ -1,5 +1,4 @@
 function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, speed, size) {
-    
 
     this.running = true;
     this.clock = new THREE.Clock();
@@ -16,7 +15,7 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
         {
             color: particleColor,
             size: size,
-            map:particleTexture,
+            map: particleTexture,
             blending: THREE.AdditiveBlending,
             transparent: true
         }
@@ -30,32 +29,33 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
             this.startVector.z
         );
 
-        particle.x += Math.random()-0.5;
-        particle.y += Math.random()-0.5;
-        particle.z += Math.random()-0.5;
+        particle.x += Math.random() - 0.5;
+        particle.y += Math.random() - 0.5;
+        particle.z += Math.random() - 0.5;
 
         particle.velocity = new THREE.Vector3(
             0, 0, 0 // TODO
         );
         this.particles.vertices.push(particle);
     }
+
     this.particleSystem = new THREE.Points(this.particles, this.material);
 
     // zur Szene hinzufügen
     scene.add(this.particleSystem);
 
-    this.update = function() {
+    this.update = function () {
 
         if (this.running) {
-            
+
             var pCount = this.particleCount;
 
             while (pCount--) {
                 var particle = this.particles.vertices[pCount];
 
-                particle.velocity.x += (Math.random()-0.5)*this.speed;
-                particle.velocity.y += (Math.random()-0.5)*this.speed;
-                particle.velocity.z += (Math.random()-0.5)*this.speed;
+                particle.velocity.x += (Math.random() - 0.5) * this.speed;
+                particle.velocity.y += (Math.random() - 0.5) * this.speed;
+                particle.velocity.z += (Math.random() - 0.5) * this.speed;
 
                 particle.x += particle.velocity.x;
                 particle.y += particle.velocity.y;
@@ -74,14 +74,11 @@ function ExplosionParticleRenderer(particleColor, nParticles, particleTexture, l
                 this.running = false;
                 return false;
             } else {
-                // weitermachen
+	            // weitermachen
                 return true;
             }
         }
 
 
     };
-
-
 }
-
