@@ -8,13 +8,14 @@
 // Hier aufzurufen:
 // - init()
 // - update(delta)
-var asteroids = [], enemies = [], enemy, asteroid, 
-    worldRadius, gameLevel;
+var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
+    enemy, asteroid, worldRadius, gameLevel;
 
 function Bot() {
 
     var minShipSize     = 10;
     var maxShipSize     = 20;
+    var minAsteroidSize = 10;
     var maxAsteroidSize = 30;
     var guardingRadius  = 50;
 
@@ -76,15 +77,27 @@ function Bot() {
             asteroid = asteroids[i];
             if(!asteroid.isAlive) {
                 level = asteroid.level;
-                if(level = gameLevel) {
-                    // altes Loeschen
-                    scene.remove(asteroid);
-                    asteroids.splice(i,1);
+                // altes Loeschen
+                scene.remove(asteroid);
+                // nachgelagertes behandeln
 
+                changeScore(scoreValues["asteroidDestroyed"]);
+                // gegebenfalls Power-Up zeigen
+                if(Math.random() < 0.23) {
+                    spawnPowerUp(asteroid.position.x,
+                                    asteroid.position.y, asteroid.position.z);
+                }
+
+                if(level == gameLevel) {
+                    // neu erschaffen
                     asteroid = createAsteroid(level);
-                    asteroids.push(asteroid);
+                    asteroids[i] = asteroid;
+                    asteroidHitBoxes[i] = asteroid.hitBox;
                     console.log("Respawned: " + asteroids.length);
                     scene.add(asteroid);
+                } else {
+                    asteroids.splice(i,1);
+                    asteroidHitBoxes.splice(i,1);
                 }
             }
         }
@@ -96,16 +109,25 @@ function Bot() {
         // rueckwaerts, um beim Loeschen nicht ein Element zu ueberspringen
         for(var i = enemies.length - 1; i >= 0; i--) {
             enemy = enemies[i];
+
             if(!enemy.isAlive) {
                 level = enemy.level;
                 // altes Loeschen
                 scene.remove(enemy);
-                enemies.splice(i,1);
 
-                enemy = createEnemy(level);
-                enemies.push(enemy);
+                // und gegebenenfalls neu setzen
+                if(enemy.respawn) {
+                    enemy = createEnemy(level);
+                    enemies[i] = enemy;
+                    enemyHitBoxes[i] = enemy.hitBox;
+                    scene.add(enemy);
+                } else {
+                    enemies.splice(i,1);
+                    enemyHitBoxes.splice(i,1);
+                }
+
                 console.log("Respawned: " + enemies.length);
-                scene.add(enemy);
+
             }
         }
     }
@@ -113,10 +135,12 @@ function Bot() {
 
     // Erschaffe Asteroiden
     function createAsteroid(level) {
+        var spawnRadius = 2000;
         var direction, alpha, beta, asteroidPosition, radius;
     console.log("Enter Create Asteroid");
+
         // Welt als Kugel -> Setze an den aeusseren 3/4 Rand
-        var positionRadius = worldRadius/4 * (1+3*Math.random());
+        var positionRadius = spawnRadius/4 * (1+3*Math.random());
 
 
         // zufaellig an den Rand positionieren
@@ -130,32 +154,32 @@ function Bot() {
             asteroidPosition.multiplyScalar(positionRadius);
             asteroidPosition.add(ship.position);
             // Radius zufaellig, aber mindestens so gross wie Schiff
-            radius = minShipSize + Math.random * (maxAsteroidSize - minShipSize);
+            radius = minAsteroidSize + Math.random * (maxAsteroidSize - minAsteroidSize);
         } while(!farAway(asteroidPosition, radius));
 
         // speed abhaengig von Level, ! asteroid.speed < 65 < min(enemy.speed)
-        var speed = (level > 15) ? 15 : level; 
+        var speed = (level > 15) ? 15 : level;
         speed += 35 + 15 * Math.random();
         //speed = 50;
 
 
         // Richtung:
-        direction = new THREE.Vector3(
-                            ship.position.x - asteroidPosition.x,
-                            ship.position.y - asteroidPosition.y,
-                            ship.position.z - asteroidPosition.z);
-        // bilde orthogonalen Vektor
-        var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
-        randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
-        randomDir.normalize();
-        randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°) 
-        direction.add(randomDir);
+        // direction = new THREE.Vector3(
+        //                     ship.position.x - asteroidPosition.x,
+        //                     ship.position.y - asteroidPosition.y,
+        //                     ship.position.z - asteroidPosition.z);
+        // // bilde orthogonalen Vektor
+        // var randomDir = new THREE.Vector3(direction.x,direction.y,direction.z);
+        // randomDir.cross(new THREE.Vector3(Math.random(),1,Math.random()));
+        // randomDir.normalize();
+        // randomDir.multiplyScalar(5.67*direction.length()*(2*Math.random()-1)); // tan(80°)
+        // direction.add(randomDir);
 
-       // direction = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() -0.5);
+        direction = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() -0.5);
 
         console.log("Finally Create Asteroid");
 
-        asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level, false);
+        asteroid = new Asteroid(asteroidPosition, 20, direction, speed, level);
 
         return asteroid;
     }
@@ -187,11 +211,11 @@ function Bot() {
 
         // TODO: weapon
         switch(Math.round(level * Math.random())) {
-            case 0 : typ = 0; break;
-            case 1 : typ = 1; break;
-            case 2 : typ = 2; break;
-            case 3 : typ = 3; break;
-            default: typ = 4; // hardest weapon
+            case 0 : typ = "BOSS1"; break;
+            case 1 : typ = "BOSS2"; break;
+            case 2 : typ = "SMALL1"; break;
+            case 3 : typ = "SMALL2"; break;
+            default: typ = "BOSS1"; // hardest weapon
         }
 
         console.log("Finally Create Enemy");
@@ -238,14 +262,9 @@ function Bot() {
         updateAI: function(delta) {
             // Gegner und Asteroiden updaten
             updateLocation(delta);
-            // Kollisionsueberpruefung -> zerstoerte Loeschen
-            for(asteroid of asteroids) {
-                if(!asteroid.isAlive) {
-
-                }
-            }
             // Asteroiden respawnen
             respawnAsteroids();
+            respawnEnemies();
             console.log("AI updated")
         },
 
@@ -266,10 +285,11 @@ function Bot() {
             for(var i = 0; i < 200; i++) {
                 asteroid = createAsteroid(level);
                 asteroids.push(asteroid);
+                asteroidHitBoxes.push(asteroid.hitBox);
                 console.log(asteroids.length);
                 scene.add(asteroid);
             }
-            console.log(level);
+
             // erstelle Gegner
             if(level == 1) {
                 enemies = [];
@@ -279,6 +299,7 @@ function Bot() {
                 console.log("Hello");
                 enemy = createEnemy(level);
                 enemies.push(enemy);
+                enemyHitBoxes.push(enemy.hitBox);
                 console.log(enemies.length);
                 scene.add(enemy);
             }

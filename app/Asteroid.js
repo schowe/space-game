@@ -1,18 +1,22 @@
 // Asteroidenklasse
 // Hier nichts direkt aufrufen, Aufrufe werden ueber Bot.js geregelt
-// (Ausnahme: Collision soll onCollisionDetect aufrufen)
+// (Ausnahme: Collision soll collide aufrufen)
 var minShipSize     = 10;
 var maxShipSize     = 20;
 var maxAsteroidSize = 30;
+var asteroidHP      = 10;
+var smallityBorder  = 20;
 
 var geometryA, textureA;
 
-var despawnDistance = 700; // aus core.js (Backplane der Camera) (changed)
+var despawnDistance = 2000; // aus core.js (Backplane der Camera) (changed)
 
-function Asteroid(location,radius, direction, speed, level, small) {
+function Asteroid(location,radius, direction, speed, level) {
     console.log("Asteroid init");
     // Mesh setzen
-    if(small) {
+    this.isSmall    = (radius <= 20) ? true : false;
+
+    if(this.isSmall) {
         geometryA = fileLoader.get("AsteroidV2");
         textureA  = fileLoader.get("AsteroidTex");
     } else {
@@ -30,19 +34,24 @@ function Asteroid(location,radius, direction, speed, level, small) {
     this.direction.normalize();
     this.speed      = speed;
     this.radius     = radius;
-    
+
     this.position.x = location.x;
     this.position.y = location.y;
     this.position.z = location.z;
 
     this.level      = level;
     this.isAlive    = true;
-    this.isSmall 	= small;
+    this.HP         = asteroidHP;
 
     // setze Rotation
-    this.rotation.set(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random(), 'XYZ');
+    this.rotation.set(0.05 * Math.random(),
+                            0.05 * Math.random(),0.05 * Math.random(), 'XYZ');
 
-    this.rotateSpeed = new THREE.Vector3(0.05 * Math.random(),0.05 * Math.random(),0.05 * Math.random());
+    this.rotateSpeed = new THREE.Vector3(0.05 * Math.random(),
+                                    0.05 * Math.random(),0.05 * Math.random());
+
+    // setze Hitbox
+    this.hitBox = this.getHitBox();
 }
 
 Asteroid.prototype.constructor = Asteroid;
@@ -67,46 +76,51 @@ Asteroid.prototype.move = function(delta) {
     this.rotation.z += this.rotateSpeed.z;
    // console.log("Rotation asteroid: ("+this.rotation.x+","+this.rotation.y+","+this.rotation.z+")");
 
+   // HitBox setzen
+   this.hitBox.position.set(this.position);
+
 }
 
-Asteroid.prototype.onCollisionDetect = function(other, typ) {
-	// siehe World und Zettel 2 -> HP fuer Asteroid?
-
-    // TODO:
-    // falls Asteroid getroffen:
-    // Asteroid ? -> abstossen und verkleinern
-    if(typ == BOT.ASTEROID) {
-        this.reflect(other);
-
-        if(small) {
+Asteroid.prototype.collide = function(other, type) {
+    switch(type) {
+        case "ASTEROID": case "asteroid": case "Asteroid":
+            if(this.isSmall) {
+                this.isAlive = false;
+                if(other.isSmall) {
+                    other.isAlive = false;
+                }
+            } else {
+                if(other.isSmall) {
+                    other.isAlive = false;
+                } else {
+                    this.reflect(other);
+                }
+            }
+            break;
+        case "SHIP": case "ship": case "Ship":
+            // TODO
+            break;
+        case "PLAYER": case "player": case "Player":
             this.isAlive = false;
-        } else {
-            // verkleiner und erzeuge neuen
-            this.isSmall = true;
-        }
+            break;
+        case "LASER": case "laser": case "Laser":
+            this.HP -= laserDamage;
+            break;
+        case "ROCKET": case "rocket": case "Rocket":
+            this.HP -= rocketDamage;
+            break;
+        case "EXPLOSION": case "explosion": case "Explosion":
 
-        if(other.small) {
-            isAlive = false;
-        } else {
-            // verkleiner und erzeuge neuen
-        }
-    }
-
-    // Schiff   ? -> weiterbewegen (nichts tun)
-    if(typ == BOT.SHIP) {
-        other.isAlive = false;
-    }
-
-    // Schuss   ? -> explodieren und neu setzen
-    if(typ == BOT.SHOT) {
-        if(small) {
+            break;
+        case "MACHINEGUN": case "machinegun": case "Machinegun":
             this.isAlive = false;
-        } else {
-            // verkleiner und erzeuge neuen
-        }
+            break;
+        default: console.log("Error: Collision with unknown");
     }
 
-    // TODO: aufspalten in Dreiecke mit reflektiertem Winkel
+    if(this.HP <= 0) {
+        this.isAlive = false;
+    }
 }
 
 Asteroid.prototype.reflect = function(other) {
@@ -131,4 +145,40 @@ Asteroid.prototype.reflect = function(other) {
     factor = 2 * Math.dot(axisB,other.direction);
     other.direction.negate();
     other.direction.add(negAxis.multiplyScalar(factor));
+}
+
+Asteroid.prototype.getHitBox = function() {
+    var mesh, geometry, material;
+
+    // TODO: Kontrolliere: 4 initialer Radius
+    geometry = new THREE.SphereGeometry(this.radius,32,32);
+
+    material = new THREE.MeshBasicMaterial({
+        transparent : true,
+        opacity     : 0.5,
+        color       : 0xffffff
+    });
+
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(this.position);
+
+    return mesh;
+}
+
+Asteroid.prototype.getObstacleHitBox = function() {
+    var mesh, geometry, material;
+
+    geometry = new THREE.SphereGeometry(1.2 * this.radius,32,32);
+
+    material = new THREE.MeshBasicMaterial({
+        transparent : true,
+        opacity     : 0.0,
+        color       : 0xffffff
+    });
+
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(this.position);
+    mesh.direction = this.direction;
+
+    return mesh;
 }
