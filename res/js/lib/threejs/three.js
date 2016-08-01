@@ -15869,7 +15869,7 @@ THREE.PropertyBinding.Composite.prototype = {
 
 };
 
-THREE.PropertyBinding.create = function( root, path, parsedPath ) {
+THREE.PropertyBinding.create = function(root, path, parsedPath ) {
 
 	if ( ! ( root instanceof THREE.AnimationObjectGroup ) ) {
 
@@ -35025,7 +35025,7 @@ THREE.Curve.prototype = {
 
 // A Factory method for creating new curve subclasses
 
-THREE.Curve.create = function ( constructor, getPointFunc ) {
+THREE.Curve.create = function (constructor, getPointFunc ) {
 
 	constructor.prototype = Object.create( THREE.Curve.prototype );
 	constructor.prototype.constructor = constructor;

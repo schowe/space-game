@@ -1,9 +1,4 @@
 var level = 1;
-var scoreValues = {
-    "itemCollected": 10,
-    "enemyDestroyed": 50,
-    "asteroidDestroyed": 20
-};
 
 levelTimes = [
 	10,
