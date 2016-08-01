@@ -50,7 +50,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             var pCount = this.particleCount;
 
             while (pCount--) {
-                var particleimplo = this.particles.vertices[pCount];
+                var particle = this.particles.vertices[pCount];
 
                 particle.x += particle.velocity.x * this.currentMovement * 0.5;
                 particle.y += particle.velocity.y * this.currentMovement * 0.5;
@@ -69,7 +69,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
 
             return true; // weitermachen
         } else {
-            scene.remove(this.particleSystem);
+            scene.remove(this.particleimploSystem);
             return false; //aufhören
         }
     };
