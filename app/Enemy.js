@@ -296,7 +296,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
 
         this.points = curve.getPoints(Math.round(20 * this.speed / (delta * curveLength)));
         console.log(this.points.length);
-        this.points.shift();
+        //this.points.shift();
     }
 
     // Punkte abarbeiten mit points.shift();

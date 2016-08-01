@@ -117,9 +117,6 @@ function Player() {
 
 
         activateShield: function () {
-
-<<<<<<< HEAD
-            console.log("SCHILD AKTIVIERT!");
             shieldGeometry = fileLoader.get("Kugelschild");
             shieldTex = fileLoader.get("KugelschildTex");
 
@@ -127,20 +124,6 @@ function Player() {
             shield.scale.x = shield.scale.y = shield.scale.z = 10;
             shield.position.set(ship.position.x, ship.position.y, ship.position.z);
             scene.add(shield);
-=======
-
-             shieldGeometry = new THREE.SphereGeometry(20, 32, 32);
-             var shieldMaterial = new THREE.MeshBasicMaterial({
-                    transparent: false,
-                    opacity: 0.8,
-                     color: 0x007fff
-                });
-
-             shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
-             shield.position.set(ship.position.x,ship.position.y,ship.position.z); 
-             //scene.add(shield); 
-
->>>>>>> bd202d8fb0ca40bda875fda93abbca117ebec8ee
 
         }
 
