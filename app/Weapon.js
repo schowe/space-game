@@ -4,10 +4,8 @@ var weaponsActive = false;
 //Available ammunition, maximal ammunition
 var rocketAmmo = 2;
 var MaxRocketAmmo = 10;
-var MGAmmo = 50;
+var MGAmmo = 0;
 var MaxMGAmmo = 600;
-
-MGReloadTime = 1.2;
 
 //Max distance covered by rocket
 var rocketMaxDistance = 1500;
@@ -68,7 +66,7 @@ function initializeWeapons() {
 
     explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
 
-    MGGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+    MGGeometry = new THREE.SphereGeometry(0.1, 16, 16);
 
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
@@ -92,105 +90,70 @@ function initializeWeapons() {
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
 function MGShoot() {
 
-	    //create bullet mesh
-	    var bullet1 = new THREE.Mesh(MGGeometry, shootMaterial);
-	    bullet1.name = "MachineGun";
+    //create bullet mesh
+    var bullet1 = new THREE.Mesh(MGGeometry, shootMaterial);
 
-	    //translate bullet to Position of the spaceship. Then spread a little for MG-effect
-	    bullet1.position.x = ship.position.x;
-	    bullet1.position.y = ship.position.y;
-	    bullet1.position.z = ship.position.z;
+    //rotation for traveling direction: laser needs to be turned; if bullet ist turned in the same angle they can be rendered together.
+    bullet1.rotateZ(1.57);
 
-	    bullet1.lookAt(targetPosition);
+    //translate bullet to Position of the spaceship. Then spread a little for MG-effect
+    bullet1.position.x = ship.position.x + 4;
+    bullet1.position.y = ship.position.y + 0.3;
+    bullet1.position.z = ship.position.z + 0.3;
 
-	    bullet1.translateZ(-30);
-	    bullet1.translateX(1);
-	    
-	    //add bullet to scene
-	    scene.add(bullet1);
+    //add bullet to scene
+    scene.add(bullet1);
 
-	    //add to projectiles list for rendering
-	    projectiles.push(bullet1);
+    //add to projectiles list for rendering
+    projectiles.push(bullet1);
 
-	    //repeat 4 times with spread
+    //repeat 4 times with spread
 
-	    var bullet2 = new THREE.Mesh(MGGeometry, shootMaterial);
-	    bullet2.name = "MachineGun";
+    var bullet2 = new THREE.Mesh(MGGeometry, shootMaterial);
+    bullet2.rotateZ(1.57);
+    bullet2.position.x = ship.position.x + 2;
+    bullet2.position.y = ship.position.y - 0.3;
+    bullet2.position.z = ship.position.z + 0.3;
+    scene.add(bullet2);
+    projectiles.push(bullet2);
 
-
-	    bullet2.position.x = ship.position.x;
-	    bullet2.position.y = ship.position.y;
-	    bullet2.position.z = ship.position.z;
-
-	    bullet2.lookAt(targetPosition);
-
-	    bullet2.translateZ(-15);
-	    bullet2.translateX(-1);
-
-	    scene.add(bullet2);
-	    projectiles.push(bullet2);
-
-	        //create bullet mesh
-	    var bullet3 = new THREE.Mesh(MGGeometry, shootMaterial);
-	    bullet3.name = "MachineGun";
-
-	    //translate bullet to Position of the spaceship. Then spread a little for MG-effect
-	    bullet3.position.x = ship.position.x;
-	    bullet3.position.y = ship.position.y;
-	    bullet3.position.z = ship.position.z;
-
-	    bullet3.lookAt(targetPosition);
-
-	    bullet3.translateZ(+15);
-	    bullet3.translateX(1);
-	    
-	    //add bullet to scene
-	    scene.add(bullet3);
-
-	    //add to projectiles list for rendering
-	    projectiles.push(bullet3);
-
-	    //repeat 4 times with spread
-
-	    var bullet4= new THREE.Mesh(MGGeometry, shootMaterial);
-	    bullet4.name = "MachineGun";
+    var bullet3 = new THREE.Mesh(MGGeometry, shootMaterial);
+    bullet3.rotateZ(1.57);
+    bullet3.position.x = ship.position.x;
+    bullet3.position.y = ship.position.y - 0.3;
+    bullet3.position.z = ship.position.z - 0.3;
+    scene.add(bullet3);
+    projectiles.push(bullet3);
 
 
-	    bullet4.position.x = ship.position.x;
-	    bullet4.position.y = ship.position.y;
-	    bullet4.position.z = ship.position.z;
+    var bullet4 = new THREE.Mesh(MGGeometry, shootMaterial);
+    bullet4.rotateZ(1.57);
+    bullet4.position.x = ship.position.x + 2;
+    bullet4.position.y = ship.position.y + 0.3;
+    bullet4.position.z = ship.position.z - 0.3;
+    scene.add(bullet4);
+    projectiles.push(bullet4);
 
-	    bullet4.lookAt(targetPosition);
+    var bullet5 = new THREE.Mesh(MGGeometry, shootMaterial);
+    bullet5.rotateZ(1.57);
+    bullet5.position.x = ship.position.x + 3;
+    bullet5.position.y = ship.position.y;
+    bullet5.position.z = ship.position.z;
+    scene.add(bullet5);
+    projectiles.push(bullet5);
 
-	    bullet4.translateZ(+30);
-	    bullet4.translateX(-1);
-
-	    scene.add(bullet4);
-	    projectiles.push(bullet4);
-
-	    //reset Timer
-	    timeSinceMG = 0;
 }
-
 
 //called by EventListener when mouse clicked: leftclick: e.button == 0; rightclick e.button = 2 (ZWEI)
 function shoot(e) {
 
-    if (e.button === 0) {
+    if (e.button == 0) {
         shootLaser();
     }
-    else if(activeSecWeapon ===0){
+    else {
         shootRocket();
     }
-    else{
-    	if(timeSinceMG > MGReloadTime && MGAmmo > 0){
-    		MGAudio.play();
-    		MGShoot();
-    		mgCounter = 6;
-    		MGAmmo -=25;
-	    	updateWeaponInterface();
-    	}
-    }
+
 }
 
 //Firering main-laser
@@ -273,11 +236,6 @@ function successRocket(projectileIndex){
 
   //remove rocket from projectiles
   projectiles.splice(projectileIndex,1);
-}
-
-function successMachineGunBullet(projectileIndex){
-	scene.remove(projectiles[projectileIndex]);
-	projectiles.splice(projectileIndex, 1);
 }
 
 //Shooting Rocket
@@ -455,21 +413,13 @@ function renderWeapons(){
         		projectiles.splice(bul, 1);
     		}
 	    }
-	    else if (projectiles[bul].name == "MachineGun") {
-            //translate in mooving direction
-            projectiles[bul].translateZ(-1000 * add);
-
-            if (dis > 800) {
-               	successMachineGunBullet(bul);
-            }
-        }
     }
 
 }
 
 function toggleWeapons() {
 
-    if (weaponsActive === true) {
+    if (weaponsActive == true) {
         document.removeEventListener('click', shoot, false);
         weaponsActive = false;
     } else {
