@@ -206,7 +206,7 @@ function collected(itemNumber) {
 
 	if (rocketAmmo > MaxRocketAmmo) {
 
-		rocketAmmo = maxRocketAmmo;
+		rocketAmmo = MaxRocketAmmo;
 
 	}
 
