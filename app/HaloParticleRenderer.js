@@ -28,8 +28,9 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
 
         var radius = initialRadius;
         var angle = Math.random() * Math.PI * 2;
-        particle.x += Math.cos(angle) * radius;
-        particle.z += Math.sin(angle) * radius;
+        particle.x += Math.cos(angle) * radius + Math.random() - 0.5;
+        particle.y += (Math.random()-0.5)*2;
+        particle.z += Math.sin(angle) * radius + Math.random() - 0.5;
 
         particle.velocity = particle.clone().sub(this.startVector.clone());
 
