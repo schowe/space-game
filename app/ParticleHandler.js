@@ -40,9 +40,14 @@ var ParticleHandler = function () {
 
     function addImplosion(position) {
 
-        var implosion = new ImplosionParticleRenderer(0xffcc11, 5000, fileLoader.get("particle_grey"), position, 1);
-
+        var implosion  = new ImplosionParticleRenderer(0xff0000, 1000, fileLoader.get("particle_grey"), position, 1);
+        var implosion2 = new ImplosionParticleRenderer(0xff00ff, 2000, fileLoader.get("particle_grey"), position, 1);
+        var implosion3 = new ImplosionParticleRenderer(0xffff00, 1000, fileLoader.get("particle_grey"), position, 1);
+        var implosion4 = new ImplosionParticleRenderer(0xff9999, 2000, fileLoader.get("particle_grey"), position, 1);
         currentImplosions.push(implosion);
+        currentImplosions.push(implosion2);
+        currentImplosions.push(implosion3);
+        currentImplosions.push(implosion4);
 
     }
 
