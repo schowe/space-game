@@ -2,7 +2,12 @@ var ship, frontVector, backVector, directionVector;
 var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
 var playerHitBoxes = [];
 var cross;
-var shield, shieldGeometry,shieldTex, shieldMaterial, rotClock; 
+var shield, shieldGeometry,shieldTex, shieldMaterial; 
+
+frontVector = new THREE.Vector3(0, 0, 0);
+
+backVector = new THREE.Vector3(0, 0, 0);
+directionVector = new THREE.Vector3(0, 0, 0);
 
 
 function Player() {
@@ -10,7 +15,7 @@ function Player() {
     var startVector = new THREE.Vector3(0, 0, 0);
     var endVector = new THREE.Vector3(0, 0, 0);
     var particleRay;
-   
+
 
     function createRay() {
         particleRay = new RayParticleRenderer(0x2255ff, 100, fileLoader.get("particle"), startVector, endVector);
@@ -26,51 +31,11 @@ function Player() {
 
     return {
 
-        playerHitByAsteroid: function(indexAsteroid, collisionSide) {
-
-        	 
-
-        	var rotCount =0; 
-
-        	switch (collisionSide){
-
-        	//CenterBox
-        	case 0 : 
-        		console.log("CenterWing");
-        		if(yAxis <0 && yAxis >= -6){
-
-        		 changeHP(-10);
+        playerHitByAsteroid: function(indexAsteroid) {
 
 
 
-        		}else if(yAxis < -6){
-        			
-        			//Schleudere nach hinten
-        			var interval = setInterval(function() {
-						
-						lat  -= 20; 
-						yAxis = 5; 
-						setSpeed(yAxis); 
-						rotCount+=1; 
-						if(rotCount > 10){
-							
-							clearInterval(interval); 
-						}
-
-						
-        			}, 200);
-
-        			changeHP(-10); 
-        		 
-        		}
-
-
-        		break; 
-
-        	//LeftWing
-        	case 1: 
-        		console.log("LinkerWing");
-        		if(yAxis <0 && yAxis >= -6){
+        	if(yAxis <0 && yAxis >= -6){
 
         		 changeHP(-10);
 
@@ -79,75 +44,18 @@ function Player() {
         	}else if(yAxis < -6 && yAxis >= -14){
         		var oldRotX=0; 
         		oldRotX = ship.rotation.x; 
-        		
-        	
+        		//console.log("ROTATE");
+        		for (var k =0; k < 200 ; k++){
 
-        			var interval = setInterval(function() {
-						
-						lon += 20; 
-						yAxis = -1; 
-						setSpeed(yAxis); 
-						rotCount+=1; 
-						if(rotCount > 10){
-							
-							clearInterval(interval); 
-						}
 
-						
-        			}, 200);
+        			ship.rotation.x += 2.0; 
 
-        			
 
-        			
-        			
-        			changeHP(-10); 
+        		}	
+        			ship.rotation.x = oldRotX; 
+        			changeHP(-40); 
         		 
         		}
-        		break; 
-
-        	//rightWing
-			case 2 : 
-				console.log("RechterWing");
-        		if(yAxis <0 && yAxis >= -6){
-
-        		 changeHP(-10);
-
-
-
-        	}else if(yAxis < -6 && yAxis >= -14){
-        		var oldRotX=0; 
-        		oldRotX = ship.rotation.x; 
-        		
-        	
-
-        			var interval = setInterval(function() {
-						
-						lon -= 20; 
-						yAxis = -1; 
-						setSpeed(yAxis); 
-						rotCount+=1; 
-						if(rotCount > 10){
-							
-							clearInterval(interval); 
-						}
-
-						
-        			}, 200);
-
-        			
-
-        			
-        			
-        			changeHP(-10); 
-        		 
-        		}
-
-        		break; 
-
-
-        	}
-
-        	
 
 
 
@@ -185,9 +93,9 @@ function Player() {
             playerHitBoxes.push(hitBoxLeftWing);
             playerHitBoxes.push(hitBoxRightWing);
 
-             ship.add(hitBoxLeftWing);
-             ship.add(hitBoxRightWing);
-             ship.add(hitBoxCenter);
+            // ship.add(hitBoxLeftWing);
+            // ship.add(hitBoxRightWing);
+            // ship.add(hitBoxCenter);
         },
 
         updateParticleValues: function () {
