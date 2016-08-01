@@ -235,7 +235,7 @@ function Movement() {
                 yAxis--;
                 setSpeed(-yAxis);
             }
-            if (moveBackward == true && yAxis < -2) {
+            if (moveBackward == true && yAxis < 0) {
                 yAxis++;
                 setSpeed(-yAxis);
             }
@@ -266,6 +266,8 @@ function Movement() {
             lat = Math.max(-85, Math.min(70, lat));
             phi = THREE.Math.degToRad(90 - lat);
             theta = THREE.Math.degToRad(lon);
+
+            cameraWatcher(); 
 
             targetPosition = target;
             var position = ship.position;
@@ -322,10 +324,32 @@ function changeCam() {
 function stop() {
 
     xAxis = 0.0;
-    yAxis = -2.0;
+    yAxis = -0.0;
     zAxis = 0.0;
     setSpeed(0.0);
     mouseX = 0.0;
     mouseY = 0.0;
+
+}
+
+function cameraWatcher (){
+
+    if(lat> 57 && yAxis ==0){
+
+        camera.setTarget('fTarget'); 
+
+    }else if(lat>65 &&yAxis ==-1){
+
+        camera.setTarget ('fTarget');
+
+
+    }else {
+
+        camera.setTarget('Target');
+
+
+    }
+
+
 
 }
