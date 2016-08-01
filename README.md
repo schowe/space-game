@@ -65,3 +65,4 @@ Befehl für Python 3.x:
 
 
 also: Sachen mit Three.js werden in `app/core.js` programmiert  
+>>>>>>> 88bb31295ad3e54ceafe9542222d292093bcf752

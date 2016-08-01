@@ -4,7 +4,7 @@ var container;
 // THREE.js & Grafik
 var camera, scene, renderer, clock, delta;
 var frames = 0;
-var fps =  30;
+var fps = 30;
 var now;
 var then = Date.now();
 var interval = 1000 / fps;
@@ -15,17 +15,26 @@ var interface;
 var crosshair;
 var ship;
 var player;
+var bot;
 var movement;
 var particleHandler;
 var collision;
 var stats;
+
+// TODO: eigentlich in Interface
+var scoreValues = {
+    "itemCollected": 10,
+    "enemyDestroyed": 50,
+    "asteroidDestroyed": 20
+};
 
 // Postprocessing
 var composer, glitchPass, glitchPassEnabled;
 
 
 // Document Ready Function
-$(function() {
+$(function () {
+
     // wird ausgeführt, wenn das Dokument geladen ist:
 
     // Module initialisieren
@@ -37,7 +46,7 @@ $(function() {
 
 
     // alle 50ms prüfen, ob alle Files geladen sind
-    var loadingLoop = setInterval(function() {
+    var loadingLoop = setInterval(function () {
         if (fileLoader.isReady()) {
             clearInterval(loadingLoop);
 
@@ -54,32 +63,25 @@ function init() {
 
     /********** THREE.js initialisieren **********/
 
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
+    container = document.createElement('div');
+    document.body.appendChild(container);
 
-
-    
-    //while(!fileLoader.isReady()){};
     scene = new THREE.Scene();
 
     clock = new THREE.Clock();
-
-
 
     /********** Szene füllen **********/
 
     var light, object;
 
-    scene.add( new THREE.AmbientLight( 0x404040 ) );
-    light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( 0, 1, 0 );
-    scene.add( light );
+    scene.add(new THREE.AmbientLight(0x404040));
+    light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(0, 1, 0);
+    scene.add(light);
 
-    object = new THREE.AxisHelper( 100 );
-    object.position.set( 0, 0, 0 );
-    scene.add( object );
-
-
+    object = new THREE.AxisHelper(100);
+    object.position.set(0, 0, 0);
+    scene.add(object);
 
     /********** Module laden **********/
 
@@ -95,7 +97,7 @@ function init() {
     movement = Movement();
     movement.init();
 
-    interfaceInit();
+    interface.init();
 
     crosshair = new Crosshairs();
     crosshair.init();
@@ -103,27 +105,26 @@ function init() {
     initializeWeapons();
 
     stats = new Stats();
-    container.appendChild( stats.dom );
-
+    container.appendChild(stats.dom);
 
 
     /********** Camera **********/
 
-    camera = new THREE.TargetCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
+    camera = new THREE.TargetCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
 
     camera.addTarget({
-        name:'Target',
+        name: 'Target',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,15,30),
+        cameraPosition: new THREE.Vector3(0, 15, 30),
         fixed: false,
         stiffness: 0.15,
         matchRotation: false
     });
 
     camera.addTarget({
-        name:'Cockpit',
+        name: 'Cockpit',
         targetObject: ship,
-        cameraPosition: new THREE.Vector3(0,0,-10),
+        cameraPosition: new THREE.Vector3(0, 0, -10),
         fixed: false,
         stiffness: 1,
         matchRotation: true
@@ -134,73 +135,77 @@ function init() {
     camera.setTarget('Target');
 
 
-
     /********** Renderer & Post Processing **********/
 
-
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
     composer = new THREE.EffectComposer(renderer);
     composer.addPass(new THREE.RenderPass(scene, camera));
 
     glitchPass = new THREE.GlitchPass();
     glitchPass.renderToScreen = true;
+    // TODO: Still needed?
     // glitchPass.goWild = true;
     composer.addPass(glitchPass);
 
     glitchPassEnabled = false;
 
 
-
     /********** Input **********/
 
     // Szene in DOM einsetzen
-    container.appendChild( renderer.domElement );
+    container.appendChild(renderer.domElement);
     // Event-Listener
-    window.addEventListener( 'resize', onWindowResize, false );
-    
+    window.addEventListener('resize', onWindowResize, false);
+
 
 }
 
 function onWindowResize() {
+
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
 }
 
-function cameraAnimate(){
-    if(frames < 25) {
+function cameraAnimate() {
+
+    if (frames < 25) {
         frames++;
         requestAnimationFrame(cameraAnimate);
-    }else {
+    } else {
         yAxis = -2;
         requestAnimationFrame(animate);
     }
-    //
+
     delta = clock.getDelta();
     movement.move(delta);
     camera.update();
     renderer.render(scene, camera);
+
 }
 
 
 function glitchScreen(duration) {
+
     glitchPassEnabled = true;
-    setTimeout(function() {
+    setTimeout(function () {
         glitchPassEnabled = false;
     }, duration);
+
 }
 
 
 function animate() {
+
     // dont touch!
-    requestAnimationFrame( animate );
+    requestAnimationFrame(animate);
     now = Date.now();
     delta = now - then;
-    if(delta > interval){
+    if (delta > interval) {
         then = now - (delta % interval);
         render();
     }
@@ -208,19 +213,21 @@ function animate() {
 }
 
 function render() {
+
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
         // animation code goes here
 
-        handleCollision();
         renderWeapons();
         movement.move(delta);
         updateStars();
-        updateAsteroids();
-
+        //updateAsteroids();
+        //bot.updateAI(delta);
         updatePowerUps();
-        
+
+        handleCollision();
+
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
         // Explosionen updaten
@@ -234,4 +241,5 @@ function render() {
     } else {
         renderer.render(scene, camera);
     }
+
 }

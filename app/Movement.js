@@ -1,4 +1,3 @@
-
 var targetPosition;
 var moveForward;
 var moveBackward;
@@ -10,7 +9,7 @@ var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
 
-var directionVector = new THREE.Vector4(0,0,0,1);
+var directionVector = new THREE.Vector4(0, 0, 0, 1);
 var Pause = true;
 var PauseScreen = false;
 var isFirstPerson = false;
@@ -22,21 +21,18 @@ var maxDrift = 5;
 
 var mouseX = 0;
 var mouseY = 0;
-var target = new THREE.Vector3(0,0,0);
-
+var target = new THREE.Vector3(0, 0, 0);
 
 var lat = 0;
 var lon = 0;
 var phi = 0;
 var theta = 0;
 
-
-
 function Movement() {
 
     return {
 
-        init:function() {
+        init: function () {
 
 
             setMaxSpeed(14);
@@ -55,14 +51,14 @@ function Movement() {
 
                         blocker.style.display = 'none';
                         document.addEventListener('mousemove', moveCallback, false);
-                       //
+
                         Pause = false;
                         Camera().endOrbit();
 
                     } else {
-                        if(PauseScreen == true){
+                        if (PauseScreen == true) {
                             Camera().doOrbit();
-                        }else{
+                        } else {
                             blocker.style.display = '-webkit-box';
                             blocker.style.display = '-moz-box';
                             blocker.style.display = 'box';
@@ -123,7 +119,7 @@ function Movement() {
                         document.addEventListener('mousemove', moveCallback, false);
                         window.addEventListener('keydown', kdown);
                         window.addEventListener('keyup', kup);
-                       
+
 
                         element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
 
@@ -144,8 +140,8 @@ function Movement() {
                 instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 
             }
-            var kdown = function(event){
-                switch(event.keyCode){
+            var kdown = function (event) {
+                switch (event.keyCode) {
                     case 38:
                     case 87:
                         moveForward = true;
@@ -174,8 +170,8 @@ function Movement() {
 
             };
 
-            var kup = function(event){
-                switch(event.keyCode){
+            var kup = function (event) {
+                switch (event.keyCode) {
                     case 38:
                     case 87:
                         moveForward = false;
@@ -205,12 +201,12 @@ function Movement() {
                         stop();
                         break;
                     case 80:
-                        if(Pause){
+                        if (Pause) {
                             PauseScreen = false;
                             interface.toggleMenuOverlay();
                             Movement().lockPointer();
 
-                        }else{
+                        } else {
 
                             interface.toggleMenuOverlay();
                             Movement().unlockPointer();
@@ -225,8 +221,8 @@ function Movement() {
 
             };
 
-           window.addEventListener('keydown', kdown);
-           window.addEventListener('keyup', kup);
+            window.addEventListener('keydown', kdown);
+            window.addEventListener('keyup', kup);
 
 
 
@@ -234,9 +230,7 @@ function Movement() {
         },
 
 
-
-        move:function(delta) {
-            //console.log(delta);
+        move: function (delta) {
 
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
@@ -245,7 +239,6 @@ function Movement() {
             if (moveBackward == true && yAxis < -2) {
                 yAxis++;
                 setSpeed(-yAxis);
-
             }
             if (moveLeft == true && zAxis < maxDrift) {
                 zAxis++;
@@ -259,16 +252,13 @@ function Movement() {
                 zAxis += 0.5;
             }
             ship.translateZ(yAxis);
-            
             ship.translateX(-zAxis);
 
-            sphere.position.set(ship.position.x,ship.position.y,ship.position.z);
-            biggerSphere.position.set(ship.position.x,ship.position.y,ship.position.z);
-
+            sphere.position.set(ship.position.x, ship.position.y, ship.position.z);
+            biggerSphere.position.set(ship.position.x, ship.position.y, ship.position.z);
 			
-            if(shieldActive)
-				shield.position.set(ship.position.x,ship.position.y,ship.position.z);
-
+            if (shieldActive)
+                shield.position.set(ship.position.x, ship.position.y, ship.position.z);
 
             mouseY *= mouseInverted;
             mouseX *= Sensitivity;
@@ -289,50 +279,56 @@ function Movement() {
             ship.lookAt(targetPosition);
         },
 
-        unlockPointer:function(){
+        unlockPointer: function () {
 
             var element = document.body;
-            if(document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
+            if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
                 document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
                 document.exitPointerLock();
             }
+
         },
 
-        lockPointer:function(){
+        lockPointer: function () {
+
             var element = document.body;
 
             element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
             element.requestPointerLock();
 
-
         }
     }
 }
 
-function moveCallback(event){
+function moveCallback(event) {
+
     mouseX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
     mouseY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
 }
 
-function changeCam(){
+function changeCam() {
+
     console.log(camera.currentTargetName);
-    if(camera.currentTargetName == 'Target' ){
+    if (camera.currentTargetName == 'Target') {
         isFirstPerson = true;
-        crosses[pos].position.set(0,0,-40);
+        crosses[pos].position.set(0, 0, -40);
         camera.setTarget('Cockpit');
-    }else{
+    } else {
         isFirstPerson = false;
-        crosses[pos].position.set(0,10,-40);
+        crosses[pos].position.set(0, 10, -40);
         camera.setTarget('Target');
     }
+
 }
 
-function stop(){
+function stop() {
+
     xAxis = 0.0;
     yAxis = -2.0;
     zAxis = 0.0;
     setSpeed(2.0);
     mouseX = 0.0;
     mouseY = 0.0;
+
 }
