@@ -95,11 +95,10 @@ function handleProjectiles() {
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
                 if (collision.intersectSphereOther(asteroidHitBoxes[j],
                     projectiles[i])) {
-                    /** NICHT LÖSCHEN **/
-                    // successMachineGunBullet(i);
-                    destroyAsteroid(j);
-                    // projectileSucceded = true;
-                    // break;
+                    successMachineGunBullet(i);
+                    hitAsteroid(j, "MachineGun");
+                    projectileSucceded = true;
+                    break;
                 }
             }
         }
