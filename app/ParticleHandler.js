@@ -33,11 +33,8 @@ var ParticleHandler = function () {
 
 
     function addHalo(position, lifetime, color) {
-        // TODO: lifetime, size, speed
-        var halo = new HaloParticleRenderer(color, 5000, fileLoader.get("particle_grey"), lifetime, position, 1, 30);
-
+        var halo = new HaloParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime, position, 1, 30);
         currentHalos.push(halo);
-
     }
 
     return {
