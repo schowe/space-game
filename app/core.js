@@ -101,7 +101,7 @@ function init() {
 /*    world = World();
     world.init();*/
 
-    starfield = new Starfield();
+    starfield = new StarfieldParticleRenderer();
 
     bot = Bot();
     bot.initAI(1);

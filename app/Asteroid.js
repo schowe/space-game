@@ -130,10 +130,10 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
             asteroidHP[index] -= rocketDamage;
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
-            asteroid[index] -= explosionDamage;
+            asteroidHP[index] -= explosionDamage;
             break;
-        case "MACHINEGUN": case "machinegun": case "Machinegun":
-            //asteroid[index] -= machineGunDamage;
+        case "MACHINEGUN": case "machinegun": case "MachineGun":
+            asteroidHP[index] -= MGDamage;
             break;
         default: console.log("Error: Collision with unknown");
     }
