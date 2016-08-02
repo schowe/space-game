@@ -21,7 +21,7 @@ var MGReloadTime = 1.2;
 var shockwaveReloadTime = 4
 
 //Weapondamage
-var rocketDamage = 5;
+var rocketDamage = 50;
 var laserDamage = 2;
 var explosionDamage = 10;
 
@@ -254,10 +254,6 @@ function sendShockWave(){
 
 //Firering main-laser
 function shootLaser() {
-
-
-
-            player.activateShield();
 
     //if for limiting shooting frequency
     if (timeSinceShoot > laserReloadTime) {
