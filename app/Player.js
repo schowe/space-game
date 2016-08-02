@@ -215,12 +215,10 @@ function Player() {
                 shield = undefined;
             }
 
-
             shieldGeometry = fileLoader.get("Kugelschild");
             shieldTex = fileLoader.get("KugelschildTex");
-            aMap = fileLoader.get("greymap");
 
-            shield = new THREE.Mesh(shieldGeometry, new THREE.MeshLambertMaterial({ map: shieldTex, alphaMap: aMap }));
+            shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex, transparent: true, opacity: 0.4 }));
             shield.scale.x = shield.scale.y = shield.scale.z = 0;
             shield.position.set(ship.position.x, ship.position.y, ship.position.z);
             scene.add(shield);

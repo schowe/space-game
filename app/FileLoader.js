@@ -37,7 +37,6 @@ var FileLoader = function () {
         "../res/textures/eso_dark.jpg",
         "../res/textures/GeldsackFacePalmTex.jpg",
         "../res/textures/GeldsackTex.jpg",
-        "../res/textures/greymap.png",
         "../res/textures/KugelschildTex.png",
         "../res/textures/Laser_Triangle.jpg",
         "../res/textures/lensflare1.png",
