@@ -11,6 +11,9 @@ var MaxMGAmmo = 600;
 var shockwaveAmmo = 0;
 var maxShockwaveAmmo = 5;
 
+var guidedMissileAmmo = 4;
+var maxGuidedMissileAmmo = 10;
+
 //Max distance covered by rocket
 var rocketMaxDistance = 1500;
 
@@ -18,7 +21,8 @@ var rocketMaxDistance = 1500;
 var laserReloadTime = 0.4;
 var rocketReloadTime = 1;
 var MGReloadTime = 1.2;
-var shockwaveReloadTime = 4
+var shockwaveReloadTime = 4;
+var guidedMissileReloadTime = 2;
 
 //Weapondamage
 var rocketDamage = 50;
@@ -42,6 +46,7 @@ var timeSinceShoot = 0;
 var timeSinceRocket = 0;
 var timeSinceMG = 0;
 var timeSinceShockwave = 0;
+var timeSinceGuidedMissile = 0;
 
 //time Explosion is existing
 var explosionTime = 0;
@@ -68,9 +73,18 @@ var shootMaterial;
 var explosionMaterial;
 var rocketMaterial;
 var hitBoxMaterial;
+//var guidedMissileMaterial;
+
+//var dummyEnemy;
 
 //Initialize, sp: the controlled Spaceship; cms: the List of Objects checked for collisions (CollidableMeshLists)
 function initializeWeapons() {
+
+	//var dummyGeo = new THREE.SphereGeometry(10, 32, 32);
+	//var dummyMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
+	//dummyEnemy = new THREE.Mesh(dummyGeo, dummyMaterial);
+
+	//scene.add(dummyEnemy);
 
     //initialize Geometrys
     shootGeometry = new THREE.CylinderGeometry(1, 1, 500);
@@ -87,6 +101,7 @@ function initializeWeapons() {
     //initialize Materials
     rocketTexture = fileLoader.get("TextureHero");
     rocketMaterial = new THREE.MeshPhongMaterial({ map: rocketTexture });
+    //guidedMissileMaterial = new THREE.MeshPhongMaterial(color : 0xFFcccc);
 
     shootMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
 
@@ -206,6 +221,7 @@ function shoot(e) {
 
     if (e.button === 0) {
         shootLaser();
+        //enemyShootLaser(dummyEnemy, ship.position);
     }
     else if(activeSecWeapon == 0){
         shootRocket();
@@ -299,6 +315,48 @@ function shootLaser() {
     }
 
 }
+
+//Firering main-laser
+function enemyShootLaser(laserShootingBot, laserShootingTarget) {
+
+    //play lazer-sound
+    laserAudio.play();
+
+    //create mesh
+    var laser = new THREE.Mesh(shootGeometry, shootMaterial);
+
+    //set name for recognition in render-function
+    laser.name = "Laser";
+
+    //translate bullet to ship position
+    laser.position.x = laserShootingBot.position.x;
+    laser.position.y = laserShootingBot.position.y;
+    laser.position.z = laserShootingBot.position.z;
+
+    //set orientation of the bullet according to ship orientation
+    laser.lookAt(laserShootingTarget);
+
+    //rotate: laser beam would be pointing up otherwise
+    laser.rotateX(-1.57);
+
+    //translate so that laser starts in front of ship
+    laser.translateY(-85);
+
+    for (var i = -50; i <= 50; i++) {
+      var dummyDot = new THREE.Object3D();
+      dummyDot.position.y = laser.geometry.parameters.height / 100 * i;
+      dummyDot.name = "BoxPoint" + i;
+      laser.add(dummyDot);
+    }
+
+    //add bullet to scene
+    scene.add(laser);
+
+    //add laser to projectiles list so it will be moved
+    projectiles.push(laser);
+
+}
+
 
 //projectileIndex: Index in projectile list of laser hitbox
 function successLaser(projectileIndex){
@@ -394,6 +452,75 @@ function shootRocket() {
     }
 
 }
+
+// //Shooting Rocket
+// function shootGuidedMissile() {
+
+//     //if for limiting guidedMissile-shooting frequence
+//     if (timeSinceGuidedMissile > guidedMissileReloadTime && guidedMissileAmmo > 0) {
+//         guidedMissileAmmo -= 1;
+//         updateWeaponInterface();
+
+//         //play guidedMissile-sound
+//         rocketAudio.play();
+
+//       // create guidedMissile
+//       var guidedMissile = new THREE.Mesh(guidedMissileGeometry, guidedMissileMaterial);
+
+//       // dummy points to check collision with laser
+//       var dummyDot1 = new THREE.Object3D();
+//       var dummyDot2 = new THREE.Object3D();
+//       var dummyDot3 = new THREE.Object3D();
+//       var dummyDot4 = new THREE.Object3D();
+//       var dummyDot5 = new THREE.Object3D();
+
+//       dummyDot1.position.y = 1000 / 2;
+//       dummyDot2.position.y = 1000 / 4;
+//       dummyDot4.position.y = - 1000 / 4;
+//       dummyDot5.position.y = - 1000 / 2;
+
+//         // names will be checked in CollisionHandling
+//       dummyDot1.name = "BoxPoint1";
+//       dummyDot2.name = "BoxPoint2";
+//       dummyDot3.name = "BoxPoint3";
+//       dummyDot4.name = "BoxPoint4";
+//       dummyDot5.name = "BoxPoint5";
+
+//       // add points to laser
+//       guidedMissile.add(dummyDot1);
+//       guidedMissile.add(dummyDot2);
+//       guidedMissile.add(dummyDot3);
+//       guidedMissile.add(dummyDot4);
+//       guidedMissile.add(dummyDot5);
+
+//       //set name for recognition in render-function
+//   	 	guidedMissile.name = "GuidedMissile";
+
+//       //scaling the guidedMissile
+//       guidedMissile.scale.x = guidedMissile.scale.y = guidedMissile.scale.z = 5;
+
+//       //set position at position of the spaceship
+//       guidedMissile.position.x = ship.position.x;
+//       guidedMissile.position.y = ship.position.y;
+//       guidedMissile.position.z = ship.position.z;
+
+//       //orientate guidedMissile like spaceship
+//       guidedMissile.lookAt(targetPosition);
+
+//       //rotate guidedMissile; guidedMissile would fly backwards otherwise
+//       guidedMissile.rotateY(Math.PI);
+
+//       //add guidedMissile to scene
+//       scene.add(guidedMissile);
+
+//     	//add guidedMissile to list for rendering and collision
+//     	projectiles.push(guidedMissile);
+
+//       //reset timer
+//       timeSinceGuidedMissile = 0;
+//     }
+
+// }
 
 //Explosion of the rocket at specific distance
 function rocketExplode(rocket) {
