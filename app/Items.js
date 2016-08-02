@@ -23,7 +23,7 @@ function spawnPowerUp(x, y, z, type) {
 			healthTex = fileLoader.get("PowerUpHealthTex");
             item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: healthTex }));
             types.push("HEALTH");
-          
+
 
 		} else if (rndCase > 0.125 && rndCase <= 0.375) {
 
@@ -148,6 +148,10 @@ function collected(itemNumber) {
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
 			rocketAmmo +=1;
 
+            if (rocketAmmo > MaxRocketAmmo) {
+                rocketAmmo = MaxRocketAmmo;
+            }
+
 			break;
 
 		case "DOUBLEROCKET":
@@ -155,12 +159,22 @@ function collected(itemNumber) {
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
             rocketAmmo +=2;
 
+            if (rocketAmmo > MaxRocketAmmo) {
+                rocketAmmo = MaxRocketAmmo;
+            }
+
+
 			break;
 
 		case "QUATROROCKET":
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
 			rocketAmmo += 4;
+
+            if (rocketAmmo > MaxRocketAmmo) {
+                rocketAmmo = MaxRocketAmmo;
+            }
+
 
 			break;
 

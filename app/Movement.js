@@ -268,7 +268,7 @@ function Movement() {
             ship.translateZ(yAxis);
             ship.translateX(-zAxis);
 
-            sphere.position.set(ship.position.x, ship.position.y, ship.position.z);
+            //sphere.position.set(ship.position.x, ship.position.y, ship.position.z);
             biggerSphere.position.set(ship.position.x, ship.position.y, ship.position.z);
             if (shieldActive)
                 shield.position.set(ship.position.x, ship.position.y, ship.position.z);
@@ -354,8 +354,11 @@ function weaponSwitch(){
     if(activeSecWeapon == 0){
         activeSecWeapon = 1;
     }
+    else if(activeSecWeapon == 1){
+        activeSecWeapon = 2;
+    }
     else{
-        activeSecWeapon = 0;
+        activeSecWeapon = 0;   
     }
     updateWeaponInterface();
 }

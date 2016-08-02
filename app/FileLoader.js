@@ -6,6 +6,9 @@ var MGAudio;
 var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
+var gameOverAudio;
+var shockwaveAudio;
+var backgroundMusic;
 var shipData = {};
 
 var FileLoader = function () {
@@ -211,6 +214,27 @@ var FileLoader = function () {
     MGAudioSource.src = '../res/sounds/mg.wav';
     MGAudio.appendChild(MGAudioSource);
 
+    // done
+            //Game Over audio
+    gameOverAudio = document.createElement('audio');
+    var gameOverAudioSource = document.createElement('source');
+    gameOverAudioSource.src = '../res/sounds/GameOver.wav';
+    gameOverAudio.appendChild(gameOverAudioSource);
+
+
+            //Game Over audio
+    shockwaveAudio = document.createElement('audio');
+    var shockwaveAudioSource = document.createElement('source');
+    shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
+    shockwaveAudio.appendChild(shockwaveAudioSource);
+
+
+            //Game Over audio
+    backgroundMusic = document.createElement('audio');
+    var backgroundMusicSource = document.createElement('source');
+    backgroundMusicSource.src = '../res/sounds/TALES_-_01_-_Deep_Space_Traveller.mp3';
+    backgroundMusic.appendChild(backgroundMusicSource);
+
     /********** Player Ship laden (Workaround! TODO) **********/
     
     var shipDataLoader = new THREE.JSONLoader();
@@ -219,8 +243,6 @@ var FileLoader = function () {
         shipData.materials = materials;                 
     }
     );
-
-    // done
 
     console.log("FileLoader done.");
 

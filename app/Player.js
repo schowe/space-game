@@ -8,7 +8,6 @@ var action = {};
 var leftWingRot;
 var rightWingRot;
 
-
 function Player() {
 
     var startVector = new THREE.Vector3(0, 0, 0);
@@ -64,7 +63,7 @@ function Player() {
 
                         }
 
-                        break;
+                    break;
 
                     //LeftWing
                     case 1:
@@ -91,9 +90,7 @@ function Player() {
                                 clearInterval(interval);
                             }
 
-
                         }, 200);
-
 
                         changeHP(-10);
 
@@ -145,7 +142,6 @@ function Player() {
                 }
                 multiMaterial.skinning = true;
                 ship = new THREE.SkinnedMesh(shipData.geometry, multiMaterial);
-
 
                 ship.position.set(0, 0, 0);
                 scene.add(ship);
@@ -214,20 +210,6 @@ function Player() {
                 particleRay.update();
             },
 
-
-            activateShield: function () {
-
-                console.log("SCHILD AKTIVIERT!");
-                shieldGeometry = fileLoader.get("Kugelschild");
-                shieldTex = fileLoader.get("KugelschildTex");
-
-                shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex }));
-                shield.scale.x = shield.scale.y = shield.scale.z = 1;
-                shield.position.set(ship.position.x, ship.position.y, ship.position.z);
-                scene.add(shield);
-
-            },
-
             updateSpaceshipAnimation: function () {
 
                 var tempo = document.getElementById('speedValue');
@@ -254,8 +236,6 @@ function Player() {
 
                 }
 
-
-
             // update code (neccessary & important!)
             for (var i = 0; i < ship.skeleton.bones.length; i++) {
                 ship.skeleton.bones[i].matrixAutoUpdate = true;
@@ -265,10 +245,40 @@ function Player() {
             ship.geometry.normalsNeedUpdate = true;
         },
 
+
+        activateShield: function () {
+
+            if (shield !== undefined) {
+                scene.remove(shield);
+                shield = undefined;
+            }
+
+            shieldGeometry = fileLoader.get("Kugelschild");
+            shieldTex = fileLoader.get("KugelschildTex");
+
+            shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex, transparent: true, opacity: 0.4 }));
+            shield.scale.x = shield.scale.y = shield.scale.z = 0.01;
+            shield.position.set(ship.position.x, ship.position.y, ship.position.z);
+            scene.add(shield);
+
+            var scalingShield = 0.01
+            var interval = setInterval(function () {
+
+                            shield.scale.x = shield.scale.y = shield.scale.z = scalingShield;
+                            scalingShield += 0.01;
+                            if (scalingShield > 1) {
+
+                                clearInterval(interval);
+                            }
+
+
+                        }, 20);
+
+        },
+
         doABarrelRoll: function(){
 
-            if(barrelRoll == 1.0) {
-
+            if(barrelRoll == true) {
 
                 ship.skeleton.bones[0].rotation.z += 0.2;
 
@@ -280,9 +290,9 @@ function Player() {
                 ship.geometry.verticesNeedUpdate = true;
                 ship.geometry.normalsNeedUpdate = true;
 
-                barrelRoll = 0.0;
+                barrelRoll = false;
                 if(ship.skeleton.bones[0].rotation.z < 6.28){
-                 barrelRoll = 1.0;
+                 barrelRoll = true;
              }
              else{ ship.skeleton.bones[0].rotation.z = 0.0}
          }

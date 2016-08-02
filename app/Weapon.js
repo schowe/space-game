@@ -4,10 +4,12 @@ var weaponsActive = false;
 //Available ammunition, maximal ammunition
 var rocketAmmo = 2;
 var MaxRocketAmmo = 10;
+
 var MGAmmo = 50;
 var MaxMGAmmo = 600;
 
-MGReloadTime = 1.2;
+var shockwaveAmmo = 0;
+var maxShockwaveAmmo = 5;
 
 //Max distance covered by rocket
 var rocketMaxDistance = 1500;
@@ -15,12 +17,16 @@ var rocketMaxDistance = 1500;
 //Weaponcooldown
 var laserReloadTime = 0.4;
 var rocketReloadTime = 1;
+var MGReloadTime = 1.2;
+var shockwaveReloadTime = 4
 
 //Weapondamage
-var rocketDamage = 5;
+var rocketDamage = 50;
 var laserDamage = 2;
 var explosionDamage = 10;
+
 var MGDamage = 1;
+var shockWaveDamage = 5;
 
 // Which secundary Weapon is active? Rocket: 0, MG: 1
 var activeSecWeapon = 0;
@@ -35,9 +41,13 @@ var weaponClock;
 var timeSinceShoot = 0;
 var timeSinceRocket = 0;
 var timeSinceMG = 0;
+var timeSinceShockwave = 0;
 
 //time Explosion is existing
 var explosionTime = 0;
+
+//time shockwave is existing
+var shockwaveTime = 0;
 
 //Counter for limiting MG single shootings
 var mgCounter = 0;
@@ -48,6 +58,7 @@ var rocketGeometry;
 var explosionGeometry;
 var MGGeometry;
 var hitBoxGeometry;
+var shockGeometry;
 
 //Textures for bullets
 var rocketTexture;
@@ -69,6 +80,7 @@ function initializeWeapons() {
     explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
 
     MGGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+    shockGeometry = new THREE.SphereGeometry(600, 32, 32);
 
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
@@ -89,7 +101,7 @@ function initializeWeapons() {
 
 }
 
-//One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
+//One MG-firering burst (5 Bullets). 6 Bursts in one mg shot
 function MGShoot() {
 
 	    //create bullet mesh
@@ -105,7 +117,11 @@ function MGShoot() {
 
 	    bullet1.translateZ(-30);
 	    bullet1.translateX(1);
-	    
+
+      var dummyDot1 = new THREE.Object3D();
+      dummyDot1.name = "BoxPoint";
+      bullet1.add(dummyDot1);
+
 	    //add bullet to scene
 	    scene.add(bullet1);
 
@@ -127,6 +143,10 @@ function MGShoot() {
 	    bullet2.translateZ(-15);
 	    bullet2.translateX(-1);
 
+      var dummyDot2 = new THREE.Object3D();
+      dummyDot2.name = "BoxPoint";
+      bullet2.add(dummyDot2);
+
 	    scene.add(bullet2);
 	    projectiles.push(bullet2);
 
@@ -143,7 +163,11 @@ function MGShoot() {
 
 	    bullet3.translateZ(+15);
 	    bullet3.translateX(1);
-	    
+
+      var dummyDot3 = new THREE.Object3D();
+      dummyDot3.name = "BoxPoint";
+      bullet3.add(dummyDot3);
+
 	    //add bullet to scene
 	    scene.add(bullet3);
 
@@ -155,7 +179,6 @@ function MGShoot() {
 	    var bullet4= new THREE.Mesh(MGGeometry, shootMaterial);
 	    bullet4.name = "MachineGun";
 
-
 	    bullet4.position.x = ship.position.x;
 	    bullet4.position.y = ship.position.y;
 	    bullet4.position.z = ship.position.z;
@@ -164,6 +187,10 @@ function MGShoot() {
 
 	    bullet4.translateZ(+30);
 	    bullet4.translateX(-1);
+
+      var dummyDot4 = new THREE.Object3D();
+      dummyDot4.name = "BoxPoint";
+      bullet4.add(dummyDot4);
 
 	    scene.add(bullet4);
 	    projectiles.push(bullet4);
@@ -179,10 +206,10 @@ function shoot(e) {
     if (e.button === 0) {
         shootLaser();
     }
-    else if(activeSecWeapon ===0){
+    else if(activeSecWeapon == 0){
         shootRocket();
     }
-    else{
+    else if(activeSecWeapon == 1){
     	if(timeSinceMG > MGReloadTime && MGAmmo > 0){
     		MGAudio.play();
     		MGShoot();
@@ -191,6 +218,37 @@ function shoot(e) {
 	    	updateWeaponInterface();
     	}
     }
+    else{
+    	sendShockWave();
+    }
+}
+
+
+function sendShockWave(){
+
+	if (timeSinceShockwave > shockwaveReloadTime) {
+		shockwaveAudio.play();
+
+		particleHandler.addShockwave(ship.position, 0xFF11AA);
+		
+		var shockWave= new THREE.Mesh(shockGeometry,  shootMaterial);
+		//translate bullet to ship position
+	    shockWave.position.x = ship.position.x;
+	    shockWave.position.y = ship.position.y;
+	    shockWave.position.z = ship.position.z;
+
+	    shockWave.name = "Shockwave";
+
+	    shockWave.visible = false;
+
+	    //add bullet to scene
+	    scene.add(shockWave);
+
+	    //add laser to projectiles list so it will be moved
+	    projectiles.push(shockWave);
+
+	    timeSinceShockwave = 0;
+	}
 }
 
 //Firering main-laser
@@ -207,24 +265,6 @@ function shootLaser() {
 
         //create mesh
         var laser       = new THREE.Mesh(shootGeometry,  shootMaterial);
-
-        // dummy points to check collision with laser
-        var dummyDot1 = new THREE.Object3D();
-        var dummyDot2 = new THREE.Object3D();
-        var dummyDot3 = new THREE.Object3D();
-
-        dummyDot1.position.y = laser.geometry.parameters.height / 2;
-        dummyDot2.position.y = - laser.geometry.parameters.height / 2;
-
-        // names will be checked in CollisionHandling
-        dummyDot1.name = "upperPoint";
-        dummyDot2.name = "lowerPoint";
-        dummyDot3.name = "midPoint";
-
-        // add points to laser
-        laser.add(dummyDot1);
-        laser.add(dummyDot2);
-        laser.add(dummyDot3);
 
         //set name for recognition in render-function
         laser.name = "Laser";
@@ -243,6 +283,13 @@ function shootLaser() {
         //rotate: HitBox would be pointing up otherwise
         laser.translateY(-85);
 
+        for (var i = -50; i <= 50; i++) {
+          var dummyDot = new THREE.Object3D();
+          dummyDot.position.y = laser.geometry.parameters.height / 100 * i;
+          dummyDot.name = "BoxPoint" + i;
+          laser.add(dummyDot);
+        }
+
         //add bullet to scene
         scene.add(laser);
 
@@ -254,10 +301,8 @@ function shootLaser() {
 
 //projectileIndex: Index in projectile list of laser hitbox
 function successLaser(projectileIndex){
-    //get laser
-    var laser = projectiles[projectileIndex];
     //remove laser and laserbeam from scene
-    scene.remove(laser);
+    scene.remove(projectiles[projectileIndex]);
     //remove laser from projectiles
     projectiles.splice(projectileIndex,1);
 }
@@ -298,21 +343,29 @@ function shootRocket() {
       var dummyDot1 = new THREE.Object3D();
       var dummyDot2 = new THREE.Object3D();
       var dummyDot3 = new THREE.Object3D();
+      var dummyDot4 = new THREE.Object3D();
+      var dummyDot5 = new THREE.Object3D();
 
-      dummyDot1.position.y = 500;
-      dummyDot2.position.y = -50
+      dummyDot1.position.y = 1000 / 2;
+      dummyDot2.position.y = 1000 / 4;
+      dummyDot4.position.y = - 1000 / 4;
+      dummyDot5.position.y = - 1000 / 2;
 
-      // names will be checked in CollisionHandling
-      dummyDot1.name = "upperPoint";
-      dummyDot2.name = "lowerPoint";
-      dummyDot3.name = "midPoint";
+        // names will be checked in CollisionHandling
+      dummyDot1.name = "BoxPoint1";
+      dummyDot2.name = "BoxPoint2";
+      dummyDot3.name = "BoxPoint3";
+      dummyDot4.name = "BoxPoint4";
+      dummyDot5.name = "BoxPoint5";
 
       // add points to laser
       rocket.add(dummyDot1);
       rocket.add(dummyDot2);
       rocket.add(dummyDot3);
+      rocket.add(dummyDot4);
+      rocket.add(dummyDot5);
 
-      //set name for recocnition in render-function
+      //set name for recognition in render-function
   	 	rocket.name = "Rocket";
 
       //scaling the rocket
@@ -398,11 +451,13 @@ function renderWeapons(){
 	var add = weaponClock.getDelta();
 
 	//increment time counters for limiting shooting frequence
-	timeSinceShoot  += add;
-	timeSinceMG     += add;
-	timeSinceRocket += add
+	timeSinceShoot     += add;
+	timeSinceMG        += add;
+	timeSinceRocket    += add;
+	timeSinceShockwave += add;
 	//variable for limiting explosion lifespan
-	explosionTime +=add;
+	explosionTime += add;
+	shockwaveTime += add;
 
 	//function for limiting single shootings while MG-shooting
 	if(mgCounter > 0){
@@ -463,6 +518,14 @@ function renderWeapons(){
                	successMachineGunBullet(bul);
             }
         }
+        else if (projectiles[bul].name == "Shockwave") {
+			//Check if Explosion
+	    	if (shockwaveTime > 0.15){
+        		scene.remove(projectiles[bul]);
+        		projectiles.splice(bul, 1);
+    		}
+        }
+
     }
 
 }
