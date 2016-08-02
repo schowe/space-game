@@ -211,6 +211,10 @@ function shoot(e) {
 //Firering main-laser
 function shootLaser() {
 
+
+
+            player.activateShield();
+
     //if for limiting shooting frequency
     if (timeSinceShoot > laserReloadTime) {
 
