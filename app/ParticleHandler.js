@@ -4,6 +4,12 @@ var ParticleHandler = function () {
     var currentImplosions = [];
     var currentHalos = [];
 
+    function addShockwaveExplosion(position, lifetime, speed, size, level){
+
+        var Shockwave = new ShockwaveParticleRenderer(5000, fileLoader.get("particle_grey") , 5, position, 6, 5, 1);
+        currentHalos.push(Shockwave);
+    }
+
     function addlittleExplosion(position, lifetime, color, speed, size){
         if (speed == undefined) speed = 1;
         if (size == undefined) size = 1;
@@ -60,6 +66,8 @@ var ParticleHandler = function () {
     return {
 
         addlittleExplosion: addlittleExplosion,
+
+        addShockwaveExplosion: addShockwaveExplosion,
 
         addExplosion: addExplosion,
 

@@ -187,7 +187,8 @@ function hitAsteroid(asteroidNumber, collisionType) {
 
         case "Laser":
             asteroidsHP[asteroidNumber] -= laserDamage;
-            particleHandler.addlittleExplosion(asteroids[asteroidNumber].position, 1, 0xff0000, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius / 45);
+           // particleHandler.addlittleExplosion(asteroids[asteroidNumber].position, 1, 0xff0000, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius / 45);
+            particleHandler.addShockwaveExplosion(asteroids[asteroidNumber].position, 5, 7, 1, 1);
             break;
 
         case "Rocket":
