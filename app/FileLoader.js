@@ -8,6 +8,7 @@ var powerUpAudio;
 var asteroidAudio;
 var gameOverAudio;
 var shockwaveAudio;
+var backgroundMusic;
 
 var FileLoader = function () {
     console.log("FileLoader running ...");
@@ -225,6 +226,12 @@ var FileLoader = function () {
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
     shockwaveAudio.appendChild(shockwaveAudioSource);
 
+
+            //Game Over audio
+    backgroundMusic = document.createElement('audio');
+    var backgroundMusicSource = document.createElement('source');
+    backgroundMusicSource.src = '../res/sounds/TALES_-_01_-_Deep_Space_Traveller.mp3';
+    backgroundMusic.appendChild(backgroundMusicSource);
 
 
     console.log("FileLoader done.");

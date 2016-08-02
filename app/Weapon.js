@@ -18,7 +18,7 @@ var rocketMaxDistance = 1500;
 var laserReloadTime = 0.4;
 var rocketReloadTime = 1;
 var MGReloadTime = 1.2;
-var shockwaveReloadTime = 3
+var shockwaveReloadTime = 4
 
 //Weapondamage
 var rocketDamage = 5;
@@ -210,25 +210,29 @@ function shoot(e) {
 
 function sendShockWave(){
 
-	shockwaveAudio.play();
+	if (timeSinceShockwave > shockwaveReloadTime) {
+		shockwaveAudio.play();
 
-	particleHandler.addShockwave(ship.position, 0xFF11AA);
-	
-	var shockWave= new THREE.Mesh(shockGeometry,  shootMaterial);
-	//translate bullet to ship position
-    shockWave.position.x = ship.position.x;
-    shockWave.position.y = ship.position.y;
-    shockWave.position.z = ship.position.z;
+		particleHandler.addShockwave(ship.position, 0xFF11AA);
+		
+		var shockWave= new THREE.Mesh(shockGeometry,  shootMaterial);
+		//translate bullet to ship position
+	    shockWave.position.x = ship.position.x;
+	    shockWave.position.y = ship.position.y;
+	    shockWave.position.z = ship.position.z;
 
-    shockWave.name = "Shockwave";
+	    shockWave.name = "Shockwave";
 
-    shockWave.visible = false;
+	    shockWave.visible = false;
 
-    //add bullet to scene
-    scene.add(shockWave);
+	    //add bullet to scene
+	    scene.add(shockWave);
 
-    //add laser to projectiles list so it will be moved
-    projectiles.push(shockWave);
+	    //add laser to projectiles list so it will be moved
+	    projectiles.push(shockWave);
+
+	    timeSinceShockwave = 0;
+	}
 }
 
 //Firering main-laser
