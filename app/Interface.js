@@ -66,6 +66,9 @@ function Interface() {
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbar').checked = true;
+			document.getElementById('invertedShieldbar').checked = false;
+			
+			spaceAudio.play();
 			
 			levelDesign(level);
 			startLevelTimer();
