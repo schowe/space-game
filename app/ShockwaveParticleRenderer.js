@@ -1,4 +1,4 @@
-function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, size, initialRadius) {
+function ShockwaveParticleRenderer(particleColor, nParticles, particleTexture, lifetime, startVector, size, initialRadius) {
 
     this.startVector = startVector;
     this.particleCount = nParticles;
@@ -27,10 +27,12 @@ function HaloParticleRenderer(particleColor, nParticles, particleTexture, lifeti
         );
 
         var radius = initialRadius;
-        var angle = Math.random() * Math.PI * 2;
-        particle.x += Math.cos(angle) * radius + Math.random() - 0.5;
-        particle.y += (Math.random()-0.5)*2;
-        particle.z += Math.sin(angle) * radius + Math.random() - 0.5;
+        var lambda = Math.PI * 2 * Math.random();
+        var angle = Math.PI * 2 * Math.random();
+
+        particle.x += Math.cos(angle) * Math.cos(lambda) * radius;
+        particle.y += Math.cos(angle) * Math.sin(lambda) * radius;
+        particle.z += Math.sin(angle) * radius;
 
         particle.velocity = particle.clone().sub(this.startVector.clone());
 

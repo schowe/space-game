@@ -8,7 +8,7 @@ var asteroidRotVecs = [];
 var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
 var biggerSphereRadius = 5000;
-var asteroidRadius = 3.5;
+var asteroidRadius = 4.2;
 var defaultAsteroidHP = 10;
 
 //starStuff
@@ -55,13 +55,13 @@ function createAsteroids() {
     astGeometry = fileLoader.get("AsteroidV2");
     astTexture = fileLoader.get("AsteroidTex");
 
-    for (countAst = 0; countAst < 100; countAst++) {
+    for (countAst = 0; countAst < 150; countAst++) {
 
-        rndSpeedX = Math.random() * 20 - 14;
-        rndSpeedY = Math.random() * 20 - 14;
-        rndSpeedZ = Math.random() * 20 - 14;
+        rndSpeedX = Math.random() * 15 - 11;
+        rndSpeedY = Math.random() * 15 - 11;
+        rndSpeedZ = Math.random() * 15 - 11;
         rotSpeed = Math.random() * 0.05 - 0.01;
-        rndScale = Math.random() * 50;
+        rndScale = Math.random() * 30;
 
         var vecSpeed = new THREE.Vector3(rndSpeedX, rndSpeedY, rndSpeedZ);
         var vecRot = new THREE.Vector3(rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * (2 - 0) - 0), rotSpeed * (Math.random() * 2 - 0));
@@ -188,6 +188,8 @@ function hitAsteroid(asteroidNumber, collisionType) {
         case "Laser":
             asteroidsHP[asteroidNumber] -= laserDamage;
 
+            particleHandler.addLittleExplosion(asteroids[asteroidNumber].position, 3, 0xff0000, 1, 1);
+
             break;
 
         case "Rocket":
@@ -210,6 +212,18 @@ function hitAsteroid(asteroidNumber, collisionType) {
     if (asteroidsHP[asteroidNumber] <= 0) {
         destroyAsteroid(asteroidNumber, collisionType);
     }
+
+}
+function changeAsteroidDirection (asteroidNumber){
+
+  var newRotVal = Math.random() * (2 +1) - 1; 
+
+   asteroidSpeedVecs[asteroidNumber] = asteroidSpeedVecs[asteroidNumber].multiplyScalar(-1) ;
+   asteroidSpeedVecs[asteroidNumber] = asteroidSpeedVecs[asteroidNumber].add(3) ;
+
+   asteroidRotVecs[asteroidNumber] = asteroidRotVecs[asteroidNumber].multiplyScalar(newRotVal); 
+
+
 
 }
 
@@ -244,7 +258,7 @@ function destroyAsteroid(asteroidNumber, collisionType) {
     rnd2 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
     rnd3 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
 
-    particleHandler.addExplosion(asteroids[asteroidNumber].position, 5, 0xcccccc, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius / 10);
+    particleHandler.addExplosion(asteroids[asteroidNumber].position, 3, 0xcccccc, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius / 45);
 
     var newScale = Math.random() * 30;
 
