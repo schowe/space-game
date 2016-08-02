@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>SpaceGame</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="res/css/lib/bootstrap.css" />
+    <link rel="stylesheet" href="res/css/lib/sb-admin-2.css" />
+    <link rel="stylesheet" href="res/css/index.css" />
+
+    <!-- Javascript -->
+    <script src="res/js/lib/jquery-2.2.4.min.js"></script>
+    <script src="res/js/lib/bootstrap.min.js"></script>
+    <script src="res/js/lib/threejs/three.js"></script>
+    <script src="res/js/lib/threejs/tween.min.js"></script>
+
+    <!-- custom -->
+    <script type="text/javascript" src="app/Network.js"></script>
+    <script type="text/javascript" src="app/FileLoader.js"></script>
+    <script type="text/javascript" src="app/RayParticleRenderer.js"></script>
+    <script type="text/javascript" src="res/js/index.js"></script>
+
+</head>
+
+<body>
+
+    <div id="loading-overlay">
+        <div id="loading-text">
+            <h1>Loading ...</h1>
+        </div>
+    </div>
+
+    <div id="overlay-menu" class="main-menu-overlay">
+        <div class="row overlay-text-heading">
+            <div class="col-md-12">
+                <h1>Space Game
+                    <small>CG16</small>
+                </h1>
+            </div>
+        </div>
+
+        <form role="form" id="form" action="app/game.html" method="GET">
+            <div class="form-group">
+                <label>Enter player name: </label>
+                <input class="form-control" type="text" id="player" placeholder="Superstar McAwesome" required/>
+            </div>
+            <button id="formSubmit" class="btn btn-danger btn-block" type="submit">
+                Start Game
+            </button>
+        </form>
+    </div>
+
+    <div id="overlay-highscore" class="main-menu-overlay">
+
+        <div class="row overlay-text-heading">
+            <div class="col-md-12">
+                <h1>Highscore</h1>
+            </div>
+        </div>
+
+        <!-- Highscore Tabelle -->
+        <!-- Header -->
+        <div class="row highscore-header">
+            <div class="col-md-2">#</div>
+            <div class="col-md-4">Player</div>
+            <div class="col-md-2">Lvl</div>
+            <div class="col-md-3">Points</div>
+        </div>
+        <!-- Zeilen -->
+        <!-- wird automatisch gefüllt -->
+    </div>
+
+</body>
+
+</html>
