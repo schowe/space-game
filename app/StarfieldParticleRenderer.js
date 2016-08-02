@@ -1,4 +1,4 @@
-function Starfield() {
+function StarfieldParticleRenderer() {
 
     var startVector = new THREE.Vector3(0, 0, 0);
 
@@ -25,8 +25,8 @@ function Starfield() {
     }
     this.particleSystem = new THREE.Points(this.particles, this.material);
     scene.add(this.particleSystem);
-
-
+    
+    
 
     this.update = function() {
 
