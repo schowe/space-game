@@ -4,10 +4,12 @@ var weaponsActive = false;
 //Available ammunition, maximal ammunition
 var rocketAmmo = 2;
 var MaxRocketAmmo = 10;
-var MGAmmo = 5000;
+
+var MGAmmo = 50;
 var MaxMGAmmo = 600;
 
-MGReloadTime = 1.2;
+var shockwaveAmmo = 0;
+var maxShockwaveAmmo = 5;
 
 //Max distance covered by rocket
 var rocketMaxDistance = 1500;
@@ -15,12 +17,16 @@ var rocketMaxDistance = 1500;
 //Weaponcooldown
 var laserReloadTime = 0.4;
 var rocketReloadTime = 1;
+var MGReloadTime = 1.2;
+var shockwaveReloadTime = 4
 
 //Weapondamage
 var rocketDamage = 5;
 var laserDamage = 2;
 var explosionDamage = 10;
-var MGDamage = 3;
+
+var MGDamage = 1;
+var shockWaveDamage = 5;
 
 // Which secundary Weapon is active? Rocket: 0, MG: 1
 var activeSecWeapon = 0;
@@ -35,9 +41,13 @@ var weaponClock;
 var timeSinceShoot = 0;
 var timeSinceRocket = 0;
 var timeSinceMG = 0;
+var timeSinceShockwave = 0;
 
 //time Explosion is existing
 var explosionTime = 0;
+
+//time shockwave is existing
+var shockwaveTime = 0;
 
 //Counter for limiting MG single shootings
 var mgCounter = 0;
@@ -48,6 +58,7 @@ var rocketGeometry;
 var explosionGeometry;
 var MGGeometry;
 var hitBoxGeometry;
+var shockGeometry;
 
 //Textures for bullets
 var rocketTexture;
@@ -69,6 +80,7 @@ function initializeWeapons() {
     explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
 
     MGGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+    shockGeometry = new THREE.SphereGeometry(600, 32, 32);
 
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
@@ -194,10 +206,10 @@ function shoot(e) {
     if (e.button === 0) {
         shootLaser();
     }
-    else if(activeSecWeapon ===0){
+    else if(activeSecWeapon == 0){
         shootRocket();
     }
-    else{
+    else if(activeSecWeapon == 1){
     	if(timeSinceMG > MGReloadTime && MGAmmo > 0){
     		MGAudio.play();
     		MGShoot();
@@ -206,10 +218,45 @@ function shoot(e) {
 	    	updateWeaponInterface();
     	}
     }
+    else{
+    	sendShockWave();
+    }
+}
+
+
+function sendShockWave(){
+
+	if (timeSinceShockwave > shockwaveReloadTime) {
+		shockwaveAudio.play();
+
+		particleHandler.addShockwave(ship.position, 0xFF11AA);
+		
+		var shockWave= new THREE.Mesh(shockGeometry,  shootMaterial);
+		//translate bullet to ship position
+	    shockWave.position.x = ship.position.x;
+	    shockWave.position.y = ship.position.y;
+	    shockWave.position.z = ship.position.z;
+
+	    shockWave.name = "Shockwave";
+
+	    shockWave.visible = false;
+
+	    //add bullet to scene
+	    scene.add(shockWave);
+
+	    //add laser to projectiles list so it will be moved
+	    projectiles.push(shockWave);
+
+	    timeSinceShockwave = 0;
+	}
 }
 
 //Firering main-laser
 function shootLaser() {
+
+
+
+            player.activateShield();
 
     //if for limiting shooting frequency
     if (timeSinceShoot > laserReloadTime) {
@@ -408,11 +455,13 @@ function renderWeapons(){
 	var add = weaponClock.getDelta();
 
 	//increment time counters for limiting shooting frequence
-	timeSinceShoot  += add;
-	timeSinceMG     += add;
-	timeSinceRocket += add
+	timeSinceShoot     += add;
+	timeSinceMG        += add;
+	timeSinceRocket    += add;
+	timeSinceShockwave += add;
 	//variable for limiting explosion lifespan
-	explosionTime +=add;
+	explosionTime += add;
+	shockwaveTime += add;
 
 	//function for limiting single shootings while MG-shooting
 	if(mgCounter > 0){
@@ -473,6 +522,14 @@ function renderWeapons(){
                	successMachineGunBullet(bul);
             }
         }
+        else if (projectiles[bul].name == "Shockwave") {
+			//Check if Explosion
+	    	if (shockwaveTime > 0.15){
+        		scene.remove(projectiles[bul]);
+        		projectiles.splice(bul, 1);
+    		}
+        }
+
     }
 
 }

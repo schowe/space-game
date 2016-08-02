@@ -28,8 +28,6 @@ function Player() {
 
         playerHitByAsteroid: function (indexAsteroid, collisionSide) {
 
-
-
             var rotCount = 0;
 
             switch (collisionSide) {
@@ -40,8 +38,6 @@ function Player() {
                     if (yAxis < 0 && yAxis >= -6) {
 
                         changeHP(-10);
-
-
 
                     } else if (yAxis < -6) {
 
@@ -63,7 +59,6 @@ function Player() {
                         changeHP(-10);
 
                     }
-
 
                     break;
 
@@ -96,10 +91,6 @@ function Player() {
 
                         }, 200);
 
-
-
-
-
                         changeHP(-10);
 
                     }
@@ -111,8 +102,6 @@ function Player() {
                     if (yAxis < 0 && yAxis >= -6) {
 
                         changeHP(-10);
-
-
 
                     } else if (yAxis < -6 && yAxis >= -14) {
                         var oldRotX = 0;
@@ -134,31 +123,18 @@ function Player() {
 
                         }, 200);
 
-
-
-
-
                         changeHP(-10);
 
                     }
 
                     break;
 
-
             }
-
-
-
-
-
-
-
-
-
 
         },
 
         init: function () {
+
             var geometry = fileLoader.get("HeroShipV5");
             var texture = fileLoader.get("TextureHero");
 
@@ -234,16 +210,33 @@ function Player() {
 
         activateShield: function () {
 
-            console.log("SCHILD AKTIVIERT!");
+            if (shield !== undefined) {
+                scene.remove(shield);
+                shield = undefined;
+            }
+
             shieldGeometry = fileLoader.get("Kugelschild");
             shieldTex = fileLoader.get("KugelschildTex");
 
-            shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex }));
-            shield.scale.x = shield.scale.y = shield.scale.z = 1;
+            shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex, transparent: true, opacity: 0.4 }));
+            shield.scale.x = shield.scale.y = shield.scale.z = 0;
             shield.position.set(ship.position.x, ship.position.y, ship.position.z);
             scene.add(shield);
 
-        }
+            var scalingShield = 0.01
+            var interval = setInterval(function () {
+
+                            shield.scale.x = shield.scale.y = shield.scale.z = scalingShield;
+                            scalingShield += 0.01;
+                            if (scalingShield > 1) {
+
+                                clearInterval(interval);
+                            }
+
+
+                        }, 20);
+
+        },
 
     };
 
