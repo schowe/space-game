@@ -4,7 +4,6 @@ var playerHitBoxes = [];
 var cross;
 var shield, shieldGeometry, shieldTex, shieldMaterial, rotClock;
 
-
 function Player() {
 
     var startVector = new THREE.Vector3(0, 0, 0);
