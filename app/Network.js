@@ -1,9 +1,9 @@
 var HIGHSCORE_SERVER_BASE_URL = "http://localhost:8000";
 
-var OFFLINE_TEST_MODE = true;
+var OFFLINE_TEST_MODE = true; // TODO
 
 var Network = function() {
-    var testData = [
+    var data = [
         {"id":1, "player": "Superstar McAwesome","score":999999,"level":99},
         {"id":2, "player": "Awesomestar McSuper","score":781287,"level":87},
         {"id":3, "player": "Galactic Megastar","score":612735,"level":74},
@@ -16,12 +16,14 @@ var Network = function() {
         {"id":10,"player": "Astronaut","score":198417,"level":25}
     ];
 
-    function getTop10(successCallback) {
+    function loadTop10(successCallback) {
         if (OFFLINE_TEST_MODE) {
-            successCallback(testData);
+            if (successCallback !== undefined) {
+                successCallback(data);    
+            }
         } else {
-            $.get(HIGHSCORE_SERVER_BASE_URL + "/api/1/highscore", function (data) {
-                // TODO
+            $.get(HIGHSCORE_SERVER_BASE_URL + "/api/1/highscore", function (d) {
+                data = d;
                 
                 if (successCallback !== undefined) {
                     successCallback(data);
@@ -52,7 +54,7 @@ var Network = function() {
     }
     
     return {
-        getTop10: getTop10,
+        loadTop10: loadTop10,
         postNewScore: postNewScore
     }
 

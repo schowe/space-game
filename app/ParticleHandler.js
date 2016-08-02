@@ -3,6 +3,21 @@ var ParticleHandler = function () {
     var currentExplosions = [];
     var currentImplosions = [];
     var currentHalos = [];
+    var currentShockwaves = [];
+    
+    function addShockwave(position, color) {
+        var shockwave = new ShockwaveParticleRenderer(color, 10000, fileLoader.get("particle_grey"), 3, position, 1, 30);
+        currentShockwaves.push(shockwave);
+        
+    }
+
+    function addLittleExplosion(position, lifetime, color, speed, size) {
+        if (speed == undefined) speed = 1;
+        if (size == undefined) size = 1;
+        
+        var explosion = new ExplosionParticleRenderer(color, 2500, fileLoader.get("particle_grey"), lifetime, position, speed, size);
+        currentExplosions.add(explosion);
+    }
 
     function addShockwaveExplosion(position, lifetime, size, radius, level){
                                                     //nParticels, texture, lifetime, startvektor, size, radius, level
@@ -36,7 +51,6 @@ var ParticleHandler = function () {
         var explosion = new ExplosionParticleRenderer(color, 5000, fileLoader.get("particle_grey"), lifetime + 2, position, speed, size);
 
         for (var i = 0; i < 15; i++) {
-
             explosion.update();
         }
         currentExplosions.push(explosion);
@@ -74,9 +88,21 @@ var ParticleHandler = function () {
         addImplosion: addImplosion,
 
         addHalo: addHalo,
+        
+        addShockwave: addShockwave,
+
+        addLittleExplosion: addLittleExplosion,
 
         update: function () {
-
+            
+            for (var i = 0; i < currentShockwaves.length; i++) {
+                var shockwave = currentShockwaves[i];
+                var successful = shockwave.update();
+                if (!successful) {
+                    currentShockwaves.splice(i, 1);
+                }
+            }
+            
             for (var i = 0; i < currentExplosions.length; i++) {
                 var explosion = currentExplosions[i];
                 var successful = explosion.update();
