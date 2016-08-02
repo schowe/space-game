@@ -340,8 +340,11 @@ function weaponSwitch(){
     if(activeSecWeapon == 0){
         activeSecWeapon = 1;
     }
+    else if(activeSecWeapon == 1){
+        activeSecWeapon = 2;
+    }
     else{
-        activeSecWeapon = 0;
+        activeSecWeapon = 0;   
     }
     updateWeaponInterface();
 }

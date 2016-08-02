@@ -188,6 +188,7 @@ function createAsteroids() {
         case "Laser":
             asteroidsHP[asteroidNumber] -= laserDamage;
 
+            // particleHandler.addShockwave(asteroids[asteroidNumber].position, 0xff6611);
             particleHandler.addLittleExplosion(asteroids[asteroidNumber].position, 3, 0xff0000, 1, 1);
 
             break;
