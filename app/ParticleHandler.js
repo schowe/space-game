@@ -4,9 +4,9 @@ var ParticleHandler = function () {
     var currentImplosions = [];
     var currentHalos = [];
 
-    function addShockwaveExplosion(position, lifetime, speed, size, level){
-
-        var Shockwave = new ShockwaveParticleRenderer(5000, fileLoader.get("particle_grey") , 5, position, 6, 5, 1);
+    function addShockwaveExplosion(position, lifetime, size, radius, level){
+                                                    //nParticels, texture, lifetime, startvektor, size, radius, level
+        var Shockwave = new ShockwaveParticleRenderer(10000, fileLoader.get("particle_grey") , 3, position, 1, 3);
         currentHalos.push(Shockwave);
     }
 
