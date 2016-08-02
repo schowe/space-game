@@ -23,6 +23,13 @@ var network;
 var starfield;
 var world;
 
+// Moved here bc pretty much every file uses it
+var biggerSphereRadius = 5000;
+var biggerSphere = new THREE.Object3D(
+    new THREE.SphereGeometry(biggerSphereRadius, 200, 200),
+    new THREE.MeshBasicMaterial({transparent: true})
+    );
+
 // TODO: eigentlich in Interface
 var scoreValues = {
     "itemCollected": 10,
@@ -91,12 +98,13 @@ function init() {
     player = Player();
     player.init();
 
-    world = World();
-    world.init();
+/*    world = World();
+    world.init();*/
 
     starfield = new StarfieldParticleRenderer();
 
-    createAsteroids();
+    bot = Bot();
+    bot.initAI(1);
 
     movement = Movement();
     movement.init();
@@ -237,7 +245,7 @@ function render() {
         movement.move(delta);
         
         renderWeapons();
-        updateAsteroids();
+        bot.updateAI(delta);
         updatePowerUps();
         handleCollision();
 

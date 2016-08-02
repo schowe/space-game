@@ -4,7 +4,6 @@ var playerHitBoxes = [];
 var cross;
 var shield, shieldGeometry, shieldTex, shieldMaterial, rotClock;
 
-
 function Player() {
 
     var startVector = new THREE.Vector3(0, 0, 0);
@@ -219,7 +218,7 @@ function Player() {
             shieldTex = fileLoader.get("KugelschildTex");
 
             shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex, transparent: true, opacity: 0.4 }));
-            shield.scale.x = shield.scale.y = shield.scale.z = 0;
+            shield.scale.x = shield.scale.y = shield.scale.z = 0.01;
             shield.position.set(ship.position.x, ship.position.y, ship.position.z);
             scene.add(shield);
 
