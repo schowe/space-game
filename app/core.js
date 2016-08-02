@@ -20,6 +20,16 @@ var movement;
 var particleHandler;
 var collision;
 var stats;
+var network;
+var starfield;
+var world;
+
+// Moved here bc pretty much every file uses it
+var biggerSphereRadius = 5000;
+var biggerSphere = new THREE.Object3D(
+    new THREE.SphereGeometry(biggerSphereRadius, 200, 200),
+    new THREE.MeshBasicMaterial({transparent: true})
+    );
 
 // TODO: eigentlich in Interface
 var scoreValues = {
@@ -38,6 +48,7 @@ $(function () {
     // wird ausgeführt, wenn das Dokument geladen ist:
 
     // Module initialisieren
+    network = Network();
     fileLoader = FileLoader();
     LoadingScreen();
     interface = Interface();
@@ -88,11 +99,13 @@ function init() {
     player = Player();
     player.init();
 
-    var world = World();
-    world.init();
+/*    world = World();
+    world.init();*/
+
+    starfield = new StarfieldParticleRenderer();
+
 
     createStars();
-    //createAsteroids();
 
     bot = Bot();
     bot.initAI(1);
@@ -231,21 +244,31 @@ function render() {
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
-        // animation code goes here
-
-        renderWeapons();
+        // animation code goes here:
+        
         movement.move(delta);
+<<<<<<< HEAD
         updateStars();
         //updateAsteroids();
+=======
+        
+        renderWeapons();
+>>>>>>> 106e7f639ff0f7197b7976b29414f702ecf4f6fb
         bot.updateAI(delta);
         updatePowerUps();
-
         handleCollision();
 
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
+        
         // Explosionen updaten
         particleHandler.update();
+
+        // Sternenstaub bewegen
+        if (starfield !== undefined) starfield.update();
+
+        //play music
+        backgroundMusic.play();
     }
 
     camera.update();

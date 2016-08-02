@@ -3,6 +3,21 @@ var ParticleHandler = function () {
     var currentExplosions = [];
     var currentImplosions = [];
     var currentHalos = [];
+    var currentShockwaves = [];
+
+    function addShockwave(position, color) {
+        var shockwave = new ShockwaveParticleRenderer(color, 20000, fileLoader.get("particle_grey"), 3, position, 1, 30);
+        currentShockwaves.push(shockwave);
+
+    }
+
+    function addLittleExplosion(position, lifetime, color, speed, size) {
+        if (speed == undefined) speed = 1;
+        if (size == undefined) size = 1;
+
+        var explosion = new ExplosionParticleRenderer(color, 2500, fileLoader.get("particle_grey"), lifetime, position, speed, size);
+        currentExplosions.push(explosion);
+    }
 
     function addExplosion(position, lifetime, color, speed, size) {
 
@@ -13,7 +28,6 @@ var ParticleHandler = function () {
 
         var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime + 2, position, speed, size);
         for (var i = 0; i < 15; i++) {
-
             explosion.update();
         }
         currentExplosions.push(explosion);
@@ -28,10 +42,8 @@ var ParticleHandler = function () {
     }
 
     function addHalo(position, lifetime, color) {
-        // TODO: lifetime, size, speed
         var halo = new HaloParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime, position, 1, 30);
         currentHalos.push(halo);
-
     }
 
     return {
@@ -41,7 +53,19 @@ var ParticleHandler = function () {
 
         addHalo: addHalo,
 
+        addShockwave: addShockwave,
+
+        addLittleExplosion: addLittleExplosion,
+
         update: function () {
+
+            for (var i = 0; i < currentShockwaves.length; i++) {
+                var shockwave = currentShockwaves[i];
+                var successful = shockwave.update();
+                if (!successful) {
+                    currentShockwaves.splice(i, 1);
+                }
+            }
 
             for (var i = 0; i < currentExplosions.length; i++) {
                 var explosion = currentExplosions[i];
