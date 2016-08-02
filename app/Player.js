@@ -219,7 +219,7 @@ function Player() {
             shieldTex = fileLoader.get("KugelschildTex");
 
             shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex, transparent: true, opacity: 0.4 }));
-            shield.scale.x = shield.scale.y = shield.scale.z = 0;
+            shield.scale.x = shield.scale.y = shield.scale.z = 0.01;
             shield.position.set(ship.position.x, ship.position.y, ship.position.z);
             scene.add(shield);
 
