@@ -621,29 +621,13 @@ function setMaxSpeed(newMaxSpeed) {
 
 /* Changes the status of an addressed PowerUp */
 function setPowerUp(powerUp, removeOrAdd) {
-	var icon;
 
-	switch(powerUp) {
-		case 1:
-			icon = document.getElementById('powerUpOne');
-			break;
-		case 2:
-			icon = document.getElementById('powerUpTwo');
-			break;
-		case 3:
-			icon = document.getElementById('powerUpThree');
-			break;
-		case 4:
-			icon = document.getElementById('powerUpFour');
-			break;
-		default:
-			return;
-	}
+	var icon = document.getElementById('powerUp'+powerUp);
 
 	if (removeOrAdd == 1)
 		icon.classList.remove('inactive');
 
-	if (removeOrAdd == 0)
+	else if (removeOrAdd == 0)
 		icon.classList.add('inactive');
 }
 
@@ -972,21 +956,33 @@ function invertShieldBar() {
 	}
 }
 
-function changeVolume(value) {
-	// tests
-	/*
-	$('#volumeSlider').css('border-color', 'green');
-	$('#volumeSlider').html(25);
-	console.log(1);
-	*/
-	console.log(value);
+function changeVolume(bar, value) {
+	
+	switch (bar) {
 
-	laserAudio.volume = value;
-	asteroidAudio.volume = value;
-	powerUpAudio.volume = value;
-	rocketAudio.volume = value;
-	explosionAudio.volume = value;
-	$('#volumeText').html(parseInt(value*100)+'%');
+		case 1: 
+			for (var v = 2; v <= 4; v++) {
+				changeVolume(v, value);
+				$('#adv'+v).val(value);
+			}
+			break;
+		case 2:
+			// background music
+			break;
+		case 3:
+			laserAudio.volume = value;
+			asteroidAudio.volume = value;
+			powerUpAudio.volume = value;
+			rocketAudio.volume = value;
+			explosionAudio.volume = value;
+			break;
+		case 4:
+		    // menu sounds
+		    break;
+	}
+	
+	$('#soundValue'+bar).html(parseInt(value*100)+'%');
+
 }
 
 function showAdvancedSoundOptions() {
