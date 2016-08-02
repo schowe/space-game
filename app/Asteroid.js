@@ -62,7 +62,7 @@ Asteroid.prototype.move = function (delta) {
     this.direction.normalize();
 
     if (this.position.distanceTo(ship.position) > despawnDistance) {
-        console.log("DespawnRange");
+        //console.log("DespawnRange");
         this.isAlive = false;
     }
 
