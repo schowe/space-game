@@ -175,19 +175,27 @@ function shootLaser() {
         var dummyDot1 = new THREE.Object3D();
         var dummyDot2 = new THREE.Object3D();
         var dummyDot3 = new THREE.Object3D();
+        var dummyDot4 = new THREE.Object3D();
+        var dummyDot5 = new THREE.Object3D();
 
         dummyDot1.position.y = laser.geometry.parameters.height / 2;
-        dummyDot2.position.y = - laser.geometry.parameters.height / 2;
+        dummyDot2.position.y = laser.geometry.parameters.height / 4;
+        dummyDot4.position.y = - laser.geometry.parameters.height / 4;
+        dummyDot5.position.y = - laser.geometry.parameters.height / 2;
 
         // names will be checked in CollisionHandling
-        dummyDot1.name = "upperPoint";
-        dummyDot2.name = "lowerPoint";
-        dummyDot3.name = "midPoint";
+        dummyDot1.name = "BoxPoint1";
+        dummyDot2.name = "BoxPoint2";
+        dummyDot3.name = "BoxPoint3";
+        dummyDot4.name = "BoxPoint4";
+        dummyDot5.name = "BoxPoint5";
 
         // add points to laser
         laser.add(dummyDot1);
         laser.add(dummyDot2);
         laser.add(dummyDot3);
+        laser.add(dummyDot4);
+        laser.add(dummyDot5);
 
         //set name for recognition in render-function
         laser.name = "Laser";
@@ -256,21 +264,29 @@ function shootRocket() {
       var dummyDot1 = new THREE.Object3D();
       var dummyDot2 = new THREE.Object3D();
       var dummyDot3 = new THREE.Object3D();
+      var dummyDot4 = new THREE.Object3D();
+      var dummyDot5 = new THREE.Object3D();
 
-      dummyDot1.position.y = 500;
-      dummyDot2.position.y = -50
+      dummyDot1.position.y = 1000 / 2;
+      dummyDot2.position.y = 1000 / 4;
+      dummyDot4.position.y = - 1000 / 4;
+      dummyDot5.position.y = - 1000 / 2;
 
-      // names will be checked in CollisionHandling
-      dummyDot1.name = "upperPoint";
-      dummyDot2.name = "lowerPoint";
-      dummyDot3.name = "midPoint";
+        // names will be checked in CollisionHandling
+      dummyDot1.name = "BoxPoint1";
+      dummyDot2.name = "BoxPoint2";
+      dummyDot3.name = "BoxPoint3";
+      dummyDot4.name = "BoxPoint4";
+      dummyDot5.name = "BoxPoint5";
 
       // add points to laser
       rocket.add(dummyDot1);
       rocket.add(dummyDot2);
       rocket.add(dummyDot3);
+      rocket.add(dummyDot4);
+      rocket.add(dummyDot5);
 
-      //set name for recocnition in render-function
+      //set name for recognition in render-function
   	 	rocket.name = "Rocket";
 
       //scaling the rocket

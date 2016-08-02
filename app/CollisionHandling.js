@@ -20,7 +20,6 @@ function handleAsteroids() {
         for (var j = 0; j <= playerHitBoxes.length - 1; j++) {
             if (collision.intersectSphereShipHitBox(asteroidHitBoxes[i],
                 playerHitBoxes[j])) {
-                //console.log("COLLIDE");
                 destroyAsteroid(i);
                 // asteroidHitBySpaceship(i);
                 player.playerHitByAsteroid();
@@ -54,8 +53,11 @@ function handleProjectiles() {
         if (projectiles[i].name === "Laser") {
 
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
-                if (collision.intersectPointSphere(projectiles[i].getObjectByName("upperPoint"), asteroidHitBoxes[j]) ||
-                        collision.intersectPointSphere(projectiles[i].getObjectByName("lowerPoint"), asteroidHitBoxes[j])) {
+                if (collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint1"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint2"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint3"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint4"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint5"), asteroidHitBoxes[j])) {
                     successLaser(i);
                     hitAsteroid(j, "Laser");
                     projectileSucceded = true;
@@ -67,8 +69,11 @@ function handleProjectiles() {
 
         else if (projectiles[i].name === "Rocket") {
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
-                if (collision.intersectPointSphere(projectiles[i].getObjectByName("upperPoint"), asteroidHitBoxes[j]) ||
-                        collision.intersectPointSphere(projectiles[i].getObjectByName("lowerPoint"), asteroidHitBoxes[j])) {
+                if (collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint1"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint2"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint3"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint4"), asteroidHitBoxes[j]) ||
+                            collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint5"), asteroidHitBoxes[j])) {
                     successRocket(i);
                     //destruction implementet in handleCollision()
                     toDestroy = j;
@@ -114,9 +119,11 @@ function handleProjectiles() {
                     // if (collision.intersectLineBox(projectiles[i].getObjectByName("lowerPoint"),
                     //         projectiles[i].getObjectByName("upperPoint"), itemHitBoxes[j])) {
 
-                    if (collision.intersectPointBox(projectiles[i].getObjectByName("upperPoint"), itemHitBoxes[j]) ||
-                           collision.intersectPointBox(projectiles[i].getObjectByName("lowerPoint"), itemHitBoxes[j]) ||
-                           collision.intersectPointBox(projectiles[i].getObjectByName("midPoint"), itemHitBoxes[j])) {
+                    if (collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint1"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint2"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint3"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint4"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint5"), itemHitBoxes[j])) {
 
                         successLaser(i);
                         collected(j);
@@ -128,9 +135,13 @@ function handleProjectiles() {
 
             else if (projectiles[i].name === "Rocket") {
                 for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
-                    if (collision.intersectPointBox(projectiles[i].getObjectByName("upperPoint"), itemHitBoxes[j]) ||
-                            collision.intersectPointBox(projectiles[i].getObjectByName("lowerPoint"), itemHitBoxes[j]) ||
-                            collision.intersectPointBox(projectiles[i].getObjectByName("midPoint"), itemHitBoxes[j])) {
+
+                    if (collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint1"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint2"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint3"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint4"), itemHitBoxes[j]) ||
+                           collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint5"), itemHitBoxes[j])) {
+
                         successRocket(i);
                         collected(j);
                         break;
