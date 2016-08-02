@@ -188,6 +188,8 @@ function hitAsteroid(asteroidNumber, collisionType) {
         case "Laser":
             asteroidsHP[asteroidNumber] -= laserDamage;
 
+            particleHandler.addLittleExplosion(asteroids[asteroidNumber].position, 3, 0xff0000, 1, 1);
+
             break;
 
         case "Rocket":
@@ -196,9 +198,15 @@ function hitAsteroid(asteroidNumber, collisionType) {
 
             break;
 
-        case "Explosion": 
+        case "Explosion":
 
-          asteroid[asteroidNumber] -= explosionDamage; 
+          asteroidsHP[asteroidNumber] -= explosionDamage;
+          break;
+
+        case "MachineGun":
+
+            asteroidsHP[asteroidNumber] -= MGDamage;
+            break;
 
 
         default:
@@ -214,12 +222,12 @@ function hitAsteroid(asteroidNumber, collisionType) {
 }
 function changeAsteroidDirection (asteroidNumber){
 
-  var newRotVal = Math.random() * (2 +1) - 1; 
+  var newRotVal = Math.random() * (2 +1) - 1;
 
    asteroidSpeedVecs[asteroidNumber] = asteroidSpeedVecs[asteroidNumber].multiplyScalar(-1) ;
    asteroidSpeedVecs[asteroidNumber] = asteroidSpeedVecs[asteroidNumber].add(3) ;
 
-   asteroidRotVecs[asteroidNumber] = asteroidRotVecs[asteroidNumber].multiplyScalar(newRotVal); 
+   asteroidRotVecs[asteroidNumber] = asteroidRotVecs[asteroidNumber].multiplyScalar(newRotVal);
 
 
 

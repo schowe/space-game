@@ -8,7 +8,7 @@ var Collision = function () {
 
     // Calculates the min x value of the vertices of a box
     function minX(box) {
-        
+
         // array for x values
         var globalXs = [];
         // get the position of each vertex
@@ -286,24 +286,47 @@ var Collision = function () {
     }
 
 
-    function intersectLineBox(p2, p1, box) {
+    function intersectLineBox(p1, p2, box) {
         var dir = new THREE.Vector3();
         var gp1 =  new THREE.Vector3(p1.matrixWorld.elements[12], p1.matrixWorld.elements[13], p1.matrixWorld.elements[14]);
         var gp2 = new THREE.Vector3(p2.matrixWorld.elements[12], p2.matrixWorld.elements[13], p2.matrixWorld.elements[14]);
-        dir = gp2.clone();
-        dir.sub(gp1);
+
+        var pointMaterial1 = new THREE.MeshBasicMaterial({color: 0xFFFF00});
+        var pointGeometry = new THREE.SphereGeometry(1, 32, 32);
+        var point1 = new THREE.Mesh(pointGeometry, pointMaterial1);
+        point1.position.x = p1.matrixWorld.elements[12];
+        point1.position.y = p1.matrixWorld.elements[13];
+        point1.position.z = p1.matrixWorld.elements[14];
+        scene.add(point1);
+
+        var pointMaterial2 = new THREE.MeshBasicMaterial({color: 0x00FFFF});
+        var point2 = new THREE.Mesh(pointGeometry, pointMaterial2);
+        point2.position.x = p2.matrixWorld.elements[12];
+        point2.position.y = p2.matrixWorld.elements[13];
+        point2.position.z = p2.matrixWorld.elements[14];
+        scene.add(point2);
+
+
+        dir = gp1.clone();
+        dir.sub(gp2);
+        var dirClone = dir.clone();
         dir.normalize();
-        var raycaster = new THREE.Raycaster(gp1, dir, 1, 1000);
+        var raycaster = new THREE.Raycaster(gp2, dir, 1, 1000);
+        // var intersects = raycaster.intersectObjects(scene.children);
         var intersects = raycaster.intersectObject(box);
-        console.log(gp1);
+        console.log(box);
+        console.log(intersects);
         console.log(gp2);
+        console.log(gp1);
         console.log(dir);
+        console.log(scene.children.length);
         console.log(intersects.length);
         if (intersects.length < 1) {
             return false;
         }
         else {
             if (intersects[0].distance < 500) {
+                console.log(intersects[0]);
                 return true;
             }
             else {
