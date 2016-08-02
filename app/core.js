@@ -249,6 +249,9 @@ function render() {
 
         // Sternenstaub bewegen
         if (starfield !== undefined) starfield.update();
+
+        //play music
+        backgroundMusic.play();
     }
 
     camera.update();
