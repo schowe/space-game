@@ -1000,7 +1000,7 @@ function changeVolume(bar, value) {
 			}
 			break;
 		case 2:
-			// background music
+			spaceAudio.volume = value;
 			break;
 		case 3:
 			laserAudio.volume = value;
@@ -1008,9 +1008,14 @@ function changeVolume(bar, value) {
 			powerUpAudio.volume = value;
 			rocketAudio.volume = value;
 			explosionAudio.volume = value;
+			MGAudio.volume = value;
 			break;
 		case 4:
-		    // menu sounds
+		    cachingAudio1.volume = value;
+		    cachingAudio2.volume = value;
+		    cachingAudio3.volume = value;
+		    buttonAudio.volume = value;
+		    achievementAudio.volume = value;
 		    break;
 	}
 	
