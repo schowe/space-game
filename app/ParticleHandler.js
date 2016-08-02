@@ -35,7 +35,6 @@ var ParticleHandler = function () {
             explosion.update();
         }
         currentExplosions.push(explosion);
-
     }
 
 
@@ -43,10 +42,7 @@ var ParticleHandler = function () {
 
         var implosion  = new ImplosionParticleRenderer(0xffcc11, 10000, fileLoader.get("particle_grey"), position, 1);
         currentImplosions.push(implosion);
-        
-
     }
-
 
     function addHalo(position, lifetime, color) {
         var halo = new HaloParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime, position, 1, 30);
@@ -54,10 +50,6 @@ var ParticleHandler = function () {
     }
 
     return {
-
-        addlittleExplosion: addlittleExplosion,
-
-        addShockwaveExplosion: addShockwaveExplosion,
 
         addExplosion: addExplosion,
 
