@@ -211,6 +211,8 @@ function shoot(e) {
 
 
 function sendShockWave(){
+
+	particleHandler.addShockwave(ship.position, 0xFF11AA);
 	
 	var shockWave= new THREE.Mesh(shockGeometry,  shootMaterial);
 	//translate bullet to ship position
@@ -440,6 +442,7 @@ function renderWeapons(){
 	timeSinceShockwave += add;
 	//variable for limiting explosion lifespan
 	explosionTime += add;
+	shockwaveTime += add;
 
 	//function for limiting single shootings while MG-shooting
 	if(mgCounter > 0){
