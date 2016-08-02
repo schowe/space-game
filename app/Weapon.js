@@ -23,7 +23,7 @@ var shockwaveReloadTime = 4
 //Weapondamage
 var rocketDamage = 5;
 var laserDamage = 2;
-var explosionDamage = 10;
+var explosionDamage = 100;
 
 var MGDamage = 1;
 var shockWaveDamage = 5;
@@ -80,7 +80,7 @@ function initializeWeapons() {
     explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
 
     MGGeometry = new THREE.SphereGeometry(0.5, 16, 16);
-    shockGeometry = new THREE.SphereGeometry(600, 32, 32);
+    shockGeometry = new THREE.SphereGeometry(500, 32, 32);
 
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
@@ -227,27 +227,36 @@ function shoot(e) {
 function sendShockWave(){
 
 	if (timeSinceShockwave > shockwaveReloadTime) {
-		shockwaveAudio.play();
+  		shockwaveAudio.play();
 
-		particleHandler.addShockwave(ship.position, 0xFF11AA);
-		
-		var shockWave= new THREE.Mesh(shockGeometry,  shootMaterial);
-		//translate bullet to ship position
-	    shockWave.position.x = ship.position.x;
-	    shockWave.position.y = ship.position.y;
-	    shockWave.position.z = ship.position.z;
+      //the explosion is a big sphere (dummy)
+      var shockwave = new THREE.Mesh(explosionGeometry, explosionMaterial);
 
-	    shockWave.name = "Shockwave";
+      //set position at position of the exploding rocket
+      shockwave.position.x = ship.position.x;
+      shockwave.position.y = ship.position.y;
+      shockwave.position.z = ship.position.z;
 
-	    shockWave.visible = false;
+      var particleAnimationPosition = new THREE.Vector3(shockwave.position.x,
+          shockwave.position.y,
+          shockwave.position.z);
 
-	    //add bullet to scene
-	    scene.add(shockWave);
+      //name for identification in rendering
+      shockwave.name = "Shockwave";
+      shockwave.visible = true;
+      //add explosion to scene
+      scene.add(shockwave);
 
-	    //add laser to projectiles list so it will be moved
-	    projectiles.push(shockWave);
+      //add explision to projetiles list for rendering and collision
+      projectiles.push(shockwave);
 
-	    timeSinceShockwave = 0;
+      console.log(projectiles);
+
+      // starte Particle: Implosion -> Explosion -> Halo
+      particleHandler.addImplosion(particleAnimationPosition);
+
+      timeSinceShockwave = 0;
+
 	}
 }
 
@@ -518,12 +527,12 @@ function renderWeapons(){
                	successMachineGunBullet(bul);
             }
         }
-        else if (projectiles[bul].name == "Shockwave") {
-			//Check if Explosion
-	    	if (shockwaveTime > 0.15){
+        else if (projectiles[bul].name == "SW") {
+			    //Check if Explosion
+	    	  if (shockwaveTime > 0.15){
         		scene.remove(projectiles[bul]);
         		projectiles.splice(bul, 1);
-    		}
+    		  }
         }
 
     }

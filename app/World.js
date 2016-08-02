@@ -209,6 +209,10 @@ function hitAsteroid(asteroidNumber, collisionType) {
             asteroidsHP[asteroidNumber] -= MGDamage;
             break;
 
+        case "ShockWave":
+
+            asteroidsHP[asteroidNumber] -= shockWaveDamage;
+            break;
 
         default:
 

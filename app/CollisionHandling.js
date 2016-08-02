@@ -110,6 +110,16 @@ function handleProjectiles() {
             }
         }
 
+        else if (projectiles[i].name === "SW") {
+            console.log("ShockWave detected");
+            for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
+                if (collision.intersectSphereOther(projectiles[i], asteroidHitBoxes[j])){
+                    console.log("ShocWwave collision detected");
+                    hitAsteroid(j, "ShockWave");
+                }
+            }
+        }
+
 
         // Collect items via projectiles
         if (projectileSucceded === false) {
