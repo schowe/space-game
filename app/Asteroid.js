@@ -125,6 +125,7 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
             break;
         case "LASER": case "laser": case "Laser":
             asteroidHP[index] -= laserDamage;
+            particleHandler.addLittleExplosion(asteroids[this.astIndex].position, 3, 0xff0000, 1, 1);
             break;
         case "ROCKET": case "rocket": case "Rocket":
             asteroidHP[index] -= rocketDamage;
@@ -139,11 +140,9 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
     }
 
     if (asteroidHP[index] <= 0) {
-        console.log("Exploded: "+this.astIndex);
         this.destroy(type);
     }
     if ((type == "ASTEROID" || type == "asteroid" || type == "Asteroid") && asteroidHP[otherIndex] <= 0) {
-        console.log("Exploded: "+other.astIndex);
         other.destroy(type);
     }
 }
