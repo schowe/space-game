@@ -37,7 +37,7 @@ function Movement() {
 
 
             setMaxSpeed(14);
-			setSpeed(2.0);
+			setSpeed(-yAxis);
             var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
             var blocker = document.getElementById('block');
             var instructions = document.getElementById('splash');
@@ -316,7 +316,6 @@ function moveCallback(event) {
 
 function changeCam() {
 
-    console.log(camera.currentTargetName);
     if (camera.currentTargetName == 'Target') {
         isFirstPerson = true;
         crosses[pos].position.set(0, 0, -40);
@@ -334,7 +333,7 @@ function stop() {
     xAxis = 0.0;
     yAxis = -0.0;
     zAxis = 0.0;
-    setSpeed(2.0);
+    setSpeed(-yAxis);
     mouseX = 0.0;
     mouseY = 0.0;
 
@@ -351,20 +350,21 @@ function weaponSwitch(){
 }
 
 function cameraWatcher (){
+	if(!isFirstPerson){
+		if(lat> 57 && yAxis ==0){
 
-    if(lat> 57 && yAxis ==0){
+			camera.setTarget('fTarget'); 
 
-        camera.setTarget('fTarget'); 
+		}else if(lat>65 &&yAxis ==-1){
 
-    }else if(lat>65 &&yAxis ==-1){
-
-        camera.setTarget ('fTarget');
-
-
-    }else {
-
-        camera.setTarget('Target');
+			camera.setTarget ('fTarget');
 
 
-    }
+		}else {
+
+			camera.setTarget('Target');
+
+
+		}	
+	}
 }
