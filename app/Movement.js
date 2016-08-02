@@ -284,7 +284,6 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
-            blubb.lookAt(targetPosition);
         },
 
         unlockPointer: function () {

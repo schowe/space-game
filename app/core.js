@@ -107,11 +107,6 @@ function init() {
 
     initializeWeapons();
 
-    // TO DELETE
-    
-    blablubb();
-    //
-
     stats = new Stats();
     container.appendChild(stats.dom);
 
@@ -231,8 +226,6 @@ function animate() {
 
 }
 
-var fixedPositionBlubb = new THREE.Vector3(15, 5, 0);
-
 function render() {
 
     stats.update();
@@ -258,9 +251,6 @@ function render() {
     }
 
     camera.update();
-
-    // to delete
-    blubb.position.subVectors(camera.position, fixedPositionBlubb);
 
     if (glitchPassEnabled) {
         composer.render();
