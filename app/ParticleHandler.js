@@ -6,7 +6,7 @@ var ParticleHandler = function () {
     var currentShockwaves = [];
     
     function addShockwave(position, color) {
-        var shockwave = new ShockwaveParticleRenderer(color, 10000, fileLoader.get("particle_grey"), 3, position, 1, 30);
+        var shockwave = new ShockwaveParticleRenderer(color, 20000, fileLoader.get("particle_grey"), 3, position, 1, 30);
         currentShockwaves.push(shockwave);
         
     }
@@ -16,7 +16,7 @@ var ParticleHandler = function () {
         if (size == undefined) size = 1;
         
         var explosion = new ExplosionParticleRenderer(color, 2500, fileLoader.get("particle_grey"), lifetime, position, speed, size);
-        currentExplosions.add(explosion);
+        currentExplosions.push(explosion);
     }
 
     function addExplosion(position, lifetime, color, speed, size) {
