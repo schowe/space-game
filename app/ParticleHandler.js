@@ -15,8 +15,8 @@ var ParticleHandler = function () {
         if (speed == undefined) speed = 1;
         if (size == undefined) size = 1;
         
-        var explosion = new ExplosionParticleRenderer(color, 2500, fileLoader.get("particle_grey"), lifetime, position, speed, size);
-        currentExplosions.add(explosion);
+        var explosion = new ExplosionParticleRenderer(color, 1500, fileLoader.get("particle_grey"), lifetime, position, speed, size);
+        currentExplosions.push(explosion);
     }
 
     function addShockwaveExplosion(position, lifetime, size, radius, level){
@@ -48,7 +48,7 @@ var ParticleHandler = function () {
 
         // explosion 15 bewegungsschritte laufen lassen
 
-        var explosion = new ExplosionParticleRenderer(color, 5000, fileLoader.get("particle_grey"), lifetime + 2, position, speed, size);
+        var explosion = new ExplosionParticleRenderer(color, 5000, fileLoader.get("particle_grey"), lifetime + 1, position, speed, size);
 
         for (var i = 0; i < 15; i++) {
             explosion.update();
