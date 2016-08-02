@@ -90,7 +90,6 @@ function createAsteroids() {
         asteroids.push(astOriginal);
         asteroidHitBoxes.push(astHitBox);
         scene.add(astOriginal);
-        scene.add(astHitBox);
     }
 
 }

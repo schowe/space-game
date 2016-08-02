@@ -233,7 +233,7 @@ var Collision = function () {
         var boxMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 });
         var hitBox = new THREE.Mesh(boxGeometry, boxMaterial);
 
-        hitBox.visible = false;
+        //hitBox.visible = false;
 
         // transform box to the position of the cylinder
         hitBox.applyMatrix(cylinder.matrix);
