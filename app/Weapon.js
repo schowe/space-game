@@ -4,8 +4,10 @@ var weaponsActive = false;
 //Available ammunition, maximal ammunition
 var rocketAmmo = 2;
 var MaxRocketAmmo = 10;
-var MGAmmo = 0;
+var MGAmmo = 50;
 var MaxMGAmmo = 600;
+
+MGReloadTime = 1.2;
 
 //Max distance covered by rocket
 var rocketMaxDistance = 1500;
@@ -15,7 +17,7 @@ var laserReloadTime = 0.4;
 var rocketReloadTime = 1;
 
 //Weapondamage
-var rocketDamage = 10;
+var rocketDamage = 5;
 var laserDamage = 2;
 var explosionDamage = 10;
 var MGDamage = 1;
@@ -66,7 +68,7 @@ function initializeWeapons() {
 
     explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
 
-    MGGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+    MGGeometry = new THREE.SphereGeometry(0.5, 16, 16);
 
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
@@ -90,70 +92,105 @@ function initializeWeapons() {
 //One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
 function MGShoot() {
 
-    //create bullet mesh
-    var bullet1 = new THREE.Mesh(MGGeometry, shootMaterial);
+	    //create bullet mesh
+	    var bullet1 = new THREE.Mesh(MGGeometry, shootMaterial);
+	    bullet1.name = "MachineGun";
 
-    //rotation for traveling direction: laser needs to be turned; if bullet ist turned in the same angle they can be rendered together.
-    bullet1.rotateZ(1.57);
+	    //translate bullet to Position of the spaceship. Then spread a little for MG-effect
+	    bullet1.position.x = ship.position.x;
+	    bullet1.position.y = ship.position.y;
+	    bullet1.position.z = ship.position.z;
 
-    //translate bullet to Position of the spaceship. Then spread a little for MG-effect
-    bullet1.position.x = ship.position.x + 4;
-    bullet1.position.y = ship.position.y + 0.3;
-    bullet1.position.z = ship.position.z + 0.3;
+	    bullet1.lookAt(targetPosition);
 
-    //add bullet to scene
-    scene.add(bullet1);
+	    bullet1.translateZ(-30);
+	    bullet1.translateX(1);
+	    
+	    //add bullet to scene
+	    scene.add(bullet1);
 
-    //add to projectiles list for rendering
-    projectiles.push(bullet1);
+	    //add to projectiles list for rendering
+	    projectiles.push(bullet1);
 
-    //repeat 4 times with spread
+	    //repeat 4 times with spread
 
-    var bullet2 = new THREE.Mesh(MGGeometry, shootMaterial);
-    bullet2.rotateZ(1.57);
-    bullet2.position.x = ship.position.x + 2;
-    bullet2.position.y = ship.position.y - 0.3;
-    bullet2.position.z = ship.position.z + 0.3;
-    scene.add(bullet2);
-    projectiles.push(bullet2);
-
-    var bullet3 = new THREE.Mesh(MGGeometry, shootMaterial);
-    bullet3.rotateZ(1.57);
-    bullet3.position.x = ship.position.x;
-    bullet3.position.y = ship.position.y - 0.3;
-    bullet3.position.z = ship.position.z - 0.3;
-    scene.add(bullet3);
-    projectiles.push(bullet3);
+	    var bullet2 = new THREE.Mesh(MGGeometry, shootMaterial);
+	    bullet2.name = "MachineGun";
 
 
-    var bullet4 = new THREE.Mesh(MGGeometry, shootMaterial);
-    bullet4.rotateZ(1.57);
-    bullet4.position.x = ship.position.x + 2;
-    bullet4.position.y = ship.position.y + 0.3;
-    bullet4.position.z = ship.position.z - 0.3;
-    scene.add(bullet4);
-    projectiles.push(bullet4);
+	    bullet2.position.x = ship.position.x;
+	    bullet2.position.y = ship.position.y;
+	    bullet2.position.z = ship.position.z;
 
-    var bullet5 = new THREE.Mesh(MGGeometry, shootMaterial);
-    bullet5.rotateZ(1.57);
-    bullet5.position.x = ship.position.x + 3;
-    bullet5.position.y = ship.position.y;
-    bullet5.position.z = ship.position.z;
-    scene.add(bullet5);
-    projectiles.push(bullet5);
+	    bullet2.lookAt(targetPosition);
 
+	    bullet2.translateZ(-15);
+	    bullet2.translateX(-1);
+
+	    scene.add(bullet2);
+	    projectiles.push(bullet2);
+
+	        //create bullet mesh
+	    var bullet3 = new THREE.Mesh(MGGeometry, shootMaterial);
+	    bullet3.name = "MachineGun";
+
+	    //translate bullet to Position of the spaceship. Then spread a little for MG-effect
+	    bullet3.position.x = ship.position.x;
+	    bullet3.position.y = ship.position.y;
+	    bullet3.position.z = ship.position.z;
+
+	    bullet3.lookAt(targetPosition);
+
+	    bullet3.translateZ(+15);
+	    bullet3.translateX(1);
+	    
+	    //add bullet to scene
+	    scene.add(bullet3);
+
+	    //add to projectiles list for rendering
+	    projectiles.push(bullet3);
+
+	    //repeat 4 times with spread
+
+	    var bullet4= new THREE.Mesh(MGGeometry, shootMaterial);
+	    bullet4.name = "MachineGun";
+
+
+	    bullet4.position.x = ship.position.x;
+	    bullet4.position.y = ship.position.y;
+	    bullet4.position.z = ship.position.z;
+
+	    bullet4.lookAt(targetPosition);
+
+	    bullet4.translateZ(+30);
+	    bullet4.translateX(-1);
+
+	    scene.add(bullet4);
+	    projectiles.push(bullet4);
+
+	    //reset Timer
+	    timeSinceMG = 0;
 }
+
 
 //called by EventListener when mouse clicked: leftclick: e.button == 0; rightclick e.button = 2 (ZWEI)
 function shoot(e) {
 
-    if (e.button == 0) {
+    if (e.button === 0) {
         shootLaser();
     }
-    else {
+    else if(activeSecWeapon ===0){
         shootRocket();
     }
-
+    else{
+    	if(timeSinceMG > MGReloadTime && MGAmmo > 0){
+    		MGAudio.play();
+    		MGShoot();
+    		mgCounter = 6;
+    		MGAmmo -=25;
+	    	updateWeaponInterface();
+    	}
+    }
 }
 
 //Firering main-laser
@@ -169,82 +206,78 @@ function shootLaser() {
         timeSinceShoot = 0;
 
         //create mesh
-        var laser = new THREE.Mesh(shootGeometry, shootMaterial);
-        var laserHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
+        var laser       = new THREE.Mesh(shootGeometry,  shootMaterial);
+
+        // dummy points to check collision with laser
+        var dummyDot1 = new THREE.Object3D();
+        var dummyDot2 = new THREE.Object3D();
+        var dummyDot3 = new THREE.Object3D();
+
+        dummyDot1.position.y = laser.geometry.parameters.height / 2;
+        dummyDot2.position.y = - laser.geometry.parameters.height / 2;
+
+        // names will be checked in CollisionHandling
+        dummyDot1.name = "upperPoint";
+        dummyDot2.name = "lowerPoint";
+        dummyDot3.name = "midPoint";
+
+        // add points to laser
+        laser.add(dummyDot1);
+        laser.add(dummyDot2);
+        laser.add(dummyDot3);
 
         //set name for recognition in render-function
-        laserHitBox.name = "LaserHitBox";
+        laser.name = "Laser";
 
         //translate bullet to ship position
         laser.position.x = ship.position.x;
         laser.position.y = ship.position.y;
         laser.position.z = ship.position.z;
 
-        //translate HitBox to ship position
-        laserHitBox.position.x = ship.position.x;
-        laserHitBox.position.y = ship.position.y;
-        laserHitBox.position.z = ship.position.z;
-
         //set orientation of the bullet according to ship orientation
         laser.lookAt(targetPosition);
-
-        laserHitBox.lookAt(targetPosition);
 
         //rotate: laser beam would be pointing up otherwise
         laser.rotateX(1.57);
 
         //rotate: HitBox would be pointing up otherwise
-        laserHitBox.rotateX(1.57);
         laser.translateY(-85);
-        laserHitBox.translateY(-85);
 
         //add bullet to scene
         scene.add(laser);
 
-        //Hitbox should not be visible
-        laserHitBox.visible = false;
-
-        scene.add(laserHitBox);
-
-        //save reference to laser in userData field of HitBox
-        laserHitBox.userData = laser;
-
-        //add Hitbox to projectiles list so it will be moved (visible laserbeam will be moved with userData field)
-        projectiles.push(laserHitBox);
+        //add laser to projectiles list so it will be moved
+        projectiles.push(laser);
     }
 
 }
 
 //projectileIndex: Index in projectile list of laser hitbox
-function successLaser(projectileIndex) {
-
-    //get to hitbox belonging laserbeam
-    var laser = projectiles[projectileIndex].userData;
-
-    //remove Hitbox and laserbeam from scene
-    scene.remove(projectiles[projectileIndex]);
+function successLaser(projectileIndex){
+    //get laser
+    var laser = projectiles[projectileIndex];
+    //remove laser and laserbeam from scene
     scene.remove(laser);
-
-    //remove Hitbox from projectiles
-    projectiles.splice(projectileIndex, 1);
-
+    //remove laser from projectiles
+    projectiles.splice(projectileIndex,1);
 }
 
-function successRocket(projectileIndex) {
+function successRocket(projectileIndex){
+	//get rocket
+	var rocket = projectiles[projectileIndex];
+	//start explosion
+	rocketExplode(rocket);
 
-    //get to hitbox belonging rocket
-    var rocket = projectiles[projectileIndex].userData;
+	//remove rocket from scene
+  scene.remove(rocket);
 
-    //start explosion
-    rocketExplode(rocket);
+  //remove rocket from projectiles
+  projectiles.splice(projectileIndex,1);
+}
 
-    //remove Hitbox and rocket from scene
-    scene.remove(projectiles[projectileIndex]);
-    scene.remove(rocket);
-
-    //remove Hitbox from projectiles
-    projectiles.splice(projectileIndex, 1);
-
+function successMachineGunBullet(projectileIndex){
+	scene.remove(projectiles[projectileIndex]);
+	projectiles.splice(projectileIndex, 1);
 }
 
 //Shooting Rocket
@@ -258,52 +291,52 @@ function shootRocket() {
         //play rocket-sound
         rocketAudio.play();
 
-        // create rocket
-        var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
+      // create rocket
+      var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
 
-        var rocketHitBox = new THREE.Mesh(hitBoxGeometry, hitBoxMaterial);
+      // dummy points to check collision with laser
+      var dummyDot1 = new THREE.Object3D();
+      var dummyDot2 = new THREE.Object3D();
+      var dummyDot3 = new THREE.Object3D();
 
-        //set name for recocnition in render-function
-        rocketHitBox.name = "RocketHitBox";
+      dummyDot1.position.y = 500;
+      dummyDot2.position.y = -50
 
-        //scaling the rocket
-        rocket.scale.x = rocket.scale.y = rocket.scale.z = 5;
+      // names will be checked in CollisionHandling
+      dummyDot1.name = "upperPoint";
+      dummyDot2.name = "lowerPoint";
+      dummyDot3.name = "midPoint";
 
-        //set position at position of the spaceship
-        rocket.position.x = ship.position.x;
-        rocket.position.y = ship.position.y;
-        rocket.position.z = ship.position.z;
+      // add points to laser
+      rocket.add(dummyDot1);
+      rocket.add(dummyDot2);
+      rocket.add(dummyDot3);
 
-        rocketHitBox.position.x = ship.position.x;
-        rocketHitBox.position.y = ship.position.y;
-        rocketHitBox.position.z = ship.position.z;
+      //set name for recocnition in render-function
+  	 	rocket.name = "Rocket";
 
-        //orientate rocket like spaceship
-        rocket.lookAt(targetPosition);
+      //scaling the rocket
+      rocket.scale.x = rocket.scale.y = rocket.scale.z = 5;
 
-        rocketHitBox.lookAt(targetPosition);
+      //set position at position of the spaceship
+      rocket.position.x = ship.position.x;
+      rocket.position.y = ship.position.y;
+      rocket.position.z = ship.position.z;
 
-        //rotate rocket; rocket would fly backwards otherwise
-        rocket.rotateY(Math.PI);
+      //orientate rocket like spaceship
+      rocket.lookAt(targetPosition);
 
-        //rotate: rocket would be pointing up otherwise (rocket has initially a different orientation then the rocket)
-        rocketHitBox.rotateX(Math.PI / 2);
+      //rotate rocket; rocket would fly backwards otherwise
+      rocket.rotateY(Math.PI);
 
-        //add rocket to scene
-        scene.add(rocket);
+      //add rocket to scene
+      scene.add(rocket);
 
-        //hitbox should be invisible
-        rocketHitBox.visible = false;
+    	//add rocket to list for rendering and collision
+    	projectiles.push(rocket);
 
-        scene.add(rocketHitBox);
-
-        rocketHitBox.userData = rocket;
-
-        //add hitbox to list for rendering and collision. rocket is rendered via hitbox (see renderWeapons())
-        projectiles.push(rocketHitBox);
-
-        //reset timer
-        timeSinceRocket = 0;
+      //reset timer
+      timeSinceRocket = 0;
     }
 
 }
@@ -358,69 +391,76 @@ function calculateDistanceToShip(obj) {
 
 
 //funtion for mooving weapons and destruction of rocket/explosion
-function renderWeapons() {
+function renderWeapons(){
 
-    //Variable for adding the past time since last call to all Weapon-Time-Counters
-    var add = weaponClock.getDelta();
 
-    //increment time counters for limiting shooting frequence
-    timeSinceShoot += add;
-    timeSinceMG += add;
-    timeSinceRocket += add
-    //variable for limiting explosion lifespan
-    explosionTime += add;
+	//Variable for adding the past time since last call to all Weapon-Time-Counters
+	var add = weaponClock.getDelta();
 
-    //function for limiting single shootings while MG-shooting
-    if (mgCounter > 0) {
-        if (timeSinceMG > 0.05) {
-            timeSinceMG = 0;
-            MGShoot();
-            mgCounter -= 1;
-        }
-    }
+	//increment time counters for limiting shooting frequence
+	timeSinceShoot  += add;
+	timeSinceMG     += add;
+	timeSinceRocket += add
+	//variable for limiting explosion lifespan
+	explosionTime +=add;
 
-    //Translate all projectiles and check for end of existance
-    for (var bul in projectiles) {
+	//function for limiting single shootings while MG-shooting
+	if(mgCounter > 0){
+	    if(timeSinceMG >0.05){
+	    	timeSinceMG = 0;
+	    	MGShoot();
+	    	mgCounter -= 1;
+	    }
+	}
 
-        //calculate distance between projectile and spaceship
-        var dis = calculateDistanceToShip(projectiles[bul]);
+	//Translate all projectiles and check for end of existance
+	for( var bul in projectiles){
 
-        //check name and proceed accordingly
+		//calculate distance between projectile and spaceship
+		var dis = calculateDistanceToShip(projectiles[bul]);
 
-        //if projectile is a laser hitbox:
-        if (projectiles[bul].name == "LaserHitBox") {
+		//check name and proceed accordingly
 
+	   	//if projectile is a laser hitbox:
+		if(projectiles[bul].name == "Laser"){
+
+			//translate in mooving direction
+	    	projectiles[bul].translateY(-4000 * add);
+
+	    	//translate to hitbox belonging laser-beam
+	    	if (dis > biggerSphereRadius){
+    			successLaser(bul);
+    		}
+	    }
+
+  		//if projectile is a rocket Hitbox:
+	    else if(projectiles[bul].name == "Rocket"){
+			  //translate in mooving direction (translateZ becouse of different orientation then laser)
+	    	projectiles[bul].translateZ(2000 * add);
+
+	    	//translate to hitbox belonging rocket
+	    	var rkt = projectiles[bul];
+	    	rkt.translateZ(2000 * add);
+	    	//console.log(rkt);
+
+	    	if (dis > 1500){
+    			successRocket(bul);
+    		}
+	    }
+	    //if projectile is an Explosion:
+	    else if(projectiles[bul].name == "Explosion"){
+	    	//Check if Explosion
+	    	if (explosionTime > 0.15){
+        		scene.remove(projectiles[bul]);
+        		projectiles.splice(bul, 1);
+    		}
+	    }
+	    else if (projectiles[bul].name == "MachineGun") {
             //translate in mooving direction
-            projectiles[bul].translateY(-4000 * add);
+            projectiles[bul].translateZ(-1000 * add);
 
-            //translate to hitbox belonging laser-beam
-            var laser = projectiles[bul].userData;
-            laser.translateY(-4000 * add);
-
-            if (dis > biggerSphereRadius) {
-                successLaser(bul);
-            }
-        }
-        //if projectile is a rocket Hitbox:
-        else if (projectiles[bul].name == "RocketHitBox") {
-            //translate in mooving direction (translateZ becouse of different orientation then laser)
-            projectiles[bul].translateY(-2000 * add);
-
-            //translate to hitbox belonging rocket
-            var rkt = projectiles[bul].userData;
-            rkt.translateZ(2000 * add);
-            //console.log(rkt);
-
-            if (dis > 1500) {
-                successRocket(bul);
-            }
-        }
-        //if projectile is an Explosion:
-        else if (projectiles[bul].name == "Explosion") {
-            //Check if Explosion
-            if (explosionTime > 0.15) {
-                scene.remove(projectiles[bul]);
-                projectiles.splice(bul, 1);
+            if (dis > 800) {
+               	successMachineGunBullet(bul);
             }
         }
     }
@@ -429,7 +469,7 @@ function renderWeapons() {
 
 function toggleWeapons() {
 
-    if (weaponsActive == true) {
+    if (weaponsActive === true) {
         document.removeEventListener('click', shoot, false);
         weaponsActive = false;
     } else {

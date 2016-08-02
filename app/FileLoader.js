@@ -2,6 +2,7 @@
 var laserAudio;
 var rocketAudio;
 var explosionAudio;
+var MGAudio;
 var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
@@ -67,7 +68,7 @@ var FileLoader = function () {
         "../res/textures/sky_sphere_map2.png",
         "../res/textures/Spartan_Laser_Combined_V1.jpg",
         "../res/textures/tex.jpg",
-        "../res/textures/TextureEnemyShipOne.png",
+        "../res/textures/TextureEnemyShipOne.jpg",
         "../res/textures/TextureHero.png",
         "../res/textures/VengeanceMaterial.png",
 
@@ -202,6 +203,12 @@ var FileLoader = function () {
     var explosionAudioSource = document.createElement('source');
     explosionAudioSource.src = '../res/sounds/explosion.wav';
     explosionAudio.appendChild(explosionAudioSource);
+
+        //MG audio
+    MGAudio = document.createElement('audio');
+    var MGAudioSource = document.createElement('source');
+    MGAudioSource.src = '../res/sounds/mg.wav';
+    MGAudio.appendChild(MGAudioSource);
 
     console.log("FileLoader done.");
 

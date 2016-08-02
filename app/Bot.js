@@ -1,4 +1,3 @@
-
 // Botklasse
 
 // Fuer Kollision:
