@@ -15,7 +15,6 @@ var interface;
 var crosshair;
 var ship;
 var player;
-var bot;
 var movement;
 var particleHandler;
 var collision;
@@ -103,9 +102,6 @@ function init() {
     world.init();*/
 
     starfield = new StarfieldParticleRenderer();
-
-
-    createStars();
 
     bot = Bot();
     bot.initAI(1);
@@ -247,13 +243,8 @@ function render() {
         // animation code goes here:
         
         movement.move(delta);
-<<<<<<< HEAD
-        updateStars();
-        //updateAsteroids();
-=======
         
         renderWeapons();
->>>>>>> 106e7f639ff0f7197b7976b29414f702ecf4f6fb
         bot.updateAI(delta);
         updatePowerUps();
         handleCollision();
