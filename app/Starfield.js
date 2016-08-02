@@ -1,65 +1,55 @@
-var Starfield = function () {
+function Starfield() {
 
-    var fieldSize = 5000;
-    var N_PARTICLES = 500000;
+    var startVector = new THREE.Vector3(0, 0, 0);
 
-
-    this.lastPosition = ship.position.clone();
-
+    this.material = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 2,
+        map: fileLoader.get("particle"),
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    });
+    this.particleCount = 5000;
+    this.fieldSize = 1000;
     this.particles = new THREE.Geometry();
-    this.particleCount = N_PARTICLES;
-
-    this.material = new THREE.PointsMaterial(
-        {
-            color: 0xffffff,
-            size: 5,
-            map: fileLoader.get("particle"),
-            blending: THREE.AdditiveBlending,
-            transparent: true
-        }
-    );
 
 
 
     for (var p = 0; p < this.particleCount; p++) {
         var particle = new THREE.Vector3(
-            ship.position.x + Math.floor((Math.random()-0.5) * 2 * fieldSize),
-            ship.position.y + Math.floor((Math.random()-0.5) * 2 * fieldSize),
-            ship.position.z + Math.floor((Math.random()-0.5) * 2 * fieldSize)
+            startVector.x+(Math.random()-0.5)*this.fieldSize,
+            startVector.y+(Math.random()-0.5)*this.fieldSize,
+            startVector.z+(Math.random()-0.5)*this.fieldSize
         );
-        
         this.particles.vertices.push(particle);
     }
-    
     this.particleSystem = new THREE.Points(this.particles, this.material);
     scene.add(this.particleSystem);
 
 
+
     this.update = function() {
 
+        var distance = startVector.distanceTo(ship.position);
+        if (distance > this.fieldSize/3) {
+            startVector = ship.position.clone();
 
-        var distanceToLastPosition = Math.abs(ship.position.distanceTo(this.lastPosition));
-
-        if (distanceToLastPosition > fieldSize * 0.75) {
-
-            console.log("update");
-
-            this.lastPosition = ship.position.clone();
-
-            var pCount = this.particleCount;
-            while (pCount--) {
-                this.particles.vertices[pCount] = new THREE.Vector3(
-                    ship.position.x + Math.floor((Math.random()-0.5) * 2 * fieldSize),
-                    ship.position.y + Math.floor((Math.random()-0.5) * 2 * fieldSize),
-                    ship.position.z + Math.floor((Math.random()-0.5) * 2 * fieldSize)
+            scene.remove(this.particleSystem);
+            this.particles = new THREE.Geometry();
+            for (var p = 0; p < this.particleCount; p++) {
+                var particle = new THREE.Vector3(
+                    startVector.x+(Math.random()-0.5)*this.fieldSize,
+                    startVector.y+(Math.random()-0.5)*this.fieldSize,
+                    startVector.z+(Math.random()-0.5)*this.fieldSize
                 );
-
-                this.particleSystem.geometry.__dirtyVertices = true;
+                this.particles.vertices.push(particle);
             }
+            this.particleSystem = new THREE.Points(this.particles, this.material);
+            scene.add(this.particleSystem);
+
+
         }
 
-
-        this.particles.verticesNeedUpdate = true;
     }
 
-};
+}

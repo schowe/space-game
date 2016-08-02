@@ -2,12 +2,7 @@ var ship, frontVector, backVector, directionVector;
 var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
 var playerHitBoxes = [];
 var cross;
-var shield, shieldGeometry,shieldTex, shieldMaterial; 
-
-frontVector = new THREE.Vector3(0, 0, 0);
-
-backVector = new THREE.Vector3(0, 0, 0);
-directionVector = new THREE.Vector3(0, 0, 0);
+var shield, shieldGeometry, shieldTex, shieldMaterial, rotClock;
 
 
 function Player() {
@@ -31,39 +26,136 @@ function Player() {
 
     return {
 
-        playerHitByAsteroid: function(indexAsteroid) {
+        playerHitByAsteroid: function (indexAsteroid, collisionSide) {
 
 
 
-        	if(yAxis <0 && yAxis >= -6){
+            var rotCount = 0;
 
-        		 changeHP(-10);
+            switch (collisionSide) {
 
+                //CenterBox
+                case 0:
+                    console.log("CenterWing");
+                    if (yAxis < 0 && yAxis >= -6) {
 
-
-        	}else if(yAxis < -6 && yAxis >= -14){
-        		var oldRotX=0; 
-        		oldRotX = ship.rotation.x; 
-        		//console.log("ROTATE");
-        		for (var k =0; k < 200 ; k++){
-
-
-        			ship.rotation.x += 2.0; 
-
-
-        		}	
-        			ship.rotation.x = oldRotX; 
-        			changeHP(-40); 
-        		 
-        		}
+                        changeHP(-10);
 
 
 
+                    } else if (yAxis < -6) {
 
-        	
+                        //Schleudere nach hinten
+                        var interval = setInterval(function () {
+
+                            lat -= 20;
+                            yAxis = 5;
+                            setSpeed(yAxis);
+                            rotCount += 1;
+                            if (rotCount > 10) {
+
+                                clearInterval(interval);
+                            }
 
 
-           
+                        }, 200);
+
+                        changeHP(-10);
+
+                    }
+
+
+                    break;
+
+                //LeftWing
+                case 1:
+                    console.log("LinkerWing");
+                    if (yAxis < 0 && yAxis >= -6) {
+
+                        changeHP(-10);
+
+
+
+                    } else if (yAxis < -6 && yAxis >= -14) {
+                        var oldRotX = 0;
+                        oldRotX = ship.rotation.x;
+
+
+
+                        var interval = setInterval(function () {
+
+                            lon += 20;
+                            yAxis = -1;
+                            setSpeed(yAxis);
+                            rotCount += 1;
+                            if (rotCount > 10) {
+
+                                clearInterval(interval);
+                            }
+
+
+                        }, 200);
+
+
+
+
+
+                        changeHP(-10);
+
+                    }
+                    break;
+
+                //rightWing
+                case 2:
+                    console.log("RechterWing");
+                    if (yAxis < 0 && yAxis >= -6) {
+
+                        changeHP(-10);
+
+
+
+                    } else if (yAxis < -6 && yAxis >= -14) {
+                        var oldRotX = 0;
+                        oldRotX = ship.rotation.x;
+
+
+
+                        var interval = setInterval(function () {
+
+                            lon -= 20;
+                            yAxis = -1;
+                            setSpeed(yAxis);
+                            rotCount += 1;
+                            if (rotCount > 10) {
+
+                                clearInterval(interval);
+                            }
+
+
+                        }, 200);
+
+
+
+
+
+                        changeHP(-10);
+
+                    }
+
+                    break;
+
+
+            }
+
+
+
+
+
+
+
+
+
+
         },
 
         init: function () {
@@ -72,17 +164,17 @@ function Player() {
 
             ship = new THREE.Mesh(
                 geometry,
-                new THREE.MeshPhongMaterial({map: texture})
+                new THREE.MeshPhongMaterial({ map: texture })
             );
 
             ship.position.set(0, 0, 0);
             scene.add(ship);
 
-            var hitBoxCenterGeometry = new THREE.BoxGeometry(5,2,20);
-            var hitBoxMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+            var hitBoxCenterGeometry = new THREE.BoxGeometry(5, 2, 20);
+            var hitBoxMaterial = new THREE.MeshBasicMaterial({ transparent:true, color: 0xffff00 });
             hitBoxCenter = new THREE.Mesh(hitBoxCenterGeometry, hitBoxMaterial);
 
-            var hitBoxWingGeometry = new THREE.BoxGeometry(10,2,5);
+            var hitBoxWingGeometry = new THREE.BoxGeometry(10, 2, 5);
             hitBoxLeftWing = new THREE.Mesh(hitBoxWingGeometry, hitBoxMaterial);
             hitBoxLeftWing.position.x = -5;
 
@@ -92,10 +184,6 @@ function Player() {
             playerHitBoxes.push(hitBoxCenter);
             playerHitBoxes.push(hitBoxLeftWing);
             playerHitBoxes.push(hitBoxRightWing);
-
-            // ship.add(hitBoxLeftWing);
-            // ship.add(hitBoxRightWing);
-            // ship.add(hitBoxCenter);
         },
 
         updateParticleValues: function () {
@@ -108,16 +196,16 @@ function Player() {
 
             // Seitenvektoren bestimmen
             var matrix = new THREE.Matrix4();
-            matrix.extractRotation( ship.matrix );
-            var upVector = new THREE.Vector3( 0, 1, 0 );
-            upVector.applyMatrix4( matrix );
+            matrix.extractRotation(ship.matrix);
+            var upVector = new THREE.Vector3(0, 1, 0);
+            upVector.applyMatrix4(matrix);
             var leftVector = getOrthognalVector(dirVector, upVector);
             var rightVector = leftVector.clone().multiplyScalar(-1);
 
             // Relative Geschwindigkeit des Schiffes
-            var relativeSpeed = (-yAxis-2)/maxVel;
+            var relativeSpeed = (-yAxis - 2) / maxVel;
 
-            var startScale = 6-relativeSpeed*3;
+            var startScale = 6 - relativeSpeed * 3;
             // Vector berechnen, auf dem sich der Partikelstrahl bewegen soll
             startVector = new THREE.Vector3(
                 pos.x + startScale * dirVector.x,
@@ -144,16 +232,16 @@ function Player() {
         },
 
 
-        activateShield: function (){
-        	 
-        	 console.log("SCHILD AKTIVIERT!");
-        	 shieldGeometry = fileLoader.get("Kugelschild");
-        	 shieldTex = fileLoader.get ("KugelschildTex");
+        activateShield: function () {
 
-        	 shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex }));
-        	 shield.scale.x = shield.scale.y = shield.scale.z = 1; 
-        	 shield.position.set(ship.position.x,ship.position.y,ship.position.z); 
-        	 scene.add(shield); 
+            console.log("SCHILD AKTIVIERT!");
+            shieldGeometry = fileLoader.get("Kugelschild");
+            shieldTex = fileLoader.get("KugelschildTex");
+
+            shield = new THREE.Mesh(shieldGeometry, new THREE.MeshPhongMaterial({ map: shieldTex }));
+            shield.scale.x = shield.scale.y = shield.scale.z = 1;
+            shield.position.set(ship.position.x, ship.position.y, ship.position.z);
+            scene.add(shield);
 
         }
 
