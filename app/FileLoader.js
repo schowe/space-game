@@ -6,6 +6,7 @@ var MGAudio;
 var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
+var shipData = {};
 
 var FileLoader = function () {
     console.log("FileLoader running ...");
@@ -84,7 +85,7 @@ var FileLoader = function () {
         "../res/meshes/EnemyShipOne.json",
         "../res/meshes/Geldsack.json",
         "../res/meshes/GeldsackFacePalm.json",
-        "../res/meshes/HeroShipV5.json",
+        "../res/meshes/HeroShipV6.json",
         "../res/meshes/Kugelschild.json",
         "../res/meshes/MiniEnemyShip.json",
         "../res/meshes/MinigunV2.json",
@@ -210,12 +211,25 @@ var FileLoader = function () {
     MGAudioSource.src = '../res/sounds/mg.wav';
     MGAudio.appendChild(MGAudioSource);
 
+    /********** Player Ship laden (Workaround! TODO) **********/
+    
+    var shipDataLoader = new THREE.JSONLoader();
+    shipDataLoader.load("../res/meshes/HeroShipV6.json", function(geometry, materials) {
+        shipData.geometry = geometry;
+        shipData.materials = materials;                 
+    }
+    );
+
+    // done
+
     console.log("FileLoader done.");
 
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden
-        return (filesSuccessfullyLoaded == files.length);
+    // TODO: Workaround für ShipData entfernen
+        return (filesSuccessfullyLoaded == files.length) && (shipData.materials !== undefined && shipData.geometry !== undefined);
     }
+
 
     // "public" Methoden:
     return {
