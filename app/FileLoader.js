@@ -6,6 +6,7 @@ var MGAudio;
 var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
+var gameOverAudio;
 
 var FileLoader = function () {
     console.log("FileLoader running ...");
@@ -209,6 +210,21 @@ var FileLoader = function () {
     var MGAudioSource = document.createElement('source');
     MGAudioSource.src = '../res/sounds/mg.wav';
     MGAudio.appendChild(MGAudioSource);
+
+            //Game Over audio
+    gameOverAudio = document.createElement('audio');
+    var gameOverAudioSource = document.createElement('source');
+    gameOverAudioSource.src = '../res/sounds/GameOver.wav';
+    gameOverAudio.appendChild(gameOverAudioSource);
+
+
+            //Game Over audio
+    shockwaveAudio = document.createElement('audio');
+    var shockwaveAudioSource = document.createElement('source');
+    shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
+    shockwaveAudio.appendChild(shockwaveAudioSource);
+
+
 
     console.log("FileLoader done.");
 

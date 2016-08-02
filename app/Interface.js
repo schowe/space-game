@@ -263,6 +263,7 @@ function changeHP(value) {
 					clearInterval(tempID);
 					document.getElementById('currentHP').innerHTML = 0;
 					hpBoxCurrent.style.width = 0;
+					gameOverAudio.play();
 					gameOver();
 					return;
 				}
