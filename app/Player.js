@@ -36,7 +36,7 @@ function Player() {
 
         	//CenterBox
         	case 0 : 
-        		console.log("CenterWing");
+        		console.log("CenterWing1");
         		if(yAxis <0 && yAxis >= -6){
 
         		 changeHP(-10);
@@ -47,18 +47,20 @@ function Player() {
         			
         			//Schleudere nach hinten
         			var interval = setInterval(function() {
-						
-						lat  -= 20; 
-						yAxis = 5; 
+				
+						lat  -= 40; 
+						yAxis = 0; 
+						//ship.position.set(ship.position.sub(new THREE.Vector3(Math.random() * 3 - 3, Math.random() *3 -3, Math.random()*3 - 3))); 
+
 						setSpeed(yAxis); 
 						rotCount+=1; 
-						if(rotCount > 10){
+						if(rotCount > 5){
 							
 							clearInterval(interval); 
 						}
 
 						
-        			}, 200);
+        			}, 100);
 
         			changeHP(-10); 
         		 
@@ -84,17 +86,17 @@ function Player() {
 
         			var interval = setInterval(function() {
 						
-						lon += 20; 
+						lon += 40; 
 						yAxis = -1; 
 						setSpeed(yAxis); 
 						rotCount+=1; 
-						if(rotCount > 10){
+						if(rotCount > 5){
 							
 							clearInterval(interval); 
 						}
 
 						
-        			}, 200);
+        			}, 100);
 
         			
 
@@ -122,11 +124,11 @@ function Player() {
 
         			var interval = setInterval(function() {
 						
-						lon -= 20; 
+						lon -= 40; 
 						yAxis = -1; 
 						setSpeed(yAxis); 
 						rotCount+=1; 
-						if(rotCount > 10){
+						if(rotCount > 5){
 							
 							clearInterval(interval); 
 						}
