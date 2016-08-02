@@ -7,6 +7,7 @@ var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
 var gameOverAudio;
+var shockwaveAudio;
 
 var FileLoader = function () {
     console.log("FileLoader running ...");

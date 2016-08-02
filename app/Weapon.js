@@ -187,8 +187,6 @@ function MGShoot() {
 //called by EventListener when mouse clicked: leftclick: e.button == 0; rightclick e.button = 2 (ZWEI)
 function shoot(e) {
 
-	console.log(activeSecWeapon);
-
     if (e.button === 0) {
         shootLaser();
     }
@@ -212,6 +210,8 @@ function shoot(e) {
 
 function sendShockWave(){
 
+	shockwaveAudio.play();
+
 	particleHandler.addShockwave(ship.position, 0xFF11AA);
 	
 	var shockWave= new THREE.Mesh(shockGeometry,  shootMaterial);
@@ -222,13 +222,13 @@ function sendShockWave(){
 
     shockWave.name = "Shockwave";
 
+    shockWave.visible = false;
+
     //add bullet to scene
     scene.add(shockWave);
 
     //add laser to projectiles list so it will be moved
     projectiles.push(shockWave);
-
-    shockwaveAudio.play();
 }
 
 //Firering main-laser
