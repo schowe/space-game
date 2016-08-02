@@ -24,6 +24,7 @@ var shockwaveReloadTime = 4
 var rocketDamage = 5;
 var laserDamage = 2;
 var explosionDamage = 10;
+
 var MGDamage = 1;
 var shockWaveDamage = 5;
 
@@ -100,7 +101,7 @@ function initializeWeapons() {
 
 }
 
-//One MG-firering burst (5 Bullets). 12 Bursts in one mg shot
+//One MG-firering burst (5 Bullets). 6 Bursts in one mg shot
 function MGShoot() {
 
 	    //create bullet mesh
@@ -116,7 +117,11 @@ function MGShoot() {
 
 	    bullet1.translateZ(-30);
 	    bullet1.translateX(1);
-	    
+
+      var dummyDot1 = new THREE.Object3D();
+      dummyDot1.name = "BoxPoint";
+      bullet1.add(dummyDot1);
+
 	    //add bullet to scene
 	    scene.add(bullet1);
 
@@ -138,6 +143,10 @@ function MGShoot() {
 	    bullet2.translateZ(-15);
 	    bullet2.translateX(-1);
 
+      var dummyDot2 = new THREE.Object3D();
+      dummyDot2.name = "BoxPoint";
+      bullet2.add(dummyDot2);
+
 	    scene.add(bullet2);
 	    projectiles.push(bullet2);
 
@@ -154,7 +163,11 @@ function MGShoot() {
 
 	    bullet3.translateZ(+15);
 	    bullet3.translateX(1);
-	    
+
+      var dummyDot3 = new THREE.Object3D();
+      dummyDot3.name = "BoxPoint";
+      bullet3.add(dummyDot3);
+
 	    //add bullet to scene
 	    scene.add(bullet3);
 
@@ -166,7 +179,6 @@ function MGShoot() {
 	    var bullet4= new THREE.Mesh(MGGeometry, shootMaterial);
 	    bullet4.name = "MachineGun";
 
-
 	    bullet4.position.x = ship.position.x;
 	    bullet4.position.y = ship.position.y;
 	    bullet4.position.z = ship.position.z;
@@ -175,6 +187,10 @@ function MGShoot() {
 
 	    bullet4.translateZ(+30);
 	    bullet4.translateX(-1);
+
+      var dummyDot4 = new THREE.Object3D();
+      dummyDot4.name = "BoxPoint";
+      bullet4.add(dummyDot4);
 
 	    scene.add(bullet4);
 	    projectiles.push(bullet4);
@@ -238,6 +254,10 @@ function sendShockWave(){
 //Firering main-laser
 function shootLaser() {
 
+
+
+            player.activateShield();
+
     //if for limiting shooting frequency
     if (timeSinceShoot > laserReloadTime) {
 
@@ -249,24 +269,6 @@ function shootLaser() {
 
         //create mesh
         var laser       = new THREE.Mesh(shootGeometry,  shootMaterial);
-
-        // dummy points to check collision with laser
-        var dummyDot1 = new THREE.Object3D();
-        var dummyDot2 = new THREE.Object3D();
-        var dummyDot3 = new THREE.Object3D();
-
-        dummyDot1.position.y = laser.geometry.parameters.height / 2;
-        dummyDot2.position.y = - laser.geometry.parameters.height / 2;
-
-        // names will be checked in CollisionHandling
-        dummyDot1.name = "upperPoint";
-        dummyDot2.name = "lowerPoint";
-        dummyDot3.name = "midPoint";
-
-        // add points to laser
-        laser.add(dummyDot1);
-        laser.add(dummyDot2);
-        laser.add(dummyDot3);
 
         //set name for recognition in render-function
         laser.name = "Laser";
@@ -285,6 +287,13 @@ function shootLaser() {
         //rotate: HitBox would be pointing up otherwise
         laser.translateY(-85);
 
+        for (var i = -50; i <= 50; i++) {
+          var dummyDot = new THREE.Object3D();
+          dummyDot.position.y = laser.geometry.parameters.height / 100 * i;
+          dummyDot.name = "BoxPoint" + i;
+          laser.add(dummyDot);
+        }
+
         //add bullet to scene
         scene.add(laser);
 
@@ -296,10 +305,8 @@ function shootLaser() {
 
 //projectileIndex: Index in projectile list of laser hitbox
 function successLaser(projectileIndex){
-    //get laser
-    var laser = projectiles[projectileIndex];
     //remove laser and laserbeam from scene
-    scene.remove(laser);
+    scene.remove(projectiles[projectileIndex]);
     //remove laser from projectiles
     projectiles.splice(projectileIndex,1);
 }
@@ -340,21 +347,29 @@ function shootRocket() {
       var dummyDot1 = new THREE.Object3D();
       var dummyDot2 = new THREE.Object3D();
       var dummyDot3 = new THREE.Object3D();
+      var dummyDot4 = new THREE.Object3D();
+      var dummyDot5 = new THREE.Object3D();
 
-      dummyDot1.position.y = 500;
-      dummyDot2.position.y = -50
+      dummyDot1.position.y = 1000 / 2;
+      dummyDot2.position.y = 1000 / 4;
+      dummyDot4.position.y = - 1000 / 4;
+      dummyDot5.position.y = - 1000 / 2;
 
-      // names will be checked in CollisionHandling
-      dummyDot1.name = "upperPoint";
-      dummyDot2.name = "lowerPoint";
-      dummyDot3.name = "midPoint";
+        // names will be checked in CollisionHandling
+      dummyDot1.name = "BoxPoint1";
+      dummyDot2.name = "BoxPoint2";
+      dummyDot3.name = "BoxPoint3";
+      dummyDot4.name = "BoxPoint4";
+      dummyDot5.name = "BoxPoint5";
 
       // add points to laser
       rocket.add(dummyDot1);
       rocket.add(dummyDot2);
       rocket.add(dummyDot3);
+      rocket.add(dummyDot4);
+      rocket.add(dummyDot5);
 
-      //set name for recocnition in render-function
+      //set name for recognition in render-function
   	 	rocket.name = "Rocket";
 
       //scaling the rocket
