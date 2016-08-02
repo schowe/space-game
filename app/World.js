@@ -8,7 +8,7 @@ var asteroidRotVecs = [];
 var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
 var biggerSphereRadius = 5000;
-var asteroidRadius = 3.5;
+var asteroidRadius = 4.2;
 var defaultAsteroidHP = 10;
 
 //starStuff
@@ -55,11 +55,11 @@ function createAsteroids() {
     astGeometry = fileLoader.get("AsteroidV2");
     astTexture = fileLoader.get("AsteroidTex");
 
-    for (countAst = 0; countAst < 100; countAst++) {
+    for (countAst = 0; countAst < 150; countAst++) {
 
-        rndSpeedX = Math.random() * 20 - 14;
-        rndSpeedY = Math.random() * 20 - 14;
-        rndSpeedZ = Math.random() * 20 - 14;
+        rndSpeedX = Math.random() * 15 - 11;
+        rndSpeedY = Math.random() * 15 - 11;
+        rndSpeedZ = Math.random() * 15 - 11;
         rotSpeed = Math.random() * 0.05 - 0.01;
         rndScale = Math.random() * 30;
 
@@ -196,6 +196,11 @@ function hitAsteroid(asteroidNumber, collisionType) {
 
             break;
 
+        case "Explosion": 
+
+          asteroid[asteroidNumber] -= explosionDamage; 
+
+
         default:
 
             break;
@@ -205,6 +210,18 @@ function hitAsteroid(asteroidNumber, collisionType) {
     if (asteroidsHP[asteroidNumber] <= 0) {
         destroyAsteroid(asteroidNumber, collisionType);
     }
+
+}
+function changeAsteroidDirection (asteroidNumber){
+
+  var newRotVal = Math.random() * (2 +1) - 1; 
+
+   asteroidSpeedVecs[asteroidNumber] = asteroidSpeedVecs[asteroidNumber].multiplyScalar(-1) ;
+   asteroidSpeedVecs[asteroidNumber] = asteroidSpeedVecs[asteroidNumber].add(3) ;
+
+   asteroidRotVecs[asteroidNumber] = asteroidRotVecs[asteroidNumber].multiplyScalar(newRotVal); 
+
+
 
 }
 
