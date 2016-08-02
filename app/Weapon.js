@@ -99,6 +99,7 @@ function initializeWeapons() {
     //add Listener for left and rigth mouseclick
     document.body.addEventListener('click', shoot, false);
 
+
 }
 
 //One MG-firering burst (5 Bullets). 6 Bursts in one mg shot
