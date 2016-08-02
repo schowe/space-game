@@ -301,9 +301,11 @@ function changeHP(value) {
 
 	// Amount of HP per tick
 	var hpTick = value / ticks;
-	console.log(value);
-	console.log(hpTick);
 	var tempID = setInterval(frame, 1);
+	
+	if(value < 0)
+		// Restart the passive shield regen
+		passiveShieldRegen();
 
 	function frame() {
 		if(i < ticks) {
@@ -356,22 +358,38 @@ function reduceShield(hpTick) {
 	return restTick;
 }
 
+/* Recharges shield to full capacity */
 function rechargeShield() {
 	var i = 0;
+	
 	var tempID = setInterval(function() {
 		if(displayedShield < maxShield) {
-			console.log(1);
 			if(!Pause) {
-				console.log(2);
 				currentShield = ++displayedShield;
 				updateShieldDisplay();
 			}
-			console.log(++i);
 		} else clearInterval(tempID);
 	}, 10);
 	
-	console.log(3);
 	updateShieldDisplay();
+}
+
+var shieldID;
+var shieldRegenID;
+
+/* passive shield regen starting after 5 seconds have passed */
+function passiveShieldRegen() {
+	clearTimeout(shieldID);
+	clearInterval(shieldRegenID);
+	
+	shieldID = setTimeout(function() {
+		shieldRegenID = setInterval(function() {
+			if((displayedShield < maxShield) && !Pause) {
+				currentShield = ++displayedShield;
+				updateShieldDisplay();
+			}
+		}, 1000);
+	}, 5000);
 }
 
 /* Sets HP to @value */
@@ -603,10 +621,8 @@ function setSpeed(newSpeed) {
 		checkMilestones();
 	}
 
-
-	if(parseInt(tempRef.innerHTML) < 90)
-		tempRef.innerHTML = 80;
-	
+	if(parseInt(tempRef.innerHTML) < 10)
+		tempRef.innerHTML = 00;
 }
 
 /* Sets maxSpeed to @newMaxSpeed */
@@ -738,7 +754,7 @@ function checkBuyable() {
 			document.getElementById('shopItem' + i).style.opacity = '1';
 	}
 }
-
+var buySound = 1;
 /* Buy the shop item with index @i */
 function buyUpgrade(i) {
 	if(currentMoney < costUpgrade[i])
@@ -766,7 +782,8 @@ function buyUpgrade(i) {
 			}, 5000 / ++amountUpgrade2);
 			break;
 		case 2:
-			//setMaxShield(getMaxShield()+10);
+			setMaxShield(getMaxShield() + 10);
+			passiveShieldRegen();
 			break;
 		case 3:		// + 1 maxSpeed
 			setMaxSpeed(++maxVel);
@@ -782,6 +799,24 @@ function buyUpgrade(i) {
 			break;
 		default:
 			return;
+	}
+	
+	switch(buySound){
+		case 1:
+			cachingAudio1.play();
+		break;
+		case 2:
+			cachingAudio2.play();
+		break;
+		case 3:
+			cachingAudio3.play();
+		break;
+	}
+	
+	if(buySound>=3){
+		buySound=1;
+	}else{
+		buySound++;
 	}
 	
 	changeMoney(-costUpgrade[i]);
@@ -802,6 +837,8 @@ var reachedMaxSpeed = 80;
 function displayMilestoneNote(value) {
 	//document.getElementById('milestoneNote').innerHTML = value;
 	//$('#picRef').css('background-image', 'url(../textures/GUIachievement2.png)');
+	
+	achievementAudio.play();
 	
 	var displayRef = document.getElementById('milestoneDisplay');
 	displayRef.innerHTML = 'You have unlocked: ' + milestoneName[value - 1] + '<br> Highscore += ' + milestonesHighscore[value - 1];
@@ -931,27 +968,23 @@ function hideScrollbar() {
 	}
 }
 
+/* Inverts the direction of the shield bar */
 function invertShieldBar() {
-	var shieldBox = $('#shieldBox');		//rotate
-	var shieldTextBox = $('#shieldTextBox');	//rotate, left -> 40%, top -> bottom -> 33%
+	var shieldBox = document.getElementById('shieldBox');
+	var shieldTextBox = document.getElementById('shieldTextBox');
 	
-	switch(shieldBox.css('transform')) {
-		case 'matrix(-1, 0, 0, -1, 0, 0)':
-			console.log(1);
-			shieldBox.css('transform', '');
-			shieldTextBox.css('transform', 'skewX(45deg)');
-			shieldTextBox.css('top', '');
-			shieldTextBox.css('bottom', '33%');
-			shieldTextBox.css('left', '40%');
+	switch(shieldTextBox.style.left) {
+		case '46%':
+			shieldBox.style.transform = 'rotate(180deg)';
+			shieldTextBox.style.transform = 'rotate(180deg) skewX(45deg)';	
+			shieldTextBox.style.top = '3%';	
+			shieldTextBox.style.left = '45%';
 			break;
 		default:
-			console.log(2);
-			console.log(shieldBox.css('transform'));
-			shieldBox.css('transform', 'rotate(180deg)');
-			shieldTextBox.css('transform', 'rotate(180deg) skewX(45deg)');
-			shieldTextBox.css('top', '3%');
-			shieldTextBox.css('bottom', '');
-			shieldTextBox.css('left', '50%');
+			shieldBox.style.transform = 'rotate(0deg)';
+			shieldTextBox.style.transform = 'skewX(45deg)';	
+			shieldTextBox.style.top = '0%';	
+			shieldTextBox.style.left = '46%';
 			break;
 	}
 }
@@ -987,4 +1020,8 @@ function changeVolume(bar, value) {
 
 function showAdvancedSoundOptions() {
 	$('#advancedSoundOptions').toggle();
+}
+
+function buttonHover() {
+	buttonAudio.play();
 }
