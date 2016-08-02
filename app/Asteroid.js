@@ -160,7 +160,6 @@ Asteroid.prototype.changeAsteroidDirection = function () {
 
 Asteroid.prototype.destroy = function (collisionType) {
 
-
     asteroidAudio.play();
 
     // update Highscore
@@ -174,6 +173,7 @@ Asteroid.prototype.destroy = function (collisionType) {
             changeScore(scoreValues["asteroidDestroyed"]);
 			destroyedAsteroids++;
 			checkMilestones();
+
 
             break;
 

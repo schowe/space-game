@@ -23,6 +23,13 @@ var network;
 var starfield;
 var world;
 
+// Moved here bc pretty much every file uses it
+var biggerSphereRadius = 5000;
+var biggerSphere = new THREE.Object3D(
+    new THREE.SphereGeometry(biggerSphereRadius, 200, 200),
+    new THREE.MeshBasicMaterial({transparent: true})
+    );
+
 // TODO: eigentlich in Interface
 var scoreValues = {
     "itemCollected": 10,
@@ -91,11 +98,13 @@ function init() {
     player = Player();
     player.init();
 
-    world = World();
-    world.init();
+/*    world = World();
+    world.init();*/
 
-    starfield = new Starfield();
-    createAsteroids();
+    starfield = new StarfieldParticleRenderer();
+
+    bot = Bot();
+    bot.initAI(1);
 
     movement = Movement();
     movement.init();
@@ -113,7 +122,7 @@ function init() {
 
     /********** Camera **********/
 
-    camera = new THREE.TargetCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
+    camera = new THREE.TargetCamera(75, window.innerWidth / window.innerHeight, 1, 5000);
 
     camera.addTarget({
         name: 'Target',
@@ -236,7 +245,7 @@ function render() {
         movement.move(delta);
         
         renderWeapons();
-        updateAsteroids();
+        bot.updateAI(delta);
         updatePowerUps();
         handleCollision();
 
@@ -248,6 +257,9 @@ function render() {
 
         // Sternenstaub bewegen
         if (starfield !== undefined) starfield.update();
+
+        //play music
+        backgroundMusic.play();
     }
 
     camera.update();
