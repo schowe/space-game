@@ -19,6 +19,9 @@ var movement;
 var particleHandler;
 var collision;
 var stats;
+var network;
+var starfield;
+var world;
 
 // TODO: eigentlich in Interface
 var scoreValues = {
@@ -37,6 +40,7 @@ $(function () {
     // wird ausgeführt, wenn das Dokument geladen ist:
 
     // Module initialisieren
+    network = Network();
     fileLoader = FileLoader();
     LoadingScreen();
     interface = Interface();
@@ -87,10 +91,11 @@ function init() {
     player = Player();
     player.init();
 
-    var world = World();
+    world = World();
     world.init();
 
-    createStars();
+    starfield = new Starfield();
+
     createAsteroids();
 
     movement = Movement();
@@ -109,7 +114,7 @@ function init() {
 
     /********** Camera **********/
 
-    camera = new THREE.TargetCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
+    camera = new THREE.TargetCamera(75, window.innerWidth / window.innerHeight, 1, 5000);
 
     camera.addTarget({
         name: 'Target',
@@ -128,6 +133,17 @@ function init() {
         stiffness: 1,
         matchRotation: true
     });
+
+    camera.addTarget({
+        name: 'fTarget',
+        targetObject: ship,
+        cameraPosition: new THREE.Vector3(0, -1, 40),
+        fixed: false,
+        stiffness: 0.15,
+        matchRotation: false
+    });
+
+
     var cam = Camera();
     cam.init();
 
@@ -176,7 +192,7 @@ function cameraAnimate() {
         frames++;
         requestAnimationFrame(cameraAnimate);
     } else {
-        yAxis = -2;
+       
         requestAnimationFrame(animate);
     }
 
@@ -216,20 +232,23 @@ function render() {
     stats.update();
     delta = clock.getDelta();
     if (!Pause) {
-        // animation code goes here
-
-        renderWeapons();
+        // animation code goes here:
+        
         movement.move(delta);
-        updateStars();
+        
+        renderWeapons();
         updateAsteroids();
         updatePowerUps();
-
         handleCollision();
 
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
+        
         // Explosionen updaten
         particleHandler.update();
+
+        // Sternenstaub bewegen
+        if (starfield !== undefined) starfield.update();
     }
 
     camera.update();
