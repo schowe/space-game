@@ -6,6 +6,7 @@ var MGAudio;
 var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
+var asteroidLowAudio;
 var gameOverAudio;
 var shockwaveAudio;
 var backgroundMusic;
