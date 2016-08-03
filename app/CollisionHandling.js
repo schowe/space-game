@@ -238,7 +238,6 @@ function handleProjectiles() {
 
                     for (var k = 0; k < enemyHitBoxes[j].length; k++) {
                         if (collision.intersectSphereBox(projectiles[i], enemyHitBoxes[j][k])) {
-                            console.log("Collision with Explosion detected");
                             enemies[j].collide(projectiles[i], "Explosion");
                             break;
                         }

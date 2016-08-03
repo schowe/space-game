@@ -524,7 +524,6 @@ function rocketExplode(rocket) {
 
     //play explosion time
     explosionAudio.play();
-    console.log("explosion");
 
     //the explosion is a big sphere (dummy)
     var explosion = new THREE.Mesh(explosionGeometry, explosionMaterial);
