@@ -72,7 +72,7 @@ function Player() {
 
                             }, 100);
 
-                            changeHP(-1);
+                            changeHP(-10);
 
                         }
 
