@@ -294,8 +294,8 @@ Asteroid.prototype.reflectPlayer = function (player) {
     playerDir.add(negAxis.multiplyScalar(factor));
 
     asteroidSpeedVecs[this.astIndex] = thisDir;
-    this.position.add(asteroidSpeedVecs[this.astIndex].multiplyScalar(4)); 
-    ship.position.add(playerDir.multiplyScalar(4));
+    this.position.add(asteroidSpeedVecs[this.astIndex].multiplyScalar(3)); 
+    ship.position.add(playerDir.multiplyScalar(3));
    // asteroidSpeedVecs[other.astIndex] = playerDir;
     this.direction = thisDir.clone();
     player.direction = playerDir.clone();

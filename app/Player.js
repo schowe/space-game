@@ -51,7 +51,7 @@ function Player() {
                     console.log("CenterWing");
                     if (yAxis < 0 && yAxis >= -6) {
 
-                        changeHP(-1);
+
 
                     } else if (yAxis < -6) {
 
@@ -64,10 +64,12 @@ function Player() {
                                 rotCount += 2;
                                
 
+
                                 if (rotCount > 10) {
 
                                     clearInterval(interval);
                                 }
+
 
 
                             }, 100);
@@ -86,9 +88,11 @@ function Player() {
                         changeHP(-1);
 
 
+
                     } else if (yAxis < -6 && yAxis >= -14) {
                         var oldRotX = 0;
                         oldRotX = ship.rotation.x;
+
 
 
 
@@ -110,10 +114,12 @@ function Player() {
                     }
                     break;
 
+
                     //rightWing
                     case 2:
                     console.log("RechterWing");
                     if (yAxis < 0 && yAxis >= -6) {
+
 
                         changeHP(-10);
 
