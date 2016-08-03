@@ -152,7 +152,7 @@ function Bot() {
                     speed = 30;
         }
 
-        speed += Math.round(5*Math.random());
+        speed += Math.round((level + 5)*Math.random());
 
         //console.log("Finally Create Enemy");
         enemy = new Enemy(enemyPosition, speed, level, typ, index);
@@ -241,11 +241,12 @@ function Bot() {
             // TODO: asteroiden wie loeschen
             if (level == 1) {
                 asteroids = [];
-            }
+            
 
-            // TODO: Levelabhaengigkeit klaeren
-            for (var i = 0; i < numOfAsteroids; i++) {
-                var asteroid = createAsteroid(level, i);
+                // TODO: Levelabhaengigkeit klaeren
+                for (var i = 0; i < numOfAsteroids; i++) {
+                    var asteroid = createAsteroid(level, i);
+                }
             }
 
             // erstelle Gegner
@@ -253,7 +254,7 @@ function Bot() {
                 enemies = [];
             }
 
-            for (var i = 0; i < 15 * level; i++) {
+            for (var i = 0; i < 5 * level; i++) {
                 //console.log("Hello");
                 enemy = createEnemy(level, i);
                 enemies.push(enemy);
