@@ -247,6 +247,7 @@ function getMoney() {
  * FUNCTIONS FOR AMMO
  */
 
+var wavePic = $('#wavePic');
 var rocketPic = $('#rocketPic');
 var migPic = $('#migPic');
 var currentAmmo;
@@ -257,6 +258,7 @@ function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
 				migPic.hide();
+				wavePic.hide();
 				rocketPic.show();
 				currentAmmo = rocketAmmo;
 				maxAmmo = MaxRocketAmmo;
@@ -264,8 +266,16 @@ function updateWeaponInterface() {
 		case 1:
 				migPic.show();
 				rocketPic.hide();
+				wavePic.hide();
 				currentAmmo = MGAmmo;
 				maxAmmo = MaxMGAmmo;
+				break;
+		case 2:
+				wavePic.show();
+				rocketPic.hide();
+				migPic.hide();
+				currentAmmo = shockwaveAmmo;
+				maxAmmo = maxShockwaveAmmo;
 				break;
 		default:
 				currentAmmo = 42;
@@ -519,6 +529,13 @@ function padHex(hex) {
 
 /* Initiates the gameOver sequences */
 function gameOver() {
+	
+	var score = {
+		"score": getScore(),
+		"player": localStorage.getItem("player"),
+		"level": 1
+	};
+	postNewScore(score);
 	glitchScreen(500);
 	document.getElementById('gameOverText3').innerHTML = getScore();
 	$('#gameOverBox').animate({top: '20%'}, 500);
@@ -734,8 +751,11 @@ costUpgrade = [
 	10000,  // + 10 shield
 	5000,	// + 1 maxSpeed
 	1000,	// + 2 MaxRocketAmmo
+	2000,	// + 1 rocketDamage
 	1000,	// + 20 MaxMGAmmo
-	2000	// + 1 rocketDamage
+	10000,	// + 1 mgDamage
+	1000,	// + shockwave ammo
+	1000	// + shockwave damage
 ];
 
 costUpgradeFactor = [
@@ -744,8 +764,11 @@ costUpgradeFactor = [
 	1.2, 	// + 10 shield
 	1.2,	// + 1 maxSpeed
 	1.2,	// + 2 MaxRocketAmmo
+	1.2,	// + 1 rocketDamage
 	1.2,	// + 20 MaxMGAmmo
-	1.2		// + 1 rocketDamage
+	1.2,	// + 1 mgDamage
+	1.2,	// + shockwave ammo
+	1.2 	// + shockwave damage
 ];
 
 /* Highlight items the player can purchase */
@@ -797,10 +820,19 @@ function buyUpgrade(i) {
 			MaxRocketAmmo += 2;
 			break;
 		case 5:
-			MaxMGAmmo += 20;
+			rocketDamage++;
 			break;
 		case 6:
-			rocketDamage++;
+			MaxMGAmmo += 20;
+			break;
+		case 7:
+			MGDamage += 1;
+			break;
+		case 8:
+			maxShockwaveAmmo += 5;
+			break;
+		case 9:
+			shockWaveDamage +=2;
 			break;
 		default:
 			return;
@@ -995,9 +1027,7 @@ function invertShieldBar() {
 }
 
 function changeVolume(bar, value) {
-	
 	switch (bar) {
-
 		case 1: 
 			for (var v = 2; v <= 4; v++) {
 				changeVolume(v, value);
@@ -1005,6 +1035,7 @@ function changeVolume(bar, value) {
 			}
 			break;
 		case 2:
+			backgroundMusic.volume = value;
 			spaceAudio.volume = value;
 			break;
 		case 3:
@@ -1017,6 +1048,7 @@ function changeVolume(bar, value) {
 			MGAudio.volume = value;
 			break;
 		case 4:
+			gameOverAudio.volume = value;
 		    cachingAudio1.volume = value;
 		    cachingAudio2.volume = value;
 		    cachingAudio3.volume = value;
@@ -1024,9 +1056,7 @@ function changeVolume(bar, value) {
 		    achievementAudio.volume = value;
 		    break;
 	}
-	
 	$('#soundValue'+bar).html(parseInt(value*100)+'%');
-
 }
 
 function showAdvancedSoundOptions() {

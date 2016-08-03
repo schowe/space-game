@@ -239,10 +239,10 @@ var FileLoader = function () {
     cachingAudio3.appendChild(cachingAudioSource3);
 	
 	//space bg audio
-    /*spaceAudio = document.createElement('audio');
+    spaceAudio = document.createElement('audio');
     var spaceAudioSource = document.createElement('source');
     spaceAudioSource.src = '../res/sounds/space.mp3';
-    spaceAudio.appendChild(spaceAudioSource);*/
+    spaceAudio.appendChild(spaceAudioSource);
 	
 	//button hover audio
     buttonAudio = document.createElement('audio');
@@ -256,15 +256,14 @@ var FileLoader = function () {
     achievementAudioSrc.src = '../res/sounds/achievement.wav';
     achievementAudio.appendChild(achievementAudioSrc);
 
-    // done
-            //Game Over audio
+    //Game Over audio
     gameOverAudio = document.createElement('audio');
     var gameOverAudioSource = document.createElement('source');
     gameOverAudioSource.src = '../res/sounds/GameOver.wav';
     gameOverAudio.appendChild(gameOverAudioSource);
 
 
-            //Game Over audio
+    //Game Over audio
     shockwaveAudio = document.createElement('audio');
     var shockwaveAudioSource = document.createElement('source');
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';

@@ -89,7 +89,7 @@
 						
 						<tr id="shopItem3">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/ShipSpeed.png" onClick="buyUpgrade(3)">
+                                <img class="shopItemPic" src="../res/textures/ShipSpeedNotTr.png" onClick="buyUpgrade(3)">
                             </td>
 							
                             <td>
@@ -115,41 +115,84 @@
                             </td>
                         </tr>
 						
-                         <tr id="shopItem5">
+						<tr id="shopItem5">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(5)">
+                                <img class="shopItemPic" src="../res/textures/Icon_RocketDamage.png" onClick="buyUpgrade(5)">
+                            </td>
+							
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increase rocket damage by 1</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade5" class="costUpgrade">0</div>
+								</div>
+							</td>
+						</tr>
+						
+                         <tr id="shopItem6">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(6)">
                             </td>
 							
                             <td>
                                 <div id="shopItemDesc" >
                                 	<div>Increases your maximum minigun ammo by 20</div>
                                 	<div id="costSign" class="costUpgrade">€</div>
-                             		<div id="costUpgrade5" class="costUpgrade">0</div>
+                             		<div id="costUpgrade6" class="costUpgrade">0</div>
                                 <div>
                             </td>
                         </tr>
-                         
-						<tr id="shopItem6">
+						
+						<tr id="shopItem7">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/Icon_RocketDamage.png" onClick="buyUpgrade(6)">
+                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(7)">
                             </td>
 							
                             <td>
                                 <div id="shopItemDesc" >
-                                	<div>Increase Rocket Damage by 1</div>
+                                	<div>Increase your minigun damage by 1</div>
                                 	<div id="costSign" class="costUpgrade">€</div>
-                             		<div id="costUpgrade6" class="costUpgrade">0</div>
-								</div>
-							</td>
-						</tr>
+                             		<div id="costUpgrade7" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+						
+						<tr id="shopItem8">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/Icon_Shockwave.png" onClick="buyUpgrade(8)">
+                            </td>
+							
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increases your maximum shockwave ammo by 5</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade8" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+						
+						<tr id="shopItem9">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/Icon_ShockwaveDamageUpgrade.png" onClick="buyUpgrade(9)">
+                            </td>
+							
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increase your shockwave damage by 2</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade9" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+                         
+					
                     </table>
                 </div>
 
 				<!-- End of Shop -->
 				
 				<!-- NEUE TABELLE -->
-				
-				
+					
 				<div id="highscore" hidden>
 				
 					<div id="headingHighscore">Highscore</div>
@@ -161,59 +204,6 @@
 						</tr>
 					</table>
 				</div>
-	
-				
-				<!--
-				<div id="highscore" hidden>
-					<div id="overlay-highscore" class="main-menu-overlay">
-						<div class="row overlay-text-heading">
-							<div class="col-md-12">
-								<h1>Highscore</h1>
-							</div>
-						</div>
-
-						
-						<div class="row highscore-header">
-							<div class="col-md-2">#</div>
-							<div class="col-md-4">Player</div>
-							<div class="col-md-2">Lvl</div>
-							<div class="col-md-3">Points</div>
-						</div>
-		
-					</div>
-				</div>
-				-->
-				
-				<!-- Highscore -->
-
-				<!--
-                <div id="highscore" hidden>
-					<div id="headingHighscore"> Highscore </div>
-					<table id="menu-highscore-table" >
-						<thead>
-							<tr>
-								<th class="menu-highscore-table-nr">#</th>
-								<th>Player</th>
-								<th class="menu-highscore-table-points">Points</th>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">3</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">4</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">5</th><th class="menu-highscore-table-player">ein Mensch</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">6</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">7</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">8</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">9</th><th class="menu-highscore-table-player">niemand</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">10</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-						</tbody>
-					</table>
-                </div>
-				-->
-				
 				
 				<!-- End of Highscore -->
 				
@@ -692,6 +682,7 @@
     <div id ="ammoBox">
         <img src="../res/textures/RocketInterfaceSymbol.png" class="ammopic" id="rocketPic" /> 
 		<img src="../res/textures/MinigunInterfaceSymbol.png" class="ammopic" id="migPic" /> 
+		<img src="../res/textures/ShockwaveInterfaceSymbol.png" class="ammopic" id="wavePic" /> 
         <div id="currentAmmo">60</div>
         <div id="ammoDivider">/</div>
         <div id="maxAmmo">999</div>
@@ -758,7 +749,7 @@
             <span style="font-size:40px">Pause</span>
             <br>
             <br>
-            <span style="font-size:20px">WASD: Speed - Left - Right | V: Change Crosshair | C: Change Camera | X: Stop Movment | P: Pause</span>
+            <span style="font-size:20px">WASD: Speed - Left - Right | C: Change Camera | X: Stop Movment | P: Pause/Shop | Q: Change Weapon</span>
             <br>
             <br>
             <span style="font-size:30px">Click to Start / Resume</span>
