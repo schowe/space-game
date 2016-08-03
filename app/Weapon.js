@@ -2,10 +2,10 @@
 var weaponsActive = false;
 
 //Available ammunition, maximal ammunition
-var rocketAmmo = 2;
-var MaxRocketAmmo = 10;
+var rocketAmmo = 1000;
+var MaxRocketAmmo = 1000;
 
-var MGAmmo = 50;
+var MGAmmo = 600  ;
 var MaxMGAmmo = 600;
 
 var shockwaveAmmo = 0;
@@ -16,12 +16,12 @@ var rocketMaxDistance = 1500;
 
 //Weaponcooldown
 var laserReloadTime = 0.4;
-var rocketReloadTime = 1;
+var rocketReloadTime = 0;
 var MGReloadTime = 1.2;
 var shockwaveReloadTime = 4
 
 //Weapondamage
-var rocketDamage = 5;
+var rocketDamage = 50;
 var laserDamage = 2;
 var explosionDamage = 100;
 
@@ -230,27 +230,25 @@ function sendShockWave(){
   		shockwaveAudio.play();
 
       //the explosion is a big sphere (dummy)
-      var shockwave = new THREE.Mesh(explosionGeometry, explosionMaterial);
+      var swave = new THREE.Mesh(explosionGeometry, explosionMaterial);
 
-      //set position at position of the exploding rocket
-      shockwave.position.x = ship.position.x;
-      shockwave.position.y = ship.position.y;
-      shockwave.position.z = ship.position.z;
+      //set position at position of the ship
+      swave.position.x = ship.position.x;
+      swave.position.y = ship.position.y;
+      swave.position.z = ship.position.z;
 
-      var particleAnimationPosition = new THREE.Vector3(shockwave.position.x,
-          shockwave.position.y,
-          shockwave.position.z);
+      var particleAnimationPosition = new THREE.Vector3(swave.position.x,
+          swave.position.y,
+          swave.position.z);
 
       //name for identification in rendering
-      shockwave.name = "Shockwave";
-      shockwave.visible = true;
+      swave.name = "Shockwave";
+      swave.visible = true;
       //add explosion to scene
-      scene.add(shockwave);
+      scene.add(swave);
 
       //add explision to projetiles list for rendering and collision
-      projectiles.push(shockwave);
-
-      console.log(projectiles);
+      projectiles.push(swave);
 
       // starte Particle: Implosion -> Explosion -> Halo
       particleHandler.addImplosion(particleAnimationPosition);
@@ -292,9 +290,10 @@ function shootLaser() {
         //rotate: HitBox would be pointing up otherwise
         laser.translateY(-85);
 
-        for (var i = -50; i <= 50; i++) {
+        var numberDummyDots = 100;
+        for (var i = 0; i <= numberDummyDots; i++) {
           var dummyDot = new THREE.Object3D();
-          dummyDot.position.y = laser.geometry.parameters.height / 100 * i;
+          dummyDot.position.y = laser.geometry.parameters.height / numberDummyDots * i;
           dummyDot.name = "BoxPoint" + i;
           laser.add(dummyDot);
         }
@@ -311,12 +310,23 @@ function shootLaser() {
 //projectileIndex: Index in projectile list of laser hitbox
 function successLaser(projectileIndex){
     //remove laser and laserbeam from scene
+    for(var i = 0; i<=projectiles[projectileIndex].children.length; i++){
+      projectiles[projectileIndex].remove(projectiles[projectileIndex].children[i]);
+    }
+    projectiles[projectileIndex].geometry.dispose();
+    projectiles[projectileIndex].material.dispose();
     scene.remove(projectiles[projectileIndex]);
     //remove laser from projectiles
     projectiles.splice(projectileIndex,1);
 }
 
 function successRocket(projectileIndex){
+
+  for(var i = 0; i<=projectiles[projectileIndex].children.length; i++){
+      projectiles[projectileIndex].remove(projectiles[projectileIndex].children[i]);
+  }
+  projectiles[projectileIndex].geometry.dispose();
+  projectiles[projectileIndex].material.dispose();
 	//get rocket
 	var rocket = projectiles[projectileIndex];
 	//start explosion
@@ -347,33 +357,6 @@ function shootRocket() {
 
       // create rocket
       var rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
-
-      // dummy points to check collision with laser
-      var dummyDot1 = new THREE.Object3D();
-      var dummyDot2 = new THREE.Object3D();
-      var dummyDot3 = new THREE.Object3D();
-      var dummyDot4 = new THREE.Object3D();
-      var dummyDot5 = new THREE.Object3D();
-
-      dummyDot1.position.y = 1000 / 2;
-      dummyDot2.position.y = 1000 / 4;
-      dummyDot4.position.y = - 1000 / 4;
-      dummyDot5.position.y = - 1000 / 2;
-
-        // names will be checked in CollisionHandling
-      dummyDot1.name = "BoxPoint1";
-      dummyDot2.name = "BoxPoint2";
-      dummyDot3.name = "BoxPoint3";
-      dummyDot4.name = "BoxPoint4";
-      dummyDot5.name = "BoxPoint5";
-
-      // add points to laser
-      rocket.add(dummyDot1);
-      rocket.add(dummyDot2);
-      rocket.add(dummyDot3);
-      rocket.add(dummyDot4);
-      rocket.add(dummyDot5);
-
       //set name for recognition in render-function
   	 	rocket.name = "Rocket";
 
@@ -390,6 +373,15 @@ function shootRocket() {
 
       //rotate rocket; rocket would fly backwards otherwise
       rocket.rotateY(Math.PI);
+
+      var numberDummyDots = 100;
+      // dummy points to check collision with rocket
+      for (var i = 0; i <= numberDummyDots; i++) {
+          var dummyDot = new THREE.Object3D();
+          dummyDot.position.z = hitBoxGeometry.parameters.height / numberDummyDots * i;
+          dummyDot.name = "BoxPoint" + i;
+          rocket.add(dummyDot);
+      }
 
       //add rocket to scene
       scene.add(rocket);
@@ -527,7 +519,7 @@ function renderWeapons(){
                	successMachineGunBullet(bul);
             }
         }
-        else if (projectiles[bul].name == "SW") {
+        else if (projectiles[bul].name == "Shockwave") {
 			    //Check if Explosion
 	    	  if (shockwaveTime > 0.15){
         		scene.remove(projectiles[bul]);
