@@ -97,8 +97,14 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
             } else {
                 if (this.radius > other.radius) {
                     asteroidHP[otherIndex] = 0;
+                    other.destroy(type);
+                    asteroidLowAudio.play();
+                    return;
                 } else {
                     asteroidHP[index] = 0;
+                    this.destroy(type);
+                    asteroidLowAudio.play();
+                    return;
                 }
             }
             break;
@@ -125,6 +131,7 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
     }
 
     if (asteroidHP[index] <= 0) {
+    	asteroidAudio.play();
         this.destroy(type);
     }
     if ((type == "ASTEROID" || type == "asteroid" || type == "Asteroid") && asteroidHP[otherIndex] <= 0) {
@@ -145,8 +152,6 @@ Asteroid.prototype.changeAsteroidDirection = function () {
 
 Asteroid.prototype.destroy = function (collisionType) {
 
-    asteroidAudio.play();
-
     // update Highscore
     switch (collisionType) {
 
@@ -157,7 +162,8 @@ Asteroid.prototype.destroy = function (collisionType) {
         case "PLAYER": case "player": case "Player":
             changeScore(scoreValues["asteroidDestroyed"]);
             spawnPowerUp(asteroids[this.astIndex].position.x, asteroids[this.astIndex].position.y, asteroids[this.astIndex].position.z);
-
+			destroyedAsteroids++;
+			checkMilestones();
             break;
 
         default:

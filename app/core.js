@@ -109,7 +109,7 @@ function init() {
     movement = Movement();
     movement.init();
 
-    interfaceInit();
+    interface.init();
 
     crosshair = new Crosshairs();
     crosshair.init();
@@ -151,6 +151,15 @@ function init() {
         matchRotation: false
     });
 
+    camera.addTarget({
+        name: 'animation',
+       	targetObject: ship,
+        cameraPosition: targetPosition ,
+        fixed: false,
+        stiffness: 0.001,
+        matchRotation: false
+    });
+
 
     var cam = Camera();
     cam.init();
@@ -163,6 +172,7 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.sortObjects = false;
 
     composer = new THREE.EffectComposer(renderer);
     composer.addPass(new THREE.RenderPass(scene, camera));
