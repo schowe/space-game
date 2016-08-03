@@ -185,6 +185,10 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
 
 
+    // TODO: workaround
+    asteroidAudio.volume = 0.1;
+
+
 }
 
 function onWindowResize() {
