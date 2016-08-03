@@ -475,18 +475,6 @@ function shootGuidedMissile() {
         // create guidedMissile
         var guidedMissile = new THREE.Mesh(rocketGeometry, guidedMissileMaterial);
 
-        //calculate closest enemy
-        var closestDis = 10000;
-        var closestEnemy = undefined;
-        for (var enemy in enemies) {
-            var dis = calculateDistanceToShip(enemies[enemy]);
-            if (closestDis > dis) {
-                closestDis = dis;
-                closestEnemy = enemy;
-            }
-        }
-        guidedMissile.userData = enemies[closestEnemy];
-
         // dummy points to check collision with laser
         var dummyDot1 = new THREE.Object3D();
         var dummyDot2 = new THREE.Object3D();
@@ -513,8 +501,28 @@ function shootGuidedMissile() {
         guidedMissile.add(dummyDot4);
         guidedMissile.add(dummyDot5);
 
-        //set name for recognition in render-function
-        guidedMissile.name = "GuidedMissile";
+        //calculate closest enemy
+        var closestDis = 10000;
+        var closestEnemy = undefined;
+        for (var enemy in enemies) {
+            var dis = calculateDistanceToShip(enemies[enemy]);
+            if (closestDis > dis) {
+                closestDis = dis;
+                closestEnemy = enemy;
+            }
+        }
+        //If no enemy is in sight, render as rocket
+        if(closestEnemy == undefined){
+            //set name for recognition in render-function
+            guidedMissile.name = "Rocket";
+        }
+        //else as guided missile
+        else{
+            //save closest enemy in userData for rendering
+            guidedMissile.userData = enemies[closestEnemy];
+            //set name for recognition in render-function
+            guidedMissile.name = "GuidedMissile";
+        }
 
         //scaling the guidedMissile
         guidedMissile.scale.x = guidedMissile.scale.y = guidedMissile.scale.z = 10;

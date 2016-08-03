@@ -68,7 +68,7 @@ function handleProjectiles() {
             }
         }
 
-        else if (projectiles[i].name === "Rocket") {
+        else if (projectiles[i].name === "Rocket" || projectiles[i].name === "GuidedMissile") {
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
                 if (collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint1"), asteroidHitBoxes[j]) ||
                             collision.intersectPointSphere(projectiles[i].getObjectByName("BoxPoint2"), asteroidHitBoxes[j]) ||
