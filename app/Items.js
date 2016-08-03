@@ -6,7 +6,7 @@ var collectedPowerups = 0;
 
 function spawnPowerUp(x, y, z, type) {
 
-	var healthTex, rocketTex, rocket2Tex, shieldTex, moneyTex, itemGeometry, minigunTex, coinTex, miniAmmoTex;
+	var healthTex, rocketTex, rocket2Tex, shieldTex, moneyTex, itemGeometry, minigunTex, coinTex, miniAmmoTex, shockwaveTex;
     var item;
     var itemHitBox;
     
@@ -84,11 +84,20 @@ function spawnPowerUp(x, y, z, type) {
 
 		} else if (rndCase > 0.6875 && rndCase <= 0.75) {
 
+			if(scndRandom < 0.5) {
 			itemGeometry = fileLoader.get("Geldsack");
 			moneyTex = fileLoader.get("GeldsackFacePalmTex");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: moneyTex }));
 			types.push("FACEPALM");
+			} else {
 
+			itemGeometry = fileLoader.get("PowerUp_Shockwave");
+			shockwaveTex = fileLoader.get("PowerUpRocket4Tex");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: shockwaveTex }));
+			types.push("SHOCKWAVE");	
+
+
+			}
 		} else if (rndCase > 0.75 && rndCase < 0.8125) {
 
 			itemGeometry = fileLoader.get("PowerUpMinigun");
@@ -155,13 +164,15 @@ function collected(itemNumber) {
     changeScore(scoreValues["itemCollected"]);
 
 	var tmpItem = types[itemNumber];
-
+	powerUpAudio.play();
 	switch (tmpItem) {
+
+		
 
 		case "HEALTH":
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
-			powerUpAudio.play();
+			
 			changeHP(50);
 
 			break;
