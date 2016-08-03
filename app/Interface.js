@@ -245,7 +245,8 @@ function getMoney() {
  */
 
 var rocketPic = $('#rocketPic');
-var migPic = $('#migPic');
+var mgPic = $('#mgPic');
+//var shockwavePic = $('#shockwavePic');
 var currentAmmo;
 var maxAmmo;
 
@@ -253,17 +254,26 @@ var maxAmmo;
 function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
-				migPic.hide();
+				mgPic.hide();
 				rocketPic.show();
+				//shockwavePic.hide();
 				currentAmmo = rocketAmmo;
 				maxAmmo = MaxRocketAmmo;
 				break;
 		case 1:
-				migPic.show();
+				mgPic.show();
 				rocketPic.hide();
+				//shockwavePic.hide();
 				currentAmmo = MGAmmo;
 				maxAmmo = MaxMGAmmo;
 				break;
+		case 2:
+				mgPic.hide();
+				rocketPic.hide();
+				//shockwavePic.hide();
+				//currentAmmo = shockwaveAmmo;
+				//maxAmmo = maxShockwaveAmmo;
+				//break;
 		default:
 				currentAmmo = 42;
 				maxAmmo = 42;
