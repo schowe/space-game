@@ -485,6 +485,14 @@ canvas {
     font-size:10px;
     text-align:right;
 }
+.ao:hover {
+    color: rgba(255,255,255,0.7);
+}
+
+#blablubb {
+     border:2px solid ridge;
+    border-radius: 20px;
+}
 
 .advancedSoundOptionsTable {
     width:80%;
