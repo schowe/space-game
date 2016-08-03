@@ -247,6 +247,7 @@ function getMoney() {
  * FUNCTIONS FOR AMMO
  */
 
+var guidedRock = $('#guidedRocketPic');
 var wavePic = $('#wavePic');
 var rocketPic = $('#rocketPic');
 var migPic = $('#migPic');
@@ -257,6 +258,7 @@ var maxAmmo;
 function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
+				guidedRock.hide();
 				migPic.hide();
 				wavePic.hide();
 				rocketPic.show();
@@ -264,18 +266,28 @@ function updateWeaponInterface() {
 				maxAmmo = MaxRocketAmmo;
 				break;
 		case 1:
-				migPic.show();
+				guidedRock.hide();
 				rocketPic.hide();
 				wavePic.hide();
+				migPic.show();
 				currentAmmo = MGAmmo;
 				maxAmmo = MaxMGAmmo;
 				break;
 		case 2:
-				wavePic.show();
+				guidedRock.hide();
 				rocketPic.hide();
 				migPic.hide();
+				wavePic.show();
 				currentAmmo = shockwaveAmmo;
 				maxAmmo = maxShockwaveAmmo;
+				break;
+		case 3:
+				wavePic.hide();
+				rocketPic.hide();
+				migPic.hide();
+				guidedRock.show();
+				currentAmmo = guidedMissileAmmo;
+				maxAmmo = maxGuidedMissileAmmo;
 				break;
 		default:
 				currentAmmo = 42;
@@ -1063,8 +1075,27 @@ function showAdvancedSoundOptions() {
 	$('#advancedSoundOptions').toggle();
 }
 
+
+
+
+
+var buttonPlayVar = 1;
 function buttonHover() {
-	buttonAudio.play();
+		switch(buttonPlayVar){
+		case 1:
+			buttonAudio1.play();
+		break;
+		case 2:
+			buttonAudio2.play();
+		break;
+		break;
+	}
+	
+	if(buySound>=2){
+		buySound=1;
+	}else{
+		buySound++;
+	}
 }
 
 var highscoreShowed = false;

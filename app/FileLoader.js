@@ -245,10 +245,15 @@ var FileLoader = function () {
     spaceAudio.appendChild(spaceAudioSource);
 	
 	//button hover audio
-    buttonAudio = document.createElement('audio');
-    var buttonAudioSource = document.createElement('source');
-    buttonAudioSource.src = '../res/sounds/button.wav';
-    buttonAudio.appendChild(buttonAudioSource);
+    buttonAudio1 = document.createElement('audio');
+    var buttonAudioSource1 = document.createElement('source');
+    buttonAudioSource1.src = '../res/sounds/button.wav';
+    buttonAudio1.appendChild(buttonAudioSource1);
+	
+	buttonAudio2 = document.createElement('audio');
+    var buttonAudioSource2 = document.createElement('source');
+    buttonAudioSource2.src = '../res/sounds/button.wav';
+    buttonAudio2.appendChild(buttonAudioSource2);
 	
 	//achievement audio
     achievementAudio = document.createElement('audio');
