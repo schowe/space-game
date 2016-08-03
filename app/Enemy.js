@@ -297,7 +297,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
             N.multiplyScalar(-3/2);
         }
 
-        var curve = new THREE.SplineCurve3([
+        var curve = new THREE.CatmullRomCurve3([
             this.position,
             p1,
             p2,
@@ -307,9 +307,9 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         curveLength += p1.distanceTo(p2);
         curveLength += p2.distanceTo(ship.position);
 
-        this.points = curve.getPoints(1 + Math.round(curveLength / (this.speed * delta)));
+        this.points = curve.getPoints(2 + Math.round(curveLength / (this.speed * delta)));
         //console.log(this.points.length);
-        //this.points.shift();
+        this.points.shift();
     }
 
     // Punkte abarbeiten mit points.shift();
@@ -433,6 +433,18 @@ Enemy.prototype.shoot = function(aimPos, delta) {
             enemyShootLaser(this.position, 
                 aimPosition.add(new THREE.Vector3(shootAccuracy * Math.random(),
                     shootAccuracy * Math.random(),shootAccuracy * Math.random())));
+            
+            // Falls Level >= 5 predicten
+            if(aimPos==ship.position && this.level >= 5) {
+                var projectileSpeed = 100;
+
+                var distanceEnemyPlayer = this.position.distanceTo(ship.position);
+                distanceEnemyPlayer = distanceEnemyPlayer / projectileSpeed;
+
+                this.playerDirection.multiplyScalar(distanceEnemyPlayer);
+                aimPosition.add(this.playerDirection);
+                this.playerDirection.normalize();
+            }
         }
     }
 }

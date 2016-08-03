@@ -237,13 +237,11 @@ function Bot() {
             worldRadius = 5000;
             gameLevel = level;
 
-            // erstelle Asteroiden
+            // erstelle Asteroiden nur in Level 1
             // TODO: asteroiden wie loeschen
             if (level == 1) {
                 asteroids = [];
             
-
-                // TODO: Levelabhaengigkeit klaeren
                 for (var i = 0; i < numOfAsteroids; i++) {
                     var asteroid = createAsteroid(level, i);
                 }
