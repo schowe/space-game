@@ -14,7 +14,7 @@ function StarfieldParticleRenderer() {
     this.fieldSize = 1000;
     this.particles = new THREE.Geometry();
 
-    nebulaGeometry = fileLoader.get("spacenebula_red");
+    nebulaGeometry = fileLoader.get("spacenebula_red_3D");
     nebulaTexture = fileLoader.get("nebula_red");
     nebula = new THREE.Mesh(nebulaGeometry,   new THREE.MeshBasicMaterial({ map: nebulaTexture, culling: THREE.DoubleSide }));
    nebula.position.set( new THREE.Vector3(

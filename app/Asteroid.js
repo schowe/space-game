@@ -13,6 +13,7 @@ var asteroidRadius = 4.2;
 var defaultAsteroidHP = 10;
 
 
+
 function Asteroid(level, astIndex) {
     //console.log("Asteroid init");
     // Mesh setzen
@@ -176,7 +177,7 @@ Asteroid.prototype.destroy = function (collisionType) {
         case "MACHINEGUN": case "machinegun": case "Machinegun":
         case "PLAYER": case "player": case "Player":
             changeScore(scoreValues["asteroidDestroyed"]);
-			destroyedAsteroids++;
+			destroyedAsteroids += 1;
 			checkMilestones();
 
 

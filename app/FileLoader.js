@@ -105,7 +105,7 @@ var FileLoader = function () {
         "../res/meshes/PowerUpRocket8.json",
         "../res/meshes/PowerUpShield.json",
         "../res/meshes/RocketV2.json",
-        "../res/meshes/spacenebula_red.json"
+        "../res/meshes/spacenebula_red_3D.json"
     ];
 
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)

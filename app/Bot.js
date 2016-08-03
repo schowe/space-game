@@ -19,7 +19,7 @@ function Bot() {
     var minAsteroidSize = 10;
     var maxAsteroidSize = 30;
     var guardingRadius = 50;
-
+    var destroyedAsteroids=0; 
     var SHOT = 1;
     var ASTEROID = 2;
     var SHIP = 3;
