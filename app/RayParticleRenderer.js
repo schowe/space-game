@@ -33,6 +33,8 @@ function RayParticleRenderer(particleColor, nParticles, particleTexture, startVe
             this.startVector.z + (Math.random() - 0.5) * 0.1
         );
 
+        particle.renderOrder = 1;
+
         particle.x += this.directionVector.x * Math.random() * 0.001;
         particle.y += this.directionVector.y * Math.random() * 0.001;
         particle.z += this.directionVector.z * Math.random() * 0.001;
