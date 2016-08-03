@@ -1,5 +1,6 @@
 // Botklasse
 var destroyedAsteroids = 0; //für die milestones
+
 // Fuer Kollision:
 // asteroids und enemies sind nach Abstand zum Spieler sortiert
 // -> break-Chance

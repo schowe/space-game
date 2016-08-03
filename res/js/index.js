@@ -169,7 +169,7 @@ $(function () {
     }
 
     function loadHighscore() {
-        network.getTop10(function (highscore) {
+        network.loadTop10(function (highscore) {
             for (var i = 0; i < highscore.length; i++) {
                 var score = highscore[i];
                 var tableTag =
@@ -180,7 +180,7 @@ $(function () {
                         "<div class='col-md-3'>"+score.score+"</div>" +
                     "</div>";
                 $("#overlay-highscore").html($("#overlay-highscore").html()+tableTag);
-                console.log("append");
+                //console.log("append");
             }
         });
     }

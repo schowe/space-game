@@ -66,6 +66,9 @@ function Interface() {
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbar').checked = true;
+			document.getElementById('invertedShieldbar').checked = false;
+			
+			spaceAudio.play();
 			
 			levelDesign(level);
 			startLevelTimer();
@@ -340,6 +343,7 @@ function changeHP(value) {
 					clearInterval(tempID);
 					document.getElementById('currentHP').innerHTML = '' + 0;
 					hpBoxCurrent.style.width = 0;
+					gameOverAudio.play();
 					gameOver();
 					return;
 				}
