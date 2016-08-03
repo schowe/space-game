@@ -101,7 +101,7 @@ function Bot() {
 
 
     // Erschaffe Asteroiden
-    function createAsteroid(level astIndex) {
+    function createAsteroid(level, astIndex) {
 
         var asteroid = new Asteroid(level, astIndex);
 
@@ -175,8 +175,8 @@ function Bot() {
                 scene.add(enemy);
             }
 
-            var gegner3+=gegner2;
-
+            var gegner3=gegner2+boss1anzahl;
+            //console.log(gegner3+" gegner3");
             for(var i = gegner2; i < gegner3; i++){
                 enemy = createEnemy(2, i);
                 enemies.push(enemy);
@@ -187,7 +187,8 @@ function Bot() {
                 //console.log(enemies.length);
                 scene.add(enemy);
             }
-            var gegner4+=gegner3;
+
+            var gegner4=gegner3+boss2anzahl;
             for(var i = gegner3; i < gegner4; i++){
                 enemy = createEnemy(3, i);
                 enemies.push(enemy);
