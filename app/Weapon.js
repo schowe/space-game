@@ -73,7 +73,7 @@ var shootMaterial;
 var explosionMaterial;
 var rocketMaterial;
 var hitBoxMaterial;
-//var guidedMissileMaterial;
+var guidedMissileMaterial;
 
 //var dummyEnemy;
 
@@ -101,7 +101,7 @@ function initializeWeapons() {
     //initialize Materials
     rocketTexture = fileLoader.get("TextureHero");
     rocketMaterial = new THREE.MeshPhongMaterial({ map: rocketTexture });
-    //guidedMissileMaterial = new THREE.MeshPhongMaterial(color : 0xFFcccc);
+    guidedMissileMaterial = new THREE.MeshPhongMaterial({color : 0xFFcccc});
 
     shootMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
 
@@ -113,7 +113,6 @@ function initializeWeapons() {
 
     //add Listener for left and rigth mouseclick
     document.body.addEventListener('click', shoot, false);
-
 
 }
 
@@ -297,8 +296,8 @@ function shootLaser() {
         //rotate: laser beam would be pointing up otherwise
         laser.rotateX(1.57);
 
-        //rotate: HitBox would be pointing up otherwise
-        laser.translateY(-85);
+        //rotate: HitBox would start behind spaceship otherwise
+        laser.translateY(-200);
 
         for (var i = -50; i <= 50; i++) {
           var dummyDot = new THREE.Object3D();
@@ -532,7 +531,7 @@ function rocketExplode(rocket) {
     var explosion = new THREE.Mesh(explosionGeometry, explosionMaterial);
 
     //set rocket back for realistic detonation point
-    rocket.translateZ(100);
+    rocket.translateZ(-400);
     //set position at position of the exploding rocket
     explosion.position.x = rocket.position.x;
     explosion.position.y = rocket.position.y;
@@ -621,11 +620,6 @@ function renderWeapons(){
 			  //translate in mooving direction (translateZ becouse of different orientation then laser)
 	    	projectiles[bul].translateZ(2000 * add);
 
-	    	//translate to hitbox belonging rocket
-	    	var rkt = projectiles[bul];
-	    	rkt.translateZ(2000 * add);
-	    	//console.log(rkt);
-
 	    	if (dis > 1500){
     			successRocket(bul);
     		}
@@ -653,6 +647,19 @@ function renderWeapons(){
         		projectiles.splice(bul, 1);
     		}
         }
+     //    else if(projectiles[bul].name == "GuidedMissile"){
+			  // //translate in mooving direction (translateZ becouse of different orientation then laser)
+	    // 	projectiles[bul].translateZ(2000 * add);
+
+	    // 	//translate to hitbox belonging rocket
+	    // 	var rkt = projectiles[bul];
+	    // 	rkt.translateZ(2000 * add);
+	    // 	//console.log(rkt);
+
+	    // 	if (dis > 1500){
+    	// 		successRocket(bul);
+    	// 	}
+	    // }
 
     }
 

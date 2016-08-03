@@ -180,7 +180,7 @@ $(function () {
                         "<div class='col-md-3'>"+score.score+"</div>" +
                     "</div>";
                 $("#overlay-highscore").html($("#overlay-highscore").html()+tableTag);
-                console.log("append");
+                //console.log("append");
             }
         });
     }
