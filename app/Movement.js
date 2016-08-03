@@ -9,6 +9,7 @@ var moveDown;
 var zAxis = 0;
 var xAxis = 0;
 var yAxis = 0;
+var camon = true;
 
 var directionVector = new THREE.Vector4(0, 0, 0, 1);
 var Pause = true;
@@ -20,14 +21,18 @@ var Sensitivity = 0.2;
 var maxVel = 14;
 var maxDrift = 5;
 
+var doanimate = false;
+var aniframe = 0;
 var mouseX = 0;
 var mouseY = 0;
 var target = new THREE.Vector3(0, 0, 0);
+var targetPosition = new THREE.Vector3(0, 0, 0);
 
 var lat = 0;
 var lon = 0;
 var phi = 0;
 var theta = 0;
+
 
 function Movement() {
 
@@ -174,6 +179,8 @@ function Movement() {
 
             var kup = function (event) {
                 switch (event.keyCode) {
+		    case 16:
+			doanimate = true;
                     case 38:
                     case 87:
                         moveForward = false;
@@ -281,6 +288,9 @@ function Movement() {
             mouseY *= Sensitivity * mouseInverted;
             lon += mouseX;
             lat -= mouseY;
+	    if(doanimate){
+            	animation();
+            }
 
             lat = Math.max(-85, Math.min(70, lat));
             phi = THREE.Math.degToRad(90 - lat);
@@ -297,6 +307,46 @@ function Movement() {
             ship.lookAt(targetPosition);
 
             // Animation vom Raumschiff
+		function animation(){
+
+			
+			camon = false;
+    			camera.setTarget('animation')
+    			document.removeEventListener('mousemove', moveCallback, false);
+    			
+			if(aniframe<=35){
+				yAxis=-6;
+				ship.translateY(-5);
+				aniframe++;
+				lat -=5;
+				}
+				
+			if(aniframe <= 80)
+				{
+					aniframe++;
+					lon +=15;
+				}
+
+			setTimeout(function(){
+				aniframe--;
+				lat+=1;
+				document.addEventListener('mousemove', moveCallback, false);
+				
+				                	 }
+				, 2300);
+			
+
+			setTimeout(function(){
+				doanimate=false;				
+				camera.setTarget('Target');
+				camon = true;
+				aniframe=0
+				//camera.removeTarget('animation');
+				
+					;},2000);
+			
+				
+								}
             player.updateSpaceshipAnimation();
         },
 
@@ -370,6 +420,7 @@ function weaponSwitch(){
 }
 
 function cameraWatcher (){
+ if(camon == true){
 	if(!isFirstPerson){
 		if(lat> 57 && yAxis ==0){
 
@@ -386,5 +437,5 @@ function cameraWatcher (){
 
 
 		}	
-	}
+	}}
 }
