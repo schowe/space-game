@@ -8,7 +8,7 @@
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 150,
+    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 100,
     asteroidSpeedVecs = [], asteroidRotVecs = [];
 
 function Bot() {

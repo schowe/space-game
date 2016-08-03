@@ -75,6 +75,7 @@ var FileLoader = function () {
         "../res/textures/TextureEnemyShipOne.png",
         "../res/textures/TextureHero.png",
         "../res/textures/VengeanceMaterial.png",
+        "../res/img/nebula_red.jpeg",
 
         /************************* Meshes *************************/
         "../res/meshes/AsteroidV2.json",
@@ -103,7 +104,8 @@ var FileLoader = function () {
         "../res/meshes/PowerUpRocket4.json",
         "../res/meshes/PowerUpRocket8.json",
         "../res/meshes/PowerUpShield.json",
-        "../res/meshes/RocketV2.json"
+        "../res/meshes/RocketV2.json",
+        "../res/meshes/spacenebula_red.json"
     ];
 
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
