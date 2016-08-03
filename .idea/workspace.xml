@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d44a37d5-ed16-4a05-b51a-5dbe0bab08ac" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/FileLoader.js" afterPath="$PROJECT_DIR$/app/FileLoader.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Interface.js" afterPath="$PROJECT_DIR$/app/Interface.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/core.js" afterPath="$PROJECT_DIR$/app/core.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/js/index.js" afterPath="$PROJECT_DIR$/res/js/index.js" />
     </list>
     <ignored path="space-game.iws" />
@@ -48,11 +46,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/res/js/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="225">
-                  <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+                <state relative-caret-position="537">
+                  <caret line="154" column="31" selection-start-line="154" selection-start-column="31" selection-end-line="154" selection-end-column="31" />
                   <folding />
                 </state>
               </provider>
@@ -68,11 +66,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="FileLoader.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="FileLoader.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/FileLoader.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="222">
-                  <caret line="169" column="21" selection-start-line="169" selection-start-column="21" selection-end-line="169" selection-end-column="21" />
+                <state relative-caret-position="177">
+                  <caret line="267" column="4" selection-start-line="267" selection-start-column="4" selection-end-line="271" selection-end-column="55" />
                   <folding />
                 </state>
               </provider>
@@ -206,10 +204,10 @@
         <option value="$PROJECT_DIR$/app/Weapon.js" />
         <option value="$PROJECT_DIR$/app/ImplosionParticleRenderer.js" />
         <option value="$PROJECT_DIR$/app/ParticleHandler.js" />
-        <option value="$PROJECT_DIR$/app/FileLoader.js" />
         <option value="$PROJECT_DIR$/app/Interface.js" />
         <option value="$PROJECT_DIR$/app/core.js" />
         <option value="$PROJECT_DIR$/app/Asteroid.js" />
+        <option value="$PROJECT_DIR$/app/FileLoader.js" />
         <option value="$PROJECT_DIR$/res/js/index.js" />
       </list>
     </option>
@@ -252,7 +250,14 @@
     <panes>
       <pane id="Scope" />
       <pane id="ProjectPane">
-        <subPane />
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="space-game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
       </pane>
       <pane id="Scratches" />
     </panes>
@@ -357,12 +362,12 @@
       <workItem from="1469691140093" duration="3653000" />
       <workItem from="1469695072422" duration="14399000" />
       <workItem from="1470036299458" duration="14581000" />
-      <workItem from="1470122652120" duration="10428000" />
+      <workItem from="1470122652120" duration="10505000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="135372000" />
+    <option name="totallyTimeSpent" value="135449000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="971" extended-state="6" />
@@ -767,26 +772,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/js/index.js">
+    <entry file="file://$PROJECT_DIR$/app/ShockwaveParticleRenderer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+        <state relative-caret-position="255">
+          <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/FileLoader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="169" column="21" selection-start-line="169" selection-start-column="21" selection-end-line="169" selection-end-column="21" />
+        <state relative-caret-position="177">
+          <caret line="267" column="4" selection-start-line="267" selection-start-column="4" selection-end-line="271" selection-end-column="55" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/ShockwaveParticleRenderer.js">
+    <entry file="file://$PROJECT_DIR$/res/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+        <state relative-caret-position="537">
+          <caret line="154" column="31" selection-start-line="154" selection-start-column="31" selection-end-line="154" selection-end-column="31" />
           <folding />
         </state>
       </provider>

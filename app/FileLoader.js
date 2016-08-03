@@ -264,8 +264,8 @@ var FileLoader = function () {
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
     shockwaveAudio.appendChild(shockwaveAudioSource);
 
-
-            //Game Over audio
+    
+    // Background Music
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');
     backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
