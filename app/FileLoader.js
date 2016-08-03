@@ -9,6 +9,7 @@ var asteroidAudio;
 var gameOverAudio;
 var shockwaveAudio;
 var backgroundMusic;
+var shipData = {};
 
 var FileLoader = function () {
     console.log("FileLoader running ...");
@@ -45,14 +46,12 @@ var FileLoader = function () {
         "../res/textures/lensflare1.png",
         "../res/textures/lensflare2.png",
         "../res/textures/lensflare3.png",
-        "../res/textures/metall.jpg",
         "../res/textures/MinigunAmmoUp.png",
         "../res/textures/MinishipTex.png",
         "../res/textures/particle.png",
         "../res/textures/particle_grey.png",
         "../res/textures/placeholder_background.jpg",
         "../res/textures/Planet.png",
-        "../res/textures/powerUp.png",
         "../res/textures/PowerUpHealthBadTex.png",
         "../res/textures/PowerUpHealthTex.png",
         "../res/textures/PowerUpMinigunTex.png",
@@ -87,7 +86,7 @@ var FileLoader = function () {
         "../res/meshes/EnemyShipOne.json",
         "../res/meshes/Geldsack.json",
         "../res/meshes/GeldsackFacePalm.json",
-        "../res/meshes/HeroShipV5.json",
+        "../res/meshes/HeroShipV6.json",
         "../res/meshes/Kugelschild.json",
         "../res/meshes/MiniEnemyShip.json",
         "../res/meshes/MinigunV2.json",
@@ -207,12 +206,49 @@ var FileLoader = function () {
     explosionAudioSource.src = '../res/sounds/explosion.wav';
     explosionAudio.appendChild(explosionAudioSource);
 
-        //MG audio
+    //MG audio
     MGAudio = document.createElement('audio');
     var MGAudioSource = document.createElement('source');
     MGAudioSource.src = '../res/sounds/mg.wav';
     MGAudio.appendChild(MGAudioSource);
+	
+	//caching1 shop audio
+    cachingAudio1 = document.createElement('audio');
+    var cachingAudioSource1 = document.createElement('source');
+    cachingAudioSource1.src = '../res/sounds/caching.wav';
+    cachingAudio1.appendChild(cachingAudioSource1);
+	
+	//caching2 shop audio
+    cachingAudio2 = document.createElement('audio');
+    var cachingAudioSource2 = document.createElement('source');
+    cachingAudioSource2.src = '../res/sounds/caching.wav';
+    cachingAudio2.appendChild(cachingAudioSource2);
+	
+	//caching3 shop audio
+    cachingAudio3 = document.createElement('audio');
+    var cachingAudioSource3 = document.createElement('source');
+    cachingAudioSource3.src = '../res/sounds/caching.wav';
+    cachingAudio3.appendChild(cachingAudioSource3);
+	
+	//space bg audio
+    spaceAudio = document.createElement('audio');
+    var spaceAudioSource = document.createElement('source');
+    spaceAudioSource.src = '../res/sounds/space.mp3';
+    spaceAudio.appendChild(spaceAudioSource);
+	
+	//button hover audio
+    buttonAudio = document.createElement('audio');
+    var buttonAudioSource = document.createElement('source');
+    buttonAudioSource.src = '../res/sounds/button.wav';
+    buttonAudio.appendChild(buttonAudioSource);
+	
+	//achievement audio
+    achievementAudio = document.createElement('audio');
+    var achievementAudioSrc = document.createElement('source');
+    achievementAudioSrc.src = '../res/sounds/achievement.wav';
+    achievementAudio.appendChild(achievementAudioSrc);
 
+    // done
             //Game Over audio
     gameOverAudio = document.createElement('audio');
     var gameOverAudioSource = document.createElement('source');
@@ -233,13 +269,23 @@ var FileLoader = function () {
     backgroundMusicSource.src = '../res/sounds/TALES_-_01_-_Deep_Space_Traveller.mp3';
     backgroundMusic.appendChild(backgroundMusicSource);
 
+    /********** Player Ship laden (Workaround! TODO) **********/
+    
+    var shipDataLoader = new THREE.JSONLoader();
+    shipDataLoader.load("../res/meshes/HeroShipV6.json", function(geometry, materials) {
+        shipData.geometry = geometry;
+        shipData.materials = materials;                 
+    }
+    );
 
     console.log("FileLoader done.");
 
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden
-        return (filesSuccessfullyLoaded == files.length);
+    // TODO: Workaround für ShipData entfernen
+        return (filesSuccessfullyLoaded == files.length) && (shipData.materials !== undefined && shipData.geometry !== undefined);
     }
+
 
     // "public" Methoden:
     return {

@@ -15,6 +15,7 @@ var Pause = true;
 var PauseScreen = false;
 var isFirstPerson = false;
 
+var mouseInverted = 1;
 var Sensitivity = 0.2;
 var maxVel = 14;
 var maxDrift = 5;
@@ -36,6 +37,7 @@ function Movement() {
 
 
             setMaxSpeed(14);
+			setSpeed(-yAxis);
             var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
             var blocker = document.getElementById('block');
             var instructions = document.getElementById('splash');
@@ -163,6 +165,7 @@ function Movement() {
                     case 70:
                         moveDown = true;
 
+
                 }
 
 
@@ -215,8 +218,14 @@ function Movement() {
                     case 86:
                         crosshair.switch();
                         break;
+                        case 32:
+                        barrelRoll = true;
+                        break;
+
+
                     case 81:                    
                         weaponSwitch();
+
 
 
 
@@ -235,6 +244,10 @@ function Movement() {
 
         move: function (delta) {
 
+            if(barrelRoll == true){
+                // Raumschiff dreht sich um z-Achse
+                player.doABarrelRoll();
+            }
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
                 setSpeed(-yAxis);
@@ -259,11 +272,13 @@ function Movement() {
 
             //sphere.position.set(ship.position.x, ship.position.y, ship.position.z);
             biggerSphere.position.set(ship.position.x, ship.position.y, ship.position.z);
+			
             if (shieldActive)
                 shield.position.set(ship.position.x, ship.position.y, ship.position.z);
 
+            mouseY *= mouseInverted;
             mouseX *= Sensitivity;
-            mouseY *= Sensitivity;
+            mouseY *= Sensitivity * mouseInverted;
             lon += mouseX;
             lat -= mouseY;
 
@@ -280,6 +295,9 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
+
+            // Animation vom Raumschiff
+            player.updateSpaceshipAnimation();
         },
 
         unlockPointer: function () {
@@ -312,7 +330,6 @@ function moveCallback(event) {
 
 function changeCam() {
 
-    console.log(camera.currentTargetName);
     if (camera.currentTargetName == 'Target') {
         isFirstPerson = true;
         crosses[pos].position.set(0, 0, -40);
@@ -330,7 +347,7 @@ function stop() {
     xAxis = 0.0;
     yAxis = -0.0;
     zAxis = 0.0;
-    setSpeed(0.0);
+    setSpeed(-yAxis);
     mouseX = 0.0;
     mouseY = 0.0;
 
@@ -350,20 +367,21 @@ function weaponSwitch(){
 }
 
 function cameraWatcher (){
+	if(!isFirstPerson){
+		if(lat> 57 && yAxis ==0){
 
-    if(lat> 57 && yAxis ==0){
+			camera.setTarget('fTarget'); 
 
-        camera.setTarget('fTarget'); 
+		}else if(lat>65 &&yAxis ==-1){
 
-    }else if(lat>65 &&yAxis ==-1){
-
-        camera.setTarget ('fTarget');
-
-
-    }else {
-
-        camera.setTarget('Target');
+			camera.setTarget ('fTarget');
 
 
-    }
+		}else {
+
+			camera.setTarget('Target');
+
+
+		}	
+	}
 }

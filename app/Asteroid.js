@@ -171,6 +171,9 @@ Asteroid.prototype.destroy = function (collisionType) {
         case "MACHINEGUN": case "machinegun": case "Machinegun":
         case "PLAYER": case "player": case "Player":
             changeScore(scoreValues["asteroidDestroyed"]);
+			destroyedAsteroids++;
+			checkMilestones();
+
 
             break;
 
