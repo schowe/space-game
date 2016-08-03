@@ -232,7 +232,7 @@ var FileLoader = function () {
             //Game Over audio
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');
-    backgroundMusicSource.src = '../res/sounds/TALES_-_01_-_Deep_Space_Traveller.mp3';
+    backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
     backgroundMusic.appendChild(backgroundMusicSource);
 
     /********** Player Ship laden (Workaround! TODO) **********/

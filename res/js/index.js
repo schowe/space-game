@@ -109,7 +109,7 @@ $(function () {
         scene.add(planet);
 
         // Spaceship Group (= space ship + particle ray)
-        var modelShip = fileLoader.get("HeroShipV5");
+        var modelShip = fileLoader.get("HeroShipV6");
         var textureShip = fileLoader.get("TextureHero");
         var spaceship = new THREE.Mesh(modelShip, new THREE.MeshPhongMaterial({map:textureShip}));
         spaceship.position.set(0, 0, 0);
