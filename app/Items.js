@@ -206,6 +206,7 @@ function collected(itemNumber) {
 			break;
 
 		case "MINIGUN":
+			MGAmmo +=100;
 
 			break;
 
