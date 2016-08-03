@@ -9,6 +9,7 @@ var asteroidAudio;
 var gameOverAudio;
 var shockwaveAudio;
 var backgroundMusic;
+var shipData = {};
 
 var FileLoader = function () {
     console.log("FileLoader running ...");
@@ -87,7 +88,7 @@ var FileLoader = function () {
         "../res/meshes/EnemyShipOne.json",
         "../res/meshes/Geldsack.json",
         "../res/meshes/GeldsackFacePalm.json",
-        "../res/meshes/HeroShipV5.json",
+        "../res/meshes/HeroShipV6.json",
         "../res/meshes/Kugelschild.json",
         "../res/meshes/MiniEnemyShip.json",
         "../res/meshes/MinigunV2.json",
@@ -213,6 +214,7 @@ var FileLoader = function () {
     MGAudioSource.src = '../res/sounds/mg.wav';
     MGAudio.appendChild(MGAudioSource);
 
+    // done
             //Game Over audio
     gameOverAudio = document.createElement('audio');
     var gameOverAudioSource = document.createElement('source');
@@ -233,13 +235,23 @@ var FileLoader = function () {
     backgroundMusicSource.src = '../res/sounds/TALES_-_01_-_Deep_Space_Traveller.mp3';
     backgroundMusic.appendChild(backgroundMusicSource);
 
+    /********** Player Ship laden (Workaround! TODO) **********/
+    
+    var shipDataLoader = new THREE.JSONLoader();
+    shipDataLoader.load("../res/meshes/HeroShipV6.json", function(geometry, materials) {
+        shipData.geometry = geometry;
+        shipData.materials = materials;                 
+    }
+    );
 
     console.log("FileLoader done.");
 
     function isReady() {
         // gibt true zurück, wenn alle Files geladen wurden
-        return (filesSuccessfullyLoaded == files.length);
+    // TODO: Workaround für ShipData entfernen
+        return (filesSuccessfullyLoaded == files.length) && (shipData.materials !== undefined && shipData.geometry !== undefined);
     }
+
 
     // "public" Methoden:
     return {

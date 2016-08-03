@@ -163,6 +163,7 @@ function Movement() {
                     case 70:
                         moveDown = true;
 
+
                 }
 
 
@@ -215,8 +216,14 @@ function Movement() {
                     case 86:
                         crosshair.switch();
                         break;
+                        case 32:
+                        barrelRoll = true;
+                        break;
+
+
                     case 81:                    
                         weaponSwitch();
+
 
 
 
@@ -235,6 +242,10 @@ function Movement() {
 
         move: function (delta) {
 
+            if(barrelRoll == true){
+                // Raumschiff dreht sich um z-Achse
+                player.doABarrelRoll();
+            }
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
                 setSpeed(-yAxis);
@@ -280,6 +291,9 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
+
+            // Animation vom Raumschiff
+            player.updateSpaceshipAnimation();
         },
 
         unlockPointer: function () {
