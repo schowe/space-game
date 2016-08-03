@@ -66,6 +66,9 @@ function Interface() {
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbar').checked = true;
+			document.getElementById('invertedShieldbar').checked = false;
+			
+			spaceAudio.play();
 			
 			levelDesign(level);
 			startLevelTimer();
@@ -340,6 +343,7 @@ function changeHP(value) {
 					clearInterval(tempID);
 					document.getElementById('currentHP').innerHTML = '' + 0;
 					hpBoxCurrent.style.width = 0;
+					gameOverAudio.play();
 					gameOver();
 					return;
 				}
@@ -647,29 +651,13 @@ function setMaxSpeed(newMaxSpeed) {
 
 /* Changes the status of an addressed PowerUp */
 function setPowerUp(powerUp, removeOrAdd) {
-	var icon;
 
-	switch(powerUp) {
-		case 1:
-			icon = document.getElementById('powerUpOne');
-			break;
-		case 2:
-			icon = document.getElementById('powerUpTwo');
-			break;
-		case 3:
-			icon = document.getElementById('powerUpThree');
-			break;
-		case 4:
-			icon = document.getElementById('powerUpFour');
-			break;
-		default:
-			return;
-	}
+	var icon = document.getElementById('powerUp'+powerUp);
 
 	if (removeOrAdd == 1)
 		icon.classList.remove('inactive');
 
-	if (removeOrAdd == 0)
+	else if (removeOrAdd == 0)
 		icon.classList.add('inactive');
 }
 
@@ -780,7 +768,7 @@ function checkBuyable() {
 			document.getElementById('shopItem' + i).style.opacity = '1';
 	}
 }
-
+var buySound = 1;
 /* Buy the shop item with index @i */
 function buyUpgrade(i) {
 	if(currentMoney < costUpgrade[i])
@@ -827,6 +815,24 @@ function buyUpgrade(i) {
 			return;
 	}
 	
+	switch(buySound){
+		case 1:
+			cachingAudio1.play();
+		break;
+		case 2:
+			cachingAudio2.play();
+		break;
+		case 3:
+			cachingAudio3.play();
+		break;
+	}
+	
+	if(buySound>=3){
+		buySound=1;
+	}else{
+		buySound++;
+	}
+	
 	changeMoney(-costUpgrade[i]);
 	moneySpentInShop += costUpgrade[i];
 	costUpgrade[i] = parseInt(costUpgrade[i] * costUpgradeFactor[i]);
@@ -845,6 +851,8 @@ var reachedMaxSpeed = 80;
 function displayMilestoneNote(value) {
 	//document.getElementById('milestoneNote').innerHTML = value;
 	//$('#picRef').css('background-image', 'url(../textures/GUIachievement2.png)');
+	
+	achievementAudio.play();
 	
 	var displayRef = document.getElementById('milestoneDisplay');
 	displayRef.innerHTML = 'You have unlocked: ' + milestoneName[value - 1] + '<br> Highscore += ' + milestonesHighscore[value - 1];
@@ -995,23 +1003,44 @@ function invertShieldBar() {
 	}
 }
 
-function changeVolume(value) {
-	// tests
-	/*
-	$('#volumeSlider').css('border-color', 'green');
-	$('#volumeSlider').html(25);
-	console.log(1);
-	*/
-	console.log(value);
+function changeVolume(bar, value) {
+	
+	switch (bar) {
 
-	laserAudio.volume = value;
-	asteroidAudio.volume = value;
-	powerUpAudio.volume = value;
-	rocketAudio.volume = value;
-	explosionAudio.volume = value;
-	$('#volumeText').html(parseInt(value*100)+'%');
+		case 1: 
+			for (var v = 2; v <= 4; v++) {
+				changeVolume(v, value);
+				$('#adv'+v).val(value);
+			}
+			break;
+		case 2:
+			spaceAudio.volume = value;
+			break;
+		case 3:
+			laserAudio.volume = value;
+			asteroidAudio.volume = value;
+			powerUpAudio.volume = value;
+			rocketAudio.volume = value;
+			explosionAudio.volume = value;
+			MGAudio.volume = value;
+			break;
+		case 4:
+		    cachingAudio1.volume = value;
+		    cachingAudio2.volume = value;
+		    cachingAudio3.volume = value;
+		    buttonAudio.volume = value;
+		    achievementAudio.volume = value;
+		    break;
+	}
+	
+	$('#soundValue'+bar).html(parseInt(value*100)+'%');
+
 }
 
 function showAdvancedSoundOptions() {
 	$('#advancedSoundOptions').toggle();
+}
+
+function buttonHover() {
+	buttonAudio.play();
 }

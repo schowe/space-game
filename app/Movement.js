@@ -165,6 +165,7 @@ function Movement() {
                     case 70:
                         moveDown = true;
 
+
                 }
 
 
@@ -217,8 +218,14 @@ function Movement() {
                     case 86:
                         crosshair.switch();
                         break;
+                        case 32:
+                        barrelRoll = true;
+                        break;
+
+
                     case 81:                    
                         weaponSwitch();
+
 
 
 
@@ -237,6 +244,10 @@ function Movement() {
 
         move: function (delta) {
 
+            if(barrelRoll == true){
+                // Raumschiff dreht sich um z-Achse
+                player.doABarrelRoll();
+            }
             if (moveForward == true && yAxis > -maxVel) {
                 yAxis--;
                 setSpeed(-yAxis);
@@ -259,7 +270,7 @@ function Movement() {
             ship.translateZ(yAxis);
             ship.translateX(-zAxis);
 
-            sphere.position.set(ship.position.x, ship.position.y, ship.position.z);
+            //sphere.position.set(ship.position.x, ship.position.y, ship.position.z);
             biggerSphere.position.set(ship.position.x, ship.position.y, ship.position.z);
 			
             if (shieldActive)
@@ -284,6 +295,9 @@ function Movement() {
             targetPosition.y = position.y + 100 * Math.cos(phi);
             targetPosition.z = position.z + 100 * Math.sin(phi) * Math.sin(theta);
             ship.lookAt(targetPosition);
+
+            // Animation vom Raumschiff
+            player.updateSpaceshipAnimation();
         },
 
         unlockPointer: function () {
@@ -343,8 +357,11 @@ function weaponSwitch(){
     if(activeSecWeapon == 0){
         activeSecWeapon = 1;
     }
+    else if(activeSecWeapon == 1){
+        activeSecWeapon = 2;
+    }
     else{
-        activeSecWeapon = 0;
+        activeSecWeapon = 0;   
     }
     updateWeaponInterface();
 }

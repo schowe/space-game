@@ -29,11 +29,11 @@
         <div id="menu-box" class="outerScrollbar">
             <div id="menuLeft">
         		<div id="menuButtons">            		
-            		<div id="shopBox" class="pauseButton" onClick="showShop()"> Shop </div>
-					<div id="highscoreBox" class="pauseButton" onClick="showHighscore()"> Highscore </div>
-					<div id="milestoneBox" class="pauseButton" onClick="showMilestones()"> Milestones </div>
-					<div id="optionsBox" class="pauseButton" onClick="showOptions()"> Options </div>
-					<div id="returnBox" class="pauseButton" onClick="menuClose()"> Let's a go! </div>
+            		<div id="shopBox" class="pauseButton" onmouseover="buttonHover()" onClick="showShop()"> Shop </div>
+					<div id="highscoreBox" class="pauseButton" onmouseover="buttonHover()" onClick="showHighscore()"> Highscore </div>
+					<div id="milestoneBox" class="pauseButton" onmouseover="buttonHover()" onClick="showMilestones()"> Milestones </div>
+					<div id="optionsBox" class="pauseButton" onmouseover="buttonHover()" onClick="showOptions()"> Options </div>
+					<div id="returnBox" class="pauseButton" onmouseover="buttonHover()" onClick="menuClose()"> Let's a go! </div>
         	   </div>
 	        </div>
 		   
@@ -88,7 +88,7 @@
 						
 						<tr id="shopItem3">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(3)">
+                                <img class="shopItemPic" src="../res/textures/ShipSpeed.png" onClick="buyUpgrade(3)">
                             </td>
 							
                             <td>
@@ -554,56 +554,59 @@
 									<td>Hide Scrollbar</td>
 									<td><input type="checkbox" id="hideScrollbar" onchange="hideScrollbar();" checked></td>
 								</tr>
+								
+								<tr>
+									<td>Inverted Shieldbar</td>
+									<td><input type="checkbox" id="invertedShieldbar" onchange="invertShieldBar();" checked></td>
+								</tr>
 							</table>
 						</div>
 						
 						<div id="optionsHeader">--- Sound Options ---</div>
-						<div id="soundOptions">
-                        <!--
-							<table>
-								<tr>
-									<td class="blabla">Volume</td>
+						
+                        <div id="soundOptions">
+                        
+                            <table class="soundOptionsTable">
+                                <tr>
+                                    <td> Volume: </td>
+                                    <td> 
+                                        <input type="range" min="0" max="1" step="0.01" value="1"onchange="changeVolume(1, this.value)"/>
+                                    </td>
+                                    <td> <span id="soundValue1"> 100% </span>  </td>
+                                    <td class="ao" onclick="showAdvancedSoundOptions()"> &raquo; advanced &laquo; </td>
+                                </tr>  
+                            </table>
+
+
+                            <div id="advancedSoundOptions">
+                    
+
+                            <div id="advancedSoundHeading"> -- advanced sound options -- </div>
+
+                            <table class="advancedSoundOptionsTable">
+                                <tr>
+                                    <td> background sounds:  </td>
+                                    <td> <input type="range" min="0" max="1" step="0.01" id="adv2" value="1" onchange="changeVolume(2, this.value)"/> </td>
+                                    <td> <span id="soundValue2"> 100% </span> </td>
                                 </tr>
                                 <tr>
-									<td class="blabla">
-                                        <
-                                        <div class="volumeBar">
-                                        <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/>
-                                        </div>
-                                        <span id="volumeText"> 67% </span>
-                                        <div id="bla" onClick="showAdvancedSoundOptions()"> advanced </div>
+                                    <td> sound effects:  </td>
+                                    <td> <input type="range" min="0" max="1" step="0.01" id="adv3" value="1" onchange="changeVolume(3, this.value)"/> </td>
+                                    <td> <span id="soundValue3"> 100% </span> </td>
+                                </tr>
+                                <tr>
+                                    <td> menu sounds:  </td>
+                                    <td> <input type="range" min="0" max="1" step="0.01" id="adv4" value="1" onchange="changeVolume(4, this.value)"/> </td>
+                                    <td> <span id="soundValue4"> 100% </span> </td>
+                                </tr>
 
-                                        <div id="advancedSoundOptions">
-                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> <br>
-                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
-                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
-                                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
 
-                                        </div>
+                            </table>
 
-									</td>
-								</tr>
-							</table>
-                        -->
+                            </div>
 
-                        <span class="volumeDescriptor"> volume: </span>
-                        <span class="volumeBar"> 
-                            <input type="range" min="0" max="1" step="0.05" onchange="changeVolume(this.value)"/> 
-                        </span>
-                        <span id="volumeText"> 80% </span>
-                        <span class="advancedSoundSign" onclick="showAdvancedSoundOptions()"> advanced </span>
+    					</div>
 
-                        <div id="advancedSoundOptions">
-                            <div class="volumeDescriptor"> Laser: </div>
-                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> <br>
-                            <div class="volumeDescriptor"> Rocket: </div>
-                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
-                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
-                            <input type="range" min="0" max="1" step="0.05" onchange="volumeTest(this.value)"/> 
-
-                        </div>
-
-						</div>
 						<div id="optionsHeader">--- Crosshair Options ---</div>
 						<div id="crossOptions">
 							<div id="crossContainer">
@@ -656,10 +659,10 @@
 
 	<div id="powerUps"> 
 		<div id="powerUpIcons">
-			<img src="../res/textures/GUIpowerUp.png" id="one" class="inactive" /> 
-			<img src="../res/textures/GUIpowerUp.png" id="two" class="inactive" /> 
-			<img src="../res/textures/GUIpowerUp.png" id="three" class="inactive" /> 
-			<img src="../res/textures/GUIpowerUp.png" id="four" class="inactive" /> 
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp1" class="inactive" /> 
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp2" class="inactive" /> 
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp3" class="inactive" /> 
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp4" class="inactive" /> 
 		</div>
 	</div>
 		
@@ -736,40 +739,45 @@
 	<!-- End of Game Interface -->
 	
 
-    <!-- Libraries -->
-    <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
-    <script src="../res/js/lib/threejs/three.js"></script>
-    <script src="../res/js/lib/TargetCamera.js"></script>
-    <script src="../res/js/lib/stats.min.js"></script>
-    <script src="../res/js/lib/threejs/CopyShader.js"></script>
-    <script src="../res/js/lib/threejs/DigitalGlitch.js"></script>
+   <!-- Libraries -->
+                    <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
+                    <script src="../res/js/lib/threejs/three.js"></script>
+                    <script src="../res/js/lib/TargetCamera.js"></script>
+                    <script src="../res/js/lib/stats.min.js"></script>
+                    <script src="../res/js/lib/threejs/CopyShader.js"></script>
+                    <script src="../res/js/lib/threejs/DigitalGlitch.js"></script>
 
-    <script src="../res/js/lib/threejs/EffectComposer.js"></script>
-    <script src="../res/js/lib/threejs/RenderPass.js"></script>
-    <script src="../res/js/lib/threejs/MaskPass.js"></script>
-    <script src="../res/js/lib/threejs/ShaderPass.js"></script>
-    <script src="../res/js/lib/threejs/GlitchPass.js"></script>
+                    <script src="../res/js/lib/threejs/EffectComposer.js"></script>
+                    <script src="../res/js/lib/threejs/RenderPass.js"></script>
+                    <script src="../res/js/lib/threejs/MaskPass.js"></script>
+                    <script src="../res/js/lib/threejs/ShaderPass.js"></script>
+                    <script src="../res/js/lib/threejs/GlitchPass.js"></script>
 
-    <!-- custom -->
-	<script src="Network.js"></script>
-	<script src="Starfield.js"></script>
-    <script src="FileLoader.js"></script>
-    <script src="RayParticleRenderer.js"></script>
-    <script src="HaloParticleRenderer.js"></script>
-    <script src="ImplosionParticleRenderer.js"></script>
-    <script src="ExplosionParticleRenderer.js"></script>
-    <script src="ParticleHandler.js"></script>
-    <script src="Camera.js"></script>
-    <script src="Interface.js"></script>
-    <script src="Player.js"></script>
-    <script src="Crosshairs.js"></script>
-    <script src="World.js"></script>
-    <script src="Movement.js"></script>
-    <script src="Collision.js"></script>
-    <script src="CollisionHandling.js"></script>
-    <script src="Weapon.js"></script>
-    <script src="Items.js"></script>
-    <script src="core.js"></script>
+                    <!-- custom -->
+                    <script src="Network.js"></script>
+                    <script src="StarfieldParticleRenderer.js"></script>
+                    <script src="ShockwaveParticleRenderer.js"></script>
+                    <script src="FileLoader.js"></script>
+                    <script src="RayParticleRenderer.js"></script>
+                    <script src="HaloParticleRenderer.js"></script>
+                    <script src="ImplosionParticleRenderer.js"></script>
+                    <script src="ExplosionParticleRenderer.js"></script>
+                    <script src="ParticleHandler.js"></script>
+                    <script src="Camera.js"></script>
+                    <script src="Interface.js"></script>
+                    <script src="Player.js"></script>
+                    <script src="Crosshairs.js"></script>
+                    <script src="World.js"></script>
+                    <script src="Movement.js"></script>
+                    <script src="Collision.js"></script>
+                    <script src="CollisionHandling.js"></script>
+                    <script src="Weapon.js"></script>
+                    <script src="Items.js"></script>
+                    <script src="core.js"></script>
+                    <script src="Bot.js"></script>
+                    <script src="Asteroid.js"></script>
+                    <script src="Enemy.js"></script>
+                    <script src="MATHX.js"></script>
 	
 </body>
 
