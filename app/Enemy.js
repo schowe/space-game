@@ -240,7 +240,7 @@ Enemy.prototype.move = function(delta, index) {
 
 // TODO: anpassen an neuer Geschwindigkeit (15 statt 70)
 Enemy.prototype.moveCurve = function(renew, delta) {
-    var p1, p2;
+    var p0, p1, p2, test0, test1;
     var shipSize = 50;
 
 
@@ -264,6 +264,12 @@ Enemy.prototype.moveCurve = function(renew, delta) {
 
         U.normalize();
         V.normalize();
+
+        // Start fuer seichten Uebergang
+        p0 = MATH.clone(this.position);
+        var dir = MATH.clone(this.direction);
+        dir.multiplyScalar(this.speed * delta);
+        p0.sub(dir);
 
         // vor dem Spieler
         if(MATH.dot(this.direction,this.playerDirection) <= 0) {
@@ -298,10 +304,11 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         }
 
         var curve = new THREE.CatmullRomCurve3([
-            this.position,
+            p0,
+            this.position.clone(),
             p1,
             p2,
-            ship.position]);
+            ship.position.clone()]);
 
         var curveLength = this.position.distanceTo(p1);
         curveLength += p1.distanceTo(p2);
@@ -309,7 +316,18 @@ Enemy.prototype.moveCurve = function(renew, delta) {
 
         this.points = curve.getPoints(2 + Math.round(curveLength / (this.speed * delta)));
         //console.log(this.points.length);
-        this.points.shift();
+
+        // "schon abgelaufene" Punkte sowie einen mehr loeschen
+        // betrachte Skalarprodukt von this.position -> {this.points.shift() und den davor}
+        // Falls < 0 abbrechen
+        test1 = this.points.shift();
+        test1.sub(this.position);
+        do {
+            test0 = test1.clone();
+            test1 = this.points.shift();
+            test1.sub(this.position);
+            console.log(this.points.length);
+        } while(MATH.dot(test0, test1) <= 0);
     }
 
     // Punkte abarbeiten mit points.shift();
@@ -983,10 +1001,10 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
 
             break;
         case "LASER": case "laser": case "Laser":
-            this.HP -= laserDamage;
+            enemyHP[index] -= laserDamage;
             break;
         case "ROCKET": case "rocket": case "Rocket":
-            this.HP -= rocketDamage;
+            enemyHP[index] -= rocketDamage;
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
 
@@ -997,7 +1015,7 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
         default: console.log("Error: Collision with unknown");
     }
 
-    if(this.HP <= 0) {
+    if(enemyHP[index] <= 0) {
         this.isAlive = false;
     }
 }
