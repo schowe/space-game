@@ -60,6 +60,7 @@ function Enemy(location, speed, level, typ, index) {
             this.HP = 10;
     }
 
+    this.index = index;
     this.typ = typ;
 
     geometryB = fileLoader.get("EnemyShipOne");
@@ -925,10 +926,10 @@ Enemy.prototype.collide = function(other, type) {
 
             break;
         case "LASER": case "laser": case "Laser":
-            this.HP -= laserDamage;
+            enemyHP[this.index] -= laserDamage;
             break;
         case "ROCKET": case "rocket": case "Rocket":
-            this.HP -= rocketDamage;
+            enemyHP[this.index] -= rocketDamage;
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
 
@@ -939,7 +940,8 @@ Enemy.prototype.collide = function(other, type) {
         default: console.log("Error: Collision with unknown");
     }
 
-    if(this.HP <= 0) {
+    if(enemyHP[this.index] <= 0) {
+        console.log("EIns ist Kaputt");
         this.isAlive = false;
     }
 }

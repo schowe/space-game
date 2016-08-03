@@ -150,6 +150,7 @@ function handleProjectiles() {
                             for (var l = 0; l <= projectiles[i].children.length - 1; l++) {
                                 if (collision.intersectPointBox(projectiles[i].children[l], enemyHitBoxes[j][k])) {
                                     console.log("Collision detected");
+                                    //enemy[j].collide(projectiles[i], "LASER");
                                     laserBol = true;
                                     break;
                                 }
