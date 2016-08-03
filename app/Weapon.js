@@ -54,6 +54,9 @@ var explosionTime = 0;
 //time shockwave is existing
 var shockwaveTime = 0;
 
+//time for flying straight guided missile
+var guidedMissileStartTime = 0;
+
 //Counter for limiting MG single shootings
 var mgCounter = 0;
 
@@ -460,6 +463,8 @@ function shootGuidedMissile() {
 
     //if for limiting guidedMissile-shooting frequence
     if (timeSinceGuidedMissile > guidedMissileReloadTime && guidedMissileAmmo > 0) {
+
+    	guidedMissileStartTime = 0;
         guidedMissileAmmo -= 1;
         updateWeaponInterface();
 
@@ -599,6 +604,7 @@ function renderWeapons(){
 	timeSinceRocket        += add;
 	timeSinceShockwave     += add;
 	timeSinceGuidedMissile += add;
+	guidedMissileStartTime += add;
 	//variable for limiting explosion lifespan
 	explosionTime += add;
 	shockwaveTime += add;
@@ -666,11 +672,11 @@ function renderWeapons(){
         }
         else if(projectiles[bul].name == "GuidedMissile"){
 
-	    	projectiles[bul].lookAt(enemies[0].position);
-      		//rotate guidedMissile; guidedMissile would fly backwards otherwise
-      		//projectiles[bul].rotateY(Math.PI);
+        	if(guidedMissileStartTime > 0.5){
+	    		projectiles[bul].lookAt(projectiles[bul].userData.position);
+      		}
 
-	    	projectiles[bul].translateZ(200 * add);
+	    	projectiles[bul].translateZ(400 * add);
 
 	    	if (dis > 1500 || inRange(projectiles[bul], projectiles[bul].userData) ){
     			successRocket(bul);
