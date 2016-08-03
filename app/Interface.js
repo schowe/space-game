@@ -68,7 +68,7 @@ function Interface() {
 			document.getElementById('hideScrollbar').checked = true;
 			document.getElementById('invertedShieldbar').checked = false;
 			
-			spaceAudio.play();
+			//spaceAudio.play();
 			
 			levelDesign(level);
 			startLevelTimer();
@@ -1009,6 +1009,7 @@ function changeVolume(bar, value) {
 		case 3:
 			laserAudio.volume = value;
 			asteroidAudio.volume = value;
+			asteroidLowAudio.volume = value;
 			powerUpAudio.volume = value;
 			rocketAudio.volume = value;
 			explosionAudio.volume = value;
