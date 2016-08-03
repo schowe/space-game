@@ -1008,7 +1008,8 @@ function changeVolume(bar, value) {
 			break;
 		case 3:
 			laserAudio.volume = value;
-			asteroidAudio.volume = value/10;
+			asteroidAudio.volume = value;
+			asteroidLowAudio.volume = value;
 			powerUpAudio.volume = value;
 			rocketAudio.volume = value;
 			explosionAudio.volume = value;

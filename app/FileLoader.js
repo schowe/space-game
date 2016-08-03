@@ -187,8 +187,13 @@ var FileLoader = function () {
     asteroidAudio = document.createElement('audio');
     var asteroidAudioSource = document.createElement('source');
     asteroidAudioSource.src = '../res/sounds/asteroid.wav';
-    asteroidAudioSource.volume = 0.1;
     asteroidAudio.appendChild(asteroidAudioSource);
+
+    //asteroid destruction audio
+    asteroidLowAudio = document.createElement('audio');
+    var asteroidLowAudioSource = document.createElement('source');
+    asteroidLowAudioSource.src = '../res/sounds/asteroidLow.wav';
+    asteroidLowAudio.appendChild(asteroidLowAudioSource);
 
     //audio for powerup
     powerUpAudio = document.createElement('audio');
