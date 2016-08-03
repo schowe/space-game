@@ -28,31 +28,36 @@ function Enemy(location, speed, level, typ, index) {
             geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            enemyHP[index] = 20;
+            //enemyHP[index] = 20;
+            this.HP = 20;
             break;
         case "BOSS2":
             geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(25,25,25);
-            enemyHP[index] = 20;
+            //enemyHP[index] = 20;
+            this.HP = 20;
             break;
         case "SMALL1":
             geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            enemyHP[index] = 10;
+            //enemyHP[index] = 10;
+            this.HP = 10;
             break;
         case "SMALL2":
             geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            enemyHP[index] = 10;
+            //enemyHP[index] = 10;
+            this.HP = 10;
             break;
         default:
             geometryB = fileLoader.get("EnemyShipOne");
             this.weapon = 1;
             this.scale.set(20,20,20);
-            enemyHP[index] = 10;
+            //enemyHP[index] = 10;
+            this.HP = 10;
     }
 
     this.typ = typ;
@@ -66,7 +71,7 @@ function Enemy(location, speed, level, typ, index) {
                     new THREE.MeshPhongMaterial({map: textureB}));
 
     this.scale.set(1,1,1);
-    
+
     MATH = MATHX();
 
     this.speed      = speed;
@@ -398,7 +403,7 @@ Enemy.prototype.shoot = function(aimPosition) {
     var projectileSpeed = 100;
     // Schießt von position mit weapon in direction
 
-    if(this.position.distanceTo(aimPosition) < shootDistance) {  
+    if(this.position.distanceTo(aimPosition) < shootDistance) {
        	// TODO: Je naeher desto haeufiger
 
 	    var distanceEnemyPlayer = this.position.distanceTo(ship.position);

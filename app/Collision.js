@@ -280,6 +280,19 @@ var Collision = function () {
     // Checks if there is an intersection between a point and box
     function intersectPointBox(point, box) {
         var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
+
+
+
+        // var dg = new THREE.SphereGeometry(.1,10,10);
+        // var dm = new THREE.MeshBasicMaterial({color:0xFF0000});
+        // var dot = new THREE.Mesh(dg, dm);
+        // dot.position.x = globalPoint.x;
+        // dot.position.y = globalPoint.y;
+        // dot.position.z = globalPoint.z;
+        // scene.add(dot);
+
+
+
         return (globalPoint.x <= maxX(box) && globalPoint.x >= minX(box) &&
             (globalPoint.y <= maxY(box) && globalPoint.y >= minY(box)) &&
             (globalPoint.z <= maxZ(box) && globalPoint.z >= minZ(box)));

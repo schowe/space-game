@@ -83,22 +83,7 @@ Asteroid.prototype.move = function (delta) {
 
     if ((this.position.x < biggerSphere.position.x - biggerSphereRadius || this.position.x > biggerSphere.position.x + biggerSphereRadius || this.position.y < biggerSphere.position.y - biggerSphereRadius || this.position.y > biggerSphere.position.y + biggerSphereRadius || this.position.z < biggerSphere.position.z - biggerSphereRadius || this.position.z > biggerSphere.position.z + biggerSphereRadius)) {
 
-        newVec = new THREE.Vector3(Math.random(), Math.random(), Math.random());
-        newVec.normalize();
-
-        var rnd1, rnd2, rnd3;
-
-        rnd1 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
-        rnd2 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
-        rnd3 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
-
-        this.position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
-        this.position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
-        this.position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
-
-        asteroidHitBoxes[this.astIndex].position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
-        asteroidHitBoxes[this.astIndex].position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
-        asteroidHitBoxes[this.astIndex].position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
+        this.respawn();
 
     }
 
@@ -176,10 +161,9 @@ Asteroid.prototype.destroy = function (collisionType) {
         case "MACHINEGUN": case "machinegun": case "Machinegun":
         case "PLAYER": case "player": case "Player":
             changeScore(scoreValues["asteroidDestroyed"]);
+            spawnPowerUp(asteroids[this.astIndex].position.x, asteroids[this.astIndex].position.y, asteroids[this.astIndex].position.z);
 			destroyedAsteroids++;
 			checkMilestones();
-
-
             break;
 
         default:
@@ -205,9 +189,8 @@ Asteroid.prototype.respawn = function () {
     rnd2 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
     rnd3 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
 
-    var newScale = Math.random() * 30;
+    var newScale = Math.random() * (50 - 20) + 20;
 
-    spawnPowerUp(asteroids[this.astIndex].position.x, asteroids[this.astIndex].position.y, asteroids[this.astIndex].position.z);
     asteroids[this.astIndex].position.x = ship.position.x + rnd1 * biggerSphereRadius * newVec.x;
     asteroids[this.astIndex].position.y = ship.position.y + rnd2 * biggerSphereRadius * newVec.y;
     asteroids[this.astIndex].position.z = ship.position.z + rnd3 * biggerSphereRadius * newVec.z;
