@@ -40,7 +40,11 @@ var ParticleHandler = function () {
 
     function addImplosion(position) {
 
+<<<<<<< HEAD
         var implosion  = new ImplosionParticleRenderer(0xffcc11, 10000, fileLoader.get("particle_grey"), position, 1);
+=======
+        var implosion = new ImplosionParticleRenderer(0xffdd33, 10000, fileLoader.get("particle_grey"), position, 1);
+>>>>>>> 71cc0ecf84feeb9565a278ae0ed72363253d2aae
         currentImplosions.push(implosion);
     }
 
@@ -85,7 +89,7 @@ var ParticleHandler = function () {
                 var successful = implosion.update();
                 if (!successful) {
                     // Explosion starten
-                    addExplosion(implosion.startVector, 1, implosion.color, 1, 1);
+                    addExplosion(implosion.startVector, 1, implosion.color, 10, 10);
                     addHalo(implosion.startVector, 2, implosion.color);
 
                     // Implosion löschen

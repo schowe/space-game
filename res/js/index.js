@@ -109,7 +109,7 @@ $(function () {
         scene.add(planet);
 
         // Spaceship Group (= space ship + particle ray)
-        var modelShip = fileLoader.get("HeroShipV5");
+        var modelShip = fileLoader.get("HeroShipV6");
         var textureShip = fileLoader.get("TextureHero");
         var spaceship = new THREE.Mesh(modelShip, new THREE.MeshPhongMaterial({map:textureShip}));
         spaceship.position.set(0, 0, 0);
@@ -137,12 +137,22 @@ $(function () {
         );
 
 
-        // Event-Listener für Resize
+        // Event-Listener
         window.addEventListener("resize", onWindowResize, false);
         window.addEventListener("mousemove", onMouseMove, false);
 
+        // Klick auf Spiel starten: player speichern
+        $("#formSubmit").on("click", function (e) {
+            localStorage.setItem("player", $("#player").val());
+        });
 
 
+        // Background Music
+        backgroundMusic = document.createElement('audio');
+        var backgroundMusicSource = document.createElement('source');
+        backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
+        backgroundMusic.appendChild(backgroundMusicSource);
+        backgroundMusic.play();
 
     }
     
