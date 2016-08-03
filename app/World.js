@@ -215,6 +215,10 @@ function createAsteroids() {
             asteroidsHP[asteroidNumber] -= MGDamage;
             break;
 
+        case "ShockWave":
+
+            asteroidsHP[asteroidNumber] -= shockWaveDamage;
+            break;
 
         default:
 
