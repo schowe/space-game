@@ -35,7 +35,7 @@ $(function () {
                 animate();
             }
         }, 50);
-    }, 10000);
+    }, 5000);
 
 
     function init() {
