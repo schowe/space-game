@@ -1,12 +1,23 @@
 var ship, frontVector, backVector, directionVector;
 var hitBoxCenter, hitBoxLeftWing, hitBoxRightWing;
 var playerHitBoxes = [];
+
 var cross;
+
+
+
+frontVector = new THREE.Vector3(0, 0, 0);
+
+backVector = new THREE.Vector3(0, 0, 0);
+directionVector = new THREE.Vector3(0, 0, 0);
+
+
 var shield, shieldGeometry, shieldTex, shieldMaterial, rotClock;
 var barrelRoll;
 var action = {};
 var leftWingRot;
 var rightWingRot;
+
 
 function Player() {
 
