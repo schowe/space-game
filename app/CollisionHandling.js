@@ -172,16 +172,38 @@ function handleProjectiles() {
             }
 
          for (var j = 0; j < enemies.length - 1; j++) {
+           /* var enemyHitboxes = enemies[j].getHitBoxes();
+            if (projectiles[i].name === "Laser") {
 
-             var enemyHitboxes = enemies[j].getHitBoxes();
+                for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
+
+                    var laserBol = false;
+
+                    for (var k = 0; k <= projectiles[i].children.length - 1; k++) {
+                        if (collision.intersectPointBox(projectiles[i].children[k], itemHitBoxes[j])) {
+                            laserBol = true;
+                            break;
+                        }
+                    }
+
+                    if (laserBol) {
+                        successLaser(i);
+                        collected(j);
+                        break;
+                    }
+                }
+            }*/
+
+
+            var enemyHitboxes = enemies[j].getHitBoxes();
              for (var k = 0; k <= enemyHitBoxes[j].length - 1; k++) {
 
                 if (projectiles[i].name === "Laser") {
                     if (collision.intersectSphereBox(enemyHitboxes[k], projectiles[i])) {
-                        //successLaser(projectiles[i]);
-                        //enemyHitByLaser(enemies[j]);
+                        successLaser(projectiles[i]);
+                        enemyHitByLaser(enemies[j]);
                         console.log("treffer");
-                        enemies[j].collide(asteroids[i], "Laser");
+                        //enemies[j].collide(asteroids[i], "Laser");
                      }
                  }
 
@@ -195,13 +217,14 @@ function handleProjectiles() {
                  else if (projectiles[i].name === "Rocket") {
                      if (collision.intersectSphereBox(enemyHitboxes[k], projectiles[i])) {
                          successRocket(projectiles[i]);
+                         console.log("Treffer Rakete");
                     }
                  }
 
                  else if (projectiles[i].name === "Explosion") {
                      if (collision.intersectSphereBox(projectiles[i], enemyHitboxes[k])) {
                          enemyHitByExplosion(enemyHitboxes[k]);
-
+                         console.log("Treffer explo");
                      }
                  }
 
