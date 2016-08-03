@@ -8,8 +8,12 @@ var asteroidRotVecs = [];
 var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
 var biggerSphereRadius = 5000;
+var asteroidRadius = 3.5;
+var defaultAsteroidHP = 10;
+var destroyedAsteroids = 0; //für die milestones
 var asteroidRadius = 4.2;
 var defaultAsteroidHP = 10;*/
+
 
 //starStuff
 /*function createStars() {
@@ -241,6 +245,10 @@ function createAsteroids() {
 /*//Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber, collisionType) {
 
+	//für die Milestones
+	destroyedAsteroids++;
+	checkMilestones(); 
+	
     asteroidAudio.play();
 
     // update Highscore
