@@ -54,6 +54,9 @@ var explosionTime = 0;
 //time shockwave is existing
 var shockwaveTime = 0;
 
+//time for flying straight guided missile
+var guidedMissileStartTime = 0;
+
 //Counter for limiting MG single shootings
 var mgCounter = 0;
 
@@ -461,6 +464,8 @@ function shootGuidedMissile() {
 
     //if for limiting guidedMissile-shooting frequence
     if (timeSinceGuidedMissile > guidedMissileReloadTime && guidedMissileAmmo > 0) {
+
+    	guidedMissileStartTime = 0;
         guidedMissileAmmo -= 1;
         updateWeaponInterface();
 
@@ -588,69 +593,70 @@ function calculateDistanceToShip(obj) {
 
 
 //funtion for mooving weapons and destruction of rocket/explosion
-function renderWeapons() {
+function renderWeapons(){
 
 
-    //Variable for adding the past time since last call to all Weapon-Time-Counters
-    var add = weaponClock.getDelta();
+	//Variable for adding the past time since last call to all Weapon-Time-Counters
+	var add = weaponClock.getDelta();
 
-    //increment time counters for limiting shooting frequence
-    timeSinceShoot += add;
-    timeSinceMG += add;
-    timeSinceRocket += add;
-    timeSinceShockwave += add;
-    timeSinceGuidedMissile += add;
-    //variable for limiting explosion lifespan
-    explosionTime += add;
-    shockwaveTime += add;
+	//increment time counters for limiting shooting frequence
+	timeSinceShoot         += add;
+	timeSinceMG            += add;
+	timeSinceRocket        += add;
+	timeSinceShockwave     += add;
+	timeSinceGuidedMissile += add;
+	guidedMissileStartTime += add;
+	//variable for limiting explosion lifespan
+	explosionTime += add;
+	shockwaveTime += add;
 
-    //function for limiting single shootings while MG-shooting
-    if (mgCounter > 0) {
-        if (timeSinceMG > 0.05) {
-            timeSinceMG = 0;
-            MGShoot();
-            mgCounter -= 1;
-        }
-    }
+	//function for limiting single shootings while MG-shooting
+	if(mgCounter > 0){
+	    if(timeSinceMG >0.05){
+	    	timeSinceMG = 0;
+	    	MGShoot();
+	    	mgCounter -= 1;
+	    }
+	}
 
-    //Translate all projectiles and check for end of existance
-    for (var bul in projectiles) {
+	//Translate all projectiles and check for end of existance
+	for( var bul in projectiles){
 
-        //calculate distance between projectile and spaceship
-        var dis = calculateDistanceToShip(projectiles[bul]);
+		//calculate distance between projectile and spaceship
+		var dis = calculateDistanceToShip(projectiles[bul]);
 
-        //check name and proceed accordingly
+		//check name and proceed accordingly
 
-        //if projectile is a laser hitbox:
-        if (projectiles[bul].name == "Laser") {
+	   	//if projectile is a laser hitbox:
+		if(projectiles[bul].name == "Laser"){
 
-            //translate in mooving direction
-            projectiles[bul].translateY(-4000 * add);
+			//translate in mooving direction
+	    	projectiles[bul].translateY(-4000 * add);
 
-            //translate to hitbox belonging laser-beam
-            if (dis > biggerSphereRadius) {
-                successLaser(bul);
-            }
-        }
+	    	//translate to hitbox belonging laser-beam
+	    	if (dis > biggerSphereRadius){
+    			successLaser(bul);
+    		}
+	    }
 
-        //if projectile is a rocket Hitbox:
-        else if (projectiles[bul].name == "Rocket") {
-            //translate in mooving direction (translateZ becouse of different orientation then laser)
-            projectiles[bul].translateZ(2000 * add);
+  		//if projectile is a rocket Hitbox:
+	    else if(projectiles[bul].name == "Rocket"){
+			  //translate in mooving direction (translateZ becouse of different orientation then laser)
+	    	projectiles[bul].translateZ(2000 * add);
 
-            if (dis > 1500) {
-                successRocket(bul);
-            }
-        }
-        //if projectile is an Explosion:
-        else if (projectiles[bul].name == "Explosion") {
-            //Check if Explosion
-            if (explosionTime > 0.15) {
-                scene.remove(projectiles[bul]);
-                projectiles.splice(bul, 1);
-            }
-        }
-        else if (projectiles[bul].name == "MachineGun") {
+	    	if (dis > 1500){
+    			successRocket(bul);
+    		}
+	    }
+	    //if projectile is an Explosion:
+	    else if(projectiles[bul].name == "Explosion"){
+	    	//Check if Explosion
+	    	if (explosionTime > 0.15){
+        		scene.remove(projectiles[bul]);
+        		projectiles.splice(bul, 1);
+    		}
+	    }
+	    else if (projectiles[bul].name == "MachineGun") {
             //translate in mooving direction
             projectiles[bul].translateZ(-1000 * add);
 
@@ -667,11 +673,11 @@ function renderWeapons() {
         }
         else if (projectiles[bul].name == "GuidedMissile") {
 
-            projectiles[bul].lookAt(enemies[0].position);
-            //rotate guidedMissile; guidedMissile would fly backwards otherwise
-            //projectiles[bul].rotateY(Math.PI);
+        	if(guidedMissileStartTime > 0.5){
+	    		projectiles[bul].lookAt(projectiles[bul].userData.position);
+      		}
 
-            projectiles[bul].translateZ(200 * add);
+	    	projectiles[bul].translateZ(400 * add);
 
             if (dis > 1500 || inRange(projectiles[bul], projectiles[bul].userData)) {
                 successRocket(bul);
