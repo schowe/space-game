@@ -669,6 +669,7 @@ function showHighscore() {
 	$('#highscore').show();
 	menuResetColors();
 	menuSetColor('highscoreBox');
+	loadMenuHighscore();
 }
 
 /* Opens the Milestones tab */
@@ -1033,4 +1034,23 @@ function showAdvancedSoundOptions() {
 
 function buttonHover() {
 	buttonAudio.play();
+}
+
+var highscoreShowed = false;
+function loadMenuHighscore(){
+	if(!highscoreShowed){
+	   network.loadTop10(function (highscore) {
+            for (var i = 0; i < highscore.length; i++) {
+                var score = highscore[i];
+                var tableTag =
+                    "<tr>" +
+                        "<td class='col-md-2'>"+(i+1)+"</td>" +
+                        "<td class='col-md-3'>"+score.player+"</td>" +
+                        "<td class='col-md-4'>"+score.score+"</td>" +
+                    "</tr>";
+                $("#menuHighscore").html($("#menuHighscore").html()+tableTag);
+            }
+        });
+		highscoreShowed = true;
+	}
 }
