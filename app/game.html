@@ -12,247 +12,734 @@
 </head>
 
 <body scroll="no">
-
-
-    <div id="loadingTexturesOverlay">
-        <div id="loadingTexturesHeader">Loading...</div>
-        <div id="loadingTexturesSplash"></div>
+	
+	<!-- Loading Screen -->
+	
+	<div id="loadingTexturesOverlay">
+        <div id="loadingTexturesHeader">Loading</div>
+		<div id="loadingTexturesSplash"></div>
     </div>
-
+	
+	<!-- End of Loading Screen -->
+	
+	
+	<!-- Pause Menu -->
 
     <div id="menu-overlay" hidden>
-        <div id="menu-box">
-            <div id="menuArea">
-                <div id="menuButtons">
-                    <div id="pauseButton" class="shopBox" onClick="showShop()"> Shop </div>
-                    <div id="pauseButton" class="highscoreBox" onClick="showHighscore()"> Highscore </div>
-                    <div id="pauseButton" class="milestoneBox" onClick="showMilestones()"> Milestones </div>
-                    <div id="pauseButton" class="optionsBox" onClick="showOptions()"> Options </div>
-                    <div id="pauseButton" class="returnBox" onClick="closeMenu()"> Let's a go! </div>
-                </div>
-            </div>
-
-            <div id="rightMenu">
-                <!-- SHOP -->
+        <div id="menu-box" class="outerScrollbar">
+            <div id="menuLeft">
+        		<div id="menuButtons">            		
+            		<div id="shopBox" class="pauseButton" onmouseover="buttonHover()" onClick="showShop()"> Shop </div>
+					<div id="highscoreBox" class="pauseButton" onmouseover="buttonHover()" onClick="showHighscore()"> Highscore </div>
+					<div id="milestoneBox" class="pauseButton" onmouseover="buttonHover()" onClick="showMilestones()"> Milestones </div>
+					<div id="optionsBox" class="pauseButton" onmouseover="buttonHover()" onClick="showOptions()"> Options </div>
+					<div id="returnBox" class="pauseButton" onmouseover="buttonHover()" onClick="menuClose()"> Let's a go! </div>
+        	   </div>
+	        </div>
+		   
+        	<div id="menuRight" class="innerScrollbar"> 
+			
+				<!-- Shop -->
+			
                 <div id="shop" hidden>
                     <table id="shopTable">
 
+                        <tr id="shopItem0">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/Icon_Health.png" onClick="buyUpgrade(0)">
+                            </td>
+							
+                            <td>
+                                <div id="shopItemDesc">
+                                	<div> Increases your maximum HP by 10</div>
+                                	<div id="costSign" class="costUpgrade" >€</div>
+                             		<div id="costUpgrade0" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+
                         <tr id="shopItem1">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/img/hpShopItem.png" onClick="buyUpgrade(1)">
-                                <!--
-                                //<div class="buyButton">Buy</div>
-                                -->
+                                <img class="shopItemPic" src="../res/textures/Icon_HealthIncrease.png" onClick="buyUpgrade(1)">
                             </td>
+							
                             <td>
-                                <div id="shopItemDesc">
-                                    <div> Increases the maximum HP by 25 </div>
-                                    <div id="costSign" class="costUpgrade">€</div>
-                                    <div id="costUpgrade1" class="costUpgrade">0</div>
-                                    <div>
+                                <div id="shopItemDesc" >
+                                	<div>Slowly recharge your HP</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade1" class="costUpgrade">0</div>
+                                <div>
                             </td>
                         </tr>
-
-                        <tr id="shopItem2">
+						
+						<tr id="shopItem2">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(2)">
-                                <!--
-                                //<div class="buyButton">Buy</div>
-                                -->
+                                <img class="shopItemPic" src="../res/textures/Icon_Shield.png" onClick="buyUpgrade(2)">
                             </td>
+							
                             <td>
-                                <div id="shopItemDesc">
-                                    <div> Increases the maximum flight speed by ~40 </div>
-                                    <div id="costSign" class="costUpgrade">€</div>
-                                    <div id="costUpgrade2" class="costUpgrade">0</div>
-                                    <div>
+                                <div id="shopItemDesc" >
+                                	<div>Increases your Shield by 10</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade2" class="costUpgrade">0</div>
+                                <div>
                             </td>
                         </tr>
-
-                        <tr id="shopItem3">
+						
+						<tr id="shopItem3">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/img/speedShopItem.png" onClick="buyUpgrade(3)">
-                                <!--
-                                //<div class="buyButton">Buy</div>
-                                -->
+                                <img class="shopItemPic" src="../res/textures/ShipSpeed.png" onClick="buyUpgrade(3)">
                             </td>
+							
                             <td>
-                                <div id="shopItemDesc">
-                                    <div>Slowly recharge your HP</div>
-                                    <div id="costSign" class="costUpgrade">€</div>
-                                    <div id="costUpgrade3" class="costUpgrade">0</div>
-                                    <div>
+                                <div id="shopItemDesc" >
+                                	<div> Increases the maximum flight speed by ~40 </div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade3" class="costUpgrade">0</div>
+                                <div>
                             </td>
                         </tr>
 
+                        <tr id="shopItem4">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/Icon_Rocket.png" onClick="buyUpgrade(4)">
+                            </td>
+							
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increases your maximum rocket ammo by 2</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade4" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+						
+                         <tr id="shopItem5">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(5)">
+                            </td>
+							
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increases your maximum minigun ammo by 20</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade5" class="costUpgrade">0</div>
+                                <div>
+                            </td>
+                        </tr>
+                         
+						<tr id="shopItem6">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(6)">
+                            </td>
+							
+                            <td>
+                                <div id="shopItemDesc" >
+                                	<div>Increase Rocket Damage by 1</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade6" class="costUpgrade">0</div>
+								</div>
+							</td>
+						</tr>
                     </table>
-                    </div>
+                </div>
 
-                    <div id="highscore" hidden>
+				<!-- End of Shop -->
+				
+				
+				<!-- Highscore -->
 
-                        <!-- HIGHSCORE -->
+                <div id="highscore" hidden>
+					<div id="headingHighscore"> Highscore </div>
+					<table id="menu-highscore-table" >
+						<thead>
+							<tr>
+								<th class="menu-highscore-table-nr">#</th>
+								<th>Player</th>
+								<th class="menu-highscore-table-points">Points</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">3</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">4</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">5</th><th class="menu-highscore-table-player">ein Mensch</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">6</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">7</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">8</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">9</th><th class="menu-highscore-table-player">niemand</th><th class="menu-highscore-table-points">100</th></tr>
+							<tr><th class="menu-highscore-table-nr">10</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
+						</tbody>
+					</table>
+                </div>
+				
+				<!-- End of Highscore -->
+				
+				
+				<!-- Milestones -->
 
-                        <div id="headingHighscore"> Highscore </div>
+				<div id="milestones" hidden>
+					<div id="milestonesHeading"> Milestones </div>
+					<div class="achievementBlock"  onClick="showDescription(1)">
+						<table class="achievement">
+							<tr> 
+								<td class="icon" rowspan="2"> 
+									<img src="../res/textures/GUIplaceholderAchievement.png" class="achievementIcon">
+								</td>
+								
+								<td class="type"> 
+									<div class="achievementType"> Speed Junkie </div>
+								</td>       
+							</tr>
+							
+							<tr>  
+								<td class="bar"> 
+									<div class="achievementProgressBar">  
+									   <div class="currentProgress" id="progressbar1"> </div>
+									</div>     
+								</td>
+							</tr>
+						</table>
 
-                        <table id="menu-highscore-table">
-                            <thead>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">#</th>
-                                    <th>Player</th>
-                                    <th class="menu-highscore-table-points">Points</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+						<div class="unlockDescription" id="description1">
+                            Reach a velocity of 2000 ppm. <br>
+							<br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress1"> 0 </span> 
+                            <span> / 2000 &laquo; </span>
+						</div>
+					</div>
 
-                                <!-- Testdaten -->
+					<div class="achievementBlock"  onClick="showDescription(2)">
+						<table class="achievement">
+							<tr> 
+								<td class="icon" rowspan="2"> 
+									<img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+								 </td> 
+								 
+								<td class="type"> 
+									<div class="achievementType"> Speedy Gonzales </div>
+								</td>       
+							</tr>
+							
+							<tr>  
+								<td class="bar"> 
+									<div class="achievementProgressBar">  
+										<div class="currentProgress" id="progressbar2"> </div>
+									</div>     
+								</td>
+							</tr>
+						</table>
 
-                                <tr>
-                                    <th class="menu-highscore-table-nr">1</th>
-                                    <th class="menu-highscore-table-player">JP</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">2</th>
-                                    <th class="menu-highscore-table-player">irgendwer</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">3</th>
-                                    <th class="menu-highscore-table-player">jemand</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">4</th>
-                                    <th class="menu-highscore-table-player">eine Person</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">5</th>
-                                    <th class="menu-highscore-table-player">ein Mensch</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">6</th>
-                                    <th class="menu-highscore-table-player">irgendwer</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">7</th>
-                                    <th class="menu-highscore-table-player">jemand</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">8</th>
-                                    <th class="menu-highscore-table-player">eine Person</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">9</th>
-                                    <th class="menu-highscore-table-player">niemand</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
-                                <tr>
-                                    <th class="menu-highscore-table-nr">10</th>
-                                    <th class="menu-highscore-table-player">irgendwer</th>
-                                    <th class="menu-highscore-table-points">100</th>
-                                </tr>
+						<div class="unlockDescription" id="description2">
+                             Reach a velocity of at least 4000 ppm.<br>
+                            <br>
+                            Current progress:     
+                            <br>                        
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress2"> 0 </span> 
+                            <span> / 4000  &laquo; </span>
 
-                            </tbody>
+						</div>
+					</div>
+				
+
+    				<div class="achievementBlock"  onClick="showDescription(3)">
+    					<table class="achievement">
+
+    						<tr> 
+    							<td class="icon" rowspan="2"> 
+    								<img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+    							 </td> 
+								 
+    							<td class="type"> 
+
+    								<div class="achievementType"> Catch 'em all! </div>
+
+    							</td>       
+    						</tr>
+							
+    						<tr>  
+    							<td class="bar"> 
+    								<div class="achievementProgressBar">  
+    								   <div class="currentProgress" id="progressbar3"> </div>
+    								</div>     
+    							</td>
+    						</tr>
+    					</table>
+
+    					<div class="unlockDescription" id="description3">
+    							Collect 15 Powerups. <br>
+                                <br>
+                                Current progress: 
+                                <br>   
+                                <span> &raquo;    </span>
+                                <span id="currentAchievementProgress3"> 0 </span> 
+                                <span> / 15  &laquo;   </span>
+    					</div>
+    				</div>
+
+                    <div class="achievementBlock" onClick="showDescription(4)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIplaceholderAchievement.png" class="achievementIcon">
+                                 </td> 
+								 
+                                <td class="type"> 
+                                    <div class="achievementType"> Scrooge McDuck </div>
+                                </td>       
+                            </tr>
+							
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+										<div class="currentProgress" id="progressbar4">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
                         </table>
 
-                        <!-- Ende HIGHSCORE -->
-
-                    </div>
-
-                    <div id="options" hidden>Test options unicorns rainbow</div>
-
-                    </div>
-                    </div>
-                    </div>
-
-                    <!-- Game Interface -->
-                    <div id="scoreBox">
-                        <div id="score">0</div>
-                        <div id="moneyBox">
-                            €
-                            <div id="money">0</div>
+                        <div class="unlockDescription" id="description4">
+                            You have to own at least 50.000 €. <br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress4"> 0 </span> 
+							<span> / 50.000€  &laquo; </span>
                         </div>
                     </div>
 
-                    <div id="ammoBox">
-                        <img src="../res/img/rocketplaceholder.png" id="ammopic" />
-                        <div id="currentAmmo">60</div>
-                        <div id="ammoDivider">/</div>
-                        <div id="maxAmmo">999</div>
+				     <div class="achievementBlock" onClick="showDescription(5)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+                                </td> 
+                                <td class="type"> 
+                                    <div class="achievementType"> Richer than Scrooge McDuck </div>
+                                </td>       
+                            </tr>
+							
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar5">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="unlockDescription" id="description5">
+                            You have to own at least 100.000 €. <br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress5"> 0 </span> 
+                            <span> / 100.000 € &laquo; </span>
+                        </div>
                     </div>
 
-                    <div id="bg1">
-                        <div id="hpBox">
-                            <div id="hpBoxValue"></div>
-                            <div id="hpTextBox">
-                                <div id="currentHP">0</div>
-                                <div id="hpDivider">/</div>
-                                <div id="maxHP">0</div>
+                    <div class="achievementBlock" onClick="showDescription(6)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+                                </td> 
+								
+                                <td class="type"> 
+                                    <div class="achievementType"> Sugar Daddy </div>
+                                </td>       
+                            </tr>
+							
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar6">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="unlockDescription" id="description6">
+                            Spend 10.000 € in the shop.<br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress6"> 0 </span> 
+                            <span> / 10.000 € &laquo; </span>
+                        </div>
+                    </div>
+
+                    <div class="achievementBlock" onClick="showDescription(7)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+                                </td> 
+								
+                                <td class="type"> 
+                                    <div class="achievementType"> Shopaholic </div>
+                                </td>       
+                            </tr>
+							
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar7">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="unlockDescription" id="description7">
+                            Spend 100.000 € in the shop. <br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress7"> 0 </span> 
+                            <span> / 100.000 €  &laquo; </span>
+                        </div>
+                    </div>
+
+                    <div class="achievementBlock" onClick="showDescription(8)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+                                </td> 
+								
+                                <td class="type"> 
+                                    <div class="achievementType">Headhunterz</div>
+                                </td>       
+                            </tr>
+							
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar8">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
+						
+                        <div class="unlockDescription" id="description8">
+                            Defeat 20 enemies  <br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress8"> 0 </span> 
+                            <span> / 20  &laquo; </span>
+                        </div>
+                    </div>
+
+                    <div class="achievementBlock" onClick="showDescription(9)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+                                </td> 
+								
+                                <td class="type"> 
+                                    <div class="achievementType"> Hero of the Universe </div>
+                                </td>       
+                            </tr>
+							
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar9">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="unlockDescription" id="description9">
+                            Defeat 50 enemies <br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress9"> 0 </span> 
+                            <span> / 50  &laquo; </span>
+                        </div>
+                    </div>
+
+                    <div class="achievementBlock" onClick="showDescription(10)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+                                </td> 
+                                <td class="type"> 
+                                    <div class="achievementType"> Vacuum Cleaner </div>
+                                </td>       
+                            </tr>
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar10">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="unlockDescription" id="description10">
+                            Destroy 20 Asteroids. <br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress10"> 0 </span> 
+                            <span> / 20  &laquo; </span>
+
+                        </div>
+                    </div>
+
+                    <div class="achievementBlock" onClick="showDescription(11)">
+                        <table class="achievement">
+                            <tr> 
+                                <td class="icon" rowspan="2"> 
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
+                                </td> 
+                                <td class="type"> 
+                                    <div class="achievementType"> Star Destroyer </div>
+                                </td>       
+                            </tr>
+                            <tr>  
+                                <td class="bar"> 
+                                    <div class="achievementProgressBar">  
+                                        <div class="currentProgress" id="progressbar11">  </div>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="unlockDescription" id="description11">
+                            Destroy 50 Asteroids. <br>
+                            <br>
+                            Current progress: 
+                            <br>
+                            <span> &raquo;  </span>
+                            <span id="currentAchievementProgress11"> 0 </span> 
+                            <span> / 50 &laquo; </span>
+                        </div>
+                    </div>
+                </div>
+
+				<!-- End of Milestones -->
+				
+				
+				<!-- Options -->
+
+				<div id="options" hidden>
+					<div id=optionContainer>
+						<div id="optionsHeader">--- Game Options ---</div>
+						<div id="gameOptions">
+							<table>
+								<tr>
+									<td>Inverted Mouse </td>
+									<td><input type="checkbox" id="invertedMouse" onchange="invertedMouseFunc();" checked></td>
+								</tr>
+								
+								<tr>
+									<td>Hide Scrollbar</td>
+									<td><input type="checkbox" id="hideScrollbar" onchange="hideScrollbar();" checked></td>
+								</tr>
+								
+								<tr>
+									<td>Inverted Shieldbar</td>
+									<td><input type="checkbox" id="invertedShieldbar" onchange="invertShieldBar();" checked></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div id="optionsHeader">--- Sound Options ---</div>
+						
+                        <div id="soundOptions">
+                        
+                            <table class="soundOptionsTable">
+                                <tr>
+                                    <td> Volume: </td>
+                                    <td> 
+                                        <input type="range" min="0" max="1" step="0.01" value="1"onchange="changeVolume(1, this.value)"/>
+                                    </td>
+                                    <td> <span id="soundValue1"> 100% </span>  </td>
+                                    <td class="ao" onclick="showAdvancedSoundOptions()"> &raquo; advanced &laquo; </td>
+                                </tr>  
+                            </table>
+
+
+                            <div id="advancedSoundOptions">
+                    
+
+                            <div id="advancedSoundHeading"> -- advanced sound options -- </div>
+
+                            <table class="advancedSoundOptionsTable">
+                                <tr>
+                                    <td> background sounds:  </td>
+                                    <td> <input type="range" min="0" max="1" step="0.01" id="adv2" value="1" onchange="changeVolume(2, this.value)"/> </td>
+                                    <td> <span id="soundValue2"> 100% </span> </td>
+                                </tr>
+                                <tr>
+                                    <td> sound effects:  </td>
+                                    <td> <input type="range" min="0" max="1" step="0.01" id="adv3" value="1" onchange="changeVolume(3, this.value)"/> </td>
+                                    <td> <span id="soundValue3"> 100% </span> </td>
+                                </tr>
+                                <tr>
+                                    <td> menu sounds:  </td>
+                                    <td> <input type="range" min="0" max="1" step="0.01" id="adv4" value="1" onchange="changeVolume(4, this.value)"/> </td>
+                                    <td> <span id="soundValue4"> 100% </span> </td>
+                                </tr>
+
+
+                            </table>
+
                             </div>
-                        </div>
-                    </div>
 
-                    <div id="bg2">
-                        <div id="speedBox">
-                            <div id="speedValue">0</div>
-                        </div>
+    					</div>
 
-                        <!-- PLATZHALTER ICONS -->
-                        <div id="powerUps">
-                            <div id="powerUpIcons">
-                                <img src="../res/textures/powerUp.png" id="one" />
-                                <img src="../res/textures/powerUp.png" id="two" />
-                                <img src="../res/textures/powerUp.png" id="three" class="inactive" />
-                                <img src="../res/textures/powerUp.png" id="four" />
-                            </div>
-                        </div>
-                    </div>
+						<div id="optionsHeader">--- Crosshair Options ---</div>
+						<div id="crossOptions">
+							<div id="crossContainer">
+								<img class="crossPic" id="crossPic0" src="../res/textures/Crosshair1.png" onClick="switchCross(0)">
+								<img class="crossPic" id="crossPic1" src="../res/textures/Crosshair2.png" onClick="switchCross(1)">
+								<img class="crossPic" id="crossPic2" src="../res/textures/Crosshair3.png" onClick="switchCross(2)">
+								<img class="crossPic" id="crossPic3" src="../res/textures/Crosshair4.png" onClick="switchCross(3)">
+								<img class="crossPic" id="crossPic4" src="../res/textures/Crosshair5.png" onClick="switchCross(4)">
+								<img class="crossPic" id="crossPic5" src="../res/textures/Crosshair6.png" onClick="switchCross(5)">
+								<img class="crossPic" id="crossPic6" src="../res/textures/Crosshair7.png" onClick="switchCross(6)">
+								<img class="crossPic" id="crossPic7" src="../res/textures/Crosshair8.png" onClick="switchCross(7)">
+								<img class="crossPic" id="crossPic8" src="../res/textures/Crosshair9.png" onClick="switchCross(8)">
+								<img class="crossPic" id="crossPic9" src="../res/textures/Crosshair10.png" onClick="switchCross(9)">
+								<img class="crossPic" id="crossPic10" src="../res/textures/Crosshair11.png" onClick="switchCross(10)">
+								<img class="crossPic" id="crossPic11" src="../res/textures/Crosshair12.png" onClick="switchCross(11)">
+								<img class="crossPic" id="crossPic12" src="../res/textures/Crosshair13.png" onClick="switchCross(12)">
+								<img class="crossPic" id="crossPic13" src="../res/textures/Crosshair14.png" onClick="switchCross(13)">
+								<img class="crossPic" id="crossPic14" src="../res/textures/Crosshair15.png" onClick="switchCross(14)">
+								<img class="crossPic" id="crossPic15" src="../res/textures/Crosshair16.png" onClick="switchCross(15)">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- End of Options -->
+				
+            </div>
+        </div>
+    </div>
+	
+	<!-- End of Pause Menu -->
 
-                    <div id="timerBox">
-                        <div id="timerBoxText">Next wave in:</div>
-                        <div id="timerBoxMin">0</div>
-                        <div id="timerBoxDiv">:</div>
-                        <div id="timerBoxSec">0</div>
-                    </div>
 
-                    <div id="speedBar">
-                        <div id="speedBarValue"> </div>
-                    </div>
+    <!-- Game Interface -->
+	
+    <div id="scoreBox">
+        <div id="score">0</div>
+        <div id ="moneyBox">
+			€<div id="money">0</div>
+        </div>
+    </div>
 
-                    <div id="levelDisplay">
-                        <div id="levelText">Level</div>
-                        <div id="currentLevel">0</div>
-                    </div>
+    <div id ="ammoBox">
+        <img src="../res/textures/RocketInterfaceSymbol.png" class="ammopic" id="rocketPic" /> 
+		<img src="../res/textures/MinigunInterfaceSymbol.png" class="ammopic" id="migPic" /> 
+        <div id="currentAmmo">60</div>
+        <div id="ammoDivider">/</div>
+        <div id="maxAmmo">999</div>
+    </div>
 
-                    <div id="block">
-                        <div id="splash">
-                            <span style="font-size:40px">Pause</span>
-                            <br>
-                            <br>
-                            <span style="font-size:20px">WASD: Speed - Left - Right | V: Change Crosshair | C: Change Camera | X: Stop Movment | P: Pause</span>
-                            <br>
-                            <br>
-                            <span style="font-size:30px">Click to Start / Resume</span>
-                        </div>
-                    </div>
+	<div id="powerUps"> 
+		<div id="powerUpIcons">
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp1" class="inactive" /> 
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp2" class="inactive" /> 
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp3" class="inactive" /> 
+			<img src="../res/textures/GUIpowerUp.png" id="powerUp4" class="inactive" /> 
+		</div>
+	</div>
+		
+    <div id="bg1">
+        <div id="hpBox">
+            <div id="hpBoxValue"></div>
+            <div id="hpTextBox">
+                <div id="currentHP">0</div>
+                <div id="hpDivider">/</div>
+                <div id="maxHP">0</div>
+            </div>
+        </div>
+    </div>
 
-                    <div id="gameOverBox">
-                        <div id="gameOverText1">Game Over</div>
-                        <div id="gameOverBox2">
-                            <div id="gameOverText2">Score:</div>
-                            <div id="gameOverText3"></div>
-                        </div>
-                        <a href="../index.html">
-                            <button type="Button" id="gameOverButton" value="back to menu">back to menu</button>
-                        </a>
-                    </div>
+    <div id="bg2">
+        <div id="speedBox">
+            <div id="speedValue">0</div>
+        </div>
+		
+        <div id="shieldBox">
+            <div id="shieldBoxValue"></div>
+            <div id="shieldTextBox">
+                <div id="currentShield">0</div>
+                <div id="shieldDivider">/</div>
+                <div id="maxShield">0</div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Libraries -->
+    <div id="timerBox"> 
+        <div id ="timerBoxText">Next wave in:</div>
+        <div id ="timerBoxMin">0</div>
+        <div id ="timerBoxDiv">:</div>
+        <div id ="timerBoxSec">0</div>
+    </div>
+
+    <div id="speedBar">
+        <div id="speedBarValue"></div>
+    </div>
+
+    <div id="levelDisplay">
+        <div id="levelText">Level</div>
+        <div id="currentLevel">0</div>
+    </div>
+
+    <div id="milestoneDisplay">
+        <div id="milestoneNote"></div>
+		<!--<img id="milestonePic" src="../res/textures/GUIachievement.png"></div>-->
+    </div>
+
+    <div id="block">
+        <div id="splash">
+            <span style="font-size:40px">Pause</span>
+            <br>
+            <br>
+            <span style="font-size:20px">WASD: Speed - Left - Right | V: Change Crosshair | C: Change Camera | X: Stop Movment | P: Pause</span>
+            <br>
+            <br>
+            <span style="font-size:30px">Click to Start / Resume</span>
+        </div>
+    </div>
+
+    <div id="gameOverBox">
+        <div id="gameOverText1">Game Over</div>
+        <div id="gameOverBox2">
+            <div id="gameOverText2">Score:</div>
+			<div id="gameOverText3"></div>
+        </div>
+        <a href="../index.html">
+            <button type="Button" id="gameOverButton" value="back to menu">back to menu</button>
+        </a>
+    </div>
+	
+	<!-- End of Game Interface -->
+	
+
+   <!-- Libraries -->
                     <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
                     <script src="../res/js/lib/threejs/three.js"></script>
                     <script src="../res/js/lib/TargetCamera.js"></script>
@@ -291,7 +778,7 @@
                     <script src="Asteroid.js"></script>
                     <script src="Enemy.js"></script>
                     <script src="MATHX.js"></script>
-
+	
 </body>
 
 </html>
