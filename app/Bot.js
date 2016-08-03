@@ -84,10 +84,6 @@ function Bot() {
 
         //changeScore(scoreValues["asteroidDestroyed"]);
         // gegebenfalls Power-Up zeigen
-        if (Math.random() < 0.23) {
-            spawnPowerUp(asteroid.position.x,
-                asteroid.position.y, asteroid.position.z);
-        }
 
         // neu erschaffen
         asteroid = createAsteroid(level, index);
@@ -243,6 +239,7 @@ function Bot() {
             for (var i = 0; i < 1 * level; i++) {
                 //console.log("Hello");
                 enemy = createEnemy(level, i);
+                enemyHP.push(10);
                 enemies.push(enemy);
                 enemyHitBoxes.push(enemy.getHitBoxes());
                 for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
@@ -260,5 +257,6 @@ function Bot() {
         getEnemies: function () {
             return enemies;
         }
+
     }
 }
