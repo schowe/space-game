@@ -92,7 +92,7 @@ function Enemy(location, speed, level, typ, index) {
     this.oldPlayerDir = MATH.clone(ship.position);
 
 
-    this.position.set(2,2,2);
+    //this.position.set(2,2,2);
 
     // HitBox
     // this.hitBox = this.getHitBox();

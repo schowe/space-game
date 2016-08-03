@@ -23,7 +23,7 @@ function Bot() {
     var SHOT = 1;
     var ASTEROID = 2;
     var SHIP = 3;
-
+    Asteroid
     // Sortierfunktion fuer Bots (Enemies und Asteroids)
     // je naeher am Schiff, desto niedriger der Indize
     function compare(a, b) {
@@ -116,7 +116,7 @@ function Bot() {
         //console.log("Enter Create Enemy");
         // Welt als Kugel -> Setze an den aeusseren 1/2 Rand
         // TODO: spawnRadius setzen
-        var spawnRadius = 300;
+        var spawnRadius =1000;
         radius = spawnRadius / 2 * (1 + Math.random());
 
         // zufaellig an den Rand positionieren
@@ -149,7 +149,21 @@ function Bot() {
         return enemy;
     }
 
-
+    function createlevel(level){
+        for(var i = 0; i < level; i++){
+                enemy = createEnemy(level, i);
+                enemies.push(enemy);
+                enemyHitBoxes.push(enemy.getHitBoxes());
+                for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
+                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
+                }
+                //console.log(enemies.length);
+                scene.add(enemy);
+            }
+    }
+    function getEnemiesa(){
+            return enemies;
+        }
     // aktualisiere Position der Asteroiden und Gegner
     // Setze direction neu
     function updateLocation(delta) {
@@ -259,6 +273,9 @@ function Bot() {
 
         getEnemies: function () {
             return enemies;
-        }
+        },
+        
+        createlevel: createlevel
+       // getEnemiesa: getEnemiesa
     }
 }

@@ -164,7 +164,6 @@ var Collision = function () {
 
     // Checks if there is an intersection between two spheres
     function intersectSphereOther(sphere, other) {
-
         // distance between the center of the spheres
         var distance = Math.sqrt((sphere.position.x - other.position.x) *
             (sphere.position.x - other.position.x) +
@@ -177,7 +176,7 @@ var Collision = function () {
 
     // Checks if there is an intersection between  a sphere and a box
     function intersectSphereBox(sphere, box) {
-
+        //console.log("bin drin");
         // get box closest point to sphere center by clamping
         var x = Math.max(minX(box), Math.min(sphere.position.x, maxX(box)));
         var y = Math.max(minY(box), Math.min(sphere.position.y, maxY(box)));
@@ -190,6 +189,7 @@ var Collision = function () {
 
         // if the distance is smaller than the radius of the sphere there is an intersection
         return distance < sphere.geometry.parameters.radius;
+        //return distance < sphere.geometry.parameters.radius;
     }
 
     // Checks if there is an intersection between a sphere and a cylinder.
