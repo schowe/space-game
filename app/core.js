@@ -151,6 +151,15 @@ function init() {
         matchRotation: false
     });
 
+    camera.addTarget({
+        name: 'animation',
+       	targetObject: ship,
+        cameraPosition: targetPosition ,
+        fixed: false,
+        stiffness: 0.001,
+        matchRotation: false
+    });
+
 
     var cam = Camera();
     cam.init();

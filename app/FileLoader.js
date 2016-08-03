@@ -6,9 +6,11 @@ var MGAudio;
 var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
+var asteroidLowAudio;
 var gameOverAudio;
 var shockwaveAudio;
 var backgroundMusic;
+var powerUpSoundtrackAudio;
 var shipData = {};
 
 var FileLoader = function () {
@@ -188,6 +190,12 @@ var FileLoader = function () {
     asteroidAudioSource.src = '../res/sounds/asteroid.wav';
     asteroidAudio.appendChild(asteroidAudioSource);
 
+    //asteroid destruction audio
+    asteroidLowAudio = document.createElement('audio');
+    var asteroidLowAudioSource = document.createElement('source');
+    asteroidLowAudioSource.src = '../res/sounds/asteroidLow.wav';
+    asteroidLowAudio.appendChild(asteroidLowAudioSource);
+
     //audio for powerup
     powerUpAudio = document.createElement('audio');
     powerUpAudioSource = document.createElement('source');
@@ -231,10 +239,10 @@ var FileLoader = function () {
     cachingAudio3.appendChild(cachingAudioSource3);
 	
 	//space bg audio
-    spaceAudio = document.createElement('audio');
+    /*spaceAudio = document.createElement('audio');
     var spaceAudioSource = document.createElement('source');
     spaceAudioSource.src = '../res/sounds/space.mp3';
-    spaceAudio.appendChild(spaceAudioSource);
+    spaceAudio.appendChild(spaceAudioSource);*/
 	
 	//button hover audio
     buttonAudio = document.createElement('audio');
@@ -262,12 +270,18 @@ var FileLoader = function () {
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
     shockwaveAudio.appendChild(shockwaveAudioSource);
 
-
-            //Game Over audio
+    
+    // Background Music
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');
-    backgroundMusicSource.src = '../res/sounds/TALES_-_01_-_Deep_Space_Traveller.mp3';
+    backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
     backgroundMusic.appendChild(backgroundMusicSource);
+
+    // Soundtrack für die zeitlich begrenzen Powerups
+    powerUpSoundtrackAudio = document.createElement('audio');
+    var powerUpSoundtrackAudioSource = document.createElement('source');
+    powerUpSoundtrackAudioSource.src = '../res/sounds/soundtrack_powerup.mp3';
+    powerUpSoundtrackAudio.appendChild(powerUpSoundtrackAudioSource);
 
     /********** Player Ship laden (Workaround! TODO) **********/
     
