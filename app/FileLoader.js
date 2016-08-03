@@ -9,6 +9,7 @@ var asteroidAudio;
 var gameOverAudio;
 var shockwaveAudio;
 var backgroundMusic;
+var asteroidLowAudio;
 var shipData = {};
 
 var FileLoader = function () {
@@ -187,6 +188,12 @@ var FileLoader = function () {
     var asteroidAudioSource = document.createElement('source');
     asteroidAudioSource.src = '../res/sounds/asteroid.wav';
     asteroidAudio.appendChild(asteroidAudioSource);
+
+        //asteroid destruction audio
+    asteroidLowAudio = document.createElement('audio');
+    var asteroidLowAudioSource = document.createElement('source');
+    asteroidLowAudioSource.src = '../res/sounds/asteroidLow.wav';
+    asteroidLowAudio.appendChild(asteroidLowAudioSource);
 
     //audio for powerup
     powerUpAudio = document.createElement('audio');
