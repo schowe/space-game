@@ -164,7 +164,6 @@ var Collision = function () {
 
     // Checks if there is an intersection between two spheres
     function intersectSphereOther(sphere, other) {
-
         // distance between the center of the spheres
         var distance = Math.sqrt((sphere.position.x - other.position.x) *
             (sphere.position.x - other.position.x) +
@@ -177,7 +176,6 @@ var Collision = function () {
 
     // Checks if there is an intersection between  a sphere and a box
     function intersectSphereBox(sphere, box) {
-
         // get box closest point to sphere center by clamping
         var x = Math.max(minX(box), Math.min(sphere.position.x, maxX(box)));
         var y = Math.max(minY(box), Math.min(sphere.position.y, maxY(box)));
@@ -190,6 +188,7 @@ var Collision = function () {
 
         // if the distance is smaller than the radius of the sphere there is an intersection
         return distance < sphere.geometry.parameters.radius;
+        //return distance < sphere.geometry.parameters.radius;
     }
 
     // Checks if there is an intersection between a sphere and a cylinder.
@@ -280,6 +279,19 @@ var Collision = function () {
     // Checks if there is an intersection between a point and box
     function intersectPointBox(point, box) {
         var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
+
+
+
+        // var dg = new THREE.SphereGeometry(.1,10,10);
+        // var dm = new THREE.MeshBasicMaterial({color:0xFF0000});
+        // var dot = new THREE.Mesh(dg, dm);
+        // dot.position.x = globalPoint.x;
+        // dot.position.y = globalPoint.y;
+        // dot.position.z = globalPoint.z;
+        // scene.add(dot);
+
+
+
         return (globalPoint.x <= maxX(box) && globalPoint.x >= minX(box) &&
             (globalPoint.y <= maxY(box) && globalPoint.y >= minY(box)) &&
             (globalPoint.z <= maxZ(box) && globalPoint.z >= minZ(box)));
@@ -314,13 +326,13 @@ var Collision = function () {
         var raycaster = new THREE.Raycaster(gp2, dir, 1, 1000);
         // var intersects = raycaster.intersectObjects(scene.children);
         var intersects = raycaster.intersectObject(box);
-        console.log(box);
+      /*  console.log(box);
         console.log(intersects);
         console.log(gp2);
         console.log(gp1);
         console.log(dir);
         console.log(scene.children.length);
-        console.log(intersects.length);
+        console.log(intersects.length); */
         if (intersects.length < 1) {
             return false;
         }
