@@ -18,7 +18,7 @@ function Bot() {
 
     var minShipSize = 10;
     var maxShipSize = 20;
-    var minAsteroidSize = 10
+    var minAsteroidSize = 10;
     var maxAsteroidSize = 30;
     var guardingRadius = 50;
     var destroyedAsteroids = 0;
@@ -70,7 +70,7 @@ function Bot() {
         // nichts gefunden
         return true;
     }
-scene
+
     // Respawn der Asteroiden
     function respawnAsteroid(asteroid, index) {
         //console.log("Respawned: "+index);
