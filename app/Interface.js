@@ -17,23 +17,19 @@ levelTimes = [
 // wird vom Timer aufgerufen
 function levelDesign(level){
 	switch (level){
-		case 5:	
-		bot.createlevel(0,0,1,0);
+		case 1:
+		
 		// spawn stuff
 			break;
-		case 10:	
-		bot.createlevel(0,0,0,1);
+		case 2:
+		
 		//spawn stuff
 			break;
-		case 15:
-		bot.createlevel(0,0,1,1);
+		case 3:
+		
 		//spawn stuff
 			break;
-		case 20:
-		bot.createlevel(0,0,2,1);
-
 		default:
-		bot.createlevel(1, 0, 0, 0);
 			break;
 	}
 	setLevelTimer(levelTimes[level-1]);

@@ -11,7 +11,7 @@ function StarfieldParticleRenderer() {
         transparent: true
     });
     this.particleCount = 5000;
-    this.fieldSize = 2000;
+    this.fieldSize = 1000;
     this.particles = new THREE.Geometry();
 
     nebulaGeometry = fileLoader.get("spacenebula_red_3D");
