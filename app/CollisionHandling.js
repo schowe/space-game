@@ -39,7 +39,7 @@ function handleAsteroids() {
                  if (collision.intersectSphereBox(asteroidHitBoxes[i], enemyHitBoxes[j][k])) {
                      // asteroidHitBySpaceship(asteroids[k]);
                      //enemyHitbyAsteroid(enemies[j]);
-                     enemies[j].collide(asteroids[i], "asteroid");
+                     enemies[j].collide("asteroid", j, i);
                  }
         
          }
@@ -148,7 +148,7 @@ function handleProjectiles() {
                         break;
                     }
                 }
-/*
+
                 if (laserBol === false ) {
 
                     var enemyHitByLaserBol = false;
@@ -181,9 +181,6 @@ function handleProjectiles() {
                     }
 
                 }
-
-*/
-
             }
             else if (projectiles[i].name === "Rocket") {
 
@@ -222,7 +219,7 @@ function handleProjectiles() {
                             if (rocketBol) {
                                 successRocket(i);
                                 enemyHitByRocketBol = true;
-                                enemies[j].collide(projectiles[i], "Rocket");
+                                enemies[j].collide("Rocket", j, i);
                                 break;
                             }
 
@@ -249,7 +246,7 @@ function handleProjectiles() {
 
                     for (var k = 0; k < enemyHitBoxes[j].length; k++) {
                         if (collision.intersectSphereBox(projectiles[i], enemyHitBoxes[j][k])) {
-                            enemies[j].collide(projectiles[i], "Explosion");
+                            enemies[j].collide("Explosion", j, i);
                             break;
                         }
                     }
@@ -380,7 +377,7 @@ function handlePlayerPopupCollision() {
 
     for (var i = 0; i < playerHitBoxes.length; i++) {
         for (var j = 0; j < itemHitBoxes.length; j++) {
-            if (collision.intersectSphereBox(playerHitBoxes[i],
+            if (collision.intersectShipHitBoxBox(playerHitBoxes[i],
                 itemHitBoxes[j])) {
                 collected(j);
             }

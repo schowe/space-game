@@ -173,7 +173,8 @@ function collected(itemNumber) {
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
 			
-			changeHP(50);
+			changeHP(25);
+			pickUpPowerUpNote("HP +25");
 
 			break;
 		case "SINGLEROCKET":
@@ -183,6 +184,8 @@ function collected(itemNumber) {
             if (rocketAmmo > MaxRocketAmmo) {
                 rocketAmmo = MaxRocketAmmo;
             }
+			
+			pickUpPowerUpNote("Rocketammo +1");
 
 			break;
 
@@ -194,7 +197,8 @@ function collected(itemNumber) {
             if (rocketAmmo > MaxRocketAmmo) {
                 rocketAmmo = MaxRocketAmmo;
             }
-
+			
+			pickUpPowerUpNote("Rocketammo +2");
 
 			break;
 
@@ -207,7 +211,8 @@ function collected(itemNumber) {
                 rocketAmmo = MaxRocketAmmo;
             }
 
-
+			pickUpPowerUpNote("Rocketammo +4");
+			
 			break;
 
 		case "SHIELD":
@@ -215,45 +220,55 @@ function collected(itemNumber) {
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x0023FF);
 			shieldActive = true;
 			player.activateShield();
+			
+			pickUpPowerUpNote("Activate Shield!");
 
 			break;
 		case "COIN": 
-			changeMoney(1);
+			changeMoney(50);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
-
+	
+			pickUpPowerUpNote("Money +50");
+			
 			break; 
 
 		case "COIN3":
-			changeMoney(3);
+			changeMoney(150);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+			
+			pickUpPowerUpNote("Money +150");
+			
 			break; 
 
 		case "MONEY":
 
-			changeMoney(20);
+			changeMoney(400);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+			
+			pickUpPowerUpNote("Money +400€");
+			
 			break;
 
 		case "FACEPALM":
+		
+			pickUpPowerUpNote("Facepalm...");
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
 			break;
 
-		case "COIN":
-
-			changeMoney(2);
-			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
-
-			break;
-
 		case "MINIGUN":
 			MGAmmo +=100;
+			
+			pickUpPowerUpNote("MGAmmo +100");
 
 			break;
 
 		case "MINIGUN200":
 
 			MGAmmo +=200; 
+			
+			pickUpPowerUpNote("MGAmmo +200");
+			
 			break; 
 
 		case "LASERUP":
@@ -261,7 +276,7 @@ function collected(itemNumber) {
 			break;
 
         default:
-
+s
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED, 1, 1);
 
 			break;
@@ -276,6 +291,7 @@ function collected(itemNumber) {
 
 	updateWeaponInterface();
 	collectedPowerups++;
+	checkMilestones();
     scene.remove(powerUps[itemNumber]);
     scene.remove(itemHitBoxes[itemNumber]);
 
