@@ -62,7 +62,7 @@ function Interface() {
 			setHP(100);
 			setMaxShield(100);
 			setShield(70);
-			setMoney(22222222222);
+			setMoney(0);
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbar').checked = true;
@@ -72,6 +72,8 @@ function Interface() {
 			
 			levelDesign(level);
 			startLevelTimer();
+			
+			
 		},
 		
 		/* Toggles the pause menu */
@@ -873,6 +875,19 @@ function buyUpgrade(i) {
 	costUpgrade[i] = parseInt(costUpgrade[i] * costUpgradeFactor[i]);
 	checkBuyable();
 	updateWeaponInterface();
+}
+
+function pickUpPowerUpNote(value){
+	document.getElementById('powerUpPickUpNote').innerHTML = value;
+	
+	var box = document.getElementById('powerUpPickUp');
+	
+	//$(box).animate({bottom: '-50px'}, 1);
+	$(box).animate({bottom: '60px'}, 500);
+	$(box).animate({bottom: '60px'}, 1000);
+	$(box).animate({bottom: '-50px'}, 500);
+	
+
 }
 
 /**
