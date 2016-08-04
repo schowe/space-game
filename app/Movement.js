@@ -212,12 +212,12 @@ function Movement() {
                         if (Pause) {
                             PauseScreen = false;
                             interface.toggleMenuOverlay();
-                            Movement().lockPointer();
+                            movement.lockPointer();
 
                         } else {
 
                             interface.toggleMenuOverlay();
-                            Movement().unlockPointer();
+                            movement.unlockPointer();
                             PauseScreen = true;
                         }
                         break;

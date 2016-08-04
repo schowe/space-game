@@ -99,12 +99,12 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
                 if (this.radius > other.radius) {
                     asteroidHP[otherIndex] = 0;
                     other.destroy(type);
-                    asteroidLowAudio.play();
+                    // asteroidLowAudio.play();
                     return;
                 } else {
                     asteroidHP[index] = 0;
                     this.destroy(type);
-                    asteroidLowAudio.play();
+                    // asteroidLowAudio.play();
                     return;
                 }
             }
