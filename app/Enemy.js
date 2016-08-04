@@ -445,7 +445,7 @@ Enemy.prototype.shoot = function(aimPos, delta) {
 
     var raycaster = new THREE.Raycaster(this.position,this.direction,0,maxShootDistance);
     var intersects = raycaster.intersectObjects([aimSphere]);
-    console.log(intersects.length);
+    //console.log(intersects.length);
 
     if(intersects.length > 0) {
         // Ueberpruefe, ob geschossen werden darf
