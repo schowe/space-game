@@ -9,7 +9,7 @@ var destroyedAsteroids = 0; //f�r die milestones
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 100,
+    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 50,
     asteroidSpeedVecs = [], asteroidRotVecs = [];
 var asteroidsClone = [], enemiesClone = [];
 
@@ -272,35 +272,11 @@ function Bot() {
 
 
         // Initialisierer der Bots je Level
-        initAI: function (level) {
+        initAsteroids: function () {
             // setzen unserer externen Faktoren
             worldRadius = 5000;
-            gameLevel = level;
-
-            // erstelle Asteroiden nur in Level 1
-            // TODO: asteroiden wie loeschen
-            if (level == 1) {
-                asteroids = [];
-
-                for (var i = 0; i < numOfAsteroids; i++) {
-                    var asteroid = createAsteroid(level, i);
-                }
-            }
-
-            // erstelle Gegner
-            if (level == 1) {
-                enemies = [];
-            }
-
-            for (var i = 0; i < 1 * level; i++) {
-                enemy = createEnemy(level, i);
-                enemyHP.push(10);
-                enemies.push(enemy);
-                enemyHitBoxes.push(enemy.getHitBoxes());
-                for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
-                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
-                }
-                scene.add(enemy);
+            for (var i = 0; i < numOfAsteroids; i++) {
+                var asteroid = createAsteroid(level, i);
             }
         },
 
