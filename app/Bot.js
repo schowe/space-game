@@ -131,10 +131,10 @@ function Bot() {
 
         switch (art) {
             case 0: typ = "BOSS1"; 
-                    speed = 10;
+                    speed = 12;
                     break;
             case 1: typ = "BOSS2"; 
-                    speed = 12;
+                    speed = 13;
                     break;
             case 2: typ = "SMALL1"; 
                     speed = 15;
