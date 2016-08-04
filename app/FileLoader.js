@@ -244,12 +244,6 @@ var FileLoader = function () {
     cachingAudioSource3.src = '../res/sounds/caching.wav';
     cachingAudio3.appendChild(cachingAudioSource3);
 	
-	//space bg audio
-    spaceAudio = document.createElement('audio');
-    var spaceAudioSource = document.createElement('source');
-    spaceAudioSource.src = '../res/sounds/space.mp3';
-    spaceAudio.appendChild(spaceAudioSource);
-	
 	//button hover audio
     buttonAudio1 = document.createElement('audio');
     var buttonAudioSource1 = document.createElement('source');
@@ -273,14 +267,12 @@ var FileLoader = function () {
     gameOverAudioSource.src = '../res/sounds/GameOver.wav';
     gameOverAudio.appendChild(gameOverAudioSource);
 
-
-    //Game Over audio
+    //Shockwave audio
     shockwaveAudio = document.createElement('audio');
     var shockwaveAudioSource = document.createElement('source');
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
     shockwaveAudio.appendChild(shockwaveAudioSource);
 
-    
     // Background Music
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');
