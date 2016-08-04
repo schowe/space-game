@@ -3,7 +3,7 @@ var maxAsteroidSize     = 50;
 var minDistanceToPlayer = 200;
 var maxShipSize         = 27;
 var maxShipAngle        = 70 * (Math.PI / 360);
-var shootAccuracy       = 30;
+var shootAccuracy       = 300;
 var shootDistance		= 300;
 var maxShootDistance    = 400;
 
@@ -222,7 +222,8 @@ Enemy.prototype.move = function(delta, index) {
     // 7. Schritt: rotieren mit lookAt
     dir.normalize();
     var viewDir = MATH.clone(this.position);
-    viewDir.add(dir.multiplyScalar(5 * this.speed));
+    dir.multiplyScalar(10 * this.speed)
+    viewDir.add(dir);
     this.lookAt(viewDir);
 
     for(var j = enemyHitBoxes[index].length - 1; j >= 0 ;j--){
@@ -277,36 +278,37 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         // vor dem Spieler
         if(MATH.dot(this.direction,this.playerDirection) <= 0) {
             p1 = MATH.clone(ship.position);
-            p1.add(U.multiplyScalar(3*(shipSize + Math.random() * shipSize)));
-            p1.add(V.multiplyScalar(3*(shipSize + Math.random() * shipSize)));
+            p1.add(U.multiplyScalar(2*(shipSize + Math.random() * shipSize)));
+            p1.add(V.multiplyScalar(2*(shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
             p2 = MATH.clone(ship.position);
-            p2.add(N.multiplyScalar(2));
-            p2.add(U.multiplyScalar(Math.random() * 3 * (shipSize + Math.random() * shipSize)));
-            p2.add(V.multiplyScalar(Math.random() * 3 * (shipSize + Math.random() * shipSize)));
+            p2.add(N.multiplyScalar(1.5));
+            p2.add(U.multiplyScalar(Math.random() * 2 * (shipSize + Math.random() * shipSize)));
+            p2.add(V.multiplyScalar(Math.random() * 2 * (shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
-            N.multiplyScalar(0.5);
+            N.multiplyScalar(2/3);
         } else { // hinter dem Spieler
             p1 = MATH.clone(this.position);
             p1.add(N.multiplyScalar(2/3));
-            p1.add(U.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
-            p1.add(V.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
+            p1.add(U.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
+            p1.add(V.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
             N.multiplyScalar(3/2);
 
             p2 = MATH.clone(this.position);
             p2.add(N.multiplyScalar(-2/3));
-            p2.add(U.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
-            p2.add(V.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
+            p2.add(U.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
+            p2.add(V.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
             N.multiplyScalar(-3/2);
         }
 
         var curve = new THREE.CatmullRomCurve3([
+        	p0,
             this.position.clone(),
             p1,
             p2,
@@ -320,17 +322,14 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         //console.log(this.points.length);
 
         // "schon abgelaufene" Punkte sowie einen mehr loeschen
-        // betrachte Skalarprodukt von this.position -> {this.points.shift() und den davor}
-        // Falls < 0 abbrechen
-        // test1 = this.points.shift();
-        // test1.sub(this.position);
-        // do {
-        //     test0 = test1.clone();
-        //     test1 = this.points.shift();
-        //     test1.sub(this.position);
-        //     console.log(this.points.length);
-        // } while(MATH.dot(test0, test1) <= 0);
-        this.points.shift();
+        // sobald Distanz wieder groesser wird -> aufhoeren
+        var min;
+        var distance = 5000;
+        do {
+        	min = distance;
+        	distance = this.position.distanceTo(this.points.shift());
+        } while(distance <= min);
+
     }
 
     // Punkte abarbeiten mit points.shift();
@@ -435,6 +434,7 @@ Enemy.prototype.checkDirection = function(direction, objects) {
 
 
 Enemy.prototype.shoot = function(aimPos, delta) {
+	var coolDownTime;
     var aimPosition = aimPos.clone();
     var geometry = new THREE.SphereGeometry(3 * shootAccuracy, 32, 32);
     var material = new THREE.MeshBasicMaterial({color: 0xffffff});
@@ -448,9 +448,12 @@ Enemy.prototype.shoot = function(aimPos, delta) {
     if(intersects.length > 0) {
         // Ueberpruefe, ob geschossen werden darf
         this.sinceLastShot += delta;
-        if(this.sinceLastShot >= 0.3){
+        // weit weg alle 1.5s, linear interpoliert, aber hoechstens alle 0.3s schiessen
+        coolDownTime = 0.3 + 1.2 / maxShootDistance * this.position.distanceTo(ship.position);
+        if(this.sinceLastShot >= coolDownTime){
             this.sinceLastShot = 0;
             // schiesse
+
             enemyShootLaser(this.position, 
                 aimPosition.add(new THREE.Vector3(shootAccuracy * Math.random(),
                     shootAccuracy * Math.random(),shootAccuracy * Math.random())));
