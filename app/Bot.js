@@ -70,7 +70,7 @@ function Bot() {
         // nichts gefunden
         return true;
     }
-
+scene
     // Respawn der Asteroiden
     function respawnAsteroid(asteroid, index) {
         //console.log("Respawned: "+index);
@@ -237,6 +237,7 @@ function Bot() {
         // ab d_min auf jeden Fall ausweichen
         for (var i = enemies.length - 1; i >= 0; i--) {
             if (enemyHP[i] <= 0) {
+                particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
                 var toRemove = enemies[i];
                 scene.remove(toRemove);
                 enemies.splice(i, 1);

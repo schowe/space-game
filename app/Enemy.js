@@ -997,31 +997,36 @@ Enemy.prototype.getHitBoxes = function() {
 Enemy.prototype.collide = function(type, index, otherIndex) {
     switch(type) {
         case "ASTEROID": case "asteroid": case "Asteroid":
-
+            enemyHP[index] -= 5;
+           // particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
             break;
         case "SHIP": case "ship": case "Ship":
-
+            enemyHP[index] -= 5;
+           //particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
             break;
         case "PLAYER": case "player": case "Player":
-
+            enemyHP[index] -= 5;
+           // particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
             break;
         case "LASER": case "laser": case "Laser":
             enemyHP[index] -= laserDamage;
+           // particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
             break;
         case "ROCKET": case "rocket": case "Rocket":
             enemyHP[index] -= rocketDamage;
-
+           // particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
-
+            enemyHP[index] -= 15;
+           // particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
             break;
         case "MACHINEGUN": case "machinegun": case "Machinegun":
-
+            enemyHP[index] -= 25;
+           // particleHandler.addLittleExplosion(enemies[i].position, 2, 0x0000ff, 1, 1);
             break;
         default: console.log("Error: Collision with unknown");
     }
     if(enemyHP[index] <= 0) {
-        console.log(" er ist kaputt");
         this.isAlive = false;
 		destroyedEnemies++;
     }
