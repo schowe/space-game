@@ -129,27 +129,29 @@ scene
             enemyPosition.add(ship.position);
         } while (!farAway(enemyPosition, maxShipSize));
 
-        
-        // TODO: weapon
         switch (art) {
             case 0: typ = "BOSS1"; 
-                    speed = 10;
+                    speed = 12;
                     break;
             case 1: typ = "BOSS2"; 
-                    speed = 12;
+                    speed = 13;
+
                     break;
             case 2: typ = "SMALL1"; 
                     speed = 15;
                     break;
             case 3: case 4:
                     typ = "SMALL2"; 
-                    speed = 15;
+                    speed = 17;
                     break;
             default: typ = "SMALL2";
-                    speed = 15;
+                    speed = 17;
         }
 
-        speed += Math.round((level + 5)*Math.random());
+        speed += Math.round(5 * Math.random());
+
+        enemy = new Enemy(enemyPosition, speed, level, typ, index, art);
+
 
         //console.log("Finally Create Enemy");
         enemy = new Enemy(enemyPosition, speed, level, typ, index);
