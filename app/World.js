@@ -196,7 +196,8 @@ function createAsteroids() {
 
             // particleHandler.addShockwave(asteroids[asteroidNumber].position, 0xff6611);
             particleHandler.addLittleExplosion(asteroids[asteroidNumber].position, 3, 0xff0000, 1, 1);
-
+            particleHandler.addLittleExplosion(asteroids[asteroidNumber].position, 3, 0xffffff, 1, 1);
+            
             break;
 
         case "Rocket":
@@ -282,7 +283,7 @@ function destroyAsteroid(asteroidNumber, collisionType) {
     rnd2 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
     rnd3 = Math.sign(Math.sign(Math.random() - 0.5) + 0.1);
 
-    particleHandler.addExplosion(asteroids[asteroidNumber].position, 3, 0xcccccc, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius / 45);
+    particleHandler.addExplosion(asteroids[asteroidNumber].position, 2, 0xcccccc, 1, asteroidHitBoxes[asteroidNumber].geometry.parameters.radius / 45);
 
     var newScale = Math.random() * 30;
 
@@ -352,5 +353,5 @@ function getMeshDirection(mesh) {
     dir.applyQuaternion(mesh.quaternion);
 
     return dir;
-
 }*/
+
