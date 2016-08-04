@@ -149,7 +149,7 @@ function handleProjectiles() {
                     }
                 }
 
-                if (laserBol === false ) {
+/*                if (laserBol === false ) {
 
                     var enemyHitByLaserBol = false;
 
@@ -180,7 +180,7 @@ function handleProjectiles() {
 
                     }
 
-                }
+                }*/
 
             }
 
