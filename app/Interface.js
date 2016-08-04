@@ -984,8 +984,8 @@ function checkMilestones(){
 	changeMilestoneProgress(5, reachedMoney, 15000);
 	changeMilestoneProgress(6, moneySpentInShop, 10000);
 	changeMilestoneProgress(7, moneySpentInShop, 20000);
-	//changeMilestoneProgress(8, destroyedEnemies, 20);
-	//changeMilestoneProgress(9, destroyedEnemies, 50);
+	changeMilestoneProgress(8, destroyedEnemies, 20);
+	changeMilestoneProgress(9, destroyedEnemies, 50);
 	changeMilestoneProgress(10, destroyedAsteroids, 20);
 	changeMilestoneProgress(11, destroyedAsteroids, 50);
 }
