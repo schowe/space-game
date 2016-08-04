@@ -1064,7 +1064,8 @@ function changeVolume(bar, value) {
 		    cachingAudio1.volume = value;
 		    cachingAudio2.volume = value;
 		    cachingAudio3.volume = value;
-		    buttonAudio.volume = value;
+		    button1Audio.volume = value;
+			button2Audio.volume = value;
 		    achievementAudio.volume = value;
 		    break;
 	}
