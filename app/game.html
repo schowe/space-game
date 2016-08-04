@@ -34,6 +34,7 @@
 					<div id="highscoreBox" class="pauseButton" onmouseover="buttonHover()" onClick="showHighscore()"> Highscore </div>
 					<div id="milestoneBox" class="pauseButton" onmouseover="buttonHover()" onClick="showMilestones()"> Milestones </div>
 					<div id="optionsBox" class="pauseButton" onmouseover="buttonHover()" onClick="showOptions()"> Options </div>
+                    <div id="chatBox" class="pauseButton" onmouseover="buttonHover()" onClick="showChat()"> Chat </div>
 					<div id="returnBox" class="pauseButton" onmouseover="buttonHover()" onClick="menuClose()"> Let's a go! </div>
         	   </div>
 	        </div>
@@ -217,7 +218,7 @@
 						<table class="achievement">
 							<tr> 
 								<td class="icon" rowspan="2"> 
-									<img src="../res/textures/GUIplaceholderAchievement.png" class="achievementIcon">
+									<img src="../res/textures/GUIachievement2.png" class="achievementIcon">
 								</td>
 								
 								<td class="type"> 
@@ -318,7 +319,7 @@
                         <table class="achievement">
                             <tr> 
                                 <td class="icon" rowspan="2"> 
-                                    <img src="../res/textures/GUIplaceholderAchievement.png" class="achievementIcon">
+                                    <img src="../res/textures/GUIachievement2.png" class="achievementIcon">
                                  </td> 
 								 
                                 <td class="type"> 
@@ -606,10 +607,18 @@
                                 <tr>
                                     <td> Volume: </td>
                                     <td> 
-                                        <input type="range" min="0" max="1" step="0.01" value="1"onchange="changeVolume(1, this.value)"/>
+                                        <input type="range" min="0" max="1" step="0.01" id = "volumeBar" value="1" onchange="changeVolume(1, this.value)"/>
                                     </td>
                                     <td> <span id="soundValue1"> 100% </span>  </td>
+                                    <!--
                                     <td class="ao" onclick="showAdvancedSoundOptions()"> &raquo; advanced &laquo; </td>
+                                    -->
+                                    <!--
+                                    <td class="ao">
+                                        <button type="button" onclick="showAdvancedSoundOptions()"> advanced </button>
+                                    </td>
+                                    -->
+                                    <td class="ao" onclick="showAdvancedSoundOptions()">  &raquo; advanced &laquo;  </td>
                                 </tr>  
                             </table>
 
@@ -621,17 +630,17 @@
 
                             <table class="advancedSoundOptionsTable">
                                 <tr>
-                                    <td> background sounds:  </td>
+                                    <td> Background music:  </td>
                                     <td> <input type="range" min="0" max="1" step="0.01" id="adv2" value="1" onchange="changeVolume(2, this.value)"/> </td>
                                     <td> <span id="soundValue2"> 100% </span> </td>
                                 </tr>
                                 <tr>
-                                    <td> sound effects:  </td>
+                                    <td> Sound effects:  </td>
                                     <td> <input type="range" min="0" max="1" step="0.01" id="adv3" value="1" onchange="changeVolume(3, this.value)"/> </td>
                                     <td> <span id="soundValue3"> 100% </span> </td>
                                 </tr>
                                 <tr>
-                                    <td> menu sounds:  </td>
+                                    <td> Menu sounds:  </td>
                                     <td> <input type="range" min="0" max="1" step="0.01" id="adv4" value="1" onchange="changeVolume(4, this.value)"/> </td>
                                     <td> <span id="soundValue4"> 100% </span> </td>
                                 </tr>
@@ -668,6 +677,11 @@
 				</div>
 				
 				<!-- End of Options -->
+
+                <div id="chat" hidden>
+                
+                </div>
+
 				
             </div>
         </div>

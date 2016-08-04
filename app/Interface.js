@@ -61,15 +61,14 @@ function Interface() {
 			setMaxHP(100);
 			setHP(100);
 			setMaxShield(100);
-			setShield(70);
-			setMoney(22222222222);
+			setShield(100);
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
 			document.getElementById('hideScrollbars').checked = true;
 			document.getElementById('invertedShieldBar').checked = false;
 			document.getElementById('showFPS').checked = false;
-			
-			//spaceAudio.play();
+			document.getElementById('volumeBar').value = 1;
+			changeVolume(1, 1);
 			
 			levelDesign(level);
 			startLevelTimer();
@@ -449,6 +448,7 @@ function setShield(value) {
 	currentShield = value;
 	displayedShield = value;
 	updateShieldDisplay();
+	passiveShieldRegen();
 }
 
 /* Returns currentHP */
@@ -719,6 +719,14 @@ function showOptions() {
 	menuResetColors();
 	menuSetColor('optionsBox');
 }
+
+function showChat() {
+	menuHideAll();
+	$('#chat').show();
+	menuResetColors();
+	menuSetColor('chatBox');
+}
+
 
 /* Resets previously highlighted tabs */
 function menuResetColors() {
@@ -1069,8 +1077,8 @@ function changeVolume(bar, value) {
 		    cachingAudio1.volume = value;
 		    cachingAudio2.volume = value;
 		    cachingAudio3.volume = value;
-		    button1Audio.volume = value;
-			button2Audio.volume = value;
+		    buttonAudio1.volume = value;
+			buttonAudio2.volume = value;
 		    achievementAudio.volume = value;
 		    break;
 	}
@@ -1119,7 +1127,6 @@ function loadMenuHighscore() {
 		highscoreShowed = true;
 	}
 }
-
 
 var fpsVisible = false;
 
