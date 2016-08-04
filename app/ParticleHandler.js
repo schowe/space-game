@@ -81,7 +81,7 @@ var ParticleHandler = function () {
                 var successful = implosion.update();
                 if (!successful) {
                     // Explosion starten
-                    addExplosion(implosion.startVector, 1, implosion.color, 10, 10);
+                    addExplosion(implosion.startVector, 1, implosion.color, 2, 2);
                     addHalo(implosion.startVector, 2, implosion.color);
 
                     // Implosion löschen
