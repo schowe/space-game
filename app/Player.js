@@ -180,15 +180,8 @@ function Player() {
                 playerHitBoxes.push(hitBoxLeftWing);
                 playerHitBoxes.push(hitBoxRightWing);
 
-                ship.add(hitBoxCenter);
-                ship.add(hitBoxLeftWing);
-                ship.add(hitBoxRightWing);
-
                 ship.position.set(0, 0, 0);
                 scene.add(ship);
-
-
-
 
             },
 
