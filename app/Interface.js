@@ -248,9 +248,10 @@ function getMoney() {
  * FUNCTIONS FOR AMMO
  */
 
+var guidedRock = $('#guidedRocketPic');
+var wavePic = $('#wavePic');
 var rocketPic = $('#rocketPic');
-var mgPic = $('#mgPic');
-//var shockwavePic = $('#shockwavePic');
+var migPic = $('#migPic');
 var currentAmmo;
 var maxAmmo;
 
@@ -258,26 +259,37 @@ var maxAmmo;
 function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
-				mgPic.hide();
+				guidedRock.hide();
+				migPic.hide();
+				wavePic.hide();
 				rocketPic.show();
-				//shockwavePic.hide();
 				currentAmmo = rocketAmmo;
 				maxAmmo = MaxRocketAmmo;
 				break;
 		case 1:
-				mgPic.show();
+				guidedRock.hide();
 				rocketPic.hide();
-				//shockwavePic.hide();
+				wavePic.hide();
+				migPic.show();
 				currentAmmo = MGAmmo;
 				maxAmmo = MaxMGAmmo;
 				break;
 		case 2:
-				mgPic.hide();
+				guidedRock.hide();
 				rocketPic.hide();
-				//shockwavePic.hide();
-				//currentAmmo = shockwaveAmmo;
-				//maxAmmo = maxShockwaveAmmo;
-				//break;
+				migPic.hide();
+				wavePic.show();
+				currentAmmo = shockwaveAmmo;
+				maxAmmo = maxShockwaveAmmo;
+				break;
+		case 3:
+				wavePic.hide();
+				rocketPic.hide();
+				migPic.hide();
+				guidedRock.show();
+				currentAmmo = guidedMissileAmmo;
+				maxAmmo = maxGuidedMissileAmmo;
+				break;
 		default:
 				currentAmmo = 42;
 				maxAmmo = 42;
@@ -530,6 +542,13 @@ function padHex(hex) {
 
 /* Initiates the gameOver sequences */
 function gameOver() {
+	
+	var score = {
+		"score": getScore(),
+		"player": localStorage.getItem("player"),
+		"level": 1
+	};
+	postNewScore(score);
 	glitchScreen(500);
 	document.getElementById('gameOverText3').innerHTML = getScore();
 	$('#gameOverBox').animate({top: '20%'}, 500);
@@ -680,6 +699,7 @@ function showHighscore() {
 	$('#highscore').show();
 	menuResetColors();
 	menuSetColor('highscoreBox');
+	loadMenuHighscore();
 }
 
 /* Opens the Milestones tab */
@@ -744,8 +764,11 @@ costUpgrade = [
 	10000,  // + 10 shield
 	5000,	// + 1 maxSpeed
 	1000,	// + 2 MaxRocketAmmo
+	2000,	// + 1 rocketDamage
 	1000,	// + 20 MaxMGAmmo
-	2000	// + 1 rocketDamage
+	10000,	// + 1 mgDamage
+	1000,	// + shockwave ammo
+	1000	// + shockwave damage
 ];
 
 costUpgradeFactor = [
@@ -754,8 +777,11 @@ costUpgradeFactor = [
 	1.2, 	// + 10 shield
 	1.2,	// + 1 maxSpeed
 	1.2,	// + 2 MaxRocketAmmo
+	1.2,	// + 1 rocketDamage
 	1.2,	// + 20 MaxMGAmmo
-	1.2		// + 1 rocketDamage
+	1.2,	// + 1 mgDamage
+	1.2,	// + shockwave ammo
+	1.2 	// + shockwave damage
 ];
 
 /* Highlight items the player can purchase */
@@ -807,10 +833,19 @@ function buyUpgrade(i) {
 			MaxRocketAmmo += 2;
 			break;
 		case 5:
-			MaxMGAmmo += 20;
+			rocketDamage++;
 			break;
 		case 6:
-			rocketDamage++;
+			MaxMGAmmo += 20;
+			break;
+		case 7:
+			MGDamage += 1;
+			break;
+		case 8:
+			maxShockwaveAmmo += 5;
+			break;
+		case 9:
+			shockWaveDamage +=2;
 			break;
 		default:
 			return;
@@ -1010,9 +1045,7 @@ function invertShieldBar() {
 }
 
 function changeVolume(bar, value) {
-	
 	switch (bar) {
-
 		case 1: 
 			for (var v = 2; v <= 4; v++) {
 				changeVolume(v, value);
@@ -1032,25 +1065,61 @@ function changeVolume(bar, value) {
 			MGAudio.volume = value;
 			break;
 		case 4:
+			gameOverAudio.volume = value;
 		    cachingAudio1.volume = value;
 		    cachingAudio2.volume = value;
 		    cachingAudio3.volume = value;
-		    buttonAudio.volume = value;
+		    button1Audio.volume = value;
+			button2Audio.volume = value;
 		    achievementAudio.volume = value;
 		    break;
 	}
-	
 	$('#soundValue'+bar).html(parseInt(value*100)+'%');
-
 }
 
 function showAdvancedSoundOptions() {
 	$('#advancedSoundOptions').toggle();
 }
 
+var buttonPlayVar = 1;
 function buttonHover() {
-	buttonAudio.play();
+	switch(buttonPlayVar) {
+		case 1:
+			buttonAudio1.play();
+			break;
+		case 2:
+			buttonAudio2.play();
+			break;
+		default:
+			break;
+	}
+	
+	if(buySound >= 2) {
+		buySound = 1;
+	} else {
+		buySound++;
+	}
 }
+
+var highscoreShowed = false;
+function loadMenuHighscore() {
+	if(!highscoreShowed) {
+	   network.loadTop10(function (highscore) {
+            for (var i = 0; i < highscore.length; i++) {
+                var score = highscore[i];
+                var tableTag =
+                    "<tr>" +
+                        "<td class='col-md-2'>" + (i + 1) + "</td>" +
+                        "<td class='col-md-3'>" + score.player + "</td>" +
+                        "<td class='col-md-4'>" + score.score + "</td>" +
+                    "</tr>";
+                $("#menuHighscore").html($("#menuHighscore").html() + tableTag);
+            }
+        });
+		highscoreShowed = true;
+	}
+}
+
 
 var fpsVisible = false;
 
