@@ -14,7 +14,7 @@ $(function () {
     // Background Music
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');
-    backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
+    backgroundMusicSource.src = '../res/sounds/soundtrackMenu.mp3';
     backgroundMusic.appendChild(backgroundMusicSource);
     backgroundMusic.play();
 
@@ -36,7 +36,6 @@ $(function () {
             }
         }, 50);
     }, 1500);
-
 
     function init() {
 
@@ -153,7 +152,7 @@ $(function () {
         $("#formSubmit").on("click", function (e) {
             localStorage.setItem("player", $("#player").val());
         });
-
+		
         $("#formTutorial").on("click", function () {
             $("#tutorialClose").show();
             $("#loading-message").hide();
@@ -163,7 +162,6 @@ $(function () {
         $("#tutorialClose").on("click", function () {
             $("#loading-overlay").fadeOut();   
         });
-
     }
     
 

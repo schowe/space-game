@@ -1,95 +1,95 @@
 var powerUps = [];
 var types = [];
 var itemHitBoxes = [];
-var shieldActive = false; 
+var shieldActive = false;
 var collectedPowerups = 0;
 
 function spawnPowerUp(x, y, z, type) {
 
-	var healthTex, rocketTex, rocket2Tex,laserDmgTex,  shieldTex, moneyTex, itemGeometry, minigunTex, coinTex, miniAmmoTex, shockwaveTex;
+	var healthTex, rocketTex, rocket2Tex, laserDmgTex, shieldTex, moneyTex, itemGeometry, minigunTex, coinTex, miniAmmoTex, shockwaveTex;
     var item;
     var itemHitBox;
-    
+
     /*Wahrscheinlichkeiten für die Powerups, wenn kein bestimmtes gefordert.*/
 
 	if (type == undefined) {
 		var rndCase;
 		var rndBadorGood;
 		rndCase = Math.random();
-		rndBadOrGood = Math.random(); 
-		var scndRandom = Math.random(); 
+		rndBadOrGood = Math.random();
+		var scndRandom = Math.random();
 		rndBadorGood = Math.random();
 
 		if (rndCase <= 0.125) {
 			//Bad and good Health 
-			if(rndBadorGood < 0.5){
+			if (rndBadorGood < 0.5) {
 
-			itemGeometry = fileLoader.get("PowerUpHealth");
-			healthTex = fileLoader.get("PowerUpHealthBadTex");
-            item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: healthTex }));
-            types.push("HEALTHBAD");
+				itemGeometry = fileLoader.get("PowerUpHealth");
+				healthTex = fileLoader.get("PowerUpHealthBadTex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: healthTex }));
+				types.push("HEALTHBAD");
 
 
 			} else {
 
-			itemGeometry = fileLoader.get("PowerUpHealth");
-			healthTex = fileLoader.get("PowerUpHealthTex");
-            item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: healthTex }));
-            types.push("HEALTH");
+				itemGeometry = fileLoader.get("PowerUpHealth");
+				healthTex = fileLoader.get("PowerUpHealthTex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: healthTex }));
+				types.push("HEALTH");
 
-        	}
+			}
 
 		} else if (rndCase > 0.125 && rndCase <= 0.375) {
 
 			//Bad and Good Single Rocket
-			if(rndBadorGood < 0.5) {
+			if (rndBadorGood < 0.5) {
 
-			itemGeometry = fileLoader.get("PowerUpRocket");
-			rocketTex = fileLoader.get("PowerUpRocketBadTex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
-			types.push("SINGLEROCKETBAD");
+				itemGeometry = fileLoader.get("PowerUpRocket");
+				rocketTex = fileLoader.get("PowerUpRocketBadTex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
+				types.push("SINGLEROCKETBAD");
 
-			} else{
+			} else {
 
-			itemGeometry = fileLoader.get("PowerUpRocket");
-			rocketTex = fileLoader.get("PowerUpRocketTex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
-			types.push("SINGLEROCKET");
+				itemGeometry = fileLoader.get("PowerUpRocket");
+				rocketTex = fileLoader.get("PowerUpRocketTex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
+				types.push("SINGLEROCKET");
 
 			}
 
 		} else if (rndCase > 0.375 && rndCase <= 0.5) {
 			//Single or Triple Coin
-			if(scndRandom < 0.5){
-			itemGeometry = fileLoader.get("Coin");
-			coinTex = fileLoader.get("Coin_Texture");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: coinTex }));
+			if (scndRandom < 0.5) {
+				itemGeometry = fileLoader.get("Coin");
+				coinTex = fileLoader.get("Coin_Texture");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: coinTex }));
 
-			types.push("COIN");
-			}else{
+				types.push("COIN");
+			} else {
 
-			itemGeometry = fileLoader.get("Coin3");
-			coinTex = fileLoader.get("Coin_Texture");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: coinTex }));
-			types.push("COIN3");
+				itemGeometry = fileLoader.get("Coin3");
+				coinTex = fileLoader.get("Coin_Texture");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: coinTex }));
+				types.push("COIN3");
 
 			}
 
 		} else if (rndCase > 0.5 && rndCase <= 0.5625) {
 			//MiniGunAmmo200 || bad RocketAmmo2 or good Rocketammo2
-			if(scndRandom < 0.5){
+			if (scndRandom < 0.5) {
 
-			itemGeometry = fileLoader.get("PowerUpMinigun200");
-			miniAmmoTex = fileLoader.get("MinigunAmmoUp");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: miniAmmoTex }));
-			types.push("MINIGUN200");
+				itemGeometry = fileLoader.get("PowerUpMinigun200");
+				miniAmmoTex = fileLoader.get("MinigunAmmoUp");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: miniAmmoTex }));
+				types.push("MINIGUN200");
 
-			}else{
+			} else {
 
-			itemGeometry = fileLoader.get("PowerUpRocket2");
-			rocketTex = fileLoader.get("PowerUpRocket2Tex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
-			types.push("DOUBLEROCKET");
+				itemGeometry = fileLoader.get("PowerUpRocket2");
+				rocketTex = fileLoader.get("PowerUpRocket2Tex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
+				types.push("DOUBLEROCKET");
 
 
 			}
@@ -97,23 +97,23 @@ function spawnPowerUp(x, y, z, type) {
 		} else if (rndCase > 0.5625 && rndCase <= 0.625) {
 
 			//RocketAmmo4 or MingunAmmo400
-			if(scndRandom < 0.5){
+			if (scndRandom < 0.5) {
 
-			itemGeometry = fileLoader.get("PowerUpRocket4");
-			rocketTex = fileLoader.get("PowerUpRocket4Tex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
-			types.push("QUATROROCKET");
+				itemGeometry = fileLoader.get("PowerUpRocket4");
+				rocketTex = fileLoader.get("PowerUpRocket4Tex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
+				types.push("QUATROROCKET");
 
 			} else {
 
-			itemGeometry = fileLoader.get("PowerUpMinigun400");
-			miniAmmoTex = fileLoader.get("MinigunAmmoUp");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: miniAmmoTex }));
-			types.push("MINIGUN400");
+				itemGeometry = fileLoader.get("PowerUpMinigun400");
+				miniAmmoTex = fileLoader.get("MinigunAmmoUp");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: miniAmmoTex }));
+				types.push("MINIGUN400");
 
 
 			}
-			
+
 
 
 		} else if (rndCase > 0.625 && rndCase <= 0.6875) {
@@ -122,23 +122,23 @@ function spawnPowerUp(x, y, z, type) {
 			itemGeometry = fileLoader.get("PowerUp_Shockwave");
 			shockwaveTex = fileLoader.get("PowerUpRocket4Tex");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: shockwaveTex }));
-			types.push("SHOCKWAVE");	
+			types.push("SHOCKWAVE");
 
 		} else if (rndCase > 0.6875 && rndCase <= 0.75) {
 
 			//Bad GeldSack or good Geldsack
-			if(rndBadorGood < 0.5) {
-			itemGeometry = fileLoader.get("Geldsack");
-			moneyTex = fileLoader.get("GeldsackFacePalmTex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: moneyTex }));
-			types.push("FACEPALM");
+			if (rndBadorGood < 0.5) {
+				itemGeometry = fileLoader.get("Geldsack");
+				moneyTex = fileLoader.get("GeldsackFacePalmTex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: moneyTex }));
+				types.push("FACEPALM");
 
 			} else {
 
-			itemGeometry = fileLoader.get("Geldsack");
-			moneyTex = fileLoader.get("GeldsackTex");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: moneyTex }));
-			types.push("MONEY");
+				itemGeometry = fileLoader.get("Geldsack");
+				moneyTex = fileLoader.get("GeldsackTex");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: moneyTex }));
+				types.push("MONEY");
 
 			}
 
@@ -159,29 +159,29 @@ function spawnPowerUp(x, y, z, type) {
 
 		} else if (rndCase > 0.875 && rndCase < 0.9375) {
 			//Make Minigun, Laser, or Rockets stronger
-			if(scndRandom < 0.33){
-			itemGeometry = fileLoader.get("PowerUpLaser");
-			laserDmgTex = fileLoader.get("Laser_Triangle");
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial());
-			types.push("LASERDAMAGE");
+			if (scndRandom < 0.33) {
+				itemGeometry = fileLoader.get("PowerUpLaser");
+				laserDmgTex = fileLoader.get("Laser_Triangle");
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial());
+				types.push("LASERDAMAGE");
 
-		} else if (scndRandom >= 0.33 && scndRandom < 0.66){
+			} else if (scndRandom >= 0.33 && scndRandom < 0.66) {
 
-			itemGeometry = fileLoader.get("PowerUpMinigunDamage");
-			minigunTex = fileLoader.get("PowerUpMinigunDamageTex")
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: minigunTex }));
-			types.push("MINIGUNDAMAGE");
+				itemGeometry = fileLoader.get("PowerUpMinigunDamage");
+				minigunTex = fileLoader.get("PowerUpMinigunDamageTex")
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: minigunTex }));
+				types.push("MINIGUNDAMAGE");
 
-		} else {
-
-
-			itemGeometry = fileLoader.get("PowerUpRocketDamage");
-			rocketDmgTex = fileLoader.get("PowerUpRocketDamageTex")
-			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketDmgTex }));
-			types.push("ROCKETDAMAGE");
+			} else {
 
 
-		}
+				itemGeometry = fileLoader.get("PowerUpRocketDamage");
+				rocketDmgTex = fileLoader.get("PowerUpRocketDamageTex")
+				item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketDmgTex }));
+				types.push("ROCKETDAMAGE");
+
+
+			}
 
 		} else {
 
@@ -236,37 +236,40 @@ function collected(itemNumber) {
 
 	switch (tmpItem) {
 
-		
+
 
 		case "HEALTH":
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
-			
-			changeHP(50);
+
+			changeHP(25);
+			pickUpPowerUpNote("HP +25");
 
 			break;
 
 		case "HEALTHBAD":
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
-			
+
 			changeHP(-30);
 
 			break;
 
 		case "SINGLEROCKET":
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
-			rocketAmmo +=1;
+			rocketAmmo += 1;
 
             if (rocketAmmo > MaxRocketAmmo) {
                 rocketAmmo = MaxRocketAmmo;
             }
 
+			pickUpPowerUpNote("Rocketammo +1");
+
 			break;
 
 		case "SINGLEROCKETBAD":
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
-			rocketAmmo -=1;
+			rocketAmmo -= 1;
 
             if (rocketAmmo < 0) {
 
@@ -278,19 +281,20 @@ function collected(itemNumber) {
 		case "DOUBLEROCKET":
 
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
-            rocketAmmo +=2;
+            rocketAmmo += 2;
 
             if (rocketAmmo > MaxRocketAmmo) {
                 rocketAmmo = MaxRocketAmmo;
             }
 
+			pickUpPowerUpNote("Rocketammo +2");
 
 			break;
 
 		case "DOUBLEROCKETBAD":
 
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0xC00200);
-            rocketAmmo -=2;
+            rocketAmmo -= 2;
 
             if (rocketAmmo < 0) {
                 rocketAmmo = 0;
@@ -309,6 +313,7 @@ function collected(itemNumber) {
                 rocketAmmo = MaxRocketAmmo;
             }
 
+			pickUpPowerUpNote("Rocketammo +4");
 
 			break;
 
@@ -331,6 +336,8 @@ function collected(itemNumber) {
 			shieldActive = true;
 			player.activateShield();
 
+			pickUpPowerUpNote("Activate Shield!");
+
 			break;
 
 		case "SHIELDBAD":
@@ -341,33 +348,36 @@ function collected(itemNumber) {
 
 			break;
 
-		case "COIN": 
-			changeMoney(1);
+		case "COIN":
+			changeMoney(50);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
 
-			break; 
+			pickUpPowerUpNote("Money +50");
+
+			break;
 
 		case "COIN3":
-			changeMoney(3);
+			changeMoney(150);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
-			break; 
+
+			pickUpPowerUpNote("Money +150");
+
+			break;
 
 		case "MONEY":
 
-			changeMoney(20);
+			changeMoney(400);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+
+			pickUpPowerUpNote("Money +400€");
+
 			break;
 
 		case "FACEPALM":
 
+			pickUpPowerUpNote("Facepalm...");
+
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
-			break;
-
-		case "COIN":
-
-			changeMoney(2);
-			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
-
 			break;
 
 		case "MINIGUNDAMAGE":
@@ -386,25 +396,28 @@ function collected(itemNumber) {
 
 		case "MINIGUN200":
 
-			MGAmmo +=200; 
-			 if (rocketAmmo > MaxRocketAmmo) {
-			 	MGAmmo = MaxMGAmmo;
-			 }
-			break; 
+			MGAmmo += 200;
+			if (MGAmmo > MaxMGAmmo) {
+				MGAmmo = MaxMGAmmo;
+			}
 
-		case "MINIGUN400":
-
-		MGAmmo +=400; 
-
-			if (rocketAmmo > MaxRocketAmmo) {
-			 	MGAmmo = MaxMGAmmo;
-			 }
+			pickUpPowerUpNote("MGAmmo +200");
 
 			break;
 
-		
-        default:
+		case "MINIGUN400":
 
+			MGAmmo += 400;
+
+			if (rocketAmmo > MaxRocketAmmo) {
+				MGAmmo = MaxMGAmmo;
+			}
+
+			break;
+
+
+        default:
+			s
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED, 1, 1);
 
 			break;
@@ -419,6 +432,7 @@ function collected(itemNumber) {
 
 	updateWeaponInterface();
 	collectedPowerups++;
+	checkMilestones();
     scene.remove(powerUps[itemNumber]);
     scene.remove(itemHitBoxes[itemNumber]);
 

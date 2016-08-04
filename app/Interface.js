@@ -16,6 +16,8 @@ levelTimes = [
 //level design
 // wird vom Timer aufgerufen
 function levelDesign(level){
+	
+	/**
 	switch (level){
 		case 5:	
 		bot.createlevel(0,0,1,0);
@@ -36,6 +38,8 @@ function levelDesign(level){
 		bot.createlevel(1, 0, 0, 0);
 			break;
 	}
+	
+	*/
 	setLevelTimer(levelTimes[level-1]);
 	displayLevel(level);
 }
@@ -65,14 +69,14 @@ function Interface() {
 			setMaxHP(100);
 			setHP(100);
 			setMaxShield(100);
-			setShield(70);
-			setMoney(22222222222);
+			setShield(100);
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
-			document.getElementById('hideScrollbar').checked = true;
-			document.getElementById('invertedShieldbar').checked = false;
-			
-			//spaceAudio.play();
+			document.getElementById('hideScrollbars').checked = true;
+			document.getElementById('invertedShieldBar').checked = false;
+			document.getElementById('showFPS').checked = false;
+			document.getElementById('volumeBar').value = 1;
+			changeVolume(1, 1);
 			
 			levelDesign(level);
 			startLevelTimer();
@@ -251,6 +255,8 @@ function getMoney() {
  * FUNCTIONS FOR AMMO
  */
 
+var guidedRock = $('#guidedRocketPic');
+var wavePic = $('#wavePic');
 var rocketPic = $('#rocketPic');
 var migPic = $('#migPic');
 var currentAmmo;
@@ -260,16 +266,36 @@ var maxAmmo;
 function updateWeaponInterface() {
 	switch(activeSecWeapon) {
 		case 0:
+				guidedRock.hide();
 				migPic.hide();
+				wavePic.hide();
 				rocketPic.show();
 				currentAmmo = rocketAmmo;
 				maxAmmo = MaxRocketAmmo;
 				break;
 		case 1:
-				migPic.show();
+				guidedRock.hide();
 				rocketPic.hide();
+				wavePic.hide();
+				migPic.show();
 				currentAmmo = MGAmmo;
 				maxAmmo = MaxMGAmmo;
+				break;
+		case 2:
+				guidedRock.hide();
+				rocketPic.hide();
+				migPic.hide();
+				wavePic.show();
+				currentAmmo = shockwaveAmmo;
+				maxAmmo = maxShockwaveAmmo;
+				break;
+		case 3:
+				wavePic.hide();
+				rocketPic.hide();
+				migPic.hide();
+				guidedRock.show();
+				currentAmmo = guidedMissileAmmo;
+				maxAmmo = maxGuidedMissileAmmo;
 				break;
 		default:
 				currentAmmo = 42;
@@ -430,6 +456,7 @@ function setShield(value) {
 	currentShield = value;
 	displayedShield = value;
 	updateShieldDisplay();
+	passiveShieldRegen();
 }
 
 /* Returns currentHP */
@@ -523,6 +550,13 @@ function padHex(hex) {
 
 /* Initiates the gameOver sequences */
 function gameOver() {
+	
+	var score = {
+		"score": getScore(),
+		"player": localStorage.getItem("player"),
+		"level": 1
+	};
+	postNewScore(score);
 	glitchScreen(500);
 	document.getElementById('gameOverText3').innerHTML = getScore();
 	$('#gameOverBox').animate({top: '20%'}, 500);
@@ -673,6 +707,7 @@ function showHighscore() {
 	$('#highscore').show();
 	menuResetColors();
 	menuSetColor('highscoreBox');
+	loadMenuHighscore();
 }
 
 /* Opens the Milestones tab */
@@ -692,6 +727,14 @@ function showOptions() {
 	menuResetColors();
 	menuSetColor('optionsBox');
 }
+
+function showChat() {
+	menuHideAll();
+	$('#chat').show();
+	menuResetColors();
+	menuSetColor('chatBox');
+}
+
 
 /* Resets previously highlighted tabs */
 function menuResetColors() {
@@ -732,23 +775,29 @@ var amountUpgrade2 = 0;
 var passiveHPID;
 
 costUpgrade = [
-	1000,	// + 10 maxHP
-	40000,	// passive HP regen
-	10000,  // + 10 shield
-	5000,	// + 1 maxSpeed
-	1000,	// + 2 MaxRocketAmmo
-	1000,	// + 20 MaxMGAmmo
-	2000	// + 1 rocketDamage
+	500,	// + 10 maxHP
+	1250,	// passive HP regen
+	500,  // + 10 shield
+	500,	// + 1 maxSpeed
+	250,	// + 2 MaxRocketAmmo
+	500,	// + 1 rocketDamage
+	250,	// + 20 MaxMGAmmo
+	500,	// + 1 mgDamage
+	250,	// + shockwave ammo
+	750		// + shockwave damagefach
 ];
 
 costUpgradeFactor = [
-	1.2,	// + 10 maxHP
-	1.2,	// passive HP regen
-	1.2, 	// + 10 shield
+	1.15,	// + 10 maxHP
+	1.15,	// passive HP regen
+	1.15, 	// + 10 shield
 	1.2,	// + 1 maxSpeed
-	1.2,	// + 2 MaxRocketAmmo
-	1.2,	// + 20 MaxMGAmmo
-	1.2		// + 1 rocketDamage
+	1.09,	// + 2 MaxRocketAmmo
+	1.2,	// + 1 rocketDamage
+	1.09,	// + 20 MaxMGAmmo
+	1.2,	// + 1 mgDamage
+	1.09,	// + shockwave ammo
+	1.2 	// + shockwave damage
 ];
 
 /* Highlight items the player can purchase */
@@ -800,10 +849,19 @@ function buyUpgrade(i) {
 			MaxRocketAmmo += 2;
 			break;
 		case 5:
-			MaxMGAmmo += 20;
+			rocketDamage++;
 			break;
 		case 6:
-			rocketDamage++;
+			MaxMGAmmo += 50;
+			break;
+		case 7:
+			MGDamage += 1;
+			break;
+		case 8:
+			maxShockwaveAmmo += 5;
+			break;
+		case 9:
+			shockWaveDamage +=2;
 			break;
 		default:
 			return;
@@ -834,6 +892,19 @@ function buyUpgrade(i) {
 	updateWeaponInterface();
 }
 
+function pickUpPowerUpNote(value){
+	document.getElementById('powerUpPickUpNote').innerHTML = value;
+	
+	var box = document.getElementById('powerUpPickUp');
+	
+	//$(box).animate({bottom: '-50px'}, 1);
+	$(box).animate({bottom: '60px'}, 500);
+	$(box).animate({bottom: '60px'}, 1000);
+	$(box).animate({bottom: '-50px'}, 500);
+	
+
+}
+
 /**
  * FUNCTIONS FOR MILESTONES
  */
@@ -855,7 +926,7 @@ function displayMilestoneNote(value) {
 	
 	$(displayRef).animate({opacity: '1', right: '10px'}, 1000);
 	setTimeout(function() {
-		$(displayRef).animate({opacity: '0', right: '-110px'}, 1000);
+		$(displayRef).animate({opacity: '0', right: '-400px'}, 1000);
 	}, 4000);
 }
 
@@ -890,15 +961,15 @@ var reachedMilestone = [
 var milestonesHighscore = [
 	1000,
 	2000,
+	1500,
+	1000,
 	2000,
 	1000,
 	2000,
-	2000,
-	4000,
-	4000,
-	8000,
-	4000,
-	8000
+	3000,
+	6000,
+	3000,
+	6000
 ];
 
 function showDescription(number) {
@@ -906,15 +977,15 @@ function showDescription(number) {
 }
 
 function checkMilestones(){
-	changeMilestoneProgress(1, reachedMaxSpeed, 2000);
-	changeMilestoneProgress(2, reachedMaxSpeed, 4000);
+	changeMilestoneProgress(1, reachedMaxSpeed, 600);
+	changeMilestoneProgress(2, reachedMaxSpeed, 1000);
 	changeMilestoneProgress(3, collectedPowerups, 15);
-	changeMilestoneProgress(4, reachedMoney, 50000);
-	changeMilestoneProgress(5, reachedMoney, 100000);
+	changeMilestoneProgress(4, reachedMoney, 5000);
+	changeMilestoneProgress(5, reachedMoney, 15000);
 	changeMilestoneProgress(6, moneySpentInShop, 10000);
-	changeMilestoneProgress(7, moneySpentInShop, 100000);
-	//changeMilestoneProgress(8, destroyedEnemies, 20);
-	//changeMilestoneProgress(9, destroyedEnemies, 50);
+	changeMilestoneProgress(7, moneySpentInShop, 20000);
+	changeMilestoneProgress(8, destroyedEnemies, 20);
+	changeMilestoneProgress(9, destroyedEnemies, 50);
 	changeMilestoneProgress(10, destroyedAsteroids, 20);
 	changeMilestoneProgress(11, destroyedAsteroids, 50);
 }
@@ -961,17 +1032,20 @@ function invertedMouseFunc() {
 }
 
 /* Toggles scrollbar-hiding */
-function hideScrollbar() {
-	var temp = $('.innerScrollbar');
+function hideScrollbars() {
+	//var tempLeft = $('.invertedInnerScrollbar');
+	var tempRight = $('.innerScrollbar');
 
-	switch(temp.css('margin-right')) {
+	switch(tempRight.css('margin-right')) {
 		case '-16px':
-			temp.css('margin-right', 'auto');
-			document.getElementById('hideScrollbar').checked = false;
+			//tempLeft.css('margin-left', 'auto');
+			tempRight.css('margin-right', 'auto');
+			document.getElementById('hideScrollbars').checked = false;
 			break;
 		default:
-			temp.css('margin-right', '-16px');
-			document.getElementById('hideScrollbar').checked = true;
+			//tempLeft.css('margin-left', '-16px');
+			tempRight.css('margin-right', '-16px');
+			document.getElementById('hideScrollbars').checked = true;
 			break;
 	}
 }
@@ -987,20 +1061,20 @@ function invertShieldBar() {
 			shieldTextBox.style.transform = 'rotate(180deg) skewX(45deg)';	
 			shieldTextBox.style.top = '3%';	
 			shieldTextBox.style.left = '45%';
+			document.getElementById('invertedShieldBar').checked = false;
 			break;
 		default:
 			shieldBox.style.transform = 'rotate(0deg)';
 			shieldTextBox.style.transform = 'skewX(45deg)';	
 			shieldTextBox.style.top = '0%';	
 			shieldTextBox.style.left = '46%';
+			document.getElementById('invertedShieldBar').checked = true;
 			break;
 	}
 }
 
 function changeVolume(bar, value) {
-	
 	switch (bar) {
-
 		case 1: 
 			for (var v = 2; v <= 4; v++) {
 				changeVolume(v, value);
@@ -1008,7 +1082,7 @@ function changeVolume(bar, value) {
 			}
 			break;
 		case 2:
-			spaceAudio.volume = value;
+			backgroundMusic.volume = value;
 			break;
 		case 3:
 			laserAudio.volume = value;
@@ -1020,22 +1094,108 @@ function changeVolume(bar, value) {
 			MGAudio.volume = value;
 			break;
 		case 4:
+			gameOverAudio.volume = value;
 		    cachingAudio1.volume = value;
 		    cachingAudio2.volume = value;
 		    cachingAudio3.volume = value;
-		    buttonAudio.volume = value;
+		    buttonAudio1.volume = value;
+			buttonAudio2.volume = value;
 		    achievementAudio.volume = value;
 		    break;
 	}
-	
 	$('#soundValue'+bar).html(parseInt(value*100)+'%');
-
 }
 
 function showAdvancedSoundOptions() {
 	$('#advancedSoundOptions').toggle();
 }
 
+var buttonPlayVar = 1;
 function buttonHover() {
-	buttonAudio.play();
+	switch(buttonPlayVar) {
+		case 1:
+			buttonAudio1.play();
+			break;
+		case 2:
+			buttonAudio2.play();
+			break;
+		default:
+			break;
+	}
+	
+	if(buySound >= 2) {
+		buySound = 1;
+	} else {
+		buySound++;
+	}
+}
+
+var highscoreShowed = false;
+function loadMenuHighscore() {
+	if(!highscoreShowed) {
+	   network.loadTop10(function (highscore) {
+            for (var i = 0; i < highscore.length; i++) {
+                var score = highscore[i];
+                var tableTag =
+                    "<tr>" +
+                        "<td class='col-md-2'>" + (i + 1) + "</td>" +
+                        "<td class='col-md-3'>" + score.player + "</td>" +
+                        "<td class='col-md-4'>" + score.score + "</td>" +
+                    "</tr>";
+                $("#menuHighscore").html($("#menuHighscore").html() + tableTag);
+            }
+        });
+		highscoreShowed = true;
+	}
+}
+
+var fpsVisible = false;
+
+function showFPS() {
+	if(fpsVisible) {
+		container.removeChild(stats.dom);
+		fpsVisible = false;
+		document.getElementById('showFPS').checked = false;
+	} else {
+		container.appendChild(stats.dom);
+		fpsVisible = true;
+		document.getElementById('showFPS').checked = true;
+	}
+}
+
+function saveGame() {
+	var temp = "Control123" + " \"" + /*playername +*/ "\" " + currentLevel + " " + 
+		maxHP + " " + currentHP + " " + maxShield + " " + currentShield + " " + 
+		currentScore + " " + currentMoney + " " + MGAmmo + " " + MaxMGAmmo + " " + 
+		rocketAmmo + " " + MaxRocketAmmo + " " /*+ sw + lr */ ;
+	// encrypt and write
+}
+
+function loadGame(save) {
+	// read and decrypt
+	var temp = save.split(" ");
+	if(temp[0] != "Control123")
+		return false; //Invalid savefile
+	//playername = temp[1];
+	currentLevel = parseInt(temp[2]);
+	setMaxHP(Number(temp[3]));
+	setHP(Number(temp[4]));
+	setMaxShield(Number(temp[5]));
+	setShield(Number(temp[6]));
+	setScore(Number(temp[7]));
+	setMoney(Number(temp[8]));
+	MGAmmo = Number(temp[9]);
+	MaxMGAmmo = Number(temp[9]);
+	rocketAmmo = Number(temp[9]);
+	MaxRocketAmmo = Number(temp[9]);
+	//other weapons
+	
+	
+	updateWeaponInterface();
+	document.getElementById('invertedMouse').checked = true;
+	document.getElementById('hideScrollbars').checked = true;
+	document.getElementById('invertedShieldBar').checked = false;
+	spaceAudio.play();
+	levelDesign(level);
+	startLevelTimer();
 }

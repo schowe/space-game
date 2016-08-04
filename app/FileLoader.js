@@ -43,6 +43,7 @@ var FileLoader = function (full) {
         "../res/textures/Crosshair14.png",
         "../res/textures/Crosshair15.png",
         "../res/textures/Crosshair16.png",
+		"../res/textures/Crosshair17.png",
         "../res/textures/eso_dark.jpg",
         "../res/textures/GeldsackFacePalmTex.jpg",
         "../res/textures/GeldsackTex.jpg",
@@ -266,17 +267,16 @@ var FileLoader = function (full) {
     cachingAudioSource3.src = '../res/sounds/caching.wav';
     cachingAudio3.appendChild(cachingAudioSource3);
 	
-	//space bg audio
-    /*spaceAudio = document.createElement('audio');
-    var spaceAudioSource = document.createElement('source');
-    spaceAudioSource.src = '../res/sounds/space.mp3';
-    spaceAudio.appendChild(spaceAudioSource);*/
-	
 	//button hover audio
-    buttonAudio = document.createElement('audio');
-    var buttonAudioSource = document.createElement('source');
-    buttonAudioSource.src = '../res/sounds/button.wav';
-    buttonAudio.appendChild(buttonAudioSource);
+    buttonAudio1 = document.createElement('audio');
+    var buttonAudioSource1 = document.createElement('source');
+    buttonAudioSource1.src = '../res/sounds/button.wav';
+    buttonAudio1.appendChild(buttonAudioSource1);
+	
+	buttonAudio2 = document.createElement('audio');
+    var buttonAudioSource2 = document.createElement('source');
+    buttonAudioSource2.src = '../res/sounds/button.wav';
+    buttonAudio2.appendChild(buttonAudioSource2);
 	
 	//achievement audio
     achievementAudio = document.createElement('audio');
@@ -284,21 +284,18 @@ var FileLoader = function (full) {
     achievementAudioSrc.src = '../res/sounds/achievement.wav';
     achievementAudio.appendChild(achievementAudioSrc);
 
-    // done
-            //Game Over audio
+    //Game Over audio
     gameOverAudio = document.createElement('audio');
     var gameOverAudioSource = document.createElement('source');
     gameOverAudioSource.src = '../res/sounds/GameOver.wav';
     gameOverAudio.appendChild(gameOverAudioSource);
 
-
-            //Game Over audio
+    //Shockwave audio
     shockwaveAudio = document.createElement('audio');
     var shockwaveAudioSource = document.createElement('source');
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
     shockwaveAudio.appendChild(shockwaveAudioSource);
 
-    
     // Background Music
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');
