@@ -556,7 +556,7 @@ function gameOver() {
 	$('#gameOverBox').animate({top: '20%'}, 500);
   	Pause = true;
   	PauseScreen = true;
-    Movement().unlockPointer();
+    movement.unlockPointer();
 }
 
 /**
