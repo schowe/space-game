@@ -1020,7 +1020,7 @@ function changeVolume(bar, value) {
 			}
 			break;
 		case 2:
-			spaceAudio.volume = value;
+			backgroundMusic.volume = value;
 			break;
 		case 3:
 			laserAudio.volume = value;
