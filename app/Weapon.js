@@ -29,6 +29,9 @@ var rocketDamage = 50;
 var laserDamage = 2;
 var explosionDamage = 100;
 
+var explosionRadius = 500;
+var shockwaveRadius = 500;
+
 var MGDamage = 1;
 var shockWaveDamage = 5;
 
@@ -94,10 +97,10 @@ function initializeWeapons() {
 
     rocketGeometry = fileLoader.get("RocketV2");
 
-    explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
+    explosionGeometry = new THREE.SphereGeometry(explosionRadius, 32, 32);
 
     MGGeometry = new THREE.SphereGeometry(0.5, 16, 16);
-    shockGeometry = new THREE.SphereGeometry(500, 32, 32);
+    shockGeometry = new THREE.SphereGeometry(shockwaveRadius, 32, 32);
 
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
