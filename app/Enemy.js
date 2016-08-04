@@ -3,7 +3,7 @@ var maxAsteroidSize     = 50;
 var minDistanceToPlayer = 200;
 var maxShipSize         = 27;
 var maxShipAngle        = 70 * (Math.PI / 360);
-var shootAccuracy       = 300;
+var shootAccuracy       = 30;
 var shootDistance		= 300;
 var maxShootDistance    = 400;
 var destroyedEnemies 	= 0;
@@ -134,7 +134,7 @@ Enemy.prototype.move = function(delta, index) {
             this.onPlayerAttack = false;
         }
 
-        this.shoot(this.position, delta);
+        this.shoot(ship.position, delta);
 
     } else {
 
@@ -339,7 +339,8 @@ Enemy.prototype.moveCurve = function(renew, delta) {
     dir.sub(this.position);
 
     //console.log(dir.x,dir.y,dir.z);
-    //console.log(this.points.length);
+    //console.log(this.points.length);            
+
 
     return dir;
 }
@@ -444,6 +445,7 @@ Enemy.prototype.shoot = function(aimPos, delta) {
 
     var raycaster = new THREE.Raycaster(this.position,this.direction,0,maxShootDistance);
     var intersects = raycaster.intersectObjects([aimSphere]);
+    console.log(intersects.length);
 
     if(intersects.length > 0) {
         // Ueberpruefe, ob geschossen werden darf
