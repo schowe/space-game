@@ -208,12 +208,15 @@ Enemy.prototype.move = function(delta, index) {
     this.position.z += dir.z;
 
 
-
+    this.direction = dir.clone();
+    this.direction.normalize();
 
 
 
     // 7. Schritt: rotieren mit lookAt
-    if(this.direction.length >= 0.001) {
+    if(this.direction.length() == 0) {
+		// do nothing
+    } else {
 	    dir.normalize();
 	    var viewDir = MATH.clone(this.position);
 	    dir.multiplyScalar(10 * this.speed)
@@ -236,7 +239,7 @@ Enemy.prototype.move = function(delta, index) {
 
 
 Enemy.prototype.moveCurve = function(renew, delta) {
-    var p0, p1, p2, test0, test1;
+    var p0, p1, p2, test0, test1, lengthPart;
     var shipSize = 50;
 
 
@@ -262,22 +265,29 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         V.normalize();
 
         // Start fuer seichten Uebergang
-        p0 = MATH.clone(this.position);
-        var dir = MATH.clone(this.direction);
-        dir.multiplyScalar(delta);
-        p0.add(dir);
+        // p0 = MATH.clone(this.position);
+        // var dir = MATH.clone(this.direction);
+        // dir.multiplyScalar(delta);
+        // p0.add(dir);
 
         // vor dem Spieler
+        // TODO: Punkte im gleichen Abstand waehlen
         if(MATH.dot(this.direction,this.playerDirection) <= 0) {
             p1 = MATH.clone(ship.position);
             p1.add(U.multiplyScalar(2*(shipSize + Math.random() * shipSize)));
             p1.add(V.multiplyScalar(2*(shipSize + Math.random() * shipSize)));
+            
+            // p1.sub(this.position);
+            // lengthPart = p1.length;
+            // p1.add(this.position);
+
             U.normalize();
             V.normalize();
             p2 = MATH.clone(ship.position);
             p2.add(N.multiplyScalar(1.5));
             p2.add(U.multiplyScalar(Math.random() * 2 * (shipSize + Math.random() * shipSize)));
             p2.add(V.multiplyScalar(Math.random() * 2 * (shipSize + Math.random() * shipSize)));
+
             U.normalize();
             V.normalize();
             N.multiplyScalar(2/3);
@@ -285,7 +295,8 @@ Enemy.prototype.moveCurve = function(renew, delta) {
             p1 = MATH.clone(this.position);
             p1.add(N.multiplyScalar(2/3));
             p1.add(U.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
-            p1.add(V.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
+            p1.add(V.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));            
+
             U.normalize();
             V.normalize();
             N.multiplyScalar(3/2);
@@ -294,10 +305,13 @@ Enemy.prototype.moveCurve = function(renew, delta) {
             p2.add(N.multiplyScalar(-2/3));
             p2.add(U.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
             p2.add(V.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
+
             U.normalize();
             V.normalize();
             N.multiplyScalar(-3/2);
         }
+
+
 
         var curve = new THREE.CatmullRomCurve3([
             this.position.clone(),
@@ -309,7 +323,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         curveLength += p1.distanceTo(p2);
         curveLength += p2.distanceTo(ship.position);
 
-        this.points = curve.getPoints(2 + Math.round(curveLength / (this.speed * delta)));
+        this.points = curve.getPoints(2 + Math.round(curveLength / (2 * this.speed * delta)));
 
         var testPoint = this.points.shift();
         //console.log("d zu Spieler:" + testPoint.distanceTo(ship.position));
