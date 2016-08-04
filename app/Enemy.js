@@ -304,7 +304,6 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         }
 
         var curve = new THREE.CatmullRomCurve3([
-            p0,
             this.position.clone(),
             p1,
             p2,
@@ -320,14 +319,15 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         // "schon abgelaufene" Punkte sowie einen mehr loeschen
         // betrachte Skalarprodukt von this.position -> {this.points.shift() und den davor}
         // Falls < 0 abbrechen
-        test1 = this.points.shift();
-        test1.sub(this.position);
-        do {
-            test0 = test1.clone();
-            test1 = this.points.shift();
-            test1.sub(this.position);
-            console.log(this.points.length);
-        } while(MATH.dot(test0, test1) <= 0);
+        // test1 = this.points.shift();
+        // test1.sub(this.position);
+        // do {
+        //     test0 = test1.clone();
+        //     test1 = this.points.shift();
+        //     test1.sub(this.position);
+        //     console.log(this.points.length);
+        // } while(MATH.dot(test0, test1) <= 0);
+        this.points.shift();
     }
 
     // Punkte abarbeiten mit points.shift();
