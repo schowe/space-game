@@ -75,5 +75,6 @@ Hier nochmal der öffentliche Link für alle als Schnellzugriff :
 
 `https://docs.google.com/presentation/d/15jw0dD_tXASoDftU6TKWNFPWwzB60vHCI_PKZc9N6iQ/edit?usp=sharing`
 
+
 Im Ordner **PowerPoint** in unserem Repo habt ihr die Möglichkeit Ressourcen für die Präsentation aufzubewahren. 
 
