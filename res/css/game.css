@@ -110,13 +110,14 @@ canvas {
 
 /* Left half */
 #menuLeft {
-	top: 50%;
+	height: 100%;
     display: inline-block;
     width: 50%;
     position: absolute;
 }
 
 #menuButtons {
+	top: 50%;
 	width: 100%;
 	position: absolute;
 	-webkit-transform: translateY(-50%);
@@ -165,6 +166,13 @@ canvas {
 
 .innerScrollbar {
 	margin-right: -16px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.invertedInnerScrollbar {
+	direction: rtl;
+	margin-left: -16px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }

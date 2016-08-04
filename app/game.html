@@ -27,7 +27,7 @@
 
     <div id="menu-overlay" hidden>
         <div id="menu-box" class="outerScrollbar">
-            <div id="menuLeft">
+            <div id="menuLeft" class="invertedInnerScrollbar">
         		<div id="menuButtons">            		
             		<div id="shopBox" class="pauseButton" onmouseover="buttonHover()" onClick="showShop()"> Shop </div>
 					<div id="highscoreBox" class="pauseButton" onmouseover="buttonHover()" onClick="showHighscore()"> Highscore </div>
@@ -51,8 +51,8 @@
 							
                             <td>
                                 <div id="shopItemDesc">
-                                	<div> Increases your maximum HP by 10</div>
-                                	<div id="costSign" class="costUpgrade" >€</div>
+                                	<div>Increases your maximum HP by 10</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade0" class="costUpgrade">0</div>
                                 <div>
                             </td>
@@ -551,13 +551,18 @@
 								</tr>
 								
 								<tr>
-									<td>Hide Scrollbar</td>
-									<td><input type="checkbox" id="hideScrollbar" onchange="hideScrollbar();" checked></td>
+									<td>Hide Scrollbars</td>
+									<td><input type="checkbox" id="hideScrollbars" onchange="hideScrollbars();" checked></td>
 								</tr>
 								
 								<tr>
 									<td>Inverted Shieldbar</td>
-									<td><input type="checkbox" id="invertedShieldbar" onchange="invertShieldBar();" checked></td>
+									<td><input type="checkbox" id="invertedShieldBar" onchange="invertShieldBar();"></td>
+								</tr>
+								
+								<tr>
+									<td>Show FPS</td>
+									<td><input type="checkbox" id="showFPS" onchange="showFPS();" checked></td>
 								</tr>
 							</table>
 						</div>

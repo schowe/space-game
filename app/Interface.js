@@ -65,8 +65,9 @@ function Interface() {
 			setMoney(22222222222);
 			updateWeaponInterface();
 			document.getElementById('invertedMouse').checked = true;
-			document.getElementById('hideScrollbar').checked = true;
-			document.getElementById('invertedShieldbar').checked = false;
+			document.getElementById('hideScrollbars').checked = true;
+			document.getElementById('invertedShieldBar').checked = false;
+			document.getElementById('showFPS').checked = false;
 			
 			spaceAudio.play();
 			
@@ -967,17 +968,20 @@ function invertedMouseFunc() {
 }
 
 /* Toggles scrollbar-hiding */
-function hideScrollbar() {
-	var temp = $('.innerScrollbar');
+function hideScrollbars() {
+	//var tempLeft = $('.invertedInnerScrollbar');
+	var tempRight = $('.innerScrollbar');
 
-	switch(temp.css('margin-right')) {
+	switch(tempRight.css('margin-right')) {
 		case '-16px':
-			temp.css('margin-right', 'auto');
-			document.getElementById('hideScrollbar').checked = false;
+			//tempLeft.css('margin-left', 'auto');
+			tempRight.css('margin-right', 'auto');
+			document.getElementById('hideScrollbars').checked = false;
 			break;
 		default:
-			temp.css('margin-right', '-16px');
-			document.getElementById('hideScrollbar').checked = true;
+			//tempLeft.css('margin-left', '-16px');
+			tempRight.css('margin-right', '-16px');
+			document.getElementById('hideScrollbars').checked = true;
 			break;
 	}
 }
@@ -993,12 +997,14 @@ function invertShieldBar() {
 			shieldTextBox.style.transform = 'rotate(180deg) skewX(45deg)';	
 			shieldTextBox.style.top = '3%';	
 			shieldTextBox.style.left = '45%';
+			document.getElementById('invertedShieldBar').checked = false;
 			break;
 		default:
 			shieldBox.style.transform = 'rotate(0deg)';
 			shieldTextBox.style.transform = 'skewX(45deg)';	
 			shieldTextBox.style.top = '0%';	
 			shieldTextBox.style.left = '46%';
+			document.getElementById('invertedShieldBar').checked = true;
 			break;
 	}
 }
@@ -1043,4 +1049,55 @@ function showAdvancedSoundOptions() {
 
 function buttonHover() {
 	buttonAudio.play();
+}
+
+var fpsVisible = false;
+
+function showFPS() {
+	if(fpsVisible) {
+		container.removeChild(stats.dom);
+		fpsVisible = false;
+		document.getElementById('showFPS').checked = false;
+	} else {
+		container.appendChild(stats.dom);
+		fpsVisible = true;
+		document.getElementById('showFPS').checked = true;
+	}
+}
+
+function saveGame() {
+	var temp = "Control123" + " \"" + /*playername +*/ "\" " + currentLevel + " " + 
+		maxHP + " " + currentHP + " " + maxShield + " " + currentShield + " " + 
+		currentScore + " " + currentMoney + " " + MGAmmo + " " + MaxMGAmmo + " " + 
+		rocketAmmo + " " + MaxRocketAmmo + " " /*+ sw + lr */ ;
+	// encrypt and write
+}
+
+function loadGame(save) {
+	// read and decrypt
+	var temp = save.split(" ");
+	if(temp[0] != "Control123")
+		return false; //Invalid savefile
+	//playername = temp[1];
+	currentLevel = parseInt(temp[2]);
+	setMaxHP(Number(temp[3]));
+	setHP(Number(temp[4]));
+	setMaxShield(Number(temp[5]));
+	setShield(Number(temp[6]));
+	setScore(Number(temp[7]));
+	setMoney(Number(temp[8]));
+	MGAmmo = Number(temp[9]);
+	MaxMGAmmo = Number(temp[9]);
+	rocketAmmo = Number(temp[9]);
+	MaxRocketAmmo = Number(temp[9]);
+	//other weapons
+	
+	
+	updateWeaponInterface();
+	document.getElementById('invertedMouse').checked = true;
+	document.getElementById('hideScrollbars').checked = true;
+	document.getElementById('invertedShieldBar').checked = false;
+	spaceAudio.play();
+	levelDesign(level);
+	startLevelTimer();
 }
