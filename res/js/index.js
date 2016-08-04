@@ -4,38 +4,30 @@ var spaceshipGroup, sphere, planet;
 
 var rayParticleRenderer, rayStart, rayEnd;
 
-var fileLoader = FileLoader(false);
+var fileLoader = FileLoader();
 var network = Network();
 
 
 
 $(function () {
 
-    // Background Music
-    backgroundMusic = document.createElement('audio');
-    var backgroundMusicSource = document.createElement('source');
-    backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
-    backgroundMusic.appendChild(backgroundMusicSource);
-    backgroundMusic.play();
-
     var container;
     var tick;
     var clock = new THREE.Clock(true);
 
     // start
-    setTimeout(function() {
-        var loadingLoop = setInterval(function() {
-            console.log("loading");
-            if (fileLoader.isReady()) {
-                console.log("done");
-                clearInterval(loadingLoop);
-                loadHighscore();
-                init();
-                fadeOutLoadingOverlay();
-                animate();
-            }
-        }, 50);
-    }, 1500);
+    var loadingLoop = setInterval(function() {
+        console.log("loading");
+        if (fileLoader.isReady()) {
+            console.log("done");
+            clearInterval(loadingLoop);
+            loadHighscore();
+            init();
+            fadeOutLoadingOverlay();
+            animate();
+        }
+    }, 50);
+
 
 
     function init() {
@@ -154,15 +146,13 @@ $(function () {
             localStorage.setItem("player", $("#player").val());
         });
 
-        $("#formTutorial").on("click", function () {
-            $("#tutorialClose").show();
-            $("#loading-message").hide();
-            $("#loading-overlay").fadeIn();
-        });
-        
-        $("#tutorialClose").on("click", function () {
-            $("#loading-overlay").fadeOut();   
-        });
+
+        // Background Music
+        backgroundMusic = document.createElement('audio');
+        var backgroundMusicSource = document.createElement('source');
+        backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
+        backgroundMusic.appendChild(backgroundMusicSource);
+        backgroundMusic.play();
 
     }
     
@@ -212,7 +202,6 @@ $(function () {
 
         // animation goes here
         moveSpaceship();
-        backgroundMusic.play();
     }
 
 
@@ -224,7 +213,7 @@ $(function () {
 
     function fadeOutLoadingOverlay() {
         setTimeout(function() {
-            $("#loading-overlay").fadeOut('slow');
+            $("#loading-overlay").fadeOut();
         }, 1000);
     }
 

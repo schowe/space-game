@@ -13,10 +13,7 @@ var backgroundMusic;
 var powerUpSoundtrackAudio;
 var shipData = {};
 
-var FileLoader = function (full) {
-
-    if (full === undefined) full = true;
-
+var FileLoader = function () {
     console.log("FileLoader running ...");
 
     /************************* Get all files to load *************************/
@@ -113,24 +110,6 @@ var FileLoader = function (full) {
         "../res/meshes/PowerUp_Shockwave.json",
         "../res/meshes/PowerUp_ShockwaveDamageUp.json"
     ];
-
-    if (!full) {
-        files = [
-            /************************* Texturen *************************/
-            "../res/textures/lensflare1.png",
-            "../res/textures/lensflare2.png",
-            "../res/textures/lensflare3.png",
-            "../res/textures/particle.png",
-            "../res/textures/particle_grey.png",
-            "../res/textures/Planet.png",
-            "../res/textures/sky_sphere_map.jpg",
-            "../res/textures/tex.jpg",
-            "../res/textures/TextureHero.png",
-
-            /************************* Meshes *************************/
-            "../res/meshes/HeroShipV6.json"
-        ];
-    }
 
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
