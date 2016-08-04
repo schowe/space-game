@@ -3,7 +3,7 @@ var maxAsteroidSize     = 50;
 var minDistanceToPlayer = 200;
 var maxShipSize         = 27;
 var maxShipAngle        = 70 * (Math.PI / 360);
-var shootAccuracy       = 30;
+var shootAccuracy       = 10;
 var shootDistance		= 300;
 var maxShootDistance    = 400;
 var destroyedEnemies 	= 0;
@@ -277,7 +277,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
             p1 = MATH.clone(ship.position);
             p1.add(U.multiplyScalar(2*(shipSize + Math.random() * shipSize)));
             p1.add(V.multiplyScalar(2*(shipSize + Math.random() * shipSize)));
-            
+
             // p1.sub(this.position);
             // lengthPart = p1.length;
             // p1.add(this.position);
@@ -296,7 +296,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
             p1 = MATH.clone(this.position);
             p1.add(N.multiplyScalar(2/3));
             p1.add(U.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
-            p1.add(V.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));            
+            p1.add(V.multiplyScalar(2 * (shipSize + Math.random() * shipSize)));
 
             U.normalize();
             V.normalize();
@@ -339,7 +339,7 @@ Enemy.prototype.moveCurve = function(renew, delta) {
     dir.sub(this.position);
 
     //console.log(dir.x,dir.y,dir.z);
-    //console.log(this.points.length);            
+    //console.log(this.points.length);
 
 
     return dir;
@@ -435,6 +435,7 @@ Enemy.prototype.checkDirection = function(direction, objects) {
 
 
 Enemy.prototype.shoot = function(aimPos, delta) {
+
 	var coolDownTime;
     var aimPosition = aimPos.clone();
     var geometry = new THREE.SphereGeometry(1.5 * shootAccuracy, 32, 32);
@@ -456,10 +457,10 @@ Enemy.prototype.shoot = function(aimPos, delta) {
             this.sinceLastShot = 0;
             // schiesse
 
-            enemyShootLaser(this.position, 
+            enemyShootLaser(this.position,
                 aimPosition.add(new THREE.Vector3(shootAccuracy * Math.random(),
                     shootAccuracy * Math.random(),shootAccuracy * Math.random())));
-            
+
             // Falls Level >= 5 predicten
             if(aimPos==ship.position && this.level >= 5) {
                 var projectileSpeed = 100;
@@ -986,7 +987,7 @@ Enemy.prototype.getHitBoxes = function() {
     mesh2 = new THREE.Mesh(geometry2, material);
     //scene.add(mesh1);
     //scene.add(mesh2);
-    //mesh.position.set(this.position);
+    // mesh.position.set(this.position);
 
     hitBoxes.push(mesh1);
     hitBoxes.push(mesh2);
@@ -1015,10 +1016,15 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
         case "EXPLOSION": case "explosion": case "Explosion":
 
             break;
-        case "MACHINEGUN": case "machinegun": case "Machinegun":
-
+        case "MACHINEGUN": case "machinegun": case "MachineGun":
+            this.HP -= MGDamage;
             break;
-        default: console.log("Error: Collision with unknown");
+        case "SHOCKWAVE": case "shockwave": case "ShockWave": case "shockWave": case "Shockwave":
+            this.HP -= shockWaveDamage;
+            break;
+        default: console.log("Error: Collision with unknown: " + type);
+        console.log(type);
+        break;
     }
 
     if(enemyHP[this.index] <= 0) {

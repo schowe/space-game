@@ -62,7 +62,7 @@ function Player() {
                                 yAxis = 5;
                                 setSpeed(yAxis);
                                 rotCount += 2;
-                               
+
 
 
                                 if (rotCount > 10) {
@@ -154,16 +154,13 @@ function Player() {
             init: function () {
 
                 // Ship erstellen
-                var multiMaterial = new THREE.MultiMaterial(shipData.materials);            
+                var multiMaterial = new THREE.MultiMaterial(shipData.materials);
                 for (var i = 0; i < multiMaterial.materials.length; i++) {
                     multiMaterial.materials[i].skinning = true;
-                    multiMaterial.materials[i].map = fileLoader.get("TextureHero");         
+                    multiMaterial.materials[i].map = fileLoader.get("TextureHero");
                 }
                 multiMaterial.skinning = true;
                 ship = new THREE.SkinnedMesh(shipData.geometry, multiMaterial);
-
-                ship.position.set(0, 0, 0);
-                scene.add(ship);
 
                 leftWingRot = ship.skeleton.bones[1].rotation.y;
                 rightWingRot = ship.skeleton.bones[2].rotation.y;
@@ -182,6 +179,10 @@ function Player() {
                 playerHitBoxes.push(hitBoxCenter);
                 playerHitBoxes.push(hitBoxLeftWing);
                 playerHitBoxes.push(hitBoxRightWing);
+
+                ship.position.set(0, 0, 0);
+                scene.add(ship);
+
             },
 
             updateParticleValues: function () {
@@ -238,7 +239,7 @@ function Player() {
 
                         ship.skeleton.bones[1].rotation.y += 0.01 ;
                     }
-                    if(ship.skeleton.bones[2].rotation.y > -1.75){    
+                    if(ship.skeleton.bones[2].rotation.y > -1.75){
                         ship.skeleton.bones[2].rotation.y += -0.01;
                     }
                 }
@@ -248,7 +249,7 @@ function Player() {
 
                         ship.skeleton.bones[1].rotation.y -= 0.01 ;
                     }
-                    if(ship.skeleton.bones[2].rotation.y < rightWingRot){    
+                    if(ship.skeleton.bones[2].rotation.y < rightWingRot){
 
                         ship.skeleton.bones[2].rotation.y -= -0.01;
                     }
@@ -323,13 +324,18 @@ function Player() {
 
                 barrelRoll = false;
                 if(ship.skeleton.bones[0].rotation.z < 6.28){
-                 barrelRoll = true;
-             }
-             else{ ship.skeleton.bones[0].rotation.z = 0.0}
-         }
+                    barrelRoll = true;
+                }
+                else{
+                    ship.skeleton.bones[0].rotation.z = 0.0;
+                }
+            }
+        },
 
- }
+        playerHitByLaser: function() {
+            changeHP(-enemyLaserDamage);
+        }
 
-};
+    }
 
 };
