@@ -1009,6 +1009,7 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
             break;
         case "ROCKET": case "rocket": case "Rocket":
             enemyHP[index] -= rocketDamage;
+
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
 
@@ -1018,8 +1019,6 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
             break;
         default: console.log("Error: Collision with unknown");
     }
-
-
     if(enemyHP[index] <= 0) {
         this.isAlive = false;
     }

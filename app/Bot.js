@@ -21,7 +21,7 @@ function Bot() {
     var minAsteroidSize = 10
     var maxAsteroidSize = 30;
     var guardingRadius = 50;
-    var destroyedAsteroids=0; 
+    var destroyedAsteroids = 0;
     var SHOT = 1;
     var ASTEROID = 2;
     var SHIP = 3;
@@ -114,7 +114,7 @@ function Bot() {
         //console.log("Enter Create Enemy");
         // Welt als Kugel -> Setze an den aeusseren 1/2 Rand
         // TODO: spawnRadius setzen
-        var spawnRadius =500;
+        var spawnRadius = 500;
         radius = spawnRadius / 2 * (1 + Math.random());
 
         // zufaellig an den Rand positionieren
@@ -128,6 +128,7 @@ function Bot() {
             enemyPosition.multiplyScalar(radius);
             enemyPosition.add(ship.position);
         } while (!farAway(enemyPosition, maxShipSize));
+
         
         // TODO: weapon
         switch (art) {
@@ -152,58 +153,57 @@ function Bot() {
 
         //console.log("Finally Create Enemy");
         enemy = new Enemy(enemyPosition, speed, level, typ, index);
-
         return enemy;
     }
 
     //Level generieren, wuhu
-    function createlevel(enemy1anzahl, enemy2anzahl, boss1anzahl, boss2anzahl){
-        
-        for(var i = 0; i < enemy1anzahl; i++){
-                enemy = createEnemy(0, i);
-                enemies.push(enemy);
-                enemyHitBoxes.push(enemy.getHitBoxes());
-                for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
-                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
-                }
-                scene.add(enemy);
-            }
+    function createlevel(enemy1anzahl, enemy2anzahl, boss1anzahl, boss2anzahl) {
 
-            var gegner2 = enemy2anzahl+enemy1anzahl;
-
-            for(var i = enemy1anzahl; i < gegner2; i++){
-                enemy = createEnemy(1, i);
-                enemies.push(enemy);
-                enemyHitBoxes.push(enemy.getHitBoxes());
-                for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
-                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
-                }
-                scene.add(enemy);
+        for (var i = 0; i < enemy1anzahl; i++) {
+            enemy = createEnemy(0, i);
+            enemies.push(enemy);
+            enemyHitBoxes.push(enemy.getHitBoxes());
+            for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
+                enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
             }
-
-            var gegner3=gegner2+boss1anzahl;
-            for(var i = gegner2; i < gegner3; i++){
-                enemy = createEnemy(2, i);
-                enemies.push(enemy);
-                enemyHitBoxes.push(enemy.getHitBoxes());
-                for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
-                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
-                }
-                scene.add(enemy);
-            }
-
-            var gegner4=gegner3+boss2anzahl;
-            for(var i = gegner3; i < gegner4; i++){
-                enemy = createEnemy(3, i);
-                enemies.push(enemy);
-                enemyHitBoxes.push(enemy.getHitBoxes());
-                for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
-                    enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
-                }
-                scene.add(enemy);
-            }
+            scene.add(enemy);
         }
-    
+
+        var gegner2 = enemy2anzahl + enemy1anzahl;
+
+        for (var i = enemy1anzahl; i < gegner2; i++) {
+            enemy = createEnemy(1, i);
+            enemies.push(enemy);
+            enemyHitBoxes.push(enemy.getHitBoxes());
+            for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
+                enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
+            }
+            scene.add(enemy);
+        }
+
+        var gegner3 = gegner2 + boss1anzahl;
+        for (var i = gegner2; i < gegner3; i++) {
+            enemy = createEnemy(2, i);
+            enemies.push(enemy);
+            enemyHitBoxes.push(enemy.getHitBoxes());
+            for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
+                enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
+            }
+            scene.add(enemy);
+        }
+
+        var gegner4 = gegner3 + boss2anzahl;
+        for (var i = gegner3; i < gegner4; i++) {
+            enemy = createEnemy(3, i);
+            enemies.push(enemy);
+            enemyHitBoxes.push(enemy.getHitBoxes());
+            for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
+                enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
+            }
+            scene.add(enemy);
+        }
+    }
+
 
     // aktualisiere Position der Asteroiden und Gegner
     // Setze direction neu
@@ -222,11 +222,11 @@ function Bot() {
 
         // Asteroiden: Bewegung updaten
         for (var i = asteroids.length - 1; i >= 0; i--) {
-            
+
             var asteroid = asteroids[i];
             asteroid.move(delta);
             asteroidHitBoxes[i].position.set(asteroid.position.x, asteroid.position.y, asteroid.position.z);
-       
+
             asteroidsClone[i] = asteroids[i];
         }
 
@@ -249,7 +249,7 @@ function Bot() {
             }
         }
 
-        for(var i = 0; i < enemies.length; i++) {
+        for (var i = 0; i < enemies.length; i++) {
             enemiesClone[i] = enemies[i];
         }
 
@@ -283,7 +283,7 @@ function Bot() {
             // TODO: asteroiden wie loeschen
             if (level == 1) {
                 asteroids = [];
-            
+
                 for (var i = 0; i < numOfAsteroids; i++) {
                     var asteroid = createAsteroid(level, i);
                 }
@@ -314,12 +314,12 @@ function Bot() {
 
             return enemiesClone;
         },
-        
+
         createlevel: createlevel
 
         }
     }
 
-
-
+    }
+}
 
