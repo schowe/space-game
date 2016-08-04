@@ -313,7 +313,7 @@ function shootLaser() {
         //rotate: HitBox would start behind spaceship otherwise
         laser.translateY(-200);
 
-        var numberDummyDots = 100;
+        var numberDummyDots = 50;
         for (var i = 0; i <= numberDummyDots; i++) {
           var dummyDot = new THREE.Object3D();
           dummyDot.position.y = laser.geometry.parameters.height / numberDummyDots * i;
@@ -332,7 +332,7 @@ function shootLaser() {
 }
 
 //Firering main-laser
-function enemyShootLaser(laserShootingBotPosition, laserShootingTarget) {
+function enemyShootLaser(laserShootingBot, laserShootingTarget) {
 
     //play lazer-sound
     laserAudio.play();
@@ -344,9 +344,9 @@ function enemyShootLaser(laserShootingBotPosition, laserShootingTarget) {
     laser.name = "Laser";
 
     //translate bullet to ship position
-    laser.position.x = laserShootingBotPosition.x;
-    laser.position.y = laserShootingBotPosition.y;
-    laser.position.z = laserShootingBotPosition.z;
+    laser.position.x = laserShootingBot.position.x;
+    laser.position.y = laserShootingBot.position.y;
+    laser.position.z = laserShootingBot.position.z;
 
     //set orientation of the bullet according to ship orientation
     laser.lookAt(laserShootingTarget);

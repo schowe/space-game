@@ -162,9 +162,6 @@ function Player() {
                 multiMaterial.skinning = true;
                 ship = new THREE.SkinnedMesh(shipData.geometry, multiMaterial);
 
-                ship.position.set(0, 0, 0);
-                scene.add(ship);
-
                 leftWingRot = ship.skeleton.bones[1].rotation.y;
                 rightWingRot = ship.skeleton.bones[2].rotation.y;
 
@@ -182,6 +179,17 @@ function Player() {
                 playerHitBoxes.push(hitBoxCenter);
                 playerHitBoxes.push(hitBoxLeftWing);
                 playerHitBoxes.push(hitBoxRightWing);
+
+                ship.add(hitBoxCenter);
+                ship.add(hitBoxLeftWing);
+                ship.add(hitBoxRightWing);
+
+                ship.position.set(0, 0, 0);
+                scene.add(ship);
+
+
+
+
             },
 
             updateParticleValues: function () {

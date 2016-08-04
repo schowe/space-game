@@ -279,6 +279,7 @@ Asteroid.prototype.getHitBox = function () {
     });
 
     mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
     return mesh;
 }

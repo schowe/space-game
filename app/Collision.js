@@ -279,6 +279,16 @@ var Collision = function () {
     // Checks if there is an intersection between a point and sphere
     function intersectPointSphere(point, sphere) {
         var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
+
+        var g = new THREE.SphereGeometry(1,32,32);
+        var m = new THREE.MeshBasicMaterial({color: 0xFF0000});
+        var p = new THREE.Mesh(g,m);
+        p.position.x = globalPoint.x;
+        p.position.y = globalPoint.y;
+        p.position.z = globalPoint.z;
+        scene.add(p);
+
+
         var distance = Math.sqrt((globalPoint.x - sphere.position.x) * (globalPoint.x - sphere.position.x) +
                            (globalPoint.y - sphere.position.y) * (globalPoint.y - sphere.position.y) +
                            (globalPoint.z - sphere.position.z) * (globalPoint.z - sphere.position.z));
