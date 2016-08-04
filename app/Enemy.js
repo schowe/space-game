@@ -58,6 +58,7 @@ function Enemy(location, speed, level, typ, index) {
             this.HP = 10;
     }
 
+    this.index = index;
     this.typ = typ;
 
 
@@ -1004,10 +1005,10 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
 
             break;
         case "LASER": case "laser": case "Laser":
-            enemyHP[index] -= laserDamage;
+            enemyHP[this.index] -= laserDamage;
             break;
         case "ROCKET": case "rocket": case "Rocket":
-            enemyHP[index] -= rocketDamage;
+            enemyHP[this.index] -= rocketDamage;
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
 
@@ -1018,7 +1019,7 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
         default: console.log("Error: Collision with unknown");
     }
 
-    if(enemyHP[index] <= 0) {
+    if(enemyHP[this.index] <= 0) {
         this.isAlive = false;
     }
 }
