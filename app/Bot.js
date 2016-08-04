@@ -1,5 +1,5 @@
 // Botklasse
-var destroyedAsteroids = 0; //fï¿½r die milestones
+var destroyedAsteroids = 0; //für die milestones
 
 // Fuer Kollision:
 // asteroids und enemies sind nach Abstand zum Spieler sortiert
@@ -143,10 +143,10 @@ function Bot() {
                     break;
             case 3: case 4:
                     typ = "SMALL2"; 
-                    speed = 15;
+                    speed = 30;
                     break;
             default: typ = "SMALL2";
-                    speed = 15;
+                    speed = 30;
         }
 
         speed += Math.round((level + 5)*Math.random());
