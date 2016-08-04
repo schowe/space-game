@@ -143,10 +143,10 @@ function Bot() {
                     break;
             case 3: case 4:
                     typ = "SMALL2"; 
-                    speed = 30;
+                    speed = 17;
                     break;
             default: typ = "SMALL2";
-                    speed = 30;
+                    speed = 17;
         }
 
         speed += Math.round((level + 5)*Math.random());
