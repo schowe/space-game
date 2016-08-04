@@ -127,7 +127,10 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
         case "MACHINEGUN": case "machinegun": case "MachineGun":
             asteroidHP[index] -= MGDamage;
             break;
-        default: console.log("Error: Collision with unknown");
+        case "SHOCKWAVE": case "shockwave": case "ShockWave": case "shockWave": case "Shockwave":
+            asteroidHP[index] -= shockWaveDamage;
+            break;
+        default: console.log("Error: Collision with unknown: " + type);
     }
 
     if (asteroidHP[index] <= 0) {
@@ -160,6 +163,7 @@ Asteroid.prototype.destroy = function (collisionType) {
         case "EXPLOSION": case "explosion": case "Explosion":
         case "MACHINEGUN": case "machinegun": case "Machinegun":
         case "PLAYER": case "player": case "Player":
+        case "SHOCKWAVE": case "shockwave": case "ShockWave": case "shockWave": case "Shockwave":
             changeScore(scoreValues["asteroidDestroyed"]);
             spawnPowerUp(asteroids[this.astIndex].position.x, asteroids[this.astIndex].position.y, asteroids[this.astIndex].position.z);
 			destroyedAsteroids++;

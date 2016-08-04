@@ -27,6 +27,7 @@ var guidedMissileReloadTime = 2;
 //Weapondamage
 var rocketDamage = 50;
 var laserDamage = 2;
+var enemyLaserDamage = 10;
 var explosionDamage = 100;
 
 var MGDamage = 1;
@@ -267,9 +268,12 @@ function sendShockWave() {
         //add bullet to scene
         scene.add(shockWave);
 
+        // console.log(projectiles.length);
         //add laser to projectiles list so it will be moved
         projectiles.push(shockWave);
+        // console.log(projectiles.length);
 
+        shockwaveTime = 0;
         timeSinceShockwave = 0;
     }
 }
@@ -504,7 +508,7 @@ function shootGuidedMissile() {
             var dummyDot = new THREE.Object3D();
             dummyDot.position.z = hitBoxGeometry.parameters.height / numberDummyDots * i;
             dummyDot.name = "BoxPoint" + i;
-            rocket.add(dummyDot);
+            guidedMissile.add(dummyDot);
         }
 
         //add guidedMissile to scene

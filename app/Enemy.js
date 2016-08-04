@@ -933,8 +933,11 @@ Enemy.prototype.collide = function(other, type) {
         case "EXPLOSION": case "explosion": case "Explosion":
 
             break;
-        case "MACHINEGUN": case "machinegun": case "Machinegun":
-
+        case "MACHINEGUN": case "machinegun": case "MachineGun":
+            this.HP -= MGDamage;
+            break;
+        case "SHOCKWAVE": case "shockwave": case "ShockWave": case "shockWave": case "Shockwave":
+            this.HP -= shockWaveDamage;
             break;
         default: console.log("Error: Collision with unknown");
     }

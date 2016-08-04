@@ -267,6 +267,15 @@ var Collision = function () {
             (minZship(a) <= maxZ(b) && maxZship(a) >= minZ(b)));
     }
 
+    // Checks if there is an intersection between a point and box
+    function intersectPointShipHitBox(point, box) {
+        var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
+
+        return (globalPoint.x <= maxXship(box) && globalPoint.x >= maxXship(box) &&
+            (globalPoint.y <= maxYship(box) && globalPoint.y >= maxYship(box)) &&
+            (globalPoint.z <= maxZship(box) && globalPoint.z >= maxZship(box)));
+    }
+
     // Checks if there is an intersection between a point and sphere
     function intersectPointSphere(point, sphere) {
         var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
@@ -280,18 +289,6 @@ var Collision = function () {
     // Checks if there is an intersection between a point and box
     function intersectPointBox(point, box) {
         var globalPoint = new THREE.Vector3(point.matrixWorld.elements[12], point.matrixWorld.elements[13], point.matrixWorld.elements[14]);
-
-
-
-        // var dg = new THREE.SphereGeometry(.1,10,10);
-        // var dm = new THREE.MeshBasicMaterial({color:0xFF0000});
-        // var dot = new THREE.Mesh(dg, dm);
-        // dot.position.x = globalPoint.x;
-        // dot.position.y = globalPoint.y;
-        // dot.position.z = globalPoint.z;
-        // scene.add(dot);
-
-
 
         return (globalPoint.x <= maxX(box) && globalPoint.x >= minX(box) &&
             (globalPoint.y <= maxY(box) && globalPoint.y >= minY(box)) &&
@@ -366,6 +363,8 @@ var Collision = function () {
         intersectSphereShipHitBox: intersectSphereShipHitBox,
         // returns whether there is an intersection between a shipHitBox and another box
         intersectShipHitBoxBox: intersectShipHitBoxBox,
+        // returns whether there is an intersection between a Point and a shipHitBox
+        intersectPointShipHitBox: intersectPointShipHitBox,
         // returns whether there is an intersection between a Point and a Sphere
         intersectPointSphere: intersectPointSphere,
         // returns whether there is an intersection between a Point and a Box
