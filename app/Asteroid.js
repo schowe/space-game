@@ -265,8 +265,6 @@ Asteroid.prototype.reflectPlayer = function (player) {
 
 }
 
-
-
 Asteroid.prototype.getHitBox = function () {
     var mesh, geometry, material;
 

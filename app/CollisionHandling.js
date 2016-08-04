@@ -32,6 +32,8 @@ function handleAsteroids() {
             }
         }
 
+        /** NICHT LÖSCHEN **/
+        // Kollision mit Gegner
          for (var j = 0; j <= enemies.length - 1; j++) {
              for (var k = 0; k <= enemyHitBoxes[j].length - 1; k++) {
                  if (collision.intersectSphereBox(asteroidHitBoxes[i], enemyHitBoxes[j][k])) {
@@ -50,8 +52,6 @@ function handleProjectiles() {
 
     // for every projectile
     for (var i = 0; i <= projectiles.length - 1; i++) {
-
-        console.log(projectiles[i]);
 
         var projectileSucceded = false;
 
@@ -118,11 +118,10 @@ function handleProjectiles() {
             }
         }
 
-
         else if (projectiles[i].name === "Shockwave") {
             for (var j = 0; j <= asteroidHitBoxes.length - 1; j++) {
                 if (collision.intersectSphereOther(projectiles[i], asteroidHitBoxes[j])){
-                    asteroids[j].collide(projectiles[i], "ShockWave", j);
+                    hitAsteroid(j, "ShockWave");
                 }
             }
         }
@@ -150,38 +149,48 @@ function handleProjectiles() {
                     }
                 }
 
-                // if (laserBol === false ) {
+                if (laserBol === false ) {
+                    for (var j = 0; j < enemies.length; j++) {
+                        for (var k = 0; k < enemyHitBoxes[j].length; k++) {
+                            for (var l = 0; l <= projectiles[i].children.length - 1; l++) {
+                                if (collision.intersectPointEnemyHitBox(projectiles[i].children[l], enemyHitBoxes[j][k], j)) {
+                                    laserBol = true;
+                                    break;
+                                }
+                            }
+                            if (laserBol) {
+                                successLaser(i);
+                                enemies[j].collide("Laser", j, i);
+                                console.log("enemy hit by laser");
+                                break;
+                            }
+                        }
+                        if (laserBol) {
+                            break;
+                        }
+                    }
+                }
 
-                //     var enemyHitByLaserBol = false;
+                if (laserBol === false ) {
+                    for (var j = 0; j < playerHitBoxes.length; j++) {
+                        for (var k = 0; k <= projectiles[i].children.length - 1; k++) {
+                            if (collision.intersectPointShipHitBox(projectiles[i].children[k], playerHitBoxes[j])) {
+                                laserBol = true;
+                                break;
+                            }
+                        }
+                        if (laserBol) {
+                            successLaser(i);
+                            player.playerHitByLaser();
+                            console.log("enemy hit by laser");
+                            break;
+                        }
+                    }
+                    if (laserBol) {
+                        break;
+                    }
 
-                //     for (var j = 0; j < enemies.length; j++) {
-
-                //         for (var k = 0; k < enemyHitBoxes[j].length; k++) {
-
-                //             for (var l = 0; l <= projectiles[i].children.length - 1; l++) {
-                //                 if (collision.intersectPointBox(projectiles[i].children[l], enemyHitBoxes[j][k])) {
-                //                     //console.log("Collision detected");
-                //                     //enemy[j].collide(projectiles[i], "LASER");
-                //                     laserBol = true;
-                //                     break;
-                //                 }
-                //             }
-
-                //             if (laserBol) {
-                //                 successLaser(i);
-                //                 enemies[j].collide("Laser", j, i);
-                //                 break;
-                //             }
-
-                //         }
-
-                //         if (enemyHitByLaserBol) {
-                //             break;
-                //         }
-
-                //     }
-
-                // }
+                }
 
             }
 
@@ -260,9 +269,6 @@ function handleProjectiles() {
 
 
             else if (projectiles[i].name === "MachineGun") {
-
-                var MachineGunBol = false;
-
                 for (var j = 0; j <= itemHitBoxes.length - 1; j++) {
                     if (collision.intersectPointBox(projectiles[i].getObjectByName("BoxPoint"), itemHitBoxes[j])) {
                         successMachineGunBullet(i);
@@ -270,79 +276,9 @@ function handleProjectiles() {
                         break;
                     }
                 }
-
-                if (MachineGunBol === false) {
-
-                    var enemyMachineGunBol = false;
-
-                    for (var j = 0; j < enemies.length; j++) {
-
-                        for (var k = 0; k < enemyHitBoxes[j].length; k++) {
-
-                            for (var l = 0; l <= projectiles[i].children.length - 1; l++) {
-                                if (collision.intersectPointBox(projectiles[i].children[l], enemyHitBoxes[j][k])) {
-                                    rocketBol = true;
-                                    break;
-                                }
-                            }
-
-                            if (rocketBol) {
-                                enemyMachineGunBol = true;
-                                enemies[j].collide("MachineGun", j, i);
-                                break;
-                            }
-                        }
-
-                        if (enemyMachineGunBol) {
-                            break;
-                        }
-
-                    }
-                }
             }
-
-            else if (projectiles[i].name === "Shockwave") {
-
-                for (var j = 0; j < enemies.length; j++) {
-
-                    for (var k = 0; k < enemyHitBoxes[j].length; k++) {
-                        if (collision.intersectSphereBox(projectiles[i], enemyHitBoxes[j][k])) {
-                            enemies[j].collide("Shockwave", j, i);
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-
-            // Player kann nur von gegnerischem Laser getroffen werden
-            // else if (projectiles[i].name === "Laser") {
-
-            //     var laserBol = false
-
-            //     for (var j = 0; j < playerHitBoxes.length - 1; j++) {
-
-            //         for (var k = 0; k < projectiles[i].children.length; k++) {
-
-            //             if (collision.intersectPointShipHitBox(projectiles[i].children[k], playerHitBoxes[j])) {
-            //                 laserBol = true;
-            //                 player.playerHitByLaser();
-            //                 successLaser(i);
-            //                 break;
-            //             }
-
-            //         }
-
-            //         if (laserBol) {
-            //             break;
-            //         }
-
-            //     }
-            // }
 
         }
-
     }
 
 }
@@ -390,7 +326,7 @@ function handlePlayerPopupCollision() {
 
     for (var i = 0; i < playerHitBoxes.length; i++) {
         for (var j = 0; j < itemHitBoxes.length; j++) {
-            if (collision.intersectSphereBox(playerHitBoxes[i],
+            if (collision.intersectShipHitBoxBox(playerHitBoxes[i],
                 itemHitBoxes[j])) {
                 collected(j);
             }

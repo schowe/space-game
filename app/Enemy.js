@@ -3,7 +3,7 @@ var maxAsteroidSize     = 50;
 var minDistanceToPlayer = 200;
 var maxShipSize         = 27;
 var maxShipAngle        = 70 * (Math.PI / 360);
-var shootAccuracy       = 30;
+var shootAccuracy       = 10;
 var shootDistance		= 300;
 var maxShootDistance    = 400;
 
@@ -436,6 +436,8 @@ Enemy.prototype.checkDirection = function(direction, objects) {
 
 
 Enemy.prototype.shoot = function(aimPos, delta) {
+
+
     var aimPosition = aimPos.clone();
     var geometry = new THREE.SphereGeometry(3 * shootAccuracy, 32, 32);
     var material = new THREE.MeshBasicMaterial({color: 0xffffff});
@@ -452,10 +454,10 @@ Enemy.prototype.shoot = function(aimPos, delta) {
         if(this.sinceLastShot >= 0.3){
             this.sinceLastShot = 0;
             // schiesse
-            enemyShootLaser(this.position, 
+            enemyShootLaser(this.position,
                 aimPosition.add(new THREE.Vector3(shootAccuracy * Math.random(),
                     shootAccuracy * Math.random(),shootAccuracy * Math.random())));
-            
+
             // Falls Level >= 5 predicten
             if(aimPos==ship.position && this.level >= 5) {
                 var projectileSpeed = 100;
@@ -984,7 +986,7 @@ Enemy.prototype.getHitBoxes = function() {
     mesh2 = new THREE.Mesh(geometry2, material);
     //scene.add(mesh1);
     //scene.add(mesh2);
-    //mesh.position.set(this.position);
+    // mesh.position.set(this.position);
 
     hitBoxes.push(mesh1);
     hitBoxes.push(mesh2);

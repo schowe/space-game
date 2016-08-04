@@ -256,6 +256,8 @@ function sendShockWave() {
     if (timeSinceShockwave > shockwaveReloadTime && shockwaveAmmo > 0) {
         shockwaveAudio.play();
 
+        shockwaveAmmo -= 1;
+
         particleHandler.addShockwave(ship.position, 0xFF11AA);
 
         var shockWave = new THREE.Mesh(shockGeometry, shootMaterial);
@@ -304,16 +306,17 @@ function shootLaser() {
         laser.position.y = ship.position.y;
         laser.position.z = ship.position.z;
 
+        //rotate: HitBox would start behind spaceship otherwise
         //set orientation of the bullet according to ship orientation
         laser.lookAt(targetPosition);
 
         //rotate: laser beam would be pointing up otherwise
         laser.rotateX(1.57);
 
-        //rotate: HitBox would start behind spaceship otherwise
         laser.translateY(-200);
+        laser.translateZ(20);
 
-        var numberDummyDots = 50;
+        var numberDummyDots = 100;
         for (var i = 0; i <= numberDummyDots; i++) {
           var dummyDot = new THREE.Object3D();
           dummyDot.position.y = laser.geometry.parameters.height / numberDummyDots * i;
@@ -355,7 +358,9 @@ function enemyShootLaser(laserShootingBotPosition, laserShootingTarget) {
     laser.rotateX(-1.57);
 
     //translate so that laser starts in front of ship
-    laser.translateY(-85);
+    laser.translateY(-200);
+
+    laser.translateZ(20);
 
     var numberDummyDots = 100;
     for (var i = 0; i <= numberDummyDots; i++) {
@@ -386,6 +391,7 @@ function successLaser(projectileIndex) {
     //remove laser from projectiles
     projectiles.splice(projectileIndex, 1);
 }
+
 function successRocket(projectileIndex){
 
   for(var i = 0; i<=projectiles[projectileIndex].children.length; i++){
@@ -625,7 +631,6 @@ function renderWeapons(){
 
 	    	//translate to hitbox belonging laser-beam
 	    	if (dis > biggerSphereRadius){
-          console.log("LaserSuccess");
     			successLaser(bul);
     		}
 	    }
