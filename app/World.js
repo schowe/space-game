@@ -1,15 +1,21 @@
 /*var sphere = new THREE.Object3D();
 var biggerSphere = new THREE.Object3D();
 var stars = [];
+
 /*var asteroids = [];
+>>>>>>> 106e7f639ff0f7197b7976b29414f702ecf4f6fb
 var asteroidsHP = [];
 var asteroidSpeedVecs = [];
 var asteroidRotVecs = [];
-var asteroidHitBoxes = [];
+//var asteroidHitBoxes = [];
 var smallSphereRadius = 1000;
 var biggerSphereRadius = 5000;
+var asteroidRadius = 3.5;
+var defaultAsteroidHP = 10;
+var destroyedAsteroids = 0; //für die milestones
 var asteroidRadius = 4.2;
 var defaultAsteroidHP = 10;*/
+
 
 //starStuff
 /*function createStars() {
@@ -209,6 +215,10 @@ function createAsteroids() {
             asteroidsHP[asteroidNumber] -= MGDamage;
             break;
 
+        case "ShockWave":
+
+            asteroidsHP[asteroidNumber] -= shockWaveDamage;
+            break;
 
         default:
 
@@ -241,6 +251,10 @@ function createAsteroids() {
 /*//Function to trigger if Asteroid get destroyed
 function destroyAsteroid(asteroidNumber, collisionType) {
 
+	//für die Milestones
+	destroyedAsteroids++;
+	checkMilestones(); 
+	
     asteroidAudio.play();
 
     // update Highscore

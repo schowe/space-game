@@ -109,7 +109,7 @@ function init() {
     movement = Movement();
     movement.init();
 
-    interfaceInit();
+    interface.init();
 
     crosshair = new Crosshairs();
     crosshair.init();
@@ -122,7 +122,7 @@ function init() {
 
     /********** Camera **********/
 
-    camera = new THREE.TargetCamera(75, window.innerWidth / window.innerHeight, 1, 5000);
+    camera = new THREE.TargetCamera(75, window.innerWidth / window.innerHeight, 1, biggerSphereRadius);
 
     camera.addTarget({
         name: 'Target',
@@ -151,6 +151,15 @@ function init() {
         matchRotation: false
     });
 
+    camera.addTarget({
+        name: 'animation',
+       	targetObject: ship,
+        cameraPosition: targetPosition ,
+        fixed: false,
+        stiffness: 0.001,
+        matchRotation: false
+    });
+
 
     var cam = Camera();
     cam.init();
@@ -163,6 +172,7 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.sortObjects = false;
 
     composer = new THREE.EffectComposer(renderer);
     composer.addPass(new THREE.RenderPass(scene, camera));
@@ -200,7 +210,7 @@ function cameraAnimate() {
         frames++;
         requestAnimationFrame(cameraAnimate);
     } else {
-       
+
         requestAnimationFrame(animate);
     }
 
@@ -241,9 +251,9 @@ function render() {
     delta = clock.getDelta();
     if (!Pause) {
         // animation code goes here:
-        
+
         movement.move(delta);
-        
+
         renderWeapons();
         bot.updateAI(delta);
         updatePowerUps();
@@ -251,7 +261,7 @@ function render() {
 
         // Partikeleffekte am Raumschiff updaten
         player.updateParticleValues();
-        
+
         // Explosionen updaten
         particleHandler.update();
 

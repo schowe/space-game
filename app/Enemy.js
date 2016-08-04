@@ -28,29 +28,34 @@ function Enemy(location, speed, level, typ, index) {
             textureB  = fileLoader.get("Boss_Textures_Combined_V1");
             this.scale.set(20,20,20);
             enemyHP[index] = 30;
+
             break;
         case "BOSS2":
             geometryB = fileLoader.get("Boss_Mothership_TITAN");
             textureB  = fileLoader.get("Boss_Textures_Combined_V1");
             this.scale.set(25,25,25);
             enemyHP[index] = 50;
+
             break;
         case "SMALL1":
             geometryB = fileLoader.get("EnemyShipOne");
             textureB = fileLoader.get("TextureEnemyShipOne");
             this.scale.set(20,20,20);
-            enemyHP[index] = 10;
+            //enemyHP[index] = 10;
+            this.HP = 10;
             break;
         case "SMALL2":
             geometryB = fileLoader.get("MiniEnemyShip");
             textureB = fileLoader.get("MiniShipTex");
             this.scale.set(20,20,20);
-            enemyHP[index] = 10;
+            //enemyHP[index] = 10;
+            this.HP = 10;
             break;
         default:
             geometryB = fileLoader.get("EnemyShipOne");
             this.scale.set(20,20,20);
-            enemyHP[index] = 10;
+            //enemyHP[index] = 10;
+            this.HP = 10;
     }
 
     this.typ = typ;
@@ -61,7 +66,7 @@ function Enemy(location, speed, level, typ, index) {
                     new THREE.MeshPhongMaterial({map: textureB}));
 
     this.scale.set(1,1,1);
-    
+
     MATH = MATHX();
 
     this.speed      = speed;
@@ -210,8 +215,6 @@ Enemy.prototype.move = function(delta, index) {
     this.position.z += dir.z;
 
 
-    //console.log("Position enemy after: ("+this.position.x+","+this.position.y+","+this.position.z+")");
-    //console.log("Direction at init: ("+this.direction.x+","+this.direction.y+","+this.direction.z+")");
 
 
 

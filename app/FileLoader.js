@@ -6,9 +6,11 @@ var MGAudio;
 var powerUpAudioSource;
 var powerUpAudio;
 var asteroidAudio;
+var asteroidLowAudio;
 var gameOverAudio;
 var shockwaveAudio;
 var backgroundMusic;
+var powerUpSoundtrackAudio;
 var shipData = {};
 
 var FileLoader = function () {
@@ -46,14 +48,12 @@ var FileLoader = function () {
         "../res/textures/lensflare1.png",
         "../res/textures/lensflare2.png",
         "../res/textures/lensflare3.png",
-        "../res/textures/metall.jpg",
         "../res/textures/MinigunAmmoUp.png",
         "../res/textures/MinishipTex.png",
         "../res/textures/particle.png",
         "../res/textures/particle_grey.png",
         "../res/textures/placeholder_background.jpg",
         "../res/textures/Planet.png",
-        "../res/textures/powerUp.png",
         "../res/textures/PowerUpHealthBadTex.png",
         "../res/textures/PowerUpHealthTex.png",
         "../res/textures/PowerUpMinigunTex.png",
@@ -72,9 +72,10 @@ var FileLoader = function () {
         "../res/textures/sky_sphere_map2.png",
         "../res/textures/Spartan_Laser_Combined_V1.jpg",
         "../res/textures/tex.jpg",
-        "../res/textures/TextureEnemyShipOne.jpg",
+        "../res/textures/TextureEnemyShipOne.png",
         "../res/textures/TextureHero.png",
         "../res/textures/VengeanceMaterial.png",
+        "../res/img/nebula_red.jpeg",
 
         /************************* Meshes *************************/
         "../res/meshes/AsteroidV2.json",
@@ -103,7 +104,11 @@ var FileLoader = function () {
         "../res/meshes/PowerUpRocket4.json",
         "../res/meshes/PowerUpRocket8.json",
         "../res/meshes/PowerUpShield.json",
-        "../res/meshes/RocketV2.json"
+        "../res/meshes/RocketV2.json",
+        "../res/meshes/spacenebula_red_3D.json",
+        "../res/meshes/PowerUpRocketDamage.json",
+        "../res/meshes/PowerUp_Shockwave.json",
+        "../res/meshes/PowerUp_ShockwaveDamageUp.json"
     ];
 
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
@@ -190,6 +195,12 @@ var FileLoader = function () {
     asteroidAudioSource.src = '../res/sounds/asteroid.wav';
     asteroidAudio.appendChild(asteroidAudioSource);
 
+    //asteroid destruction audio
+    asteroidLowAudio = document.createElement('audio');
+    var asteroidLowAudioSource = document.createElement('source');
+    asteroidLowAudioSource.src = '../res/sounds/asteroidLow.wav';
+    asteroidLowAudio.appendChild(asteroidLowAudioSource);
+
     //audio for powerup
     powerUpAudio = document.createElement('audio');
     powerUpAudioSource = document.createElement('source');
@@ -208,11 +219,47 @@ var FileLoader = function () {
     explosionAudioSource.src = '../res/sounds/explosion.wav';
     explosionAudio.appendChild(explosionAudioSource);
 
-        //MG audio
+    //MG audio
     MGAudio = document.createElement('audio');
     var MGAudioSource = document.createElement('source');
     MGAudioSource.src = '../res/sounds/mg.wav';
     MGAudio.appendChild(MGAudioSource);
+	
+	//caching1 shop audio
+    cachingAudio1 = document.createElement('audio');
+    var cachingAudioSource1 = document.createElement('source');
+    cachingAudioSource1.src = '../res/sounds/caching.wav';
+    cachingAudio1.appendChild(cachingAudioSource1);
+	
+	//caching2 shop audio
+    cachingAudio2 = document.createElement('audio');
+    var cachingAudioSource2 = document.createElement('source');
+    cachingAudioSource2.src = '../res/sounds/caching.wav';
+    cachingAudio2.appendChild(cachingAudioSource2);
+	
+	//caching3 shop audio
+    cachingAudio3 = document.createElement('audio');
+    var cachingAudioSource3 = document.createElement('source');
+    cachingAudioSource3.src = '../res/sounds/caching.wav';
+    cachingAudio3.appendChild(cachingAudioSource3);
+	
+	//space bg audio
+    /*spaceAudio = document.createElement('audio');
+    var spaceAudioSource = document.createElement('source');
+    spaceAudioSource.src = '../res/sounds/space.mp3';
+    spaceAudio.appendChild(spaceAudioSource);*/
+	
+	//button hover audio
+    buttonAudio = document.createElement('audio');
+    var buttonAudioSource = document.createElement('source');
+    buttonAudioSource.src = '../res/sounds/button.wav';
+    buttonAudio.appendChild(buttonAudioSource);
+	
+	//achievement audio
+    achievementAudio = document.createElement('audio');
+    var achievementAudioSrc = document.createElement('source');
+    achievementAudioSrc.src = '../res/sounds/achievement.wav';
+    achievementAudio.appendChild(achievementAudioSrc);
 
     // done
             //Game Over audio
@@ -228,12 +275,18 @@ var FileLoader = function () {
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
     shockwaveAudio.appendChild(shockwaveAudioSource);
 
-
-            //Game Over audio
+    
+    // Background Music
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');
-    backgroundMusicSource.src = '../res/sounds/TALES_-_01_-_Deep_Space_Traveller.mp3';
+    backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
     backgroundMusic.appendChild(backgroundMusicSource);
+
+    // Soundtrack für die zeitlich begrenzen Powerups
+    powerUpSoundtrackAudio = document.createElement('audio');
+    var powerUpSoundtrackAudioSource = document.createElement('source');
+    powerUpSoundtrackAudioSource.src = '../res/sounds/soundtrack_powerup.mp3';
+    powerUpSoundtrackAudio.appendChild(powerUpSoundtrackAudioSource);
 
     /********** Player Ship laden (Workaround! TODO) **********/
     

@@ -99,6 +99,10 @@ Zeigt die Leveleinblendung mit @value als Level an.
 Das derzeitige Level wird nicht im Interface gespeichert.
 
 	displayLevel(value);
+	
+	setLevelTimer(seconds);
+	
+	startLevelTimer();
 
 
 ##Score Funktionen:
@@ -171,5 +175,6 @@ removeOrAdd 0 für remove und 1 für add.
 ##Known Bugs:
 
 HP Bar kann in niedrigen Werten leicht über die Kanten hinaus gehen.
-displayedHP kann durch sehr häufige Änderungen zu Werten zwischen 0 und maxHP 
-sich um einen oder mehr HP flippen durch die Ungenauigkeit von floats.
+displayedHP kann durch sehr häufige Änderungen zu Werten zwischen 0 und maxHP sich um einen oder mehr HP flippen durch die Ungenauigkeit von floats.
+reachedMaxSpeed kann sich leicht verändern wenn man sich MaxSpeed kauft.
+Passiver HP Regen lässt sich ausnutzen durch pausieren.

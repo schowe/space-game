@@ -1,4 +1,5 @@
 // Botklasse
+var destroyedAsteroids = 0; //für die milestones
 
 // Fuer Kollision:
 // asteroids und enemies sind nach Abstand zum Spieler sortiert
@@ -8,7 +9,7 @@
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 150,
+    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 100,
     asteroidSpeedVecs = [], asteroidRotVecs = [];
 var asteroidsClone = [], enemiesClone = [];
 
@@ -20,7 +21,7 @@ function Bot() {
     var minAsteroidSize = 10;
     var maxAsteroidSize = 30;
     var guardingRadius = 50;
-
+    var destroyedAsteroids=0; 
     var SHOT = 1;
     var ASTEROID = 2;
     var SHIP = 3;
@@ -85,10 +86,6 @@ function Bot() {
 
         //changeScore(scoreValues["asteroidDestroyed"]);
         // gegebenfalls Power-Up zeigen
-        if (Math.random() < 0.23) {
-            spawnPowerUp(asteroid.position.x,
-                asteroid.position.y, asteroid.position.z);
-        }
 
         // neu erschaffen
         asteroid = createAsteroid(level, index);
@@ -255,6 +252,7 @@ function Bot() {
             for (var i = 0; i < 5 * level; i++) {
                 //console.log("Hello");
                 enemy = createEnemy(level, i);
+                enemyHP.push(10);
                 enemies.push(enemy);
                 enemyHitBoxes.push(enemy.getHitBoxes());
                 for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
@@ -272,5 +270,6 @@ function Bot() {
         getEnemies: function () {
             return enemiesClone;
         }
+
     }
 }
