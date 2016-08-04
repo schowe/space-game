@@ -35,7 +35,7 @@ $(function () {
                 animate();
             }
         }, 50);
-    }, 5000);
+    }, 1500);
 
 
     function init() {
@@ -154,6 +154,16 @@ $(function () {
             localStorage.setItem("player", $("#player").val());
         });
 
+        $("#formTutorial").on("click", function () {
+            $("#tutorialClose").show();
+            $("#loading-message").hide();
+            $("#loading-overlay").fadeIn();
+        });
+        
+        $("#tutorialClose").on("click", function () {
+            $("#loading-overlay").fadeOut();   
+        });
+
     }
     
 
@@ -202,6 +212,7 @@ $(function () {
 
         // animation goes here
         moveSpaceship();
+        backgroundMusic.play();
     }
 
 

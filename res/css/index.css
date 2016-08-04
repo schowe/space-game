@@ -127,3 +127,7 @@ span.tutorial-header {
 #space-game-header {
     font-size: 72px;
 }
+#tutorialClose {
+    display:none;
+    font-size: 24px;
+}
