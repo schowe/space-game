@@ -327,13 +327,13 @@ var Collision = function () {
         var raycaster = new THREE.Raycaster(gp2, dir, 1, 1000);
         // var intersects = raycaster.intersectObjects(scene.children);
         var intersects = raycaster.intersectObject(box);
-        console.log(box);
+      /*  console.log(box);
         console.log(intersects);
         console.log(gp2);
         console.log(gp1);
         console.log(dir);
         console.log(scene.children.length);
-        console.log(intersects.length);
+        console.log(intersects.length); */
         if (intersects.length < 1) {
             return false;
         }

@@ -35,7 +35,7 @@ function handleAsteroids() {
                  if (collision.intersectSphereBox(asteroidHitBoxes[i], enemyHitBoxes[j][k])) {
                      // asteroidHitBySpaceship(asteroids[k]);
                      //enemyHitbyAsteroid(enemies[j]);
-                     console.log("Dummes Schiff");
+                     //console.log("Dummes Schiff");
                      enemies[j].collide(asteroids[i], "asteroid");
                  }
         
@@ -149,7 +149,7 @@ function handleProjectiles() {
 
                             for (var l = 0; l <= projectiles[i].children.length - 1; l++) {
                                 if (collision.intersectPointBox(projectiles[i].children[l], enemyHitBoxes[j][k])) {
-                                    console.log("Collision detected");
+                                    //console.log("Collision detected");
                                     //enemy[j].collide(projectiles[i], "LASER");
                                     laserBol = true;
                                     break;

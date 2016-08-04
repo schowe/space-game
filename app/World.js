@@ -351,9 +351,5 @@ function getMeshDirection(mesh) {
     dir.applyQuaternion(mesh.quaternion);
 
     return dir;
-
-<<<<<<< HEAD
-}
-=======
 }*/
 
