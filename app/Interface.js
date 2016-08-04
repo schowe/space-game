@@ -911,7 +911,7 @@ function displayMilestoneNote(value) {
 	
 	$(displayRef).animate({opacity: '1', right: '10px'}, 1000);
 	setTimeout(function() {
-		$(displayRef).animate({opacity: '0', right: '-110px'}, 1000);
+		$(displayRef).animate({opacity: '0', right: '-400px'}, 1000);
 	}, 4000);
 }
 
