@@ -884,6 +884,19 @@ function buyUpgrade(i) {
 	updateWeaponInterface();
 }
 
+function pickUpPowerUpNote(value){
+	document.getElementById('powerUpPickUpNote').innerHTML = value;
+	
+	var box = document.getElementById('powerUpPickUp');
+	
+	//$(box).animate({bottom: '-50px'}, 1);
+	$(box).animate({bottom: '60px'}, 500);
+	$(box).animate({bottom: '60px'}, 1000);
+	$(box).animate({bottom: '-50px'}, 500);
+	
+
+}
+
 /**
  * FUNCTIONS FOR MILESTONES
  */

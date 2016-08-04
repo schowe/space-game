@@ -143,6 +143,7 @@ function collected(itemNumber) {
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
 			powerUpAudio.play();
 			changeHP(50);
+			pickUpPowerUpNote("HP +50");
 
 			break;
 		case "SINGLEROCKET":
@@ -152,6 +153,8 @@ function collected(itemNumber) {
             if (rocketAmmo > MaxRocketAmmo) {
                 rocketAmmo = MaxRocketAmmo;
             }
+			
+			pickUpPowerUpNote("Rocketammo +1");
 
 			break;
 
@@ -163,7 +166,8 @@ function collected(itemNumber) {
             if (rocketAmmo > MaxRocketAmmo) {
                 rocketAmmo = MaxRocketAmmo;
             }
-
+			
+			pickUpPowerUpNote("Rocketammo +2");
 
 			break;
 
@@ -176,7 +180,8 @@ function collected(itemNumber) {
                 rocketAmmo = MaxRocketAmmo;
             }
 
-
+			pickUpPowerUpNote("Rocketammo +4");
+			
 			break;
 
 		case "SHIELD":
@@ -184,6 +189,8 @@ function collected(itemNumber) {
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x0023FF);
 			shieldActive = true;
 			player.activateShield();
+			
+			pickUpPowerUpNote("Activate Shield!");
 
 			break;
 
@@ -191,14 +198,21 @@ function collected(itemNumber) {
 
 			changeMoney(20);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+			
+			pickUpPowerUpNote("Money +20€");
+			
 			break;
 
 		case "FACEPALM":
+		
+			pickUpPowerUpNote("Facepalm...");
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
 			break;
 
 		case "COIN":
+		
+			pickUpPowerUpNote("Money +2€");
 
 			changeMoney(2);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
@@ -207,6 +221,8 @@ function collected(itemNumber) {
 
 		case "MINIGUN":
 			MGAmmo +=100;
+			
+			pickUpPowerUpNote("MGAmmo +100");
 
 			break;
 

@@ -40,6 +40,7 @@ var FileLoader = function () {
         "../res/textures/Crosshair14.png",
         "../res/textures/Crosshair15.png",
         "../res/textures/Crosshair16.png",
+		"../res/textures/Crosshair17.png",
         "../res/textures/eso_dark.jpg",
         "../res/textures/GeldsackFacePalmTex.jpg",
         "../res/textures/GeldsackTex.jpg",
