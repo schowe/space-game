@@ -27,11 +27,18 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             startVector.z
         );
 
-        particle.x += Math.random() - 0.5;
-        particle.y += Math.random() - 0.5;
-        particle.z += Math.random() - 0.5;
+        var radius = 10;
+        var lambda = Math.PI * 2 * Math.random();
+        var angle = Math.PI * 2 * Math.random();
+
+        particle.x += Math.cos(angle) * Math.cos(lambda) * radius;
+        particle.y += Math.cos(angle) * Math.sin(lambda) * radius;
+        particle.z += Math.sin(angle) * radius;
 
         particle.velocity = particle.clone().sub(startVector.clone());
+        particle.velocity.x += Math.random();
+        particle.velocity.y += Math.random();
+        particle.velocity.z += Math.random();
 
         this.particles.vertices.push(particle);
     }
@@ -52,9 +59,9 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             while (pCount--) {
                 var particle = this.particles.vertices[pCount];
 
-                particle.x += particle.velocity.x * this.currentMovement * 0.5;
-                particle.y += particle.velocity.y * this.currentMovement * 0.5;
-                particle.z += particle.velocity.z * this.currentMovement * 0.5;
+                particle.x += particle.velocity.x * this.currentMovement * 4;
+                particle.y += particle.velocity.y * this.currentMovement * 4;
+                particle.z += particle.velocity.z * this.currentMovement * 4;
 
                 this.particleimploSystem.geometry.__dirtyVertices = true;
             }
