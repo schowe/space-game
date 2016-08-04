@@ -699,6 +699,14 @@ function showOptions() {
 	menuSetColor('optionsBox');
 }
 
+function showChat() {
+	menuHideAll();
+	$('#chat').show();
+	menuResetColors();
+	menuSetColor('chatBox');
+}
+
+
 /* Resets previously highlighted tabs */
 function menuResetColors() {
     var temp = $('.pauseButton');
@@ -1014,7 +1022,7 @@ function changeVolume(bar, value) {
 			}
 			break;
 		case 2:
-			spaceAudio.volume = value;
+			backgroundMusic.volume = value;
 			break;
 		case 3:
 			laserAudio.volume = value;
@@ -1045,3 +1053,4 @@ function showAdvancedSoundOptions() {
 function buttonHover() {
 	buttonAudio.play();
 }
+

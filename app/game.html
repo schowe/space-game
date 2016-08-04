@@ -33,6 +33,7 @@
 					<div id="highscoreBox" class="pauseButton" onmouseover="buttonHover()" onClick="showHighscore()"> Highscore </div>
 					<div id="milestoneBox" class="pauseButton" onmouseover="buttonHover()" onClick="showMilestones()"> Milestones </div>
 					<div id="optionsBox" class="pauseButton" onmouseover="buttonHover()" onClick="showOptions()"> Options </div>
+                    <div id="chatBox" class="pauseButton" onmouseover="buttonHover()" onClick="showChat()"> Chat </div>
 					<div id="returnBox" class="pauseButton" onmouseover="buttonHover()" onClick="menuClose()"> Let's a go! </div>
         	   </div>
 	        </div>
@@ -54,7 +55,7 @@
                                 	<div> Increases your maximum HP by 10</div>
                                 	<div id="costSign" class="costUpgrade" >€</div>
                              		<div id="costUpgrade0" class="costUpgrade">0</div>
-                                <div>
+                                </div>
                             </td>
                         </tr>
 
@@ -593,7 +594,7 @@
 
                             <table class="advancedSoundOptionsTable">
                                 <tr>
-                                    <td> Background sounds:  </td>
+                                    <td> Background music:  </td>
                                     <td> <input type="range" min="0" max="1" step="0.01" id="adv2" value="1" onchange="changeVolume(2, this.value)"/> </td>
                                     <td> <span id="soundValue2"> 100% </span> </td>
                                 </tr>
@@ -640,6 +641,11 @@
 				</div>
 				
 				<!-- End of Options -->
+
+                <div id="chat" hidden>
+                
+                </div>
+
 				
             </div>
         </div>
