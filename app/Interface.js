@@ -1,42 +1,40 @@
 var level = 1;
-
-levelTimes = [
-	10,
-	15,
-	30,
-	60,
-	90,
-	120,
-	180,
-	240,
-	300,
-	300
-];
-
+var boss1level = 1;
+var boss2level = 0;
+var zaehler = 0;
 //level design
 // wird vom Timer aufgerufen
 function levelDesign(level){
-	switch (level){
-		case 5:	
+	if(level<5){
+		bot.createlevel(level,0,0,0);
+		setLevelTimer(level*10);
+	}else if(level==5){
 		bot.createlevel(0,0,1,0);
-		// spawn stuff
-			break;
-		case 10:	
+		setLevelTimer(180);
+	}else if(level<10){
+		bot.createlevel(level,2,0,0);
+		setLevelTimer(level*10);
+	}else if(level==10){
 		bot.createlevel(0,0,0,1);
-		//spawn stuff
-			break;
-		case 15:
-		bot.createlevel(0,0,1,1);
-		//spawn stuff
-			break;
-		case 20:
-		bot.createlevel(0,0,2,1);
-
-		default:
-		bot.createlevel(1, 0, 0, 0);
-			break;
+		setLevelTimer(180);
+	}else if(level<15){
+		bot.createlevel(5,5,1,0);
+		setLevelTimer(level*10);
+	}else if(level==20){
+		bot.createlevel(5,5,1,1);
+		setLevelTimer(240);
+	}else if(level<50){
+		if(zaehler<4){
+			bot.createlevel(10,10,boss1level,boss2level);
+			zaehler++;
+		}else{
+			boss1level++;
+			boss2level++;
+			bot.createlevel(10,10,boss1level,boss2level);
+			zaehler=0;
+		}
+		setLevelTimer(300);
 	}
-	setLevelTimer(levelTimes[level-1]);
 	displayLevel(level);
 }
 

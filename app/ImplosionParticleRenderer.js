@@ -27,7 +27,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             startVector.z
         );
 
-        var radius = 10;
+        var radius = 5;
         var lambda = Math.PI * 2 * Math.random();
         var angle = Math.PI * 2 * Math.random();
 
@@ -69,7 +69,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             }
 
             if (this.currentMovement > -1) {
-                this.currentMovement -= 0.1;    
+                this.currentMovement -= 0.2;    
             } else if (this.currentMovement <= -1) {
                 this.running = false;
             }
