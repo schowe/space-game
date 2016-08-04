@@ -173,8 +173,8 @@ function collected(itemNumber) {
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
 			
-			changeHP(50);
-			pickUpPowerUpNote("HP +50");
+			changeHP(25);
+			pickUpPowerUpNote("HP +25");
 
 			break;
 		case "SINGLEROCKET":
@@ -225,22 +225,27 @@ function collected(itemNumber) {
 
 			break;
 		case "COIN": 
-			changeMoney(1);
+			changeMoney(50);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
-
+	
+			pickUpPowerUpNote("Money +50");
+			
 			break; 
 
 		case "COIN3":
-			changeMoney(3);
+			changeMoney(150);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+			
+			pickUpPowerUpNote("Money +150");
+			
 			break; 
 
 		case "MONEY":
 
-			changeMoney(20);
+			changeMoney(400);
 			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
 			
-			pickUpPowerUpNote("Money +20€");
+			pickUpPowerUpNote("Money +400€");
 			
 			break;
 
@@ -249,15 +254,6 @@ function collected(itemNumber) {
 			pickUpPowerUpNote("Facepalm...");
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
-			break;
-
-		case "COIN":
-		
-			pickUpPowerUpNote("Money +2€");
-
-			changeMoney(2);
-			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00);
-
 			break;
 
 		case "MINIGUN":
@@ -270,6 +266,9 @@ function collected(itemNumber) {
 		case "MINIGUN200":
 
 			MGAmmo +=200; 
+			
+			pickUpPowerUpNote("MGAmmo +200");
+			
 			break; 
 
 		case "LASERUP":
@@ -277,7 +276,7 @@ function collected(itemNumber) {
 			break;
 
         default:
-
+s
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x6495ED, 1, 1);
 
 			break;
