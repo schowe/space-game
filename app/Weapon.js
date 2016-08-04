@@ -307,7 +307,7 @@ function shootLaser() {
         laser.rotateX(1.57);
 
         //rotate: HitBox would start behind spaceship otherwise
-        laser.translateY(-200);
+        laser.translateY(-100);
 
         var numberDummyDots = 100;
         for (var i = 0; i <= numberDummyDots; i++) {
