@@ -30,7 +30,7 @@ function Asteroid(level, astIndex) {
     this.scale.x = this.scale.y = this.scale.z = rndScale;
 
     this.level = level;
-    this.speed = (this.level > 15) ? this.level : 15;
+    this.speed = (this.level > 11) ? this.level : 11;
 
     rndSpeedX = Math.random() * (this.speed + 11) - 11;
     rndSpeedY = Math.random() * (this.speed + 11) - 11;

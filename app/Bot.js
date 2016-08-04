@@ -128,18 +128,26 @@ function Bot() {
             enemyPosition.multiplyScalar(radius);
             enemyPosition.add(ship.position);
         } while (!farAway(enemyPosition, maxShipSize));
-        // TODO: speed abhaengig von Level
-        var speed = 15;
-        // TODO: weapon
+
         switch (art) {
-            case 0: typ = "SMALL1"; break;
-            case 1: typ = "SMALL2"; break;
-            case 2: typ = "BOSS1"; break;
-            case 3: typ = "BOSS2"; break;
-            default: typ = "BOSS1"; // hardest weapon
+            case 0: typ = "BOSS1"; 
+                    speed = 12;
+                    break;
+            case 1: typ = "BOSS2"; 
+                    speed = 13;
+                    break;
+            case 2: typ = "SMALL1"; 
+                    speed = 15;
+                    break;
+            case 3: case 4:
+                    typ = "SMALL2"; 
+                    speed = 17;
+                    break;
+            default: typ = "SMALL2";
+                    speed = 17;
         }
 
-        speed += Math.round((level + 5) * Math.random());
+        speed += Math.round(5 * Math.random());
 
         enemy = new Enemy(enemyPosition, speed, level, typ, index, art);
 

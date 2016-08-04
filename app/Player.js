@@ -296,6 +296,17 @@ function Player() {
 
         },
 
+        deactivateShield: function () {
+
+            if (shield !== undefined) {
+                scene.remove(shield);
+                shield = undefined;
+            }
+
+            
+
+        },
+
         doABarrelRoll: function(){
 
             if(barrelRoll == true) {
