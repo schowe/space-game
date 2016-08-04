@@ -237,7 +237,8 @@ function Bot() {
         // ab d_min auf jeden Fall ausweichen
         for (var i = enemies.length - 1; i >= 0; i--) {
             if (enemyHP[i] <= 0) {
-                scene.remove(enemies[i]);
+                var toRemove = enemies[i];
+                scene.remove(toRemove);
                 enemies.splice(i, 1);
                 enemyHitBoxes.splice(i, 1);
                 enemyHP.splice(i, 1);

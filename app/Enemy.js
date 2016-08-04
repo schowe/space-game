@@ -1021,6 +1021,7 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
         default: console.log("Error: Collision with unknown");
     }
     if(enemyHP[index] <= 0) {
+        console.log(" er ist kaputt");
         this.isAlive = false;
 		destroyedEnemies++;
     }

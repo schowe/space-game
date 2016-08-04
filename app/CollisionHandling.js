@@ -149,7 +149,9 @@ function handleProjectiles() {
                     }
                 }
 
+/*
                 if (laserBol === false ) {
+
 
                     var enemyHitByLaserBol = false;
 
@@ -180,7 +182,10 @@ function handleProjectiles() {
 
                     }
 
-                }
+                }*/
+
+
+
             }
             else if (projectiles[i].name === "Rocket") {
 
