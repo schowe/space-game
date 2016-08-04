@@ -292,6 +292,7 @@ function collected(itemNumber) {
 
 	updateWeaponInterface();
 	collectedPowerups++;
+	checkMilestones();
     scene.remove(powerUps[itemNumber]);
     scene.remove(itemHitBoxes[itemNumber]);
 
