@@ -9,7 +9,7 @@ var destroyedAsteroids = 0; //für die milestones
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 150,
+    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 100,
     asteroidSpeedVecs = [], asteroidRotVecs = [];
 
 function Bot() {
@@ -19,7 +19,7 @@ function Bot() {
     var minAsteroidSize = 10;
     var maxAsteroidSize = 30;
     var guardingRadius = 50;
-
+    var destroyedAsteroids=0; 
     var SHOT = 1;
     var ASTEROID = 2;
     var SHIP = 3;

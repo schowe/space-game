@@ -212,8 +212,6 @@ Enemy.prototype.move = function(delta, asteroids, enemies, index) {
     this.position.z += dir.z;
 
 
-    //console.log("Position enemy after: ("+this.position.x+","+this.position.y+","+this.position.z+")");
-    //console.log("Direction at init: ("+this.direction.x+","+this.direction.y+","+this.direction.z+")");
 
 
 
