@@ -148,7 +148,7 @@ function handleProjectiles() {
                         break;
                     }
                 }
-
+/*
                 if (laserBol === false ) {
 
                     var enemyHitByLaserBol = false;
@@ -182,9 +182,9 @@ function handleProjectiles() {
 
                 }
 
+*/
+
             }
-
-
             else if (projectiles[i].name === "Rocket") {
 
                 var rocketBol = false;
@@ -269,43 +269,44 @@ function handleProjectiles() {
             }
 
 
-        /** NICHT LÖSCHEN **/
-        //Gegner wird getroffen
-        // for (var j = 0; j < enemies.length - 1; j++) {
+        //  NICHT LÖSCHEN 
+        // //Gegner wird getroffen
+        //  for (var j = 0; j < enemies.length - 1; j++) {
 
-        //     for (var k = 0; k <= enemyHitBoxes[j].length - 1; k++) {
+        //      for (var k = 0; k <= enemyHitBoxes[j].length - 1; k++) {
 
-        //         if (projectiles[i].name === "Laser") {
-        //             if (intersectBoxCylinder(enemyHitBoxes[j][k], projectiles[i])) {
+        //          if (projectiles[i].name === "Laser") {
+        //              if (intersectBoxCylinder(enemyHitBoxes[j][k], projectiles[i])) {
         //                 successLaser(projectiles[i]);
-        //                 enemies[j].collide(projectiles[i], "Laser");
-        //             }
-        //         }
+        //                  enemies[j].collide(projectiles[i], "Laser");
+        //              }
+        //          }
 
         //         else if (projectiles[i].name === "EnemyLaser") {
-        //             if (intersectBoxCylinder(enemyHitBoxes[k], projectiles[i])) {
+        //              if (intersectBoxCylinder(enemyHitBoxes[k], projectiles[i])) {
         //                 successLaser(projectiles[i]);
-        //                 enemyHitByLaser(enemies[j]);
-        //             }
-        //         }
+        //                  enemyHitByLaser(enemies[j]);
+        //              }
+        //          }
 
-        //         else if (projectiles[i].name === "Rocket") {
-        //             if (intersectBoxCylinder(enemyHitBoxes[k], projectiles[i])) {
-        //                 successRocket(projectiles[i]);
-        //             }
-        //         }
+        //          else if (projectiles[i].name === "Rocket") {
+        //              if (intersectBoxCylinder(enemyHitBoxes[k], projectiles[i])) {
+        //                  successRocket(projectiles[i]);
+        //              }
+        //          }
 
-        //         else if (projectiles[i].name === "Explosion") {
-        //             if (intersectSphereBox(projectiles[i], enemyHitBoxes[k])) {
-        //                 enemyHitByExplosion(enemyHitBoxes[k]);
-
-        //         else if (projectiles[i].name === "MachineGun") {
-        //             if (intersectSphereBox(projectiles[i], enemyHitBoxes[k])) {
-        //                 successMachineGunBullet(projectiles[i]);
-        //                 enemyHitByMachineGun(enemies[j]);
-        //             }
-        //         }
-        //     }
+        //          else if (projectiles[i].name === "Explosion") {
+        //              if (intersectSphereBox(projectiles[i], enemyHitBoxes[k])) {
+        //                  enemyHitByExplosion(enemyHitBoxes[k]);
+        //              }
+        //          }
+        //          else if (projectiles[i].name === "MachineGun") {
+        //              if (intersectSphereBox(projectiles[i], enemyHitBoxes[k])) {
+        //                  successMachineGunBullet(projectiles[i]);
+        //                  enemyHitByMachineGun(enemies[j]);
+        //              }
+        //          }
+        //      }
 
 
         // Player wird getroffen
@@ -404,5 +405,5 @@ function handleCollision() {
         toDestroy = undefined;
         asteroidAudio.play();
     }
-
 }
+
