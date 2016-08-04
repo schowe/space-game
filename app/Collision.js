@@ -176,7 +176,6 @@ var Collision = function () {
 
     // Checks if there is an intersection between  a sphere and a box
     function intersectSphereBox(sphere, box) {
-        //console.log("bin drin");
         // get box closest point to sphere center by clamping
         var x = Math.max(minX(box), Math.min(sphere.position.x, maxX(box)));
         var y = Math.max(minY(box), Math.min(sphere.position.y, maxY(box)));

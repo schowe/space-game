@@ -9,7 +9,7 @@ var destroyedAsteroids = 0; //für die milestones
 // - init()
 // - update(delta)
 var asteroids = [], enemies = [], asteroidHitBoxes = [], enemyHitBoxes = [],
-    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 150,
+    asteroidHP = [], enemyHP = [], enemy, worldRadius, gameLevel, numOfAsteroids = 100,
     asteroidSpeedVecs = [], asteroidRotVecs = [];
 
 function Bot() {
@@ -19,7 +19,7 @@ function Bot() {
     var minAsteroidSize = 10;
     var maxAsteroidSize = 30;
     var guardingRadius = 50;
-
+    var destroyedAsteroids=0; 
     var SHOT = 1;
     var ASTEROID = 2;
     var SHIP = 3;
@@ -109,10 +109,9 @@ function Bot() {
     function createEnemy(art, index) {
         var direction, alpha, beta, enemyPosition, radius,
             typ;
-        //console.log("Enter Create Enemy");
         // Welt als Kugel -> Setze an den aeusseren 1/2 Rand
         // TODO: spawnRadius setzen
-        var spawnRadius =1000;
+        var spawnRadius =500;
         radius = spawnRadius / 2 * (1 + Math.random());
 
         // zufaellig an den Rand positionieren
@@ -138,7 +137,6 @@ function Bot() {
             default: typ = "BOSS1"; // hardest weapon
         }
 
-        //console.log("Finally Create Enemy");
         enemy = new Enemy(enemyPosition, speed, level, typ, index, art);
 
         return enemy;
@@ -154,7 +152,6 @@ function Bot() {
                 for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
                     enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
                 }
-                //console.log(enemies.length);
                 scene.add(enemy);
             }
 
@@ -167,12 +164,10 @@ function Bot() {
                 for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
                     enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
                 }
-                //console.log(enemies.length);
                 scene.add(enemy);
             }
 
             var gegner3=gegner2+boss1anzahl;
-            //console.log(gegner3+" gegner3");
             for(var i = gegner2; i < gegner3; i++){
                 enemy = createEnemy(2, i);
                 enemies.push(enemy);
@@ -180,7 +175,6 @@ function Bot() {
                 for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
                     enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
                 }
-                //console.log(enemies.length);
                 scene.add(enemy);
             }
 
@@ -192,7 +186,6 @@ function Bot() {
                 for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
                     enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
                 }
-                //console.log(enemies.length);
                 scene.add(enemy);
             }
         }
@@ -218,11 +211,11 @@ function Bot() {
 
         // Asteroiden: Bewegung updaten
         for (var i = asteroids.length - 1; i >= 0; i--) {
-            //console.log("HP of "+i+" "+asteroidHP[i]);
+            
             var asteroid = asteroids[i];
             asteroid.move(delta);
             asteroidHitBoxes[i].position.set(asteroid.position.x, asteroid.position.y, asteroid.position.z);
-            //console.log("Asteroid wird bewegt")
+       
             asteroidsClone[i] = asteroids[i];
             asteroidHitBoxesClone[i] = asteroidHitBoxes[i];
         }
@@ -236,7 +229,7 @@ function Bot() {
         for (var i = enemies.length - 1; i >= 0; i--) {
             if (enemyHP[i] <= 0) {
                 scene.remove(enemies[i]);
-                //scene.remove(enemyHitBoxes[i]);
+
                 enemies.splice(i, 1);
                 enemyHitBoxes.splice(i, 1);
                 enemyHP.splice(i, 1);
@@ -246,7 +239,6 @@ function Bot() {
                     enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
                 }
             }
-            //console.log("Enemy wird bewegt")
         }
 
     }
@@ -269,7 +261,6 @@ function Bot() {
 
         // Initialisierer der Bots je Level
         initAI: function (level) {
-            //console.log("Start initAI");
             // setzen unserer externen Faktoren
             worldRadius = 5000;
             gameLevel = level;
@@ -291,7 +282,6 @@ function Bot() {
             }
 
             for (var i = 0; i < 1 * level; i++) {
-                //console.log("Hello");
                 enemy = createEnemy(level, i);
                 enemyHP.push(10);
                 enemies.push(enemy);
@@ -299,7 +289,6 @@ function Bot() {
                 for (var j = enemyHitBoxes[i].length - 1; j >= 0; j--) {
                     enemyHitBoxes[i][j].position.set(enemies[i].position.x, enemies[i].position.y, enemies[i].position.z);
                 }
-                //console.log(enemies.length);
                 scene.add(enemy);
             }
         },
@@ -316,4 +305,6 @@ function Bot() {
   
         }
     }
+
+}
 

@@ -6,16 +6,17 @@ var collectedPowerups = 0;
 
 function spawnPowerUp(x, y, z, type) {
 
-	var healthTex, rocketTex, rocket2Tex, shieldTex, moneyTex, itemGeometry, minigunTex, coinTex;
+	var healthTex, rocketTex, rocket2Tex, shieldTex, moneyTex, itemGeometry, minigunTex, coinTex, miniAmmoTex, shockwaveTex;
     var item;
     var itemHitBox;
-
+    
     /*Wahrscheinlichkeiten für die Powerups, wenn kein bestimmtes gefordert.*/
 
 	if (type == undefined) {
 		var rndCase;
 		var rndBadorGood;
 		rndCase = Math.random();
+		var scndRandom = Math.random(); 
 		rndBadorGood = Math.random();
 
 		if (rndCase <= 0.125) {
@@ -35,18 +36,37 @@ function spawnPowerUp(x, y, z, type) {
 
 		} else if (rndCase > 0.375 && rndCase <= 0.5) {
 
+			if(scndRandom < 0.5){
 			itemGeometry = fileLoader.get("Coin");
 			coinTex = fileLoader.get("Coin_Texture");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: coinTex }));
+
 			types.push("COIN");
+			}else{
+
+				itemGeometry = fileLoader.get("Coin3");
+			coinTex = fileLoader.get("Coin_Texture");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: coinTex }));
+			types.push("COIN3");
+
+			}
 
 		} else if (rndCase > 0.5 && rndCase <= 0.5625) {
+			if(scndRandom < 0.5){
+			itemGeometry = fileLoader.get("PowerUpMinigun200");
+			miniAmmoTex = fileLoader.get("MinigunAmmoUp");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
+			types.push("MINIGUN200");
+
+			}else{
 
 			itemGeometry = fileLoader.get("PowerUpRocket2");
 			rocketTex = fileLoader.get("PowerUpRocket2Tex");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: rocketTex }));
 			types.push("DOUBLEROCKET");
 
+
+			}
 		} else if (rndCase > 0.5625 && rndCase <= 0.625) {
 
 			itemGeometry = fileLoader.get("PowerUpRocket4");
@@ -64,15 +84,24 @@ function spawnPowerUp(x, y, z, type) {
 
 		} else if (rndCase > 0.6875 && rndCase <= 0.75) {
 
+			if(scndRandom < 0.5) {
 			itemGeometry = fileLoader.get("Geldsack");
 			moneyTex = fileLoader.get("GeldsackFacePalmTex");
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: moneyTex }));
 			types.push("FACEPALM");
+			} else {
 
+			itemGeometry = fileLoader.get("PowerUp_Shockwave");
+			shockwaveTex = fileLoader.get("PowerUpRocket4Tex");
+			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: shockwaveTex }));
+			types.push("SHOCKWAVE");	
+
+
+			}
 		} else if (rndCase > 0.75 && rndCase < 0.8125) {
 
 			itemGeometry = fileLoader.get("PowerUpMinigun");
-			//minigunTex = fileLoader.get("PowerUpMinigunTex")
+			minigunTex = fileLoader.get("PowerUpMinigunTex")
 			item = new THREE.Mesh(itemGeometry, new THREE.MeshPhongMaterial({ map: minigunTex }));
 			types.push("MINIGUN");
 
@@ -135,13 +164,15 @@ function collected(itemNumber) {
     changeScore(scoreValues["itemCollected"]);
 
 	var tmpItem = types[itemNumber];
-
+	powerUpAudio.play();
 	switch (tmpItem) {
+
+		
 
 		case "HEALTH":
 
             particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x00FF00, 1, 1);
-			powerUpAudio.play();
+			
 			changeHP(50);
 
 			break;
@@ -186,6 +217,16 @@ function collected(itemNumber) {
 			player.activateShield();
 
 			break;
+		case "COIN": 
+			changeMoney(1);
+			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+
+			break; 
+
+		case "COIN3":
+			changeMoney(3);
+			particleHandler.addExplosion(itemHitBoxes[itemNumber].position, 5, 0x8E0067);
+			break; 
 
 		case "MONEY":
 
@@ -209,6 +250,11 @@ function collected(itemNumber) {
 			MGAmmo +=100;
 
 			break;
+
+		case "MINIGUN200":
+
+			MGAmmo +=200; 
+			break; 
 
 		case "LASERUP":
 
